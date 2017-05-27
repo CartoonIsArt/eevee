@@ -36,5 +36,5 @@
 
 ### 4. 마스터 브랜치 풀 리퀘스트  
 
-https://github.com/CartoonIsArt/blacky에서 해당 브랜치의 풀 리퀘스트 버튼을 누른다.  
+[본 깃헙](https://github.com/CartoonIsArt/blacky)에서 해당 브랜치의 풀 리퀘스트 버튼을 누른다.  
 풀 리퀘스트를 작성하고 머지 리퀘스트를 보낸다.
