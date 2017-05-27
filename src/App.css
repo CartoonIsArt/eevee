@@ -1,0 +1,55 @@
+@import '~antd/dist/antd.css';
+div, nav, article {
+  outline: solid red 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.Pad {
+  padding:35px;
+  background-image:linear-gradient(to bottom, rgba(240, 255, 40, 1) 0%, rgba(240, 255, 40, 1) 100%), linear-gradient(to bottom, rgba(240, 40, 40, 1) 0%, rgba(240, 40, 40, 1) 100%);
+  background-clip: content-box, padding-box;
+}
+.Container {
+  width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.App {
+  width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.Nav-wrapper {
+  width: 100%;
+}
+.Nav {
+  width: 1280px;
+  height: 44px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
