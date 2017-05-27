@@ -4,8 +4,8 @@
 
 ## 설치
 
-    $ git clone git://github.com/CartoonIsArt/blacky.git
-    $ cd blacky
+    $ git clone git://github.com/CartoonIsArt/blacky.git
+    $ cd blacky
     $ yarn install
 
 ## 브랜치 나누기       
