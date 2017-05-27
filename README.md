@@ -28,7 +28,7 @@
 ### 3. 개발 후 개인 브랜치에 커밋  
 
     ...개발
-    $ git add .
+    $ git add [수정한 파일]
     $ git commit -m "커밋메시지"
     $ git push origin "본인이름"
 
