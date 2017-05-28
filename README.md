@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CartoonIsArt/blacky.svg?branch=master)](https://travis-ci.org/CartoonIsArt/blacky)
+
 # 블래키  
 밤 + 이브이 = 블래키  
 
