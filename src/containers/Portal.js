@@ -11,9 +11,9 @@ class Portal extends Component {
       <Row>
         <Col span={6}>
           <aside>
-              <Profile />
-              <Wiki />
-          </aside> 
+            <Profile />
+            <Wiki />
+          </aside>
         </Col>
         <Col span={12}>
           <Timeline />
@@ -22,7 +22,7 @@ class Portal extends Component {
           <Affix offsetTop={44}>
             <aside>
               <Noties />
-              <div style={{height: "516px"}} > chat </div>
+              <div style={{ height: '516px' }} > chat </div>
             </aside>
           </Affix>
         </Col>

@@ -5,8 +5,7 @@ import { Affix, Row, Col } from 'antd'
 class Ads extends Component {
   render() {
     return (
-      <article style={{height: "396px", display: "flex"}}>
-      </article>
+      <article style={{ height: '396px', display: 'flex' }} />
     )
   }
 }
