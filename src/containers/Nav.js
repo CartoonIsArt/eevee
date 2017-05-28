@@ -22,7 +22,7 @@ class Nav extends Component {
             </div>
             <div style={{ width: '10%', padding: '7px' }}>
               <Button type="primary">
-                <img height="30px" width="30px" src="http://cdn.bulbagarden.net/upload/thumb/3/3d/197Umbreon.png/250px-197Umbreon.png" alt="blacky"/>
+                <img height="30px" width="30px" src="http://cdn.bulbagarden.net/upload/thumb/3/3d/197Umbreon.png/250px-197Umbreon.png" alt="blacky" />
               </Button>
             </div>
           </div>
