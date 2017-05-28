@@ -22,6 +22,7 @@
 소스코드를 마스터 브랜치에 맞게 최신화한다.  
 
     $ git pull origin master
+    $ yarn install
 
 ### 2. 브랜치 나누기   
 처음 브랜치를 나눌 때는 -b옵션을 사용한다.  
