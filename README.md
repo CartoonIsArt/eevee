@@ -14,7 +14,7 @@
 
 ### 0. 설치  
 
-    $ git clone git://github.com/CartoonIsArt/blacky.git
+    $ git clone https://github.com/CartoonIsArt/blacky.git
     $ cd blacky
     $ yarn install
 
