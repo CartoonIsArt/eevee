@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Affix, Input } from 'antd'
+import { Affix, Input, Button } from 'antd'
 
 class Nav extends Component {
   render() {
@@ -20,8 +20,10 @@ class Nav extends Component {
                 onsearch={value => console.log(value)}
               />
             </div>
-            <div style={{ width: '10%' }}>
-              toggle
+            <div style={{ width: '10%', padding: '7px' }}>
+              <Button type="primary">
+                <img height="30px" width="30px" src="http://cdn.bulbagarden.net/upload/thumb/3/3d/197Umbreon.png/250px-197Umbreon.png" alt="blacky"/>
+              </Button>
             </div>
           </div>
         </nav>
