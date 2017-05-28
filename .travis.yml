@@ -2,7 +2,6 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - "iojs"
   - "6"
 cache:
     directories:
