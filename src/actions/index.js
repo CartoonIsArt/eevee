@@ -1,15 +1,15 @@
-const SET_SUN = "SETSUN"
-const TOGGLE_SUN = "TOGGLESUN"
+const SET_SUN = 'SETSUN'
+const TOGGLE_SUN = 'TOGGLESUN'
 
-const setSun = sun => ({type: SET_SUN, sun})
-const toggleSun = () => ({type: TOGGLE_SUN, false})
+const setSun = sun => ({ type: SET_SUN, sun })
+const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
 
-export const sunrise = () => dispatch => {
+export const sunrise = () => (dispatch) => {
   dispatch(setSun(true))
 }
-export const sundown = () => dispatch => {
+export const sundown = () => (dispatch) => {
   dispatch(setSun(false))
 }
-export const suntoggle = () => dispatch => {
+export const suntoggle = () => (dispatch) => {
   dispatch(toggleSun())
 }

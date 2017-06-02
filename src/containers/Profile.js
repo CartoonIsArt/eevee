@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Affix, Row, Col, Button } from 'antd'
+import { Button } from 'antd'
 
 
 class Profile extends Component {
@@ -38,7 +38,7 @@ class Profile extends Component {
             </div>
           </div>
           <div style={{ width: '33%' }}>
-            <Button> 프로필 수정                                                    </Button>
+            <Button> 프로필 수정 </Button>
           </div>
         </div>
         <div style={{ height: '98px',
