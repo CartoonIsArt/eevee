@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Affix, Row, Col } from 'antd'
 
 class Write extends Component {
   render() {
