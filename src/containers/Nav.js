@@ -17,7 +17,6 @@ class Nav extends Component {
               <Search
                 placeholder="검색(ex: 16기 김성우)"
                 style={{ width: '50%' }}
-                onsearch={value => console.log(value)}
               />
             </div>
             <div style={{ width: '10%', padding: '7px' }}>

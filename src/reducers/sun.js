@@ -1,6 +1,4 @@
-import { createStore } from 'redux'
-
-export const sun = (state = true, action) => {
+const sun = (state = true, action) => {
   switch (action.type) {
     case 'TOGGLESUN':
       return !state
@@ -10,3 +8,5 @@ export const sun = (state = true, action) => {
       return state
   }
 }
+
+export { sun as default }
