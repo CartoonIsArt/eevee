@@ -7,7 +7,7 @@ import Write from './Write'
 class Timeline extends Component {
   render() {
     return (
-      <section>
+      <section style={{ padding: '8px' }}>
         <Write />
         <Feed />
         <Ads />

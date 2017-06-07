@@ -26,7 +26,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <div>
+          <div style={{ background: '#dfdfdf' }}>
             <Nav />
             <div className="Container" >
               <Route exact path="/" component={Portal} />
