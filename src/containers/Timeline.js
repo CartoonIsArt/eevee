@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Memory from './Memory'
+import Feed from './Feed'
 import Ads from './Ads'
 import Write from './Write'
 
@@ -9,11 +9,11 @@ class Timeline extends Component {
     return (
       <section>
         <Write />
-        <Memory />
+        <Feed />
         <Ads />
-        <Memory />
+        <Feed />
         <Ads />
-        <Memory />
+        <Feed />
       </section>
     )
   }
