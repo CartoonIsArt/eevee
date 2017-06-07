@@ -8,10 +8,10 @@ class Comment extends Component {
     return (
       <div>
         <div style={{ display: 'flex' }} >
-          <div style={{ width: '32px', height: '32px', background: '#00FF00'}} />
+          <div style={{ width: '32px', height: '32px', background: '#00FF00' }} />
           <div style={{ width: '91%' }}>
             <p>
-              <a> {author} </a> 
+              <a> {author} </a>
               {text}
             </p>
             <div>
@@ -19,7 +19,7 @@ class Comment extends Component {
             </div>
           </div>
           <div>
-            <Button icon='down' size='small' />
+            <Button icon="down" size="small" />
           </div>
         </div>
       </div>
