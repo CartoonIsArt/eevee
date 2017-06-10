@@ -9,7 +9,7 @@ class Comments extends Component {
     const iter = [1, 2, 3]
     return (
       <div style={{ background: '#efefef', display: 'flex', flexDirection: 'column', height: '396px', padding: '8px' }} >
-        <div style={{ fontColor: '#FF8900' }}>
+        <div>
           <Icon type="like" />
           3
         </div>
