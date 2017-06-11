@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Affix, Row, Col } from 'antd'
 import Profile from './Profile'
-import Wiki from './Wiki'
 import Noties from './Noties'
 import Timeline from './Timeline'
 
