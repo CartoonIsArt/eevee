@@ -4,7 +4,7 @@ export default class Line extends Component {
   render() {
     const style = {
       width: '100%',
-      height: '4px',
+      height: '2px',
       background: '#dfdfdf',
     }
     return (

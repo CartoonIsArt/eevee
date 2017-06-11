@@ -1,8 +1,10 @@
 @import '~antd/dist/antd.css';
+/*
 div, nav, article {
   outline: solid red 1px;
   background-color: rgba(0, 0, 0, 0.1);
 }
+*/
 
 .Pad {
   padding:35px;
@@ -13,7 +15,7 @@ div, nav, article {
   width: 1280px;
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
+  background-color: #dfdfdf;
 }
 .App {
   width: 1280px;
