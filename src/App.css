@@ -7,7 +7,7 @@ div, nav, article {
 }
 */
 body {
-    font-family: "Nanum Gothic", sans-serif;
+    font-family: "Nanum Gothic", sans-serif !important;
 }
 .Pad {
   padding:35px;
@@ -44,10 +44,13 @@ body {
 }
 
 .Nav-wrapper {
+  background: #fff;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 2px 0px #929292;
   width: 100%;
 }
 .Nav {
-  width: 1280px;
+  max-width: 1280px;
   height: 44px;
   margin-left: auto;
   margin-right: auto;

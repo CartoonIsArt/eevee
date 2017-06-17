@@ -8,7 +8,7 @@ class Comments extends Component {
   render() {
     const iter = [1, 2, 3]
     return (
-      <div style={{ background: '#efefef', display: 'flex', flexDirection: 'column', height: '396px', padding: '8px' }} >
+      <div style={{ background: '#fff', display: 'flex', flexDirection: 'column', padding: '8px', overflow: 'hidden' }} >
         <div>
           <Icon type="like" />
           3

@@ -5,7 +5,7 @@ import Comments from './Comments'
 class Feed extends Component {
   render() {
     return (
-      <article style={{ background: '#FFF', height: '1036px' }}>
+      <article>
         <Doc />
         <Comments />
       </article>

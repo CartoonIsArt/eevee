@@ -1,25 +1,27 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
+import Recomments from './Recomments'
 
 class Comment extends Component {
   render() {
-    const author = 'John'
-    const text = 'I want to be honorably discharged... I want to be honorably discharged... I want to be honorably discharged... I want to be honorably discharged... '
+    const author = '해소빔'
+    const text = '병장만기전역하고싶다. 병장만기전역하고싶다. 병장만기전역하고싶다. 병장만기전역하고싶다. 병장만기전역하고싶다. 병장만기전역하고싶다. 병장만기전역하고싶다. 병장만기전역하고싶다. 병장만기전역하고싶다. '
     return (
-      <div>
+      <div style={{ margin: '2px 0px' }} >
         <div style={{ display: 'flex' }} >
-          <div style={{ width: '32px', height: '32px', background: '#00FF00' }} />
+          <div style={{ width: '32px', marginRight: '4px', height: '32px', background: '#00FF00' }} />
           <div style={{ width: '91%' }}>
             <p>
               <a> {author} </a>
               {text}
             </p>
             <div>
-              <a> Like </a> <a> Reply </a> 13hrs
+              <a> Like 1 </a> <a> Reply 3 </a> 13hrs
             </div>
+            <Recomments />
           </div>
           <div>
-            <Button icon="down" size="small" />
+            <Button icon="down" shape='circle' size="small" />
           </div>
         </div>
       </div>

@@ -20,9 +20,7 @@ class Nav extends Component {
               />
             </div>
             <div style={{ width: '10%', padding: '7px' }}>
-              <Button ghost>
-                <img height="20px" width="20px" src="http://cdn.bulbagarden.net/upload/thumb/3/3d/197Umbreon.png/250px-197Umbreon.png" alt="blacky" />
-              </Button>
+              <Button icon='bulb' shape='circle' />
             </div>
           </div>
         </nav>
