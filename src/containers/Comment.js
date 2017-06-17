@@ -21,7 +21,7 @@ class Comment extends Component {
             <Recomments />
           </div>
           <div>
-            <Button icon="down" shape='circle' size="small" />
+            <Button icon="down" shape="circle" size="small" />
           </div>
         </div>
       </div>

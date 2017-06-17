@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { Icon } from 'antd'
 import Recomment from './Recomment'
 import PostComment from './PostComment'
-import Line from '../components/Line'
 
 class Recomments extends Component {
   render() {

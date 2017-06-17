@@ -30,7 +30,7 @@ class Doc extends Component {
             <div> 33 mins </div>
           </div>
         </div>
-        <div style={{margin: '4px 0px'}}>
+        <div style={{ margin: '4px 0px' }}>
           <p>
             {text}
           </p>
@@ -38,7 +38,7 @@ class Doc extends Component {
         <div style={{ marginBottom: '4px', height: '320px', background: '#00FF00' }} />
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
-          <div style={{marginRight: '4px'}}>
+          <div style={{ marginRight: '4px' }}>
             <Button shape="circle" icon="like" size="small" />
             좋아요
           </div>

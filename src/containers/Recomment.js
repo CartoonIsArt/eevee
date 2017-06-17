@@ -19,7 +19,7 @@ class Comment extends Component {
             </div>
           </div>
           <div>
-            <Button icon="down" shape='circle' size="small" />
+            <Button icon="down" shape="circle" size="small" />
           </div>
         </div>
       </div>

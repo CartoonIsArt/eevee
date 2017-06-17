@@ -20,7 +20,7 @@ class Nav extends Component {
               />
             </div>
             <div style={{ width: '10%', padding: '7px' }}>
-              <Button icon='bulb' shape='circle' />
+              <Button icon="bulb" shape="circle" />
             </div>
           </div>
         </nav>
