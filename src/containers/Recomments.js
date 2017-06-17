@@ -12,6 +12,7 @@ class Recomments extends Component {
         {iter.map(i =>
           <Recomment key={i} />,
         )}
+        <PostComment />
       </div>
     )
   }
