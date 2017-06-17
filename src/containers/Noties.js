@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { Icon, Popconfirm } from 'antd'
+import { Icon, Popover } from 'antd'
 import Line from '../components/Line'
+import Profile from './Profile'
 
 class Noties extends Component {
   render() {
     const iter = [1, 2, 3]
     return (
-      <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
-        <div style={{ height: '15%', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column' }}>
-          <div style={{ marginRight: '240px', marginLeft: '12px', fontSize: '12pt' }}>
+      <div style={{ height: '192px', backgroundColor: 'white', padding: '4px', overflowY: 'scroll' }}>
+        <div style={{ height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column' }}>
+          <div style={{ marginRight: '228px', marginLeft: '12px', fontSize: '12pt' }}>
             <Icon type="notification" />
           </div>
           <div style={{ fontSize: '12pt', marginTop: '4px' }}>
@@ -18,16 +19,16 @@ class Noties extends Component {
         <Line />
         {iter.map(i =>
           (<div>
-            <div key={i} style={{ height: '25%', display: 'flex', alignItems: 'stretch' }}>
+            <div key={i} style={{ height: '48px', display: 'flex', alignItems: 'stretch' }}>
               <div style={{ width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden' }}>
                 <a href="#"><img width="100%" src="https://cia.kw.ac.kr/media/1646b774-0365-4001-8285-42033807b32d.jpg" alt="profile" /></a>
               </div>
               <div style={{ flexGrow: '2', display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
                 <div style={{ display: 'flex' }}>
                   <div style={{ marginRight: '24px', marginLeft: '12px' }}>
-                    <Popconfirm title="Are you sure delete this task?">
+                    <Popover content={Profile}>
                       <a href="#"> 임원진</a>
-                    </Popconfirm>
+                    </Popover>
                   </div>
                   <div style={{ color: '#dfdfdf' }}> 2017-06-10 </div>
                 </div>
