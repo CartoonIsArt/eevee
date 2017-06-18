@@ -61,12 +61,26 @@ class Doc extends Component {
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
           <div style={{ marginRight: '4px' }}>
-            <Button shape="circle" icon="like" size="small" />
-            좋아요
+            <Button
+              style={{ marginRight: '4px' }}
+              shape="circle"
+              icon="like"
+              size="small"
+            />
+            <a>
+              좋아요
+            </a>
           </div>
           <div>
-            <Button shape="circle" icon="edit" size="small" />
-            댓글
+            <Button
+              style={{ marginRight: '4px' }}
+              shape="circle"
+              icon="edit"
+              size="small"
+            />
+            <a>
+              댓글
+            </a>
           </div>
         </div>
       </div>

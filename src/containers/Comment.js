@@ -21,8 +21,19 @@ class Comment extends Component {
               </Popover>
               {text}
             </p>
-            <div>
-              <a> Like 1 </a> <a> Reply 3 </a> 13hrs
+            <div style={{ display: 'flex' }}>
+              <Popover
+                content={
+                  <pre>
+                    19기 나인스
+                  </pre>
+                }
+                placement="rightTop"
+              >
+                <a> Like 1 </a>
+              </Popover>
+              <a> Reply 3 </a>
+              <div style={{ color: '#0a0a0' }}> 13hrs </div>
             </div>
             <Recomments />
           </div>
