@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Button } from 'antd'
+import { Button, Popover } from 'antd'
 import Line from '../components/Line'
+import Profile from './Profile'
 
 class Doc extends Component {
   render() {
@@ -10,7 +11,17 @@ class Doc extends Component {
       <div style={{ background: '#fff', maxHeight: '640px', padding: '8px', marginBottom: '1px' }} >
         <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }} >
           <div>
-            <a href="#"> 누군가가 </a> 이 글을 좋아하겠지?
+            <Popover
+              placement="bottomLeft"
+              content={
+                <div style={{ width: '320px' }}>
+                  <Profile />
+                </div>
+              }
+            >
+              <a href="#"> 누군가가 </a>
+            </Popover>
+            이 글을 좋아하겠지?
           </div>
           <div style={{ flexGrow: 2 }} />
           <div>
@@ -26,7 +37,18 @@ class Doc extends Component {
           }}
           />
           <div style={{ flexGrow: 2 }} >
-            <div style={{ fontSize: '14pt' }}> <a> {author} </a> </div>
+            <div style={{ fontSize: '14pt' }}>
+              <Popover
+                placement="bottomLeft"
+                content={
+                  <div style={{ width: '320px' }}>
+                    <Profile />
+                  </div>
+                }
+              >
+                <a> {author} </a>
+              </Popover>
+            </div>
             <div> 33 mins </div>
           </div>
         </div>

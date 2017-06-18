@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Button } from 'antd'
+import { Button, Popover } from 'antd'
 import Recomments from './Recomments'
+import Profile from './Profile'
 
 class Comment extends Component {
   render() {
@@ -12,7 +13,12 @@ class Comment extends Component {
           <div style={{ width: '32px', marginRight: '4px', height: '32px', background: '#00FF00' }} />
           <div style={{ width: '91%' }}>
             <p>
-              <a> {author} </a>
+              <Popover
+                content={<div style={{ width: '320px' }}> <Profile /> </div>}
+                placement="bottomLeft"
+              >
+                <a> {author} </a>
+              </Popover>
               {text}
             </p>
             <div>
