@@ -26,13 +26,21 @@ class Noties extends Component {
               <div style={{ flexGrow: '2', display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
                 <div style={{ display: 'flex' }}>
                   <div style={{ marginRight: '24px', marginLeft: '12px' }}>
-                    <Popover content={Profile}>
+                    <Popover
+                      content={
+                        <div style={{ width: '320px' }}>
+                          <Profile />
+                        </div>
+                      }
+                    >
                       <a href="#"> 임원진</a>
                     </Popover>
                   </div>
                   <div style={{ color: '#dfdfdf' }}> 2017-06-10 </div>
                 </div>
-                <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}> 공지알람글 </div>
+                <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
+                  <a gref="#"> 공지알람글</a>
+                </div>
               </div>
             </div>
             <Line />
