@@ -15,7 +15,7 @@ class Comment extends Component {
             <p>
               <Popover
                 content={<div style={{ width: '320px' }}> <Profile /> </div>}
-                placement="bottomLeft"
+                placement="leftTop"
               >
                 <a> {author} </a>
               </Popover>

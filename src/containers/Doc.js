@@ -12,7 +12,7 @@ class Doc extends Component {
         <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }} >
           <div>
             <Popover
-              placement="bottomLeft"
+              placement="leftTop"
               content={
                 <div style={{ width: '320px' }}>
                   <Profile />
@@ -39,7 +39,7 @@ class Doc extends Component {
           <div style={{ flexGrow: 2 }} >
             <div style={{ fontSize: '14pt' }}>
               <Popover
-                placement="bottomLeft"
+                placement="leftTop"
                 content={
                   <div style={{ width: '320px' }}>
                     <Profile />
