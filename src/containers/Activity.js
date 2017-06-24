@@ -14,6 +14,7 @@ class Activity extends Component {
         flexDirection: 'row',
         fontSize: '16pt',
         padding: '12px',
+        textAlign: 'center',
       }}
       >
         <div style={{ width: '34%' }}>
