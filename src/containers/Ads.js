@@ -4,7 +4,7 @@ import { Card } from 'antd'
 class Ads extends Component {
   render() {
     return (
-      <article style={{ display: 'flex', padding: '8px', flexDirection: 'column', marginBottom: '4px', background: '#FFFFFF', maxHeight:'396px' }} >
+      <article style={{ display: 'flex', padding: '8px', flexDirection: 'column', marginBottom: '4px', background: '#FFFFFF', maxHeight: '396px' }} >
         <div style={{ height: '48px', display: 'flex' }}>
           <div style={{ width: '48px' }}>
             <img alt="AuthProf" width="100%" src="https://cia.kw.ac.kr/media/27feac77-07a8-4568-a2e4-85905ea294f1.png" />
