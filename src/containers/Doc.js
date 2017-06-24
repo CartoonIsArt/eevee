@@ -5,7 +5,7 @@ import Profile from './Profile'
 
 class Doc extends Component {
   render() {
-    const author = '육소빔'
+    const author = '육소빔' 
     const text = '전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. '
     return (
       <div style={{ background: '#fff', maxHeight: '640px', padding: '8px', marginBottom: '1px' }} >
