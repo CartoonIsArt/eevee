@@ -5,9 +5,9 @@ import Profile from './Profile'
 
 class Noties extends Component {
   render() {
-    const iter = [1, 2, 3]
+    const iter = [1, 2, 3, 4]
     return (
-      <div style={{ height: '192px', backgroundColor: 'white', padding: '4px', overflowY: 'scroll' }}>
+      <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
         <div style={{ height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column' }}>
           <div style={{ marginRight: '228px', marginLeft: '12px', fontSize: '12pt' }}>
             <Icon type="notification" />
@@ -17,6 +17,7 @@ class Noties extends Component {
           </div>
         </div>
         <Line />
+        <div style={{ height: '156px', overflowY: 'scroll' }}>
         {iter.map(i =>
           (<div>
             <div key={i} style={{ height: '48px', display: 'flex', alignItems: 'stretch' }}>
@@ -26,7 +27,7 @@ class Noties extends Component {
               <div style={{ flexGrow: '2', display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
                 <div style={{ display: 'flex' }}>
                   <div style={{ marginRight: '24px', marginLeft: '12px' }}>
-                    <Popover
+                    <Popover placement="leftTop"
                       content={
                         <div style={{ width: '320px' }}>
                           <Profile />
@@ -46,6 +47,7 @@ class Noties extends Component {
             <Line />
           </div>),
         )}
+        </div>
       </div>
     )
   }
