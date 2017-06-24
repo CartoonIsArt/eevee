@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Icon, Popover } from 'antd'
+import PropTypes from 'prop-types'
 import Comment from './Comment'
 import PostComment from './PostComment'
 import Line from '../components/Line'
 
 class Comments extends Component {
   render() {
-    const iter = [1, 2, 3]
+    const comments = this.props.content
     return (
       <div style={{ background: '#fff', display: 'flex', flexDirection: 'column', padding: '8px', overflow: 'hidden' }} >
         <div>
@@ -25,13 +26,20 @@ class Comments extends Component {
           </Popover>
         </div>
         <Line />
-        {iter.map(i =>
-          <Comment key={i} />,
+        {comments.map(comment =>
+          (<Comment
+            key={comment.id}
+            content={comment}
+          />),
         )}
         <PostComment />
       </div>
     )
   }
+}
+
+Comments.propTypes = {
+  content: PropTypes.array.isRequired,
 }
 
 export default Comments

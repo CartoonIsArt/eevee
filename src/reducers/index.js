@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import sun from './sun'
+import timeline from './timeline'
 
-const rootReducer = combineReducers({
+const reducers = combineReducers({
   sun,
+  timeline,
 })
 
-export default rootReducer
+export default reducers

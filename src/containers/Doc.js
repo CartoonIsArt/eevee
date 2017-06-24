@@ -1,12 +1,29 @@
 import React, { Component } from 'react'
-import { Button, Popover } from 'antd'
+import PropTypes from 'prop-types'
+import { Modal, Button, Popover } from 'antd'
 import Line from '../components/Line'
 import Profile from './Profile'
+import { printTime } from '../policy'
 
 class Doc extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isModalOn: false,
+    }
+  }
+
+  openModal() {
+    this.setState({ isModalOn: true })
+  }
   render() {
-    const author = '육소빔' 
-    const text = '전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. 전역하고싶다. '
+    const isModalOn = this.state.isModalOn
+    const content = this.props.content
+    const author = content.author.last_name
+    const text = content.text
+    const createdAt = content.write_date
+    const imgsrc = content.author.image.src
+    const imgalt = content.author.image.alt
     return (
       <div style={{ background: '#fff', maxHeight: '640px', padding: '8px', marginBottom: '1px' }} >
         <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }} >
@@ -34,8 +51,11 @@ class Doc extends Component {
             height: '48px',
             background: '#0000FF',
             marginRight: '4px',
+            overflow: 'hidden',
           }}
-          />
+          >
+            <img src={imgsrc} alt={imgalt} style={{ width: '100%' }} />
+          </div>
           <div style={{ flexGrow: 2 }} >
             <div style={{ fontSize: '14pt' }}>
               <Popover
@@ -49,7 +69,7 @@ class Doc extends Component {
                 <a> {author} </a>
               </Popover>
             </div>
-            <div> 33 mins </div>
+            <div> {printTime(createdAt)} </div>
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
@@ -57,7 +77,17 @@ class Doc extends Component {
             {text}
           </p>
         </div>
-        <div style={{ marginBottom: '4px', height: '320px', background: '#00FF00' }} />
+        <div
+          style={{ marginBottom: '4px', height: '320px', background: '#00FF00' }}
+          onClick={() => this.openModal()}
+          role="button"
+          tabIndex={-1}
+        />
+        <Modal
+          visible={isModalOn}
+        >
+          <div style={{ marginBottom: '4px', height: '320px', background: '#00FF00' }} />
+        </Modal>
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
           <div style={{ marginRight: '4px' }}>
@@ -86,6 +116,10 @@ class Doc extends Component {
       </div>
     )
   }
+}
+
+Doc.propTypes = {
+  content: PropTypes.object.isRequired,
 }
 
 export default Doc

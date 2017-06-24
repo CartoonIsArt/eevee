@@ -1,19 +1,27 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Recomment from './Recomment'
 import PostComment from './PostComment'
 
 class Recomments extends Component {
   render() {
-    const iter = [1, 2, 3]
+    const recomments = this.props.content
     return (
       <div>
-        {iter.map(i =>
-          <Recomment key={i} />,
+        {recomments.map(recomment =>
+          (<Recomment
+            key={recomment.id}
+            content={recomment}
+          />),
         )}
         <PostComment />
       </div>
     )
   }
+}
+
+Recomments.propTypes = {
+  content: PropTypes.array.isRequired,
 }
 
 export default Recomments

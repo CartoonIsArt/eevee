@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Button, Popover } from 'antd'
 import Profile from './Profile'
 
 class Comment extends Component {
   render() {
-    const author = '짜장밥'
-    const text = '배고프다. 오늘 저녁이 뭐더라...?? 어어으으ㅡㅇ 흐므읗그전역하고싶다.'
+    const content = this.props.content
+    const author = content.author.last_name
+    const text = content.text
+    const imgsrc = content.author.image.src
+    const imgalt = content.author.image.alt
     return (
       <div style={{ margin: '2px 0px' }} >
         <div style={{ display: 'flex' }} >
-          <div style={{ width: '32px', marginRight: '4px', height: '32px', background: '#686868' }} />
+          <div style={{ width: '32px', marginRight: '4px', height: '32px', background: '#686868' }} >
+            <img src={imgsrc} alt={imgalt} style={{ width: '100%' }} />
+          </div>
           <div style={{ width: '91%' }}>
             <p>
               <Popover
@@ -31,6 +37,10 @@ class Comment extends Component {
       </div>
     )
   }
+}
+
+Comment.propTypes = {
+  content: PropTypes.object.isRequired,
 }
 
 export default Comment

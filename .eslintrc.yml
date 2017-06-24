@@ -8,9 +8,12 @@ parserOptions:
     jsx: true
   sourceType: module
 plugins:
+  - jsx-a11y
   - react
 rules:
     jsx-a11y/href-no-hash:
+    - off
+    react/forbid-prop-types:
     - off
     react/jsx-filename-extension:
     - off

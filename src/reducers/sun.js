@@ -9,4 +9,4 @@ const sun = (state = true, action) => {
   }
 }
 
-export { sun as default }
+export default sun
