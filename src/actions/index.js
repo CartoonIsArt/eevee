@@ -1,11 +1,17 @@
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
-const SET = 'SET'
+const SET_TIMELINE = 'SETTIMELINE'
+const SET_USER = 'SETUSER'
+const SET_MEMBERS = 'SETMEMBERS'
+const SET_NOTIES = 'SETNOTIES'
 // const APPEND = 'APPEND' // future
 
 const setSun = sun => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setTimeline = timeline => ({ type: SET, timeline })
+const setUser = user => ({ type: SET_USER, user })
+const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
+const setMembers = members => ({ type: SET_MEMBERS, members })
+const setNoties = noties => ({ type: SET_NOTIES, noties })
 
 export const sunrise = () => (dispatch) => {
   dispatch(setSun(true))
@@ -22,6 +28,9 @@ const user1 = {
   date_joined: '2017-02-05 05:10:13.768196+00:00',
   date_of_birth: '1999-11-11 03:00:00+00:00',
   department: '전자통신공학과',
+  nFeeds: 3,
+  nComments: 5,
+  nLikes: 4,
   isActive: false,
   isContributer: false,
   isGraduate: false,
@@ -37,6 +46,93 @@ const user1 = {
     src: 'https://cia.kw.ac.kr/media/2462a3f1-9bb5-4758-9cbe-fcf7f33db668.png',
     alt: 'kPanic.png',
   },
+}
+
+const user2 = {
+  id: 2,
+  date_joined: '2017-02-14T03:41:33.603865Z',
+  date_of_birth: '1999-11-11 03:00:00+00:00',
+  nFeeds: 3,
+  nComments: 5,
+  nLikes: 4,
+  department: '컴퓨터공학과',
+  isActive: false,
+  isContributer: false,
+  isGraduate: false,
+  isRegularMember: true,
+  is_admin: false,
+  is_staff: false,
+  last_name: '13기 송민준',
+  phone_number: '010-0000-0000',
+  student_number: '2000000000',
+  username: 'eksrns22tp',
+  image: {
+    id: 1,
+    src: 'https://cia.kw.ac.kr/media/7efeeb45-097e-4d9a-bc37-da767dc97ceb.jpg',
+    alt: 'kPanic.png',
+  },
+}
+const user3 = {
+  id: 3,
+  date_joined: '2017-02-05T09:07:11.014557Z',
+  date_of_birth: '1999-11-11 03:00:00+00:00',
+  department: '컴퓨터 소프트웨어',
+  nFeeds: 3,
+  nComments: 5,
+  nLikes: 4,
+  isActive: false,
+  isContributer: false,
+  isGraduate: false,
+  isRegularMember: true,
+  is_admin: false,
+  is_staff: false,
+  last_name: '18기 송나리',
+  phone_number: '010-0000-0000',
+  student_number: '2000000000',
+  username: 'na06130',
+  image: {
+    id: 1,
+    src: 'https://cia.kw.ac.kr/media/3ec5f542-0444-4d8b-b19b-6c0f02e19ff6.png',
+    alt: '리_profile.png',
+  },
+}
+
+export const getMembers = () => (dispatch) => {
+  dispatch(setMembers([
+    user1,
+    user2,
+    user3,
+  ]))
+}
+
+export const getUser = () => (dispatch) => {
+  dispatch(setUser({
+    has_logged_in: true,
+    user: user2,
+  }))
+}
+
+export const getNoties = () => (dispatch) => {
+  dispatch(setNoties([
+    {
+      id: 1,
+      write_date: '2017-06-22T07:03:20.963737Z',
+      from: user1,
+      text: '님의 댓글: 구동게 메인화면에서는 모던동게 링크가 https://cia.kw.ac.kr 로 이어지는데 게시판이나 글로 이동후에는 https://128.134.57.197 로 이어집니다.',
+    },
+    {
+      id: 2,
+      write_date: '2017-06-23T07:03:20.963737Z',
+      from: user1,
+      text: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
+    },
+    {
+      id: 3,
+      write_date: '2017-06-10T07:03:20.963737Z',
+      from: user1,
+      text: '공지: 6월 종강총회 회의록',
+    },
+  ]))
 }
 
 export const getTimeline = () => (dispatch) => {
