@@ -11,14 +11,13 @@ class Ads extends Component {
           </div>
           <div style={{ fontSize: '14pt', flexGrow: 1, padding: '8px' }}> <a> 16기 윤여균</a> </div>
         </div>
-        <div style={{ padding: '12px' }}>
+        <div style={{ padding: '4px' }}>
           <Card bodyStyle={{ padding: 0 }}>
-            <div className="custom-image">
+            <div style={{ maxHeight: '300px', overflow: 'hidden' }} >
               <img alt="Ad" width="100%" src="https://cia.kw.ac.kr/media/c9d72e6d-b82a-499f-b7fa-a20854006fbd.jpg" />
             </div>
             <div className="custom-card">
-              <h3> 2학기 개강총회 회의록</h3>
-              <p> 2학기 개총회의록입니다.</p>
+              <h3 style={{ textAlign: 'center' }}> 2학기 개강총회 회의록</h3>
             </div>
           </Card>
         </div>
