@@ -21,7 +21,7 @@ class Album extends Component {
     this.setState({ isModalOn: false })
   }
   render() {
-    const style = { height: this.props.height }
+    const style = { height: this.props.height, overflow: 'hidden' }
     const content = this.props.content
     const nContent = content.length
     const isModalOn = this.state.isModalOn
@@ -37,6 +37,7 @@ class Album extends Component {
         alt={focus.alt}
         style={{
           maxWidth: '100%',
+          overflow: 'hidden',
         }}
       />
     </Modal>)
@@ -173,7 +174,7 @@ class Album extends Component {
                   />
                 </div>
                 <div style={{ height: '38%', display: 'flex', overflow: 'hidden' }}>
-                { content.slice(2).map((c, idx) =>
+                  { content.slice(2).map((c, idx) =>
                   (<div
                     onClick={() => this.handleClick(idx + 2)}
                     tabIndex={-1}
