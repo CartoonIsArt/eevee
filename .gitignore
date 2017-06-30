@@ -18,5 +18,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # tmp files
-.swp
-.swo
+*.swp
+*.swo
