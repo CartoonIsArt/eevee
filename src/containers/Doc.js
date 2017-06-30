@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import { Button, Popover } from 'antd'
 import Line from '../components/Line'
@@ -64,9 +65,7 @@ class Doc extends Component {
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
-          <p>
-            {text}
-          </p>
+          <ReactMarkdown source={text} />
         </div>
         <Album content={images} height="320px" />
         {/*
