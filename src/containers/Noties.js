@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Icon, Popover } from 'antd'
+import { connect } from 'react-redux'
 import Line from '../components/Line'
 import Profile from './Profile'
+import { getNoties } from '../actions'
+
 
 class Noties extends Component {
+  componentWillMount() {
+    const noties = this.props.noties
+    if (noties.length === 0) { this.props.getNoties() }
+  }
   render() {
+    const text = this.props.noties.text
     const iter = [1, 2, 3, 4]
     return (
       <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
@@ -41,7 +50,7 @@ class Noties extends Component {
                   <div style={{ color: '#dfdfdf' }}> 2017-06-10 </div>
                 </div>
                 <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
-                  <a href="#"> 공지알람글</a>
+                  <a href="#"> { text } </a>
                 </div>
               </div>
             </div>
@@ -53,5 +62,20 @@ class Noties extends Component {
     )
   }
 }
+Noties.propTypes = {
+  noties: PropTypes.array,
+  getNoties: PropTypes.func.isRequired,
+}
 
-export default Noties
+Noties.defaultProps = {
+  noties: [],
+}
+
+const mapStateToProps = state => ({
+  noties: state.noties,
+})
+const mapDispatchToProps = ({
+  getNoties,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Noties)
