@@ -1,9 +1,21 @@
 import React, { Component } from 'react'
+import { Button, Input } from 'antd'
 
 class Write extends Component {
   render() {
     return (
-      <div style={{ height: '396px', display: 'flex' }} />
+      <div style={{ marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF' }} >
+        <div style={{ marginRight: '4px', width: '48px', height: '48px', background: '#00FF00' }} />
+        <div style={{ flexGrow: 1 }}>
+          <Input type="textarea" autosize={{ minRows: 3, maxRows: 6 }} style={{ width: '100%' }} />
+          <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }} >
+            <Button icon="picture" shape="circle" />
+            <Button>
+              붸에에에에에에
+            </Button>
+          </div>
+        </div>
+      </div>
     )
   }
 }
