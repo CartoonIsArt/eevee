@@ -18,16 +18,17 @@ class Noties extends Component {
         </div>
         <Line />
         <div style={{ height: '156px', overflowY: 'scroll' }}>
-        {iter.map(i =>
-          (<div>
-            <div key={i} style={{ height: '48px', display: 'flex', alignItems: 'stretch' }}>
+          {iter.map(i =>
+          (<div key={i}>
+            <div style={{ height: '48px', display: 'flex', alignItems: 'stretch' }}>
               <div style={{ width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden' }}>
                 <a href="#"><img width="100%" src="https://cia.kw.ac.kr/media/1646b774-0365-4001-8285-42033807b32d.jpg" alt="profile" /></a>
               </div>
               <div style={{ flexGrow: '2', display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
                 <div style={{ display: 'flex' }}>
                   <div style={{ marginRight: '24px', marginLeft: '12px' }}>
-                    <Popover placement="leftTop"
+                    <Popover
+                      placement="leftTop"
                       content={
                         <div style={{ width: '320px' }}>
                           <Profile />
@@ -40,7 +41,7 @@ class Noties extends Component {
                   <div style={{ color: '#dfdfdf' }}> 2017-06-10 </div>
                 </div>
                 <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
-                  <a gref="#"> 공지알람글</a>
+                  <a href="#"> 공지알람글</a>
                 </div>
               </div>
             </div>
