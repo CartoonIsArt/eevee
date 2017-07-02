@@ -1,12 +1,13 @@
-const notifications = (state = [], action) => {
+const noties = (state = [], action) => {
   switch (action.type) {
-    case 'SET':
-      return action.notifications
+    case 'SETNOTIES':
+      console.log(action.noties)
+      return action.noties
     case 'APPEND':
-      return state.append(notifications)
+      return state.append(noties)
     default:
       return state
   }
 }
 
-export default notifications
+export default noties
