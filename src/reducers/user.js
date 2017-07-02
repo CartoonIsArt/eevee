@@ -3,7 +3,7 @@ const init = {
 }
 const user = (state = init, action) => {
   switch (action.type) {
-    case 'SET_USER':
+    case 'SETUSER':
       return action.user
     case 'LOGIN':
       return state.append(user)
