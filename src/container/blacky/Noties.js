@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Popover } from 'antd'
 import { connect } from 'react-redux'
-import Line from '../components/Line'
+import Line from '../../components/Line'
 import Profile from './Profile'
-import { getNoties } from '../actions'
+import { getNoties } from '../../actions'
 
 
 class Noties extends Component {
