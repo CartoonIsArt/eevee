@@ -4,12 +4,8 @@ import { Icon, Popover } from 'antd'
 import { connect } from 'react-redux'
 import Line from '../../components/Line'
 import Profile from './Profile'
-<<<<<<< HEAD:src/container/blacky/Noties.js
 import { getNoties } from '../../actions'
-=======
-import { getNoties } from '../actions'
-import { printTime } from '../policy'
->>>>>>> master:src/containers/Noties.js
+import { printTime } from '../../policy'
 
 
 class Noties extends Component {

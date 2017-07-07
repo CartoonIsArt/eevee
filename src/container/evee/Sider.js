@@ -46,8 +46,7 @@ class Sider extends Component {
         onOpenChange={openKeys => this.onOpenChange(openKeys)}
         onClick={e => this.handleClick(e)}
       >
-        <div style={{height: '240px', background: 'black'}}>
-        </div>
+        <div style={{ height: '240px', background: 'black' }} />
         <SubMenu
           key="sub1"
           title={
