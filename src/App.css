@@ -32,6 +32,10 @@ body {
   height: 80px;
 }
 
+.noti:hover {
+  background: #42A5F5 !important;
+}
+
 .App-header {
   background-color: #222;
   height: 150px;

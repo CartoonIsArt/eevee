@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Icon, Popover } from 'antd'
 import { connect } from 'react-redux'
 import Line from '../../components/Line'
-import Profile from './Profile'
+import Namecard from './Namecard'
 import { getNoties } from '../../actions'
 import { printTime } from '../../policy'
 
@@ -16,7 +16,7 @@ class Noties extends Component {
   render() {
     const noties = this.props.noties
     return (
-      <div style={{ height: '192px', backgroundColor: 'white', padding: '4px', marginTop: '4px' }}>
+      <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
         <div style={{ height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column' }}>
           <div style={{ marginRight: '228px', marginLeft: '12px', fontSize: '12pt' }}>
             <Icon type="notification" />
@@ -29,7 +29,14 @@ class Noties extends Component {
         <div style={{ height: '156px', overflowY: 'scroll' }}>
           {noties.map(noti =>
           (<div key={noti.id}>
-            <div style={{ height: '56px', display: 'flex', alignItems: 'stretch' }}>
+            <div
+              className="noti"
+              onClick={() => console.log(noti.id)}
+              style={
+                noti.had_read ?
+                  { height: '56px', display: 'flex', alignItems: 'stretch' } :
+                  { background: '#bbdefb', height: '56px', display: 'flex', alignItems: 'stretch' }}
+            >
               <div
                 style={{ width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden', backgroundSize: 'cover' }}
               >
@@ -42,11 +49,7 @@ class Noties extends Component {
                   <div style={{ marginRight: '24px', marginLeft: '12px' }}>
                     <Popover
                       placement="leftTop"
-                      content={
-                        <div style={{ width: '320px' }}>
-                          <Profile />
-                        </div>
-                      }
+                      content={<Namecard content={noti.from} />}
                     >
                       <a href="#"> {noti.from.last_name}</a>
                     </Popover>
@@ -54,8 +57,8 @@ class Noties extends Component {
                   <div style={{ color: '#dfdfdf' }}> {printTime(noti.write_date)} </div>
                 </div>
                 <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
-                  <a href="#">
-                    <div style={{ wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box' }}>
+                  <a href="#" >
+                    <div style={{ color: 'rgba(0,0,0, 0.8)', wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box' }}>
                       { noti.text }
                     </div>
                   </a>
