@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Line from '../components/Line'
 import Profile from './Profile'
 import { getNoties } from '../actions'
+import { printTime } from '../policy'
 
 
 class Noties extends Component {
@@ -28,7 +29,7 @@ class Noties extends Component {
         <div style={{ height: '156px', overflowY: 'scroll' }}>
           {noties.map(noti =>
           (<div key={noti.id}>
-            <div style={{ height: '48px', display: 'flex', alignItems: 'stretch' }}>
+            <div style={{ height: '56px', display: 'flex', alignItems: 'stretch' }}>
               <div
                 style={{ width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden', backgroundSize: 'cover' }}
               >
@@ -50,11 +51,11 @@ class Noties extends Component {
                       <a href="#"> {noti.from.last_name}</a>
                     </Popover>
                   </div>
-                  <div style={{ color: '#dfdfdf' }}> 2017-06-10 </div>
+                  <div style={{ color: '#dfdfdf' }}> {printTime(noti.write_date)} </div>
                 </div>
                 <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
                   <a href="#">
-                    <div style={{ width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', dispaly: 'block' }}>
+                    <div style={{ wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box' }}>
                       { noti.text }
                     </div>
                   </a>
