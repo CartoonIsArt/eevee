@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Activity from './Activity'
 import Namecard from './Namecard'
-import { getUser } from '../actions'
+import { getUser } from '../../actions'
 
 
 class Profile extends Component {
