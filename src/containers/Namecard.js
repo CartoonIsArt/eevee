@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
-
-const value = {
-  profileimg: 'https://cia.kw.ac.kr/media/fc5e1ce1-9077-4ded-9d81-ee639f66a45a.jpg',
-  last_name: '13기 송민준',
-  username: 'eksrns22tp',
-  department: '컴퓨터공학과',
-}
+import PropTypes from 'prop-types'
 
 class Namecard extends Component {
   render() {
+    let cwidth = '320px'
+    const user = this.props.content
+    if (this.props.width !== undefined) {
+      cwidth = this.props.width
+    }
     return (
-      <div style={{ height: '418px' }}>
+      <div style={{ height: '418px', width: cwidth }}>
         <div style={{ height: '320px' }} >
           <a className="ant-anchor-link-title" href="#">
-            <img width="100%" src={value.profileimg} alt="profile" />
+            <img width="100%" src={user.image.src} alt="profile" />
           </a>
         </div>
         <div style={{ height: '98px',
@@ -25,13 +24,13 @@ class Namecard extends Component {
         >
           <div style={{ width: '67%', fontSize: '18pt', textAlign: 'left' }}>
             <div style={{ height: '34%', fontWeight: 'bold' }} >
-              {value.last_name}
+              {user.last_name}
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
-              {value.username}
+              {user.username}
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
-              {value.department}
+              {user.department}
             </div>
           </div>
           <div style={{ width: '33%' }}>
@@ -41,6 +40,11 @@ class Namecard extends Component {
       </div>
     )
   }
+}
+
+Namecard.propTypes = {
+  content: PropTypes.object.isRequired,
+  width: PropTypes.object.isRequired,
 }
 
 export default Namecard
