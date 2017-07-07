@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
 import { Affix, Input, Button } from 'antd'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 class Nav extends Component {
+  toggleMode() {
+    const loc = this.props.location
+    const history = this.props.history
+    if (loc.pathname === '/') {
+      history.push('/dashboard')
+    } else {
+      history.push('/')
+    }
+  }
   render() {
     const Search = Input.Search;
     return (
@@ -20,7 +32,11 @@ class Nav extends Component {
               />
             </div>
             <div style={{ width: '10%', padding: '7px' }}>
-              <Button icon="bulb" shape="circle" />
+              <Button
+                icon="bulb"
+                shape="circle"
+                onClick={() => this.toggleMode()}
+              />
             </div>
           </div>
         </nav>
@@ -29,4 +45,15 @@ class Nav extends Component {
   }
 }
 
-export default Nav
+Nav.propTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  router: state.router,
+})
+const mapDispatchToProps = ({
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav))

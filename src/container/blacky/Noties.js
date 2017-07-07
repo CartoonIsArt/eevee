@@ -2,10 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Popover } from 'antd'
 import { connect } from 'react-redux'
-import Line from '../components/Line'
+import Line from '../../components/Line'
 import Profile from './Profile'
+<<<<<<< HEAD:src/container/blacky/Noties.js
+import { getNoties } from '../../actions'
+=======
 import { getNoties } from '../actions'
 import { printTime } from '../policy'
+>>>>>>> master:src/containers/Noties.js
 
 
 class Noties extends Component {

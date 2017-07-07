@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Feed from './Feed'
 import Ads from './Ads'
 import Write from './Write'
-import { getTimeline } from '../actions'
+import { getTimeline } from '../../actions'
 
 class Timeline extends Component {
   componentWillMount() {
