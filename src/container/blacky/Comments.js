@@ -8,6 +8,7 @@ import Line from '../../components/Line'
 class Comments extends Component {
   render() {
     const comments = this.props.content
+    const user = this.props.user
     return (
       <div style={{ background: '#fff', display: 'flex', flexDirection: 'column', padding: '8px', overflow: 'hidden' }} >
         <div>
@@ -29,10 +30,11 @@ class Comments extends Component {
         {comments.map(comment =>
           (<Comment
             key={comment.id}
+            user={user}
             content={comment}
           />),
         )}
-        <PostComment />
+        <PostComment user={user} />
       </div>
     )
   }
