@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import Portal from './container/blacky/Portal'
+import SingleFeed from './container/blacky/SingleFeed'
 import './App.css';
 import Nav from './container/eevee/Nav'
 import Sider from './container/evee/Sider'
@@ -35,6 +36,7 @@ class App extends Component {
             <Nav />
             <div className="Container" >
               <Route exact path="/" component={Portal} />
+              <Route path="/feed/:id" component={SingleFeed} />
               <Evee />
             </div>
           </div>

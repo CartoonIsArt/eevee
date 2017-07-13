@@ -15,7 +15,13 @@ class Evee extends Component {
     const loc = this.props.location
     return (
       <div style={{ display: 'flex' }}>
-        {loc.pathname !== '/' &&
+        {(loc.pathname === '/dashboard' ||
+         loc.pathname === '/noties' ||
+         loc.pathname === '/members' ||
+         loc.pathname === '/law' ||
+         loc.pathname === '/deactivate' ||
+         loc.pathname === '/logout' ||
+         loc.pathname === '/doorlock' ) &&
         <Sider />
       }
         <Route path="/dashboard" component={Dashboard} />
