@@ -34,7 +34,7 @@ class Comments extends Component {
             content={comment}
           />),
         )}
-        <div style={{height: '4px' }} />
+        <div style={{ height: '4px' }} />
         <PostComment user={user} />
       </div>
     )

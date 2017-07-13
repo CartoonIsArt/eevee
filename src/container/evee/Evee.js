@@ -21,8 +21,8 @@ class Evee extends Component {
          loc.pathname === '/law' ||
          loc.pathname === '/deactivate' ||
          loc.pathname === '/logout' ||
-         loc.pathname === '/doorlock' ) &&
-        <Sider />
+         loc.pathname === '/doorlock') &&
+         <Sider />
       }
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/noties" component={Noties} />

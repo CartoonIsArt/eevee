@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { Affix, Row, Col } from 'antd'
-import {Route} from 'react-router-dom'
 import Profile from './Profile'
 import Noties from './Noties'
 import Timeline from './Timeline'
-import SingleFeed from './SingleFeed'
 
 class Portal extends Component {
   render() {
