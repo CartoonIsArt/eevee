@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import { Button, Popover } from 'antd'
 import Line from '../../components/Line'
-import Profile from './Profile'
+import Namecard from './Namecard'
 import { printTime } from '../../policy'
 import Album from './Album'
 
@@ -20,17 +20,7 @@ class Doc extends Component {
       <div style={{ background: '#fff', maxHeight: '640px', padding: '8px', marginBottom: '1px' }} >
         <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }} >
           <div>
-            <Popover
-              placement="leftTop"
-              content={
-                <div style={{ width: '320px' }}>
-                  <Profile />
-                </div>
-              }
-            >
-              <a href="#"> 누군가가 </a>
-            </Popover>
-            이 글을 좋아하겠지?
+            여기는 뭘 넣으면 예쁠까?
           </div>
           <div style={{ flexGrow: 2 }} />
           <div>
@@ -52,11 +42,7 @@ class Doc extends Component {
             <div style={{ fontSize: '14pt' }}>
               <Popover
                 placement="leftTop"
-                content={
-                  <div style={{ width: '320px' }}>
-                    <Profile />
-                  </div>
-                }
+                content={<Namecard content={content.author} />}
               >
                 <a> {author} </a>
               </Popover>
@@ -68,20 +54,6 @@ class Doc extends Component {
           <ReactMarkdown source={text} />
         </div>
         <Album content={images} height="320px" />
-        {/*
-        <div
-          style={{ marginBottom: '4px', height: '320px', background: '#00FF00' }}
-          onClick={() => this.openModal()}
-          role="button"
-          tabIndex={-1}
-        />
-        <Modal
-          visible={isModalOn}
-          content="aasdfasdf"
-        >
-          <div style={{ marginBottom: '4px', height: '320px', background: '#00FF00' }} />
-        </Modal>
-        */}
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
           <div style={{ marginRight: '4px' }}>
