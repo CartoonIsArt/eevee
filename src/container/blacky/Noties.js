@@ -16,18 +16,20 @@ class Noties extends Component {
   render() {
     const noties = this.props.noties
     return (
-      <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
-        <div style={{ height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column' }}>
-          <div style={{ marginRight: '228px', marginLeft: '12px', fontSize: '12pt' }}>
-            <Icon type="notification" />
+      <div >
+        <div style={{ height: '8px' }} />
+        <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
+          <div style={{ height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column' }}>
+            <div style={{ marginRight: '228px', marginLeft: '12px', fontSize: '12pt' }}>
+              <Icon type="notification" />
+            </div>
+            <div style={{ fontSize: '12pt', marginTop: '4px' }}>
+              <a href="#">설정</a>
+            </div>
           </div>
-          <div style={{ fontSize: '12pt', marginTop: '4px' }}>
-            <a href="#">설정</a>
-          </div>
-        </div>
-        <Line />
-        <div style={{ height: '156px', overflowY: 'scroll' }}>
-          {noties.map(noti =>
+          <Line />
+          <div style={{ height: '156px', overflowY: 'scroll' }}>
+            {noties.map(noti =>
           (<div key={noti.id}>
             <div
               className="noti"
@@ -54,7 +56,7 @@ class Noties extends Component {
                       <a href="#"> {noti.from.last_name}</a>
                     </Popover>
                   </div>
-                  <div style={{ color: '#dfdfdf' }}> {printTime(noti.write_date)} </div>
+                  <div style={{ color: 'rgba(1,1,1,0.5)' }}> {printTime(noti.write_date)} </div>
                 </div>
                 <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
                   <a href="#" >
@@ -68,6 +70,7 @@ class Noties extends Component {
             <Line />
           </div>),
         )}
+          </div>
         </div>
       </div>
     )

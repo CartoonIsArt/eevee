@@ -14,7 +14,7 @@ class Timeline extends Component {
   render() {
     const timeline = this.props.timeline
     return (
-      <section style={{ padding: '0px 8px' }}>
+      <section style={{ padding: '0px 8px', marginTop: '8px' }}>
         <Write />
         {timeline.map(feed =>
           (<Feed
