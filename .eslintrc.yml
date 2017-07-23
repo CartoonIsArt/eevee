@@ -21,6 +21,8 @@ rules:
     - off
     react/jsx-no-bind:
     - off
+    react/prop-types:
+    - off
     react/prefer-stateless-function:
     - off
     semi:

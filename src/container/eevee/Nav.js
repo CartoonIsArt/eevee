@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Affix, Input, Button } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 class Nav extends Component {
   toggleMode() {
@@ -21,9 +21,9 @@ class Nav extends Component {
         <nav className="Nav-wrapper">
           <div className="Nav" style={{ display: 'flex', flexDirection: 'row', alignContent: 'left' }}>
             <div style={{ width: '10%' }}>
-              <a className="ant-anchor-link-title" href="#" width="10%">
+              <Link className="ant-anchor-link-title" width="10%" to="/">
                 <img height="44px" width="107px" src="https://cia.kw.ac.kr/media/logo.png" alt="logo" />
-              </a>
+              </Link>
             </div>
             <div style={{ display: 'flex', width: '80%', padding: '7px' }}>
               <Search

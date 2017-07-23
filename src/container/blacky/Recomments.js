@@ -6,6 +6,7 @@ import PostComment from './PostComment'
 class Recomments extends Component {
   render() {
     const recomments = this.props.content
+    const user = this.props.user
     return (
       <div>
         {recomments.map(recomment =>
@@ -14,7 +15,7 @@ class Recomments extends Component {
             content={recomment}
           />),
         )}
-        <PostComment />
+        <PostComment user={user} />
       </div>
     )
   }

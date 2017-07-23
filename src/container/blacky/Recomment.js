@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Popover } from 'antd'
-import Profile from './Profile'
+import Namecard from './Namecard'
 
 class Comment extends Component {
   render() {
@@ -19,7 +19,7 @@ class Comment extends Component {
           <div style={{ width: '91%' }}>
             <p>
               <Popover
-                content={<div style={{ width: '320px' }}> <Profile /> </div>}
+                content={<Namecard content={content.author} />}
                 placement="leftTop"
               >
                 <a> {author} </a>
