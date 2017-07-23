@@ -7,12 +7,15 @@ class Feed extends Component {
   render() {
     const content = this.props.content
     const comments = content.comments
+    const user = this.props.user
     return (
       <article style={{ marginBottom: '4px' }}>
         <Doc
+          user={user}
           content={this.props.content}
         />
         <Comments
+          user={user}
           content={comments}
         />
       </article>

@@ -119,18 +119,21 @@ export const getNoties = () => (dispatch) => {
       write_date: '2017-06-22T07:03:20.963737Z',
       from: user1,
       text: '님의 댓글: 구동게 메인화면에서는 모던동게 링크가 https://cia.kw.ac.kr 로 이어지는데 게시판이나 글로 이동후에는 https://128.134.57.197 로 이어집니다.',
+      had_read: false,
     },
     {
       id: 2,
       write_date: '2017-06-23T07:03:20.963737Z',
       from: user1,
       text: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
+      had_read: true,
     },
     {
       id: 3,
       write_date: '2017-06-10T07:03:20.963737Z',
       from: user1,
       text: '공지: 6월 종강총회 회의록',
+      had_read: false,
     },
   ]))
 }
