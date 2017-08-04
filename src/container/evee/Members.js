@@ -1,17 +1,82 @@
 import React, { Component } from 'react'
-import { Select } from 'antd'
+import { Select, Table } from 'antd'
 
 const Option = Select.Option
 
-const user = {
+const users = [{
   name: '13기 송민준',
+  active: '-',
+  attend: '불참',
+  payment: '납',
   grade: '정회원',
-}
+  disciplinary: '-',
+}, {
+  name: '16기 김성우',
+  active: '-',
+  attend: '참',
+  payment: '납',
+  grade: '정회원',
+  disciplinary: '-',
+}]
 
 function handleChange(value) {
-  user.grade = value;
-  console.log(user.grade);
+  users.grade = value;
 }
+
+function payChange(value) {
+  users.payment = value;
+}
+
+const columns = [{
+  title: '기수 이름',
+  dataIndex: 'name',
+  key: 'name',
+  render: text => <a href="#"> {text} </a>,
+}, {
+  title: '활동여부',
+  dataIndex: 'active',
+  key: 'active',
+  render: text => <a href="#"> {text} </a>,
+}, {
+  title: '회의참석',
+  dataIndex: 'attend',
+  key: 'attend',
+  render: text => <a href="#"> {text} </a>,
+}, {
+  title: '회비납부',
+  dataIndex: 'payment',
+  key: 'payment',
+  render: text => (
+    <Select
+      defaultValue={text}
+      style={{ width: 80 }}
+      onChange={payChange}
+    >
+      <Option value="납">  납 </Option>
+      <Option value="미납">  미납 </Option>
+    </Select>
+    ),
+}, {
+  title: '회원등급',
+  dataIndex: 'grade',
+  key: 'grade',
+  render: text => (
+    <Select
+      defaultValue={text}
+      style={{ width: 120 }}
+      onChange={handleChange}
+    >
+      <Option value="준회원">  준회원 </Option>
+      <Option value="정회원">  정회원 </Option>
+      <Option value="임원">  임원 </Option>
+    </Select>
+    ),
+}, {
+  title: '징계',
+  dataIndex: 'disciplinary',
+  key: 'disciplinary',
+  render: text => <h1> {text} </h1>,
+}]
 
 class Members extends Component {
   render() {
@@ -22,47 +87,7 @@ class Members extends Component {
           <h1> 회원목록 </h1>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', padding: '8px', width: '944px', height: '80%', outline: 'solid black 1px' }}>
-          <div style={{ height: '5%', display: 'flex', flexDirection: 'row' }}>
-            <div style={{ width: '25%' }}>
-              <a> 기수 이름 </a>
-            </div>
-            <div style={{ width: '15%' }}>
-              <a> 활동여부</a>
-            </div>
-            <div style={{ width: '15%' }}>
-              <a> 회의참석</a>
-            </div>
-            <div style={{ width: '15%' }}>
-              <a> 회비납부</a>
-            </div>
-            <div style={{ width: '15%' }}>
-              <a> 회원등급</a>
-            </div>
-            <div style={{ width: '15%' }}>
-              <a> 징계</a>
-            </div>
-          </div>
-          <div style={{ height: '5%', display: 'flex', flexDirection: 'row' }}>
-            <div style={{ width: '25%' }}>
-              <a> {user.name} </a>
-            </div>
-            <div style={{ width: '15%' }} />
-            <div style={{ width: '15%' }} />
-            <div style={{ width: '15%' }} />
-            <div style={{ width: '15%' }}>
-              <Select
-                size="small"
-                defaultValue={user.grade}
-                style={{ width: 80 }}
-                onChange={handleChange}
-              >
-                <Option value="준회원"> 준회원 </Option>
-                <Option value="정회원"> 정회원 </Option>
-                <Option value="임원"> 임원</Option>
-              </Select>
-            </div>
-            <div style={{ width: '15%' }} />
-          </div>
+          <Table columns={columns} dataSource={users} />
         </div>
       </div>
     )
