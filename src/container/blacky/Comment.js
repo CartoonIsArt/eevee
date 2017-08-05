@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Popover } from 'antd'
 import PropTypes from 'prop-types'
 import Recomments from './Recomments'
-import Profile from './Profile'
+import Namecard from './Namecard'
 import { printTime } from '../../policy'
 
 class Comment extends Component {
@@ -13,6 +13,7 @@ class Comment extends Component {
     const recomments = this.props.content.recomments
     const imgsrc = this.props.content.author.image.src
     const imgalt = this.props.content.author.image.alt
+    const user = this.props.user
     return (
       <div style={{ margin: '2px 0px' }} >
         <div style={{ display: 'flex' }} >
@@ -22,7 +23,7 @@ class Comment extends Component {
           <div style={{ width: '91%' }}>
             <p>
               <Popover
-                content={<div style={{ width: '320px' }}> <Profile /> </div>}
+                content={<Namecard content={this.props.content.author} />}
                 placement="leftTop"
               >
                 <a> {author} </a>
@@ -46,6 +47,7 @@ class Comment extends Component {
               </div>
             </div>
             <Recomments
+              user={user}
               content={recomments}
             />
           </div>

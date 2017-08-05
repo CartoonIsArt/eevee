@@ -13,11 +13,15 @@ plugins:
 rules:
     jsx-a11y/href-no-hash:
     - off
+    jsx-a11y/no-static-element-interactions:
+    - off
     react/forbid-prop-types:
     - off
     react/jsx-filename-extension:
     - off
     react/jsx-no-bind:
+    - off
+    react/prop-types:
     - off
     react/prefer-stateless-function:
     - off
