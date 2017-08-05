@@ -1,23 +1,59 @@
 import React from 'react'
-import { Icon, Button, Form, DatePicker, Input } from 'antd';
+import { Modal, Icon, Button, Form, DatePicker, Input } from 'antd';
 
 const FormItem = Form.Item;
 
 class RegistrationForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      visible: false,
+      userName: '',
+    }
+  }
+  onChangeInput(e) {
+    this.setState(e);
+  }
+  handleOk() {
+    console.log(this.state);
+    this.setState({
+      visible: false,
+    });
+  }
+  handleCancel() {
+    console.log(this.state);
+    this.setState({
+      visible: false,
+    });
+  }
+  showModal() {
+    this.setState({
+      visible: true,
+    });
+  }
   render() {
+    const { userName } = this.state;
+    console.log(userName)
     return (
       <div style={{ width: '100%', background: '#ffffff', marginLeft: '8px', marginTop: '8px', display: 'flex', flexDrection: 'column' }}>
-        <div style={{ width: '400px', marginTop: '100px', marginLeft: '80px' }}>
+        <div style={{ width: '400px', marginTop: '52px', marginLeft: '80px' }}>
+          <h1 style={{ marginBottom: '52px' }}> 프로필 수정 </h1>
           <Form onSubmit={this.handleSubmit}>
             <FormItem
               label="이름"
             >
-              <Input placeholder="ex) 19기 xxx" />
+              <Input
+                onChange={e => this.onChangeInput({ userName: e.target.value })}
+                placeholder="ex) 19기 xxx"
+                value={userName}
+              />
             </FormItem>
             <FormItem
               label="이메일"
             >
-              <Input placeholder="ex) example@example.com" />
+              <Input
+                placeholder="ex) example@example.com"
+              />
             </FormItem>
             <FormItem
               label="생일"
@@ -41,11 +77,22 @@ class RegistrationForm extends React.Component {
               <Input addonBefore={'캐릭터 이름'} style={{ width: '100%' }} placeholder="ex) 카게야마 토비오 " />
             </FormItem>
           </Form>
-          <div style={{ marginTop: '80px', marginLeft: '400px' }}>
-            <Button type="primary"> 저장 </Button>
+          <div style={{ marginTop: '80px', marginLeft: '400px', marginBottom: '80px' }}>
+            <Button type="primary" onClick={this.showModal}> 저장 </Button>
+            <Modal
+              title="수정 하시겠습니까?"
+              visible={this.state.visible}
+              onOk={this.handleOk}
+              onCancel={this.handleCancel}
+              okText="확인"
+              cancelText="취소"
+            >
+              <p> 비밀번호를 입력하세요</p>
+              <input style={{ width: '200px', marginTop: '12px' }} />
+            </Modal>
           </div>
         </div>
-        <div style={{ width: '400px', marginTop: '100px', marginLeft: '40px', display: 'flex', flexDrection: 'row' }}>
+        <div style={{ width: '400px', marginTop: '136px', marginLeft: '40px', display: 'flex', flexDrection: 'row' }}>
           <Form onSubmit={this.handleSubmit}>
             <FormItem
               label="프로필 사진"
@@ -53,7 +100,7 @@ class RegistrationForm extends React.Component {
               <div>
                 <Button>
                   <Icon type="upload" /> 파일선택
-              </Button>
+                </Button>
               </div>
               <div style={{ marginTop: '8px' }}>
                 <img alt="example" style={{ width: '240px' }} src={'https://cia.kw.ac.kr/media/7efeeb45-097e-4d9a-bc37-da767dc97ceb.jpg'} />
