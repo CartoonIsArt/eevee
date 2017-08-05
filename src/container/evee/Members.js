@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
-import { Select, Table } from 'antd'
+import { Checkbox, Select, Table, message } from 'antd'
 
 const Option = Select.Option
 
 const users = [{
   name: '13기 송민준',
-  active: '-',
+  active: false,
   attend: '불참',
   payment: '납',
   grade: '정회원',
   disciplinary: '-',
 }, {
   name: '16기 김성우',
-  active: '-',
+  active: true,
   attend: '참',
   payment: '납',
   grade: '정회원',
@@ -21,11 +21,17 @@ const users = [{
 
 function handleChange(value) {
   users.grade = value;
+  message.success('반영되었습니다.');
 }
 
 function payChange(value) {
   users.payment = value;
+  message.success('반영되었습니다.');
 }
+
+const Activate = () => (
+    users.active ? users.active = false : users.active = true
+)
 
 const columns = [{
   title: '기수 이름',
@@ -36,7 +42,12 @@ const columns = [{
   title: '활동여부',
   dataIndex: 'active',
   key: 'active',
-  render: text => <a href="#"> {text} </a>,
+  render: text => (
+    <Checkbox
+      checked={text}
+      onChange={Activate}
+      />
+    ),
 }, {
   title: '회의참석',
   dataIndex: 'attend',
