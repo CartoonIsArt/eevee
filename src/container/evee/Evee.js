@@ -5,7 +5,10 @@ import Sider from './Sider'
 import Dashboard from './Dashboard'
 import Noties from './Noties'
 import Members from './Members'
-import Law from './Law'
+import Accounting from './Accounting'
+import Cleaning from './Cleaning'
+import OldNoties from './OldNoties'
+import OldTexts from './OldTexts'
 import Deactivate from './Deactivate'
 import Logout from './Logout'
 import Doorlock from './Doorlock'
@@ -20,8 +23,11 @@ class Evee extends Component {
       }
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/noties" component={Noties} />
+        <Route path="/accounting" component={Accounting} />
+        <Route path="/cleaning" component={Cleaning} />
         <Route path="/members" component={Members} />
-        <Route path="/law" component={Law} />
+        <Route path="/old/noties" component={OldNoties} />
+        <Route path="/old/texts" component={OldTexts} />
         <Route path="/deactivate" component={Deactivate} />
         <Route path="/logout" component={Logout} />
         <Route path="/doorlock" component={Doorlock} />

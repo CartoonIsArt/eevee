@@ -75,6 +75,8 @@ class Sider extends Component {
             <span><Icon type="notification" /><span>공지사항</span></span>}
         >
           <Menu.Item key="/noties">공지사항</Menu.Item>
+          <Menu.Item key="/accounting">회비미납자</Menu.Item>
+          <Menu.Item key="/cleaning">청소조</Menu.Item>
         </SubMenu>
         <SubMenu
           key="sub4"
@@ -90,6 +92,8 @@ class Sider extends Component {
         >
           <Menu.Item key="/law">회칙</Menu.Item>
           <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
+          <Menu.Item key="/old/noties">(구) 공지</Menu.Item>
+          <Menu.Item key="/old/texts"> (구) 자유</Menu.Item>
         </SubMenu>
         <SubMenu
           key="sub6"
