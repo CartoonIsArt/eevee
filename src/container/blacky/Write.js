@@ -28,7 +28,7 @@ class Write extends Component {
     if (mode === 'edit') {
       display = (<Input
         type="textarea"
-        autosize={{ minRows: 3, maxRows: 6 }}
+        autosize={{ minRows: 4 }}
         style={{ width: '100%' }}
         value={text}
         onChange={e => this.setState({ text: e.target.value })}
