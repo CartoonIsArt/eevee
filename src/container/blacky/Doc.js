@@ -6,9 +6,20 @@ import Line from '../../components/Line'
 import Namecard from './Namecard'
 import { printTime } from '../../policy'
 import Album from './Album'
+import Write from './Write'
 
 class Doc extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isAppending: false,
+    }
+  }
+  toggleAppending() {
+    this.setState({ isAppending: !this.state.isAppending })
+  }
   render() {
+    const isAppending = this.state.isAppending
     const content = this.props.content
     const author = content.author.last_name
     const text = content.text
@@ -16,6 +27,7 @@ class Doc extends Component {
     const imgsrc = content.author.image.src
     const imgalt = content.author.image.alt
     const images = content.images
+    const user = this.props.user
     return (
       <div style={{ background: '#fff', maxHeight: '640px', padding: '8px', marginBottom: '1px' }} >
         <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }} >
@@ -54,6 +66,9 @@ class Doc extends Component {
           <ReactMarkdown source={text} />
         </div>
         <Album content={images} height="320px" />
+        {isAppending &&
+          <Write user={user} />
+          }
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
           <div style={{ marginRight: '4px' }}>
@@ -67,7 +82,7 @@ class Doc extends Component {
               좋아요
             </a>
           </div>
-          <div  style={{ marginRight: '4px' }}>
+          <div style={{ marginRight: '4px' }}>
             <Button
               style={{ marginRight: '4px' }}
               shape="circle"
@@ -84,8 +99,9 @@ class Doc extends Component {
               shape="circle"
               icon="plus"
               size="small"
+              onClick={() => this.toggleAppending()}
             />
-            <a>
+            <a onClick={() => this.toggleAppending()}>
               이어쓰기
             </a>
           </div>

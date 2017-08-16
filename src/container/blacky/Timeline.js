@@ -25,7 +25,7 @@ class Timeline extends Component {
         />
         {timeline.map(feed =>
           (<Feed
-            user={user.user}
+            user={user}
             key={feed.id}
             content={feed}
           />),
