@@ -67,7 +67,7 @@ class Doc extends Component {
               좋아요
             </a>
           </div>
-          <div>
+          <div  style={{ marginRight: '4px' }}>
             <Button
               style={{ marginRight: '4px' }}
               shape="circle"
@@ -76,6 +76,17 @@ class Doc extends Component {
             />
             <a>
               댓글
+            </a>
+          </div>
+          <div>
+            <Button
+              style={{ marginRight: '4px' }}
+              shape="circle"
+              icon="plus"
+              size="small"
+            />
+            <a>
+              이어쓰기
             </a>
           </div>
         </div>
