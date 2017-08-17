@@ -9,10 +9,15 @@ class RegistrationForm extends React.Component {
     this.state = {
       visible: false,
       userName: '',
+      Email: '',
+      Major: '',
+      PhoneNumber: '',
+      Title: '',
+      Character: '',
     }
   }
-  onChangeInput(e) {
-    this.setState(e);
+  onChangeInput() {
+    this.setState();
   }
   handleOk() {
     console.log(this.state);
@@ -32,8 +37,9 @@ class RegistrationForm extends React.Component {
     });
   }
   render() {
-    const { userName } = this.state;
+    const { userName, Email, Major, PhoneNumber, Title, Character } = this.state;
     console.log(userName)
+    console.log(Email)
     return (
       <div style={{ width: '100%', background: '#ffffff', marginLeft: '8px', marginTop: '8px', display: 'flex', flexDrection: 'column' }}>
         <div style={{ width: '400px', marginTop: '52px', marginLeft: '80px' }}>
@@ -52,7 +58,9 @@ class RegistrationForm extends React.Component {
               label="이메일"
             >
               <Input
+                onChange={e => this.onChangeInput({ Email: e.target.value })}
                 placeholder="ex) example@example.com"
+                value={Email}
               />
             </FormItem>
             <FormItem
@@ -63,25 +71,47 @@ class RegistrationForm extends React.Component {
             <FormItem
               label="학과"
             >
-              <Input placeholder="ex) 컴퓨터소프트웨어학과" />
+              <Input
+                onChange={e => this.onChangeInput({ Major: e.target.value })}
+                placeholder="ex) 컴퓨터소프트웨어학과"
+                value={Major}
+              />
             </FormItem>
             <FormItem
               label="핸드폰 번호"
             >
-              <Input addonBefore={'010'} style={{ width: '100%' }} placeholder="ex) 1234 - 1234" />
+              <Input
+                addonBefore={'010'}
+                style={{ width: '100%' }}
+                onChange={e => this.onchangeInput({ PhoneNumber: e.target.value })}
+                placeholder="ex) 1234 - 1234"
+                value={PhoneNumber}
+              />
             </FormItem>
             <FormItem
               label="좋아하는 캐릭터"
             >
-              <Input addonBefore={' 만화 제목 '} style={{ width: '100%' }} placeholder="ex) 하이큐" />
-              <Input addonBefore={'캐릭터 이름'} style={{ width: '100%' }} placeholder="ex) 카게야마 토비오 " />
+              <Input
+                addonBefore={' 만화 제목 '}
+                style={{ width: '100%' }}
+                onChange={e => this.onChangeInput({ Title: e.target.value })}
+                placeholder="ex) 하이큐"
+                value={Title}
+              />
+              <Input
+                addonBefore={'캐릭터 이름'}
+                style={{ width: '100%' }}
+                onChange={e => this.onChangeInput({ Character: e.target.value })}
+                placeholder="ex) 카게야마 토비오 "
+                value={Character}
+              />
             </FormItem>
           </Form>
           <div style={{ marginTop: '80px', marginLeft: '400px', marginBottom: '80px' }}>
             <Button type="primary" onClick={this.showModal}> 저장 </Button>
             <Modal
               title="수정 하시겠습니까?"
-              visible={this.state.visible}
+              visible={this.state.visible.value}
               onOk={this.handleOk}
               onCancel={this.handleCancel}
               okText="확인"
