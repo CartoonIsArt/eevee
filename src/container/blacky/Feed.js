@@ -15,7 +15,7 @@ class Feed extends Component {
           content={this.props.content}
         />
         <Comments
-          user={user}
+          user={user.user}
           content={comments}
         />
       </article>

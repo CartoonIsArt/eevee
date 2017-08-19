@@ -18,7 +18,7 @@ import reducers from './reducers'
 const history = createHistory()
 const middleware = applyMiddleware(
   routerMiddleware(history),
-  thunk
+  thunk,
 )
 
 const store = createStore(
