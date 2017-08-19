@@ -29,7 +29,7 @@ class Doc extends Component {
     const images = content.images
     const user = this.props.user
     return (
-      <div style={{ background: '#fff', maxHeight: '640px', padding: '8px', marginBottom: '1px' }} >
+      <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }} >
         <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }} >
           <div>
             여기는 뭘 넣으면 예쁠까?
@@ -66,9 +66,9 @@ class Doc extends Component {
           <ReactMarkdown source={text} />
         </div>
         <Album content={images} height="320px" />
-        {isAppending &&
+        <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
           <Write user={user} />
-          }
+        </div>
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
           <div style={{ marginRight: '4px' }}>
