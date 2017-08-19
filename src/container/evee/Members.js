@@ -16,8 +16,8 @@ class RegistrationForm extends React.Component {
       Character: '',
     }
   }
-  onChangeInput() {
-    this.setState();
+  onChangeInput(e) {
+    this.setState(e);
   }
   handleOk() {
     console.log(this.state);
@@ -108,12 +108,12 @@ class RegistrationForm extends React.Component {
             </FormItem>
           </Form>
           <div style={{ marginTop: '80px', marginLeft: '400px', marginBottom: '80px' }}>
-            <Button type="primary" onClick={this.showModal}> 저장 </Button>
+            <Button type="primary" onClick={() => this.showModal()}> 저장 </Button>
             <Modal
               title="수정 하시겠습니까?"
-              visible={this.state.visible.value}
-              onOk={this.handleOk}
-              onCancel={this.handleCancel}
+              visible={this.state.visible}
+              onOk={() => this.handleOk()}
+              onCancel={() => this.handleCancel()}
               okText="확인"
               cancelText="취소"
             >
@@ -123,7 +123,7 @@ class RegistrationForm extends React.Component {
           </div>
         </div>
         <div style={{ width: '400px', marginTop: '136px', marginLeft: '40px', display: 'flex', flexDrection: 'row' }}>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={() => this.handleSubmit()}>
             <FormItem
               label="프로필 사진"
             >
