@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Icon, Button, Form, DatePicker, Input } from 'antd';
+import { Upload, Modal, Icon, Button, Form, DatePicker, Input } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -83,7 +83,7 @@ class RegistrationForm extends React.Component {
               <Input
                 addonBefore={'010'}
                 style={{ width: '100%' }}
-                onChange={e => this.onchangeInput({ PhoneNumber: e.target.value })}
+                onChange={e => this.onChangeInput({ PhoneNumber: e.target.value })}
                 placeholder="ex) 1234 - 1234"
                 value={PhoneNumber}
               />
@@ -128,9 +128,11 @@ class RegistrationForm extends React.Component {
               label="프로필 사진"
             >
               <div>
-                <Button>
-                  <Icon type="upload" /> 파일선택
-                </Button>
+                <Upload >
+                  <Button>
+                    <Icon type="upload" /> 파일선택
+                  </Button>
+                </Upload>
               </div>
               <div style={{ marginTop: '8px' }}>
                 <img alt="example" style={{ width: '240px' }} src={'https://cia.kw.ac.kr/media/7efeeb45-097e-4d9a-bc37-da767dc97ceb.jpg'} />
