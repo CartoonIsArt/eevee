@@ -17,7 +17,7 @@ class Comment extends Component {
     return (
       <div style={{ margin: '2px 0px' }} >
         <div style={{ display: 'flex' }} >
-          <div style={{ width: '32px', marginRight: '4px', height: '32px', background: '#00FF00' }} >
+          <div style={{ width: '32px', marginRight: '4px', height: '32px', background: '#fefefe' }} >
             <img src={imgsrc} alt={imgalt} style={{ width: '100%' }} />
           </div>
           <div style={{ width: '91%' }}>
