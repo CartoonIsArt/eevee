@@ -12,7 +12,7 @@ class PostComment extends Component {
         <div style={{ width: '94%' }}>
           <Input
             type="textarea"
-            autosize={{ minRows: 1, maxRows: 2 }}
+            autosize={{ minRows: 1 }}
             placeholder="Write Comment"
           />
         </div>

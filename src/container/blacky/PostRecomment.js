@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Input } from 'antd'
 
-class PostComment extends Component {
+class PostRecomment extends Component {
   render() {
     return (
       <div style={{ display: 'flex' }} >
@@ -18,4 +18,4 @@ class PostComment extends Component {
   }
 }
 
-export default PostComment
+export default PostRecomment

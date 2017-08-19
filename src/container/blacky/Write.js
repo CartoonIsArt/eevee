@@ -1,8 +1,17 @@
 import React, { Component } from 'react'
-import { Button, Input } from 'antd'
+import { Button, Input, notification } from 'antd'
 import ReactMarkdown from 'react-markdown'
 
 class Write extends Component {
+  static openNotificationWithIcon(type) {
+    notification.config({
+      duration: 0,
+    })
+    notification[type]({
+      message: '마크다운 간단문법',
+      description: "### 제목 ''굵은글씨'' '''기울임'''",
+    })
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -19,14 +28,20 @@ class Write extends Component {
     if (mode === 'edit') {
       display = (<Input
         type="textarea"
-        autosize={{ minRows: 3, maxRows: 6 }}
+        autosize={{ minRows: 4 }}
         style={{ width: '100%' }}
         value={text}
         onChange={e => this.setState({ text: e.target.value })}
       />)
-      btn = (<Button icon="edit" onClick={() => this.setState({ mode: 'preview' })}>
-              글쓸거임?
-            </Button>)
+      btn = (<div style={{ display: 'flex' }}>
+        <Button icon="question-circle" onClick={() => Write.openNotificationWithIcon('info')}>
+          문법
+        </Button>
+        <div style={{ width: '4px' }} />
+        <Button icon="edit" onClick={() => this.setState({ mode: 'preview' })}>
+          글쓸거임?
+        </Button>
+      </div>)
     } else if (mode === 'preview') {
       display = <ReactMarkdown source={text} />
       btn = (<div style={{ display: 'flex' }}>
