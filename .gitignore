@@ -20,3 +20,6 @@ yarn-error.log*
 # tmp files
 *.swp
 *.swo
+
+# webstorm
+/.idea/*

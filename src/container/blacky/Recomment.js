@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Popover } from 'antd'
 import Namecard from './Namecard'
 
-class Comment extends Component {
+class Recomment extends Component {
   render() {
     const content = this.props.content
     const author = content.author.last_name
@@ -39,8 +39,8 @@ class Comment extends Component {
   }
 }
 
-Comment.propTypes = {
+Recomment.propTypes = {
   content: PropTypes.object.isRequired,
 }
 
-export default Comment
+export default Recomment
