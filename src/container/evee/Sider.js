@@ -62,6 +62,7 @@ class Sider extends Component {
           </div> :
           <div style={{ height: '240px', background: 'black' }} />
         }
+        {/* 배포후 패치해도 되는 내용
         <SubMenu
           key="sub1"
           title={
@@ -69,6 +70,7 @@ class Sider extends Component {
         >
           <Menu.Item key="/dashboard">대시보드</Menu.Item>
         </SubMenu>
+        */}
         <SubMenu
           key="sub2"
           title={
@@ -94,8 +96,10 @@ class Sider extends Component {
             <a href="https://cia.kw.ac.kr/wiki/index.php?title=%ED%9A%8C%EC%B9%99" target="_blank" rel="noopener noreferrer">회칙</a>
           </Menu.Item>
           <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
+          {/* 배포 후 패치
           <Menu.Item key="/old/noties">(구) 공지</Menu.Item>
           <Menu.Item key="/old/texts"> (구) 자유</Menu.Item>
+          */}
         </SubMenu>
         <SubMenu
           key="sub6"
