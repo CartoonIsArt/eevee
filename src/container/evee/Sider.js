@@ -70,7 +70,6 @@ class Sider extends Component {
         >
           <Menu.Item key="/dashboard">대시보드</Menu.Item>
         </SubMenu>
-        */}
         <SubMenu
           key="sub2"
           title={
@@ -80,6 +79,7 @@ class Sider extends Component {
           <Menu.Item key="/accounting">회비미납자</Menu.Item>
           <Menu.Item key="/cleaning">청소조</Menu.Item>
         </SubMenu>
+        */}
         <SubMenu
           key="sub4"
           title={
