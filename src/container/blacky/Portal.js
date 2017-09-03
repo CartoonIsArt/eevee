@@ -11,9 +11,6 @@ class Portal extends Component {
         <Col span={6}>
           <aside>
             <Profile />
-            {/* future feature
-            <Wiki />
-            */}
           </aside>
         </Col>
         <Col span={12}>
