@@ -23,6 +23,8 @@ class Evee extends Component {
          loc.pathname === '/members' ||
          loc.pathname === '/law' ||
          loc.pathname === '/deactivate' ||
+         loc.pathname === '/cleaning' ||
+         loc.pathname === '/accounting' ||
          loc.pathname === '/logout' ||
          loc.pathname === '/doorlock') &&
          <Sider />
