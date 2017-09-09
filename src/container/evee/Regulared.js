@@ -12,7 +12,7 @@ class Regulared extends Component {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold', fontSize: '16px' }}>
           <div style={{ fontSize: '24px' }}>[활동인구 혜택]을 맘껏 누리세요</div>
-          <div>활동인구 유효기간은 00.00 ~ 00.00 입니다.</div>
+          <div>활동인구 유효기간은 개강총회부터 종강총회까지 입니다.</div>
         </div>
         <div>
           <Link to="/">
