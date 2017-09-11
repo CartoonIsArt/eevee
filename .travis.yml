@@ -14,3 +14,4 @@ script:
 - |
     yarn test
     node node_modules/eslint/bin/eslint src/**/*.js
+    node node_modules/eslint/bin/eslint src/container/**/*.js

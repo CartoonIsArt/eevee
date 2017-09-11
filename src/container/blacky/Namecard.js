@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -11,9 +10,9 @@ class Namecard extends Component {
     cwidth = this.props.width
     return (
       <div style={{ width: cwidth }}>
-          <a className="ant-anchor-link-title" href="#">
-            <img width="100%" src={user.image.src} alt={user.image.alt} />
-          </a>
+        <a className="ant-anchor-link-title" href="#">
+          <img width="100%" src={user.image.src} alt={user.image.alt} />
+        </a>
         <div style={{ height: '98px',
           display: 'flex',
           flexDirection: 'row',
@@ -22,7 +21,7 @@ class Namecard extends Component {
         >
           <div style={{ fontSize: '18pt', textAlign: 'left' }}>
             <div style={{ height: '34%', fontWeight: 'bold' }} >
-              <Link to={'/' + user.username}>
+              <Link to={`/${user.username}`}>
                 {user.last_name}
               </Link>
             </div>
