@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button } from 'antd'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 class Namecard extends Component {
@@ -8,21 +10,21 @@ class Namecard extends Component {
     const user = this.props.content
     cwidth = this.props.width
     return (
-      <div style={{ height: '418px', width: cwidth }}>
-        <div style={{ height: '320px' }} >
+      <div style={{ width: cwidth }}>
           <a className="ant-anchor-link-title" href="#">
             <img width="100%" src={user.image.src} alt={user.image.alt} />
           </a>
-        </div>
         <div style={{ height: '98px',
           display: 'flex',
           flexDirection: 'row',
           padding: '8px',
           lineHeight: '1rem' }}
         >
-          <div style={{ width: '67%', fontSize: '18pt', textAlign: 'left' }}>
+          <div style={{ fontSize: '18pt', textAlign: 'left' }}>
             <div style={{ height: '34%', fontWeight: 'bold' }} >
-              {user.last_name}
+              <Link to={'/' + user.username}>
+                {user.last_name}
+              </Link>
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
               {user.username}
@@ -30,9 +32,6 @@ class Namecard extends Component {
             <div style={{ height: '33%', fontSize: '14pt' }}>
               {user.department}
             </div>
-          </div>
-          <div style={{ width: '33%' }}>
-            <Button> 프로필 수정 </Button>
           </div>
         </div>
       </div>
@@ -49,4 +48,10 @@ Namecard.defaultProps = {
   width: '320px',
 }
 
-export default Namecard
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Namecard)
