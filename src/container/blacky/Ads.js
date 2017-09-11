@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import { Card, Popover } from 'antd'
 import Namecard from './Namecard'
 
-const name = (
-  <div> <Namecard /> </div>
-  )
-
 class Ads extends Component {
   render() {
     return (
@@ -15,7 +11,7 @@ class Ads extends Component {
             <img alt="AuthProf" width="100%" src="https://cia.kw.ac.kr/media/27feac77-07a8-4568-a2e4-85905ea294f1.png" />
           </div>
           <div style={{ fontSize: '14pt', flexGrow: 1, padding: '8px' }}>
-            <Popover placement="leftTop" content={name}> <a> 16기 윤여균</a></Popover>
+            <Popover placement="leftTop" content={<Namecard />}> <a> 16기 윤여균</a></Popover>
           </div>
         </div>
         <div style={{ padding: '4px' }}>
