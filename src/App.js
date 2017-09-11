@@ -6,6 +6,7 @@ import SingleFeed from './container/blacky/SingleFeed'
 import './App.css';
 import Nav from './container/eevee/Nav'
 import Sider from './container/evee/Sider'
+import Userpage from './container/evee/Userpage'
 import Evee from './container/evee/Evee'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
@@ -37,6 +38,7 @@ class App extends Component {
             <Nav />
             <div className="Container" >
               <Route exact path="/" component={Portal} />
+              <Route exact path="/:username" component={Userpage} />
               <Route exact path="/login" component={Login} />
               <Route path="/feed/:id" component={SingleFeed} />
               <Evee />
