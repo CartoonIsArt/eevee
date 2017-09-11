@@ -80,7 +80,7 @@ const user3 = {
   nFeeds: 3,
   nComments: 5,
   nLikes: 4,
-  isActive: false,
+  isActive: true,
   isContributer: false,
   isGraduate: false,
   isRegularMember: true,

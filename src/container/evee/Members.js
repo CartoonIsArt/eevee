@@ -1,117 +1,65 @@
 import React, { Component } from 'react'
-import { Checkbox, Select, Table, message } from 'antd'
+import { connect } from 'react-redux'
+import { Card, Tabs, Input } from 'antd'
+import { getMembers } from '../../actions'
+import Namecard from '../blacky/Namecard'
 
-const Option = Select.Option
-
-const users = [{
-  name: '13기 송민준',
-  active: false,
-  attend: '불참',
-  payment: '납',
-  grade: '정회원',
-  disciplinary: '-',
-}, {
-  name: '16기 김성우',
-  active: true,
-  attend: '참',
-  payment: '납',
-  grade: '정회원',
-  disciplinary: '-',
-}]
-
-function handleChange(value) {
-  users.grade = value;
-  message.success('반영되었습니다.');
-}
-
-function payChange(value) {
-  users.payment = value;
-  message.success('반영되었습니다.');
-}
-
-const Activate = () => (
-    users.active ? users.active = false : users.active = true
-)
-
-const columns = [{
-  title: '기수 이름',
-  dataIndex: 'name',
-  key: 'name',
-  render: text => <a href="#"> {text} </a>,
-}, {
-  title: '활동여부',
-  dataIndex: 'active',
-  key: 'active',
-  render: text => (
-    <Checkbox
-      checked={text}
-      onChange={Activate}
-      />
-    ),
-}, {
-  title: '회의참석',
-  dataIndex: 'attend',
-  key: 'attend',
-  render: text => <a href="#"> {text} </a>,
-}, {
-  title: '회비납부',
-  dataIndex: 'payment',
-  key: 'payment',
-  render: text => (
-    <Select
-      defaultValue={text}
-      style={{ width: 80 }}
-      onChange={payChange}
-    >
-      <Option value="납">  납 </Option>
-      <Option value="미납">  미납 </Option>
-    </Select>
-    ),
-}, {
-  title: '회원등급',
-  dataIndex: 'grade',
-  key: 'grade',
-  render: text => (
-    <Select
-      defaultValue={text}
-      style={{ width: 120 }}
-      onChange={handleChange}
-    >
-      <Option value="준회원">  준회원 </Option>
-      <Option value="정회원">  정회원 </Option>
-      <Option value="임원">  임원 </Option>
-    </Select>
-    ),
-}, {
-  title: '징계',
-  dataIndex: 'disciplinary',
-  key: 'disciplinary',
-  render: text => <h1> {text} </h1>,
-}]
+const TabPane = Tabs.TabPane
+const Search = Input.Search
 
 class Members extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      columns,
-      users,
+      onLoad: false,
+      filter: '',
     }
   }
+  componentWillMount() {
+    this.props.getMembers()
+      //.then(() => this.setState({ onLoad: true}))
+    this.setState({ onLoad: true})
+  }
   render() {
-    const columns = this.state.columns
-    const users = this.state.users
+    const {
+      filter,
+      onLoad,
+    } = this.state
     return (
       <div style={{ display: 'flex', flexDirection: 'column', width: '1000px', margin: '0px 8px', padding: '0px 20px', background: '#FFFFFF' }}>
-        <div style={{ height: '2%' }} />
-        <div style={{ height: '5%' }}>
+        <div style={{ height: '5%' }} onClick={() => this.setState({ onLoad: true })}>
           <h1> 회원목록 </h1>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', padding: '8px', width: '944px', height: '80%', outline: 'solid black 1px' }}>
-          <Table columns={columns} dataSource={users} />
-        </div>
+        {onLoad && 
+          <Tabs tabBarExtraContent={ <Search onChange={e => this.setState({ filter: e.target.value })}/> }>
+            <TabPane tab="모든회원" key="all"> 
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {this.props.members.filter(member => member.last_name.includes(filter) || member.username.includes(filter)).map(member =>
+                    <div key={ member.id } style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
+                      <Namecard content={ member } width='240px' />
+                    </div>
+                )}
+              </div>
+            </TabPane>
+            <TabPane tab="활동인구" key="act"> 
+                {this.props.members.filter(member => member.isActive && (member.last_name.includes(filter) || member.username.includes(filter))).map(member =>
+                    <div key={ member.id } style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
+                      <Namecard content={ member } width='240px' />
+                    </div>
+                )}
+            </TabPane>
+          </Tabs>
+        }
       </div>
     )
   }
 }
 
-export default Members
+const mapStateToProps = state => ({
+  members: state.members,
+})
+const mapDispatchToProps = ({
+  getMembers,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Members)
