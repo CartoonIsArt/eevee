@@ -25,7 +25,7 @@ class Doorlock extends Component {
           display: 'flex',
           flexDirection: 'column',
           width: '100%',
-          marginLeft: '20px',
+          margin: '0px 8px',
           textAlign: 'center',
           backgroundColor: 'white',
         }}
