@@ -14,6 +14,7 @@ class Userpage extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.user,
 })
 const mapDispatchToProps = ({
 })
