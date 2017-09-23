@@ -7,12 +7,12 @@ class Logout extends Component {
     super(props)
     this.state = {
       isActivated: false,
-      isOnce: false,
+      isOnce: true,
     }
   }
 
   setIsOnce() {
-    this.state.isOnce ? this.state.isOnce = true : <Link to="/" />
+    this.state.isOnce ? this.setState({ isOnce: false }) : <Link to="http://kr.battle.net/heroes/ko/" />
   }
 
   render() {
@@ -64,15 +64,15 @@ class Logout extends Component {
             <div>
               { !this.state.isOnce ?
                 <img
-                  src="https://pbs.twimg.com/profile_images/433619758450094080/dMpRXgMs_400x400.jpeg"
-                  alt="세상에서 제일 귀여운 호시이 미키"
-                  style={{ width: '160px', overflow: 'hidden' }}
-                /> :
-                <img
                   src="https://iwiz-chie.c.yimg.jp/im_siggs_yNSfPvc6_4b7fwFQqGog---x320-y320-exp5m-n1/d/iwiz-chie/ans-410746295"
                   alt="츤데레"
                   style={{ width: '160px', overflow: 'hidden' }}
                 />
+                  : <img
+                    src="https://pbs.twimg.com/profile_images/433619758450094080/dMpRXgMs_400x400.jpeg"
+                    alt="세상에서 제일 귀여운 호시이 미키"
+                    style={{ width: '160px', overflow: 'hidden' }}
+                  />
                 }
             </div>
             <p style={{ fontSize: '16px', fontWeight: 'bold' }}> 정말 떠나버릴 거야…? </p>
@@ -84,14 +84,27 @@ class Logout extends Component {
               </Link>
             </div>
             <div>
-              <Button
-                type="default"
-                size="small"
-                icon="user"
-                onClick={this.setIsOnce()}
-              >
-                  떠난다
-              </Button>
+              { this.state.isOnce ?
+                <Button
+                  type="default"
+                  size="small"
+                  icon="user"
+                  onClick={() => {
+                    this.setIsOnce()
+                  }}
+                >
+                        떠난다
+                    </Button>
+                    : <a href="http://kr.battle.net/heroes/ko/">
+                      <Button
+                        type="default"
+                        size="small"
+                        icon="user"
+                      >
+                        난 떠날 거야
+                    </Button>
+                    </a>
+                }
             </div>
           </div>
         </div>
