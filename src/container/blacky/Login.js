@@ -88,7 +88,7 @@ class Login extends Component {
                   rules: [{ required: true, message: 'Please input your username!' }],
                 })(
                   <Input
-                    prefix={<Icon type="user" style={{ fontSize: 13 }} />}
+                    prefix={<Icon type="user" style={{ fontSize: 12 }} />}
                     placeholder="Username"
                   />,
                       )}
@@ -98,7 +98,7 @@ class Login extends Component {
                   rules: [{ required: true, message: 'Please input your Password!' }],
                 })(
                   <Input
-                    prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
+                    prefix={<Icon type="lock" style={{ fontSize: 12 }} />}
                     type="password"
                     placeholder="Password"
                   />,
@@ -107,9 +107,9 @@ class Login extends Component {
               <FormItem>
 
                 <Button style={{ width: '100%' }} type="primary" htmlType="submit" className="login-form-button">
-                          Log in
+                          로그인
                       </Button>
-                      Or <a href="">register now!</a>
+                      아니면 <a href=""> 지금 회원가입 하세요! </a>
               </FormItem>
             </Form>
           </div>

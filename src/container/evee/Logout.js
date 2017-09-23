@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getUser } from '../../actions'
 
 class Logout extends Component {
   constructor(props) {
@@ -11,11 +13,17 @@ class Logout extends Component {
     }
   }
 
+  componentWillMount() {
+    const user = this.props.user
+    if (user.user === undefined) { this.props.getUser() }
+  }
+
   setIsOnce() {
     this.state.isOnce ? this.setState({ isOnce: false }) : <Link to="http://kr.battle.net/heroes/ko/" />
   }
 
   render() {
+    const user = this.props.user
     return (
       <div style={{
         height: '680px',
@@ -25,68 +33,49 @@ class Logout extends Component {
       }}
       >
         <div
-            /* 상단 바 */
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '232px',
-          }}
-        >
-          <div style={{
-            height: '80px',
-            padding: '10px',
-            fontSize: '40px',
-            fontWeight: 'bold',
-            textAlign: 'left',
-            backgroundColor: 'rgba(255,255,255,0.5)',
-          }}
-          >
-            CIA 광운대학교 중앙 만화 동아리
-          </div>
-        </div>
-        <div
-              /* 로그아웃 사각형 */
+              // 로그아웃 사각형
           style={{
             textAlign: 'center',
-            justifyContent: 'space-between',
+            alignItems: 'center',
             display: 'flex',
-            margin: '0 auto',
+            margin: 'auto',
+            marginTop: '200px',
             flexDirection: 'column',
             padding: '12px',
-            width: '25%',
             border: '2px solid black',
             borderRadius: '10px',
+            width: '288px',
             height: '284px',
             backgroundColor: 'rgba(255,255,255,0.5)',
           }}
         >
-          <div style={{ height: '120px' }}>
-            <div>
-              { !this.state.isOnce ?
-                <img
-                  src="https://iwiz-chie.c.yimg.jp/im_siggs_yNSfPvc6_4b7fwFQqGog---x320-y320-exp5m-n1/d/iwiz-chie/ans-410746295"
-                  alt="츤데레"
-                  style={{ width: '160px', overflow: 'hidden' }}
-                />
-                  : <img
-                    src="https://pbs.twimg.com/profile_images/433619758450094080/dMpRXgMs_400x400.jpeg"
-                    alt="세상에서 제일 귀여운 호시이 미키"
-                    style={{ width: '160px', overflow: 'hidden' }}
-                  />
+          <div style={{ height: '160px', width: '160px' }}>
+            { !this.state.isOnce ?
+              <img
+                src="https://pbs.twimg.com/profile_images/692340077951787009/4WMBes3k.png"
+                alt="츤데레"
+                style={{ width: '100%', overflow: 'hidden' }}
+              />
+                    : <img
+                      src="https://pbs.twimg.com/profile_images/433619758450094080/dMpRXgMs_400x400.jpeg"
+                      alt="세상에서 제일 귀여운 호시이 미키"
+                      style={{ width: '100%', overflow: 'hidden' }}
+                    />
                 }
-            </div>
-            <p style={{ fontSize: '16px', fontWeight: 'bold' }}> 정말 떠나버릴 거야…? </p>
+          </div>
+          <div style={{ height: '120px' }}>
+            <p style={{ marginTop: '4px', fontSize: '16px', fontWeight: 'bold' }}> 정말 떠나버릴 거야…? </p>
           </div>
           <div /* 버튼 2개 */>
             <div>
               <Link to="/">
-                <Button type="default" size="large" icon="login"> 떠나지 않는다 </Button>
+                <Button style={{ marginBottom: '4px' }} type="primary" size="large" icon="login"> 떠나지 않는다 </Button>
               </Link>
             </div>
             <div>
               { this.state.isOnce ?
                 <Button
-                  type="default"
+                  type="danger"
                   size="small"
                   icon="user"
                   onClick={() => {
@@ -97,9 +86,10 @@ class Logout extends Component {
                     </Button>
                     : <a href="http://kr.battle.net/heroes/ko/">
                       <Button
-                        type="default"
+                        type="danger"
                         size="small"
                         icon="user"
+                        // onClick={() => {}} has_logged_in을 false로 바꿀 것
                       >
                         난 떠날 거야
                     </Button>
@@ -113,4 +103,11 @@ class Logout extends Component {
   }
 }
 
-export default Logout
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+  getUser,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout)
