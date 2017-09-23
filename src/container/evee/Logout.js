@@ -19,11 +19,13 @@ class Logout extends Component {
   }
 
   setIsOnce() {
-    this.state.isOnce ? this.setState({ isOnce: false }) : <Link to="http://kr.battle.net/heroes/ko/" />
+    if (this.state.isOnce) {
+      this.setState({ isOnce: false })
+    }
   }
 
   render() {
-    const user = this.props.user
+    // const user = this.props.user
     return (
       <div style={{
         height: '680px',
