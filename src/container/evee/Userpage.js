@@ -4,7 +4,14 @@ import { withRouter } from 'react-router-dom'
 import { Button } from 'antd'
 
 class Userpage extends Component {
+    componentWillMount() {
+        this.props.getMembers()
+    }
   render() {
+      const member =
+          this.props.members.filter(member =>
+              member.username === this.props.params.username
+          )
       const myMenu = {
           color: '#365899', float: 'left', height:'44px', padding:'0px 16px', fontSize: '16px', textAlign: 'center', borderRight: '1px solid #e9eaed'
       }
@@ -47,20 +54,20 @@ class Userpage extends Component {
         <div style={{ display: 'flex', border: 'solid 1px #e9eaed', margin: '12px', }}>
           <div style={{ display: 'flex', width: '20%', padding: '16px' , border: 'solid 1px #e9eaed', margin: '12px 0px 12px 12px', }}>
             <div style={{ width: '30%', textAlign: 'center', marginRight: '24px' }}>
-              기수  <br/>
-              이름  <br/>
-              학번  <br/>
-              학과  <br/>
-              활동인구  <br/>
-              정회원  <br/>
+              기수<br/>
+              이름<br/>
+              학번<br/>
+              학과<br/>
+              활동인구<br/>
+              정회원<br/>
             </div>
             <div style={{ width: '70%', }}>
-              {this.props.match.params.last_name}  <br/>
-              {this.props.match.params.username}  <br/>
-              {this.props.match.params.student_number}  <br/>
-              {this.props.match.params.department}  <br/>
-              {this.props.match.params.isActivated}  <br/>
-              {this.props.match.params.isRegularMember}  <br/>
+              {this.member[0].last_name}<br/>
+              {this.member[0].last_name}<br/>
+              {this.member[0].student_number}<br/>
+              {this.member[0].department}<br/>
+              {this.member[0].isActivated}<br/>
+              {this.member[0].isRegularMember}
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', width:'80%', border: 'solid 1px #e9eaed', margin: '12px' }}>
