@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Popover } from 'antd'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
@@ -26,7 +27,7 @@ class Comment extends Component {
                 content={<Namecard content={this.props.content.author} />}
                 placement="leftTop"
               >
-                <a> {author} </a>
+                <Link to={`/members/${author}`}> {author} </Link>
               </Popover>
               {text}
             </p>
