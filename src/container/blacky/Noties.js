@@ -32,6 +32,7 @@ class Noties extends Component {
           (<div key={noti.id}>
             <div
               className="noti"
+              // eslint-disable-next-line
               onClick={() => console.log(noti.id)}
               style={
                 noti.had_read ?
