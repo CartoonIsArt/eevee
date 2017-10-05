@@ -14,7 +14,15 @@ class Dashboard extends Component {
       <div>
         {this.state.isActivated ?
           <Regulared /> :
-          <div style={{ display: 'flex', flexDirection: 'column', backgroundColor: 'white', margin: '0px 8px', width: '1040px', padding: '0px 20px' }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: '1',
+            backgroundColor: 'white',
+            margin: '0px 8px',
+            padding: '0px 20px',
+          }}
+          >
             <div style={{
               width: '100%',
               fontSize: '32px',
