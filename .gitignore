@@ -23,3 +23,6 @@ yarn-error.log*
 
 # webstorm
 /.idea/*
+
+# js autocomplete files
+.tern-port
