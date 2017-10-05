@@ -7,7 +7,7 @@ import Timeline from './Timeline'
 class Portal extends Component {
   render() {
     return (
-      <Row>
+      <Row style={{ marginTop: '8px' }}>
         <Col span={6}>
           <aside>
             <Profile />
@@ -17,7 +17,7 @@ class Portal extends Component {
           <Timeline />
         </Col>
         <Col span={6}>
-          <Affix offsetTop={44}>
+          <Affix offsetTop={52}>
             <aside>
               <Noties />
               <Card title="외부링크" style={{ marginTop: '4px' }} >
