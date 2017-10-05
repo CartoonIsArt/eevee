@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'antd'
 import { connect } from 'react-redux'
-import { getUser } from '../../actions'
-import { neogulman } from '../../policy'
+import { getUser } from '../actions'
+import { neogulman } from '../policy'
 
 class Doorlock extends Component {
   constructor(props) {

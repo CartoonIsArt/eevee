@@ -5,12 +5,12 @@ import createHistory from 'history/createBrowserHistory'
 import { Route } from 'react-router-dom'
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
-import Portal from './container/blacky/Portal'
-import Login from './container/blacky/Login'
-import SingleFeed from './container/blacky/SingleFeed'
+import Portal from './container/Portal'
+import Login from './container/Login'
+import SingleFeed from './container/SingleFeed'
 import './App.css';
-import Nav from './container/eevee/Nav'
-import Evee from './container/evee/Evee'
+import Nav from './container/Nav'
+import Evee from './container/Evee'
 import reducers from './reducers'
 
 const history = createHistory()
