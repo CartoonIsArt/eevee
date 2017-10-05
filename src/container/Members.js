@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Tabs, Input } from 'antd'
-import { getMembers } from '../../actions'
-import Namecard from '../blacky/Namecard'
+import { getMembers } from '../actions'
+import Namecard from '../components/Namecard'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search

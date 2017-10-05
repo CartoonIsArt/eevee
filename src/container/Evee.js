@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Route, withRouter } from 'react-router-dom'
 import Sider from './Sider'
 import Dashboard from './Dashboard'
-import Noties from './Noties'
+import NotiesPage from './NotiesPage'
 import Members from './Members'
 import Accounting from './Accounting'
 import Cleaning from './Cleaning'
@@ -31,7 +31,7 @@ class Evee extends Component {
          <Sider />
       }
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/noties" component={Noties} />
+        <Route path="/noties" component={NotiesPage} />
         <Route path="/accounting" component={Accounting} />
         <Route path="/cleaning" component={Cleaning} />
         <Route exact path="/members" component={Members} />

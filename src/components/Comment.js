@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
-import { printTime } from '../../policy'
+import { printTime } from '../policy'
 
 class Comment extends Component {
   render() {

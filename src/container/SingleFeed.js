@@ -3,9 +3,9 @@ import { Affix, Row, Col } from 'antd'
 import { connect } from 'react-redux'
 import Profile from './Profile'
 import Noties from './Noties'
-import Feed from './Feed'
-import { getUser } from '../../actions'
-import { getFeed } from '../../fetches'
+import Feed from '../components/Feed'
+import { getUser } from '../actions'
+import { getFeed } from '../fetches'
 
 class SingleFeed extends Component {
   constructor(props) {

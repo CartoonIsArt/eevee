@@ -3,7 +3,7 @@ import { Icon, Popover } from 'antd'
 import PropTypes from 'prop-types'
 import Comment from './Comment'
 import PostComment from './PostComment'
-import Line from '../../components/Line'
+import Line from '../components/Line'
 
 class Comments extends Component {
   render() {

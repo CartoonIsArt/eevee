@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'antd'
-import Regulared from './Regulared'
+import Regulared from '../components/Regulared'
 
 class Dashboard extends Component {
   constructor(props) {

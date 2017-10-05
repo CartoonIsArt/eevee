@@ -16,6 +16,7 @@ class Nav extends Component {
   }
   render() {
     const Search = Input.Search;
+    const pathname = this.props.location.pathname
     return (
       <Affix>
         <nav className="Nav-wrapper">
@@ -32,11 +33,12 @@ class Nav extends Component {
               />
             </div>
             <div style={{ width: '10%', padding: '7px' }}>
-              <Button
-                icon="bulb"
-                shape="circle"
-                onClick={() => this.toggleMode()}
-              />
+              <Link to={pathname === '/' ? '/dashboard' : '/'}>
+                <Button
+                  icon="bulb"
+                  shape="circle"
+                />
+              </Link>
             </div>
           </div>
         </nav>

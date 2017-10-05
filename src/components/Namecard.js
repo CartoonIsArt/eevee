@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -47,10 +46,4 @@ Namecard.defaultProps = {
   width: '320px',
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
-})
-const mapDispatchToProps = ({
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Namecard)
+export default Namecard
