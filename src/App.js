@@ -31,7 +31,7 @@ class App extends Component {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <div style={{ background: '#dfdfdf' }}>
-            <Nav />
+          { this.isNavEnabled() && (<Nav />) }
             <div className="Container" >
               <Route exact path="/" component={Portal} />
               <Route exact path="/login" component={Login} />
@@ -42,6 +42,11 @@ class App extends Component {
         </ConnectedRouter>
       </Provider>
     );
+  }
+
+  isNavEnabled () {
+    const ignoredPaths = ['/login']
+    return ignoredPaths.indexOf(history.location.pathname) === -1
   }
 }
 export default App;
