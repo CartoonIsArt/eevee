@@ -1,9 +1,68 @@
-import React from 'react'
-import { Upload, Modal, Icon, Button, Form, DatePicker, Input } from 'antd';
+import React, { Component } from 'react'
+import { Upload, Modal, Icon, Button, Form, DatePicker, Input, LocaleProvider } from 'antd';
+import koKR from 'antd/lib/locale-provider/ko_KR';
 
 const FormItem = Form.Item;
 
-class RegistrationForm extends React.Component {
+class PicturesWall extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      buttonClicked: false,
+      previewVisible: false,
+      previewImage: '',
+      fileList: [{
+        uid: -1,
+        name: 'xxx.png',
+        status: 'done',
+        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+      }],
+    };
+  }
+
+  handleCancel() {
+    this.setState({ previewVisible: false });
+  }
+
+  handlePreview(file) {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    });
+  }
+
+  handleChange({ fileList }) {
+    this.setState({ fileList });
+  }
+
+  render() {
+    const { previewVisible, previewImage, fileList } = this.state;
+    const uploadButton = (
+      <div>
+        <Icon type="plus" onClick={this.setState({ buttonClicked: true })} />
+        <p> 사진 선택 </p>
+      </div>
+    );
+    return (
+      <div>
+        <Upload
+          action="//jsonplaceholder.typicode.com/posts/"
+          listType="picture-card"
+          fileList={fileList}
+          onPreview={() => this.handlePreview()}
+          onChange={() => this.handleChange()}
+        >
+          {fileList.length >= 2 ? null : uploadButton}
+        </Upload>
+        <Modal visible={previewVisible} footer={null} onCancel={() => this.handleCancel()}>
+          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        </Modal>
+      </div>
+    );
+  }
+}
+
+class RegistrationForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -15,6 +74,9 @@ class RegistrationForm extends React.Component {
       Title: '',
       Character: '',
     }
+  }
+  onChange(date, dateString) {
+    this.console.log(date, dateString);
   }
   onChangeInput(e) {
     this.setState(e);
@@ -36,10 +98,12 @@ class RegistrationForm extends React.Component {
       visible: true,
     });
   }
+
   render() {
     const { userName, Email, Major, PhoneNumber, Title, Character } = this.state;
     console.log(userName)
     console.log(Email)
+
     return (
       <div style={{ width: '100%', background: '#ffffff', marginLeft: '8px', marginTop: '8px', display: 'flex', flexDrection: 'column' }}>
         <div style={{ width: '400px', marginTop: '52px', marginLeft: '80px' }}>
@@ -66,10 +130,12 @@ class RegistrationForm extends React.Component {
             <FormItem
               label="생일"
             >
-              <DatePicker />
+              <LocaleProvider locale={koKR}>
+                <DatePicker onChange={() => this.onChange()} placeholder="날짜를 입력해주세요" />
+              </LocaleProvider>
             </FormItem>
             <FormItem
-              label="학과"
+              label="학과(학부)"
             >
               <Input
                 onChange={e => this.onChangeInput({ Major: e.target.value })}
@@ -127,15 +193,10 @@ class RegistrationForm extends React.Component {
             <FormItem
               label="프로필 사진"
             >
-              <div>
-                <Upload >
-                  <Button>
-                    <Icon type="upload" /> 파일선택
-                  </Button>
-                </Upload>
-              </div>
               <div style={{ marginTop: '8px' }}>
-                <img alt="example" style={{ width: '240px' }} src={'https://cia.kw.ac.kr/media/7efeeb45-097e-4d9a-bc37-da767dc97ceb.jpg'} />
+                <LocaleProvider locale={koKR}>
+                  <PicturesWall />
+                </LocaleProvider>
               </div>
             </FormItem>
           </Form>
