@@ -14,7 +14,7 @@ class Profile extends Component {
   render() {
     const user = this.props.user
     return (
-      <div style={{ background: '#FFFFFF', marginTop: '8px' }}>
+      <div style={{ background: '#FFFFFF' }}>
         {user.has_logged_in &&
         <div>
           <Namecard content={user.user} />
