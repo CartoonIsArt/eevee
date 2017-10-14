@@ -7,7 +7,7 @@ import Namecard from '../blacky/Namecard'
 const TabPane = Tabs.TabPane
 const Search = Input.Search
 
-class Members extends Component {
+class EditUserProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -74,4 +74,4 @@ const mapDispatchToProps = ({
   getMembers,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Members)
+export default connect(mapStateToProps, mapDispatchToProps)(EditUserProfile)
