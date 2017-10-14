@@ -11,6 +11,7 @@ import OldNoties from './OldNoties'
 import OldTexts from './OldTexts'
 import Deactivate from './Deactivate'
 import Logout from './Logout'
+import Userpage from './Userpage'
 import Doorlock from './Doorlock'
 
 class Evee extends Component {
@@ -23,6 +24,8 @@ class Evee extends Component {
          loc.pathname === '/members' ||
          loc.pathname === '/law' ||
          loc.pathname === '/deactivate' ||
+         loc.pathname === '/cleaning' ||
+         loc.pathname === '/accounting' ||
          loc.pathname === '/logout' ||
          loc.pathname === '/doorlock') &&
          <Sider />
@@ -31,7 +34,8 @@ class Evee extends Component {
         <Route path="/noties" component={Noties} />
         <Route path="/accounting" component={Accounting} />
         <Route path="/cleaning" component={Cleaning} />
-        <Route path="/members" component={Members} />
+        <Route exact path="/members" component={Members} />
+        <Route path="/members/:username" component={Userpage} />
         <Route path="/old/noties" component={OldNoties} />
         <Route path="/old/texts" component={OldTexts} />
         <Route path="/deactivate" component={Deactivate} />
