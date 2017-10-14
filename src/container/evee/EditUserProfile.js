@@ -18,7 +18,7 @@ function beforeUpload(file) {
   return isJPG && isLt2M;
 }
 
-class RegistrationForm extends Component {
+class EditUserProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -241,5 +241,5 @@ const mapDispatchToProps = ({
 
 // const Members = Form.create()(RegistrationForm);
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm)
+export default connect(mapStateToProps, mapDispatchToProps)(EditUserProfile)
 // export default Members
