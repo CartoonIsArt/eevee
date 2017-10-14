@@ -36,6 +36,10 @@ body {
   background: #42A5F5 !important;
 }
 
+.menu:hover{
+  background: #f6f7f9 !important;
+}
+
 .App-header {
   background-color: #222;
   height: 150px;
