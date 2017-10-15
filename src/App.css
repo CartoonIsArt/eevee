@@ -36,6 +36,10 @@ body {
   background: #42A5F5 !important;
 }
 
+.menu:hover{
+  background: #f6f7f9 !important;
+}
+
 .App-header {
   background-color: #222;
   height: 150px;
@@ -63,4 +67,11 @@ body {
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item {
+  float: left;
+  width: 288px !important;
+  height: 288px !important;
+  margin: 0 8px 8px 0;
 }

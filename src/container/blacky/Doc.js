@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { Button, Popover } from 'antd'
 import Line from '../../components/Line'
 import Namecard from './Namecard'
@@ -56,7 +57,7 @@ class Doc extends Component {
                 placement="leftTop"
                 content={<Namecard content={content.author} />}
               >
-                <a> {author} </a>
+                <Link to={`/members/${author}`}> {author} </Link>
               </Popover>
             </div>
             <div> {printTime(createdAt)} </div>

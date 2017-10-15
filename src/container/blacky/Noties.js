@@ -17,7 +17,6 @@ class Noties extends Component {
     const noties = this.props.noties
     return (
       <div >
-        <div style={{ height: '8px' }} />
         <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
           <div style={{ height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column' }}>
             <div style={{ marginRight: '228px', marginLeft: '12px', fontSize: '12pt' }}>
