@@ -2,6 +2,7 @@
   "name": "antd-demo",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://cartoonisart.github.io/eevee/",
   "dependencies": {
     "antd": "^2.10.1",
     "eslint": "^3.19.0",
