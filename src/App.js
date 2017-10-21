@@ -15,7 +15,7 @@ import { ConnectedRouter, routerMiddleware, push } from 'react-router-redux'
 import thunk from 'redux-thunk'
 
 import reducers from './reducers'
-import Registration from "./container/blacky/Registration";
+import Registration from './container/blacky/Registration';
 
 const history = createHistory()
 const middleware = applyMiddleware(

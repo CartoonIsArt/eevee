@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Icon, message, Input, Cascader, DatePicker, Button, Upload, Modal, LocaleProvider } from 'antd'
+import { Alert, Button, Cascader, DatePicker, Form, Icon, Input, LocaleProvider, message, Modal, Upload } from 'antd'
 import moment from 'moment'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 
@@ -13,6 +13,7 @@ function init() {
   }
 }
 init();
+
 
 function beforeUpload(file) {
   const isJPG = file.type === 'image/jpeg';
@@ -43,7 +44,7 @@ class Registration extends Component {
       phoneNumber: '',
       title: '',
       character: '',
-      profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg', // 기존 이미지로 설정해야됨
+      profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
       previewVisible: false,
       fileList: [],
     };
@@ -61,16 +62,7 @@ class Registration extends Component {
     this.setState({ birthday: dateString });
   }
   onButtonClicked() {
-    if (!(this.state.userName &&
-              this.state.기수 &&
-              this.state.birthday &&
-              this.state.id &&
-              this.state.password &&
-              this.state.major &&
-              this.state.number &&
-              this.state.email &&
-              this.state.phoneNumber)
-      ) {
+    if (this.isEmpty()) {
       Modal.warning({ title: '입력을 확인해주세요', content: '입력하지 않은 필수 항목이 있습니다.' });
       return;
     } else if (this.state.password !== this.state.passwordCheck) {
@@ -79,6 +71,19 @@ class Registration extends Component {
     }
     console.log(this.state);
     // location.href = '/login';
+  }
+  isEmpty() {
+    if (!(this.state.userName &&
+          this.state.기수 &&
+          this.state.birthday &&
+          this.state.id &&
+          this.state.password &&
+          this.state.major &&
+          this.state.number &&
+          this.state.email &&
+          this.state.phoneNumber)
+        ) { return true; }
+    return false;
   }
   handleCancelProfile() {
     this.setState({ previewVisible: false })
@@ -96,7 +101,7 @@ class Registration extends Component {
   render() {
     const { userName, id, password, passwordCheck, major,
         number, email, phoneNumber, title, character,
-        fileList, previewVisible, profile } = this.state
+        fileList, previewVisible, profile } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -131,7 +136,8 @@ class Registration extends Component {
               />
             </div>
             <div style={{ width: '288px', marginTop: '20px' }} /* 오른쪽 div */ >
-              <Form>
+              <Alert message="* 부분은 필수 입력사항입니다" type="warning" />
+              <Form style={{ marginTop: '20px' }}>
                 <FormItem label="프로필 사진">
                   <div style={{ marginTop: '8px' }}>
                     <div>
@@ -162,7 +168,7 @@ class Registration extends Component {
               </Form>
               <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
                 <Input
-                  addonBefore="이름"
+                  addonBefore="*이름"
                   size="large"
                   style={{ width: '288px', marginRight: '20px' }}
                   onChange={e => this.onChangeInput({ userName: e.target.value })}
@@ -176,27 +182,27 @@ class Registration extends Component {
                     options={options}
                     size="large"
                     onChange={(value, option) => this.onNumberChange(value, option)}
-                    placeholder="기수를 선택해주세요"
+                    placeholder="*기수를 선택하세요"
                     showSearch
                   />
                   <DatePicker
                     style={{ width: '140px' }}
                     size="large"
                     onChange={(date, dateString) => this.onDateChange(date, dateString)}
-                    placeholder="생일을 선택해주세요"
+                    placeholder="*생일을 선택하세요"
                   />
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
                 <Input
-                  addonBefore="아이디"
+                  addonBefore="*아이디"
                   size="large"
                   style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
                   onChange={e => this.onChangeInput({ id: e.target.value })}
                   value={id}
                 />
                 <Input
-                  addonBefore="비밀번호"
+                  addonBefore="*비밀번호"
                   type="password"
                   size="large"
                   style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
@@ -204,7 +210,7 @@ class Registration extends Component {
                   value={password}
                 />
                 <Input
-                  addonBefore="비밀번호 확인"
+                  addonBefore="*비밀번호 확인"
                   type="password"
                   size="large"
                   style={{ width: '288px' }}
@@ -214,7 +220,7 @@ class Registration extends Component {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
                 <Input
-                  addonBefore="학과(학부)"
+                  addonBefore="*학과(학부)"
                   size="large"
                   style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
                   onChange={e => this.onChangeInput({ major: e.target.value })}
@@ -222,7 +228,7 @@ class Registration extends Component {
                   value={major}
                 />
                 <Input
-                  addonBefore="학번"
+                  addonBefore="*학번"
                   size="large"
                   style={{ width: '288px' }}
                   onChange={e => this.onChangeInput({ number: e.target.value })}
@@ -232,7 +238,7 @@ class Registration extends Component {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
                 <Input
-                  addonBefore="이메일"
+                  addonBefore="*이메일"
                   size="large"
                   style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
                   onChange={e => this.onChangeInput({ email: e.target.value })}
@@ -240,7 +246,7 @@ class Registration extends Component {
                   value={email}
                 />
                 <Input
-                  addonBefore="핸드폰(010-)"
+                  addonBefore="*핸드폰(010-)"
                   size="large"
                   style={{ width: '288px' }}
                   onChange={e => this.onChangeInput({ phoneNumber: e.target.value })}
@@ -248,7 +254,7 @@ class Registration extends Component {
                   value={phoneNumber}
                 />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
                 <div style={{ display: 'flex' }}>
                   <div style={{ width: '288px', display: 'flex', flexDirection: 'column' }}>
                     <Input
