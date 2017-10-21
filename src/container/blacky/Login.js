@@ -79,7 +79,7 @@ class Login extends Component {
               />
             </div>
             <div>
-              <p style={{ fontSize: '16px', fontWeight: 'bold' }}> 당신의 욕망을 이곳에서 ♥ </p>
+              <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px' }}> 당신의 욕망을 이곳에서 ♥ </p>
             </div>
           </div>
           <div>
