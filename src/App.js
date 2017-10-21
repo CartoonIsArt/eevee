@@ -15,6 +15,7 @@ import { ConnectedRouter, routerMiddleware, push } from 'react-router-redux'
 import thunk from 'redux-thunk'
 
 import reducers from './reducers'
+import Registration from "./container/blacky/Registration";
 
 const history = createHistory()
 const middleware = applyMiddleware(
@@ -38,6 +39,7 @@ class App extends Component {
             <div className="Container" >
               <Route exact path="/" component={Portal} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/registration" component={Registration} />
               <Route path="/feed/:id" component={SingleFeed} />
               <Evee />
             </div>
