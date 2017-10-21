@@ -7,11 +7,19 @@ import { getUser } from '../../actions';
 const FormItem = Form.Item;
 
 function beforeUpload(file) {
+  const isImage = file.type === 'image/gif' ||
+                  file.type === 'image/png' ||
+                  file.type === 'image/jpeg' ||
+                  file.type === 'image/bmp' ||
+                  file.type === 'image/webp';
+  if (!isImage) {
+    message.error('이미지만 업로드 해주세요!');
+  }
   const isLt10M = file.size / 1024 / 1024 < 10;
   if (!isLt10M) {
     message.error('10MB 넘으면 안되요!');
   }
-  return isLt10M;
+  return isImage && isLt10M;
 }
 
 class EditUserProfile extends Component {
