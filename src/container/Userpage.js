@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Button, Icon } from 'antd'
-import { getMembers } from '../../actions'
+import { getMembers } from '../actions'
 
 class Userpage extends Component {
   static check(boolean) {
@@ -18,81 +18,57 @@ class Userpage extends Component {
     const members = this.props.members
     const username = this.props.match.params.username
     const member = members.length > 0 ? members.filter(m => m.username === username) : []
-    const myMenu = {
-      padding: '0px 16px',
-      fontSize: '12pt',
-      fontWeight: 'bold',
-      textAlign: 'center',
-      borderLeft: '1px solid #e9eaed',
-    }
     return (
-      <div style={{
-        height: '1040px',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      >
-        <div style={{ height: '280px', border: '1px solid #d3d6db', margin: '12px', backgroundColor: '#fff' }}>
-          <div style={{ height: '236px', backgroundImage: "url('https://i.imgur.com/RcuU2lm.png')", backgroundPosition: 'center 30%' }}>
-            <div style={{
-              border: 'solid 4px white',
-              width: '208px',
-              height: '208px',
-              borderRadius: '50%',
-              position: 'relative',
-              left: '44px',
-              top: '76px',
-              zIndex: '2',
-              overflow: 'hidden',
-            }}
-            >
-              <img src="https://i.imgur.com/tAxNVWy.jpg" style={{ maxWidth: '100%', height: 'auto' }} alt="Profile-img" />
+      <div className="userpage">
+        <div className="header">
+          <div className="background-image">
+            <div className="user-profile">
+              <img className="profile-image-size" src="https://i.imgur.com/tAxNVWy.jpg" alt="Profile-img" />
             </div>
           </div>
-          <div style={{ display: 'flex', paddingLeft: '340px', lineHeight: '2.4', alignItems: 'center' }}>
-            <div className="menu" style={myMenu}><a style={{ color: '#365899' }} href="">내가쓴글</a></div>
-            <div className="menu" style={myMenu}><a style={{ color: '#365899' }} href="">좋아요 누른글</a></div>
-            <div className="menu" style={myMenu}><a style={{ color: '#365899' }} href="">댓글단 글</a></div>
-            <div className="menu" style={myMenu}><a style={{ color: '#365899' }} href="/members">회원들</a></div>
-            <div style={{ borderLeft: '1px solid #e9eaed', flex: '1' }} />
-            <Button type="dashed" style={{ fontSize: '12pt', marginRight: '4px' }}>
+          <div className="menu-bar">
+            <div className="menu"><a href="">내가쓴글</a></div>
+            <div className="menu"><a href="">좋아요 누른글</a></div>
+            <div className="menu"><a href="">댓글단 글</a></div>
+            <div className="menu last"><a href="/members">회원들</a></div>
+            <div className="blank" />
+            <Button className="menu-btn" type="dashed">
               <Icon type="tool" /> 프로필 수정
             </Button>
           </div>
         </div>
-        <div style={{ display: 'flex', margin: '12px', fontSize: '10pt' }}>
-          <div style={{ display: 'block', width: '20%' }}>
-            <div style={{ position: 'sticky', top: '52px', display: 'flex', flexDirection: 'column', backgroundColor: '#fff', border: 'solid 1px #d3d6db' }}>
-              <div style={{ fontSize: '12pt', backgroundColor: '#f6f7f9', padding: '12px', fontWeight: 'bold', borderBottom: 'solid 1px #d3d6db' }}><Icon type="user" /> 내 정보</div>
-              <div style={{ display: 'flex', padding: '8px' }}>
-                <div style={{ width: '36%', textAlign: 'center', marginRight: '24px' }}>
+        <div className="under-board">
+          <div className="my-inform-size">
+            <div className="my-inform-board">
+              <div className="my-inform-title"><Icon type="user" /> 내 정보</div>
+              <div className="my-inform-content">
+                <div className="my-inform-key">
                   <ol>
-                    <li style={{ margin: '8px 0px' }}>기수</li>
-                    <li style={{ margin: '8px 0px' }}>이름</li>
-                    <li style={{ margin: '8px 0px' }}>학번</li>
-                    <li style={{ margin: '8px 0px' }}>학과</li>
-                    <li style={{ margin: '8px 0px' }}>활동인구</li>
-                    <li style={{ margin: '8px 0px' }}>정회원</li>
+                    <li>기수</li>
+                    <li>이름</li>
+                    <li>학번</li>
+                    <li>학과</li>
+                    <li>활동인구</li>
+                    <li>정회원</li>
                   </ol>
                 </div>
                 {member.length > 0 &&
-                  <div style={{ width: '64%' }}>
+                  <div className="my-inform-value">
                     <ol>
-                      <li style={{ margin: '8px 0px' }}>{member[0].last_name}</li>
-                      <li style={{ margin: '8px 0px' }}>{member[0].last_name}</li>
-                      <li style={{ margin: '8px 0px' }}>{member[0].student_number}</li>
-                      <li style={{ margin: '8px 0px' }}>{member[0].department}</li>
-                      <li style={{ margin: '8px 0px' }}>{Userpage.check(member[0].isActivated)}</li>
-                      <li style={{ margin: '8px 0px' }}>{Userpage.check(member[0].isRegularMember)}</li>
+                      <li>{member[0].last_name}</li>
+                      <li>{member[0].last_name}</li>
+                      <li>{member[0].student_number}</li>
+                      <li>{member[0].department}</li>
+                      <li>{Userpage.check(member[0].isActivated)}</li>
+                      <li>{Userpage.check(member[0].isRegularMember)}</li>
                     </ol>
                   </div>
                 }
               </div>
             </div>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', width: '80%', height: '100%', border: 'solid 1px #d3d6db', marginLeft: '12px', backgroundColor: '#fff' }}>
-            <div style={{ padding: '12px', borderBottom: 'solid 1px #d3d6db', backgroundColor: '#f6f7f9', fontSize: '12pt', fontWeight: 'bold' }}>
+          <div className="my-write-size">
+            <div className="my-write-title">
               <Icon type="edit" /> 내가 쓴글
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', padding: '12px' }}>
