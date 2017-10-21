@@ -73,7 +73,7 @@ class Registration extends Component {
     // location.href = '/login';
   }
   isEmpty() {
-    if (!(this.state.userName &&
+    if (this.state.userName &&
           this.state.기수 &&
           this.state.birthday &&
           this.state.id &&
@@ -81,9 +81,9 @@ class Registration extends Component {
           this.state.major &&
           this.state.number &&
           this.state.email &&
-          this.state.phoneNumber)
-        ) { return true; }
-    return false;
+          this.state.phoneNumber
+        ) { return false; }
+    return true;
   }
   handleCancelProfile() {
     this.setState({ previewVisible: false })
