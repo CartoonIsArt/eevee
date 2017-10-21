@@ -7,15 +7,11 @@ import { getUser } from '../../actions';
 const FormItem = Form.Item;
 
 function beforeUpload(file) {
-  const isJPG = file.type === 'image/jpeg';
-  if (!isJPG) {
-    message.error('JPG만 되요!');
-  }
   const isLt10M = file.size / 1024 / 1024 < 10;
   if (!isLt10M) {
     message.error('10MB 넘으면 안되요!');
   }
-  return isJPG && isLt10M;
+  return isLt10M;
 }
 
 class EditUserProfile extends Component {
