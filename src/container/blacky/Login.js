@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd'
 
 const FormItem = Form.Item;
@@ -78,10 +79,10 @@ class Login extends Component {
               />
             </div>
             <div>
-              <p style={{ fontSize: '16px', fontWeight: 'bold' }}> 당신의 욕망을 이곳에서 ♥ </p>
+              <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px' }}> 당신의 욕망을 이곳에서 ♥ </p>
             </div>
           </div>
-          <div /* 버튼 3개 */>
+          <div>
             <Form onSubmit={this.handleSubmit} className="login-form">
               <FormItem>
                 {getFieldDecorator('userName', {
@@ -106,10 +107,15 @@ class Login extends Component {
               </FormItem>
               <FormItem>
 
-                <Button style={{ width: '100%' }} type="primary" htmlType="submit" className="login-form-button">
-                          로그인
-                      </Button>
-                      아니면 <a href=""> 지금 회원가입 하세요! </a>
+                <Button
+                  style={{ width: '100%' }}
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                >
+                    로그인
+                </Button>
+                  아니면 <Link to="/registration"> 지금 회원가입 하세요! </Link>
               </FormItem>
             </Form>
           </div>
