@@ -1,0 +1,115 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { Button, Icon } from 'antd'
+import { getMembers } from '../actions'
+
+class Userpage extends Component {
+  static check(boolean) {
+    if (boolean) {
+      return <Icon type="check" />
+    }
+    return <Icon type="close" />
+  }
+  componentWillMount() {
+    this.props.getMembers()
+  }
+  render() {
+    const members = this.props.members
+    const username = this.props.match.params.username
+    const member = members.length > 0 ? members.filter(m => m.username === username) : []
+    return (
+      <div className="userpage">
+        <div className="header">
+          <div className="background-image">
+            <div className="user-profile">
+              <img className="profile-image-size" src="https://i.imgur.com/tAxNVWy.jpg" alt="Profile-img" />
+            </div>
+          </div>
+          <div className="menu-bar">
+            <div className="menu"><a href="">내가쓴글</a></div>
+            <div className="menu"><a href="">좋아요 누른글</a></div>
+            <div className="menu"><a href="">댓글단 글</a></div>
+            <div className="menu last"><a href="/members">회원들</a></div>
+            <div className="blank" />
+            <Button className="menu-btn" type="dashed">
+              <Icon type="tool" /> 프로필 수정
+            </Button>
+          </div>
+        </div>
+        <div className="under-board">
+          <div className="my-inform-size">
+            <div className="my-inform-board">
+              <div className="my-inform-title"><Icon type="user" /> 내 정보</div>
+              <div className="my-inform-content">
+                <div className="my-inform-key">
+                  <ol>
+                    <li>기수</li>
+                    <li>이름</li>
+                    <li>학번</li>
+                    <li>학과</li>
+                    <li>활동인구</li>
+                    <li>정회원</li>
+                  </ol>
+                </div>
+                {member.length > 0 &&
+                  <div className="my-inform-value">
+                    <ol>
+                      <li>{member[0].last_name}</li>
+                      <li>{member[0].last_name}</li>
+                      <li>{member[0].student_number}</li>
+                      <li>{member[0].department}</li>
+                      <li>{Userpage.check(member[0].isActivated)}</li>
+                      <li>{Userpage.check(member[0].isRegularMember)}</li>
+                    </ol>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+          <div className="my-write-size">
+            <div className="my-write-title">
+              <Icon type="edit" /> 내가 쓴글
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', padding: '12px' }}>
+              <div style={{ display: 'block' }}>
+                <div style={{ display: 'flex', marginBottom: '8px' }}>
+                  <div style={{
+                    width: '52px',
+                    height: '52px',
+                    borderRadius: '50%',
+                    position: 'relative',
+                    marginRight: '8px',
+                    overflow: 'hidden',
+                  }}
+                  >
+                    <img src="https://i.imgur.com/tAxNVWy.jpg" style={{ maxWidth: '100%', height: 'auto' }} alt="Profile-img" />
+                  </div>
+                  <div>
+                    <p style={{ fontSize: '16pt' }}>19기 심심한 바보</p>
+                    <p>2017년 10월 4일 오후 11시 22분</p>
+                  </div>
+                </div>
+              </div>
+              <div style={{ fontSize: '12pt' }}>
+                추석 연휴 아니었음 진짜 손도 안댔다...
+                <div style={{ display: 'block' }}>
+                  <img src="https://i.imgur.com/OwKtSaK.jpg" style={{ maxWidth: '100%', height: 'auto' }} alt="HK 416" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = state => ({
+  members: state.members,
+})
+const mapDispatchToProps = ({
+  getMembers,
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Userpage))

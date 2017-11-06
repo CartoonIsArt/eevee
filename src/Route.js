@@ -1,21 +1,23 @@
 import React from 'react'
-import Sider from './container/evee/Sider'
-import Dashboard from './container/evee/Dashboard'
-import Noties from './container/blacky/Noties'
-import Members from './container/evee/Members'
-import Accounting from './container/evee/Accounting'
-import Cleaning from './container/evee/Cleaning'
-import OldNoties from './container/evee/OldNoties'
-import OldTexts from './container/evee/OldTexts'
-import Deactivate from './container/evee/Deactivate'
-import Logout from './container/evee/Logout'
-import Userpage from './container/evee/Userpage'
-import Doorlock from './container/evee/Doorlock'
-import Registration from './container/blacky/Registration';
-import Portal from './container/blacky/Portal'
-import Login from './container/blacky/Login'
-import SingleFeed from './container/blacky/SingleFeed'
+import Sider from './container/Sider'
+import Dashboard from './container/Dashboard'
+import Noties from './container/Noties'
+import Members from './container/Members'
+import Accounting from './container/Accounting'
+import Cleaning from './container/Cleaning'
+import OldNoties from './container/OldNoties'
+import OldTexts from './container/OldTexts'
+import Deactivate from './container/Deactivate'
+import Logout from './container/Logout'
+import Userpage from './container/Userpage'
+import Doorlock from './container/Doorlock'
+import Registration from './container/Registration';
+import Portal from './container/Portal'
+import Login from './container/Login'
+import SingleFeed from './container/SingleFeed'
+import EditUserProfile from './container/EditUserProfile'
 
+// eslint-disable-next-line
 export const routes = [
   {
     path: '/',
@@ -78,6 +80,11 @@ export const routes = [
     path: '/old/texts',
     sidebar: () => <div />,
     main: () => <OldTexts />,
+  },
+  {
+    path: '/settings/account',
+    sidebar: () => <Sider />,
+    main: () => <EditUserProfile />,
   },
   {
     path: '/deactivate',

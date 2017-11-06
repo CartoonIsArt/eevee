@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Feed from './Feed'
+import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
-import Write from './Write'
-import { getTimeline, getUser } from '../../actions'
+import Write from '../components/Write'
+import { getTimeline, getUser } from '../actions'
 
 class Timeline extends Component {
   componentWillMount() {

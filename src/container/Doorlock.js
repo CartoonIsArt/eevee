@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'antd'
 import { connect } from 'react-redux'
-import { getUser } from '../../actions'
-import { neogulman } from '../../policy'
+import { getUser } from '../actions'
+import { neogulman } from '../policy'
 
 class Doorlock extends Component {
   constructor(props) {
@@ -24,6 +24,7 @@ class Doorlock extends Component {
         <div style={{
           display: 'flex',
           flexDirection: 'column',
+          flex: '1',
           width: '100%',
           margin: '0px 8px',
           textAlign: 'center',

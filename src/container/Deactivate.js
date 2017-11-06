@@ -30,6 +30,7 @@ class Deactivate extends Component {
     return (
       <div style={{
         display: 'flex',
+        flex: '1',
         flexDirection: 'column',
         width: '100%',
         marginLeft: '20px',

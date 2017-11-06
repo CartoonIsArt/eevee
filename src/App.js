@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Nav from './container/eevee/Nav'
-import Evee from './container/evee/Evee'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import createHistory from 'history/createBrowserHistory'
 import { Route } from 'react-router-dom'
-import { ConnectedRouter, routerMiddleware, push } from 'react-router-redux'
+import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
+import './App.css';
+import Nav from './container/Nav'
 import reducers from './reducers'
 import { routes } from './Route'
 
@@ -25,15 +23,22 @@ const store = createStore(
 
 
 class App extends Component {
+
+  static isNavEnabled() {
+    const ignoredPaths = ['/login']
+    return ignoredPaths.indexOf(history.location.pathname) === -1
+  }
+
   render() {
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <div style={{ background: '#dfdfdf' }}>
-            <Nav />
+            { App.isNavEnabled() && (<Nav />) }
             <div className="Container" >
               {routes.map((route, idx) =>
-                (<div key={idx} style={{ display: 'flex' }}>
+                // eslint-disable-next-line
+                (<div key={idx} style={{ display: 'flex' }}> 
                   <Route
                     path={route.path}
                     exact={route.exact}
