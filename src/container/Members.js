@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Tabs, Input } from 'antd'
-import { getMembers } from '../../actions'
-import Namecard from '../blacky/Namecard'
+import { getMembers } from '../actions'
+import Namecard from '../components/Namecard'
 
 const TabPane = Tabs.TabPane
 const Search = Input.Search
@@ -26,7 +26,15 @@ class Members extends Component {
       onLoad,
     } = this.state
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '1000px', margin: '0px 8px', padding: '0px 20px', background: '#FFFFFF' }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        flex: '1',
+        margin: '0px 8px',
+        padding: '0px 20px',
+        background: '#FFFFFF',
+      }}
+      >
         <div style={{ height: '5%' }} onClick={() => this.setState({ onLoad: true })}>
           <h1> 회원목록 </h1>
         </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Upload, message, Icon, Modal, Button, Form, DatePicker, Input, LocaleProvider } from 'antd';
 import koKR from 'antd/lib/locale-provider/ko_KR';
 import { connect } from 'react-redux';
-import { getUser } from '../../actions';
+import { getUser } from '../actions';
 
 const FormItem = Form.Item;
 

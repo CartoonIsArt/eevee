@@ -49,9 +49,12 @@ class Write extends Component {
                 수정
               </Button>
         <div style={{ width: '4px' }} />
-        <Button icon="cloud-upload" type="primary" onClick={() => console.log(text)}>
-                완료
-              </Button>
+        {
+          // eslint-disable-next-line
+          <Button icon="cloud-upload" type="primary" onClick={() => console.log(text)}>
+            완료
+          </Button>
+        }
       </div>)
     }
     return (
