@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
 const SET_TIMELINE = 'SETTIMELINE'
@@ -291,4 +293,11 @@ export const getTimeline = () => (dispatch) => {
     },
   ]))
   return 'next cur'
+}
+
+export const postLogin = (body) => {
+  axios.post(
+    "/api/login",
+    body
+  )
 }

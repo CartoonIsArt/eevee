@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd'
+import { postLogin } from '../actions'
 
 const FormItem = Form.Item;
 
@@ -15,6 +16,16 @@ class Login extends Component {
 
   toLogin() {
     if (!this.state.isLoginClicked) this.setState({ isLoginClicked: true })
+  }
+
+  handleSubmit(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        postLogin(values)
+      }
+    })
   }
 
   render() {
@@ -83,9 +94,9 @@ class Login extends Component {
             </div>
           </div>
           <div>
-            <Form onSubmit={this.handleSubmit} className="login-form">
+            <Form onSubmit={e => this.handleSubmit(e)} className="login-form">
               <FormItem>
-                {getFieldDecorator('userName', {
+                {getFieldDecorator('username', {
                   rules: [{ required: true, message: 'Please input your username!' }],
                 })(
                   <Input
