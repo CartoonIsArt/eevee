@@ -297,7 +297,7 @@ export const getTimeline = () => (dispatch) => {
 
 export const postLogin = (body) => {
   axios.post(
-    "/api/login",
-    body
+    '/api/login',
+    body,
   )
 }
