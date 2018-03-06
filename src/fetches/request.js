@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const host = 'http://localhost:3000/'
+const host = 'http://localhost/api/'
 
 // method에는 명령어(GET, PATCH등...) target은 대상 타겟 도메인, args엔
 // string타입 key와 value포함.
@@ -17,13 +17,11 @@ export function request(method, target, args) {
     }
     return axios(url)
   } else if (['POST', 'PUT', 'PATCH'].includes(method)) {
-    const data = () => {
-      const r = {}
-      args.forEach((e) => {
-        r[e.key] = e.value
-      })
-      return r
-    }
+    console.log(args)
+    const data = {}
+    args.forEach((e) => {
+      data[e.key] = e.value
+    });
     console.log(data)
     return axios({
       method,
