@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Alert, Button, Cascader, Checkbox, DatePicker, Form, Icon, Input, LocaleProvider, message, Modal, Upload } from 'antd'
 import moment from 'moment'
 import koKR from 'antd/lib/locale-provider/ko_KR'
+import { request } from '../fetches/request'
 
 const FormItem = Form.Item;
 
@@ -370,7 +371,7 @@ const text2 = '\n' +
     '                      - 통신비밀보호법\n' +
     '                      로그인 기록: 3개월';
 const options = [];
-
+const args = [];
 function init() {
   for (let i = 1; i <= moment().get('year') - 1998; i += 1) {
     options.push({ value: i, label: `${i}기` });
@@ -420,7 +421,6 @@ class Registration extends Component {
       fileList: [],
     };
   }
-
   onChangeInput(e) {
     this.setState(e);
   }
@@ -442,6 +442,23 @@ class Registration extends Component {
       return;
     }
     console.log(this.state);
+    args.push({ type: 'String', key: 'fullname', value: this.state.userName })
+    args.push({ type: 'Number', key: 'nTh', value: this.state.nTh[0].value })
+    args.push({ type: 'String', key: 'dateOfBirth', value: this.state.birthday })
+    args.push({ type: 'String', key: 'username', value: this.state.id })
+    args.push({ type: 'String', key: 'password', value: this.state.password })
+    args.push({ type: 'String', key: 'department', value: this.state.major })
+    args.push({ type: 'Number', key: 'studentNumber', value: this.state.number })
+    // args.push({ type: 'String', key: 'email', value: this.state.email })
+    args.push({ type: 'String', key: 'phoneNumber', value: this.state.phoneNumber })
+    args.push({ type: 'String', key: 'favoriteComic', value: this.state.title })
+    args.push({ type: 'String', key: 'favoriteCharacter', value: this.state.character })
+    if (this.state.fileList.length < 1) {
+      args.push({ type: 'String', key: 'profileImage', value: 'default' })
+    } else {
+      args.push({ type: 'String', key: 'profileImage', value: this.state.fileList[0].name })
+    }
+    request('POST', 'users', args)
     Modal.success({
       title: '가입 신청이 완료되었습니다!',
       content: '오늘 안으로 가입 승인이 완료될 거에요.',
@@ -730,7 +747,8 @@ class Registration extends Component {
                   style={{ marginTop: '20px' }}
                   onClick={() => this.state.agreeLaw &&
                                  this.state.agreeTerms &&
-                                 this.setState({ agreeAll: true })}
+                                 this.setState({ agreeAll: true }) &&
+                                console.log(this.state.agreeAll)}
                   disabled={!(this.state.agreeLaw && this.state.agreeTerms)}
                 >
                 동의합니다
