@@ -461,7 +461,7 @@ class Registration extends Component {
     Modal.success({
       title: '가입 신청이 완료되었습니다!',
       content: '오늘 안으로 가입 승인이 완료될 거에요.',
-      onOk() { location.href = '/login' },
+      onOk() { location.href = '/login' }, // get 추가해주세요
     });
   }
   isEmpty() {
