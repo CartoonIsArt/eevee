@@ -448,7 +448,7 @@ class Registration extends Component {
     args.push({ type: 'String', key: 'password', value: this.state.password })
     args.push({ type: 'String', key: 'department', value: this.state.major })
     args.push({ type: 'Number', key: 'studentNumber', value: this.state.number })
-    // args.push({ type: 'String', key: 'email', value: this.state.email })
+    args.push({ type: 'String', key: 'email', value: this.state.email })
     args.push({ type: 'String', key: 'phoneNumber', value: this.state.phoneNumber })
     args.push({ type: 'String', key: 'favoriteComic', value: this.state.title })
     args.push({ type: 'String', key: 'favoriteCharacter', value: this.state.character })
