@@ -17,6 +17,7 @@ class Feed extends Component {
         <Comments
           user={user.user}
           content={comments}
+          feed={content}
         />
       </article>
     )

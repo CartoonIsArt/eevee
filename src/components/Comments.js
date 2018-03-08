@@ -35,7 +35,7 @@ class Comments extends Component {
           />),
         )}
         <div style={{ height: '4px' }} />
-        <PostComment user={user} />
+        <PostComment user={user} feedId={this.props.feed.id} />
       </div>
     )
   }
