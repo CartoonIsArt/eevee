@@ -751,7 +751,7 @@ class Registration extends Component {
                   disabled={!(this.state.agreeLaw && this.state.agreeTerms)}
                 >
                 동의합니다
-                <span className="pt-icon-standard pt-icon-arrow-right pt-align-right" />
+                  <span className="pt-icon-standard pt-icon-arrow-right pt-align-right" />
                 </Button>
               </div>
         }

@@ -54,7 +54,7 @@ class Write extends Component {
       btn = (<div style={{ display: 'flex' }}>
         <Button icon="reload" onClick={() => this.setState({ mode: 'edit' })}>
                 수정
-              </Button>
+        </Button>
         <div style={{ width: '4px' }} />
         {
           // eslint-disable-next-line
