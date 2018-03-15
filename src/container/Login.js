@@ -74,7 +74,7 @@ class Login extends Component {
           }}
           >
             CIA 광운대학교 중앙 만화 동아리
-            </div>
+          </div>
         </div>
         <div
             // 로그인 사각형
