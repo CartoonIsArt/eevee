@@ -372,6 +372,7 @@ const text2 = '\n' +
     '                      로그인 기록: 3개월';
 const options = [];
 const args = [];
+
 function init() {
   for (let i = 1; i <= moment().get('year') - 1998; i += 1) {
     options.push({ value: i, label: `${i}기` });
@@ -419,6 +420,7 @@ class Registration extends Component {
       profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
       previewVisible: false,
       fileList: [],
+      responses: [],
     };
   }
   onChangeInput(e) {
@@ -448,7 +450,7 @@ class Registration extends Component {
     args.push({ type: 'String', key: 'password', value: this.state.password })
     args.push({ type: 'String', key: 'department', value: this.state.major })
     args.push({ type: 'Number', key: 'studentNumber', value: this.state.number })
-    // args.push({ type: 'String', key: 'email', value: this.state.email })
+    args.push({ type: 'String', key: 'email', value: this.state.email })
     args.push({ type: 'String', key: 'phoneNumber', value: this.state.phoneNumber })
     args.push({ type: 'String', key: 'favoriteComic', value: this.state.title })
     args.push({ type: 'String', key: 'favoriteCharacter', value: this.state.character })
@@ -458,11 +460,26 @@ class Registration extends Component {
       args.push({ type: 'String', key: 'profileImage', value: this.state.fileList[0].name })
     }
     request('POST', 'users', args)
-    Modal.success({
-      title: '가입 신청이 완료되었습니다!',
-      content: '오늘 안으로 가입 승인이 완료될 거에요.',
-      onOk() { location.href = '/login' },
-    });
+    .then((r) => {
+      this.setState({
+        responses: r,
+      })
+      console.log(r);
+      console.log(this.state.responses);
+    })
+    .catch((e) => {
+      this.setState({
+        responses: e.response,
+      })
+      Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
+    })
+    if (this.responses.status < 300) {
+      Modal.success({
+        title: '가입 신청이 완료되었습니다!',
+        content: '오늘 안으로 가입 승인이 완료될 거에요.',
+        onOk() { location.href = '/login' },
+      });
+    }
   }
   isEmpty() {
     if (this.state.userName &&
