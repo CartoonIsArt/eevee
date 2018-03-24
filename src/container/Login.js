@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd'
 import { postLogin } from '../actions'
+import { request } from '../fetches/request'
 
 const FormItem = Form.Item;
+const args = [];
 
 class Login extends Component {
   constructor(props) {
@@ -11,9 +13,17 @@ class Login extends Component {
     this.state = {
       isActivated: false,
       isLoginClicked: false,
+      id: '',
+      password: '',
     }
   }
 
+  onClickMethod() {
+    args.push({ type: 'String', key: 'username', value: this.state.id })
+    args.push({ type: 'String', key: 'password', value: this.state.password })
+    request('POST', 'login', args)
+    location.href = '/'
+  }
   toLogin() {
     if (!this.state.isLoginClicked) this.setState({ isLoginClicked: true })
   }
@@ -30,6 +40,8 @@ class Login extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const id = this.state.id
+    const password = this.state.password
     return (
       <div
         style={{
@@ -62,7 +74,7 @@ class Login extends Component {
           }}
           >
             CIA 광운대학교 중앙 만화 동아리
-            </div>
+          </div>
         </div>
         <div
             // 로그인 사각형
@@ -102,6 +114,8 @@ class Login extends Component {
                   <Input
                     prefix={<Icon type="user" style={{ fontSize: 12 }} />}
                     placeholder="Username"
+                    value={id}
+                    onChange={e => this.setState({ id: e.target.value })}
                   />,
                       )}
               </FormItem>
@@ -113,6 +127,8 @@ class Login extends Component {
                     prefix={<Icon type="lock" style={{ fontSize: 12 }} />}
                     type="password"
                     placeholder="Password"
+                    value={password}
+                    onChange={e => this.setState({ password: e.target.value })}
                   />,
                       )}
               </FormItem>
@@ -123,6 +139,7 @@ class Login extends Component {
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
+                  onClick={() => this.onClickMethod()}
                 >
                     로그인
                 </Button>

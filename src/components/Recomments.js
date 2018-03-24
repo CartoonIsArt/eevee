@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Recomment from './Recomment'
-import PostComment from './PostComment'
+// import PostComment from './PostComment'
 
 class Recomments extends Component {
   render() {
     const recomments = this.props.content
-    const user = this.props.user
+    // const user = this.props.user
     return (
       <div>
         {recomments.map(recomment =>
@@ -15,7 +15,9 @@ class Recomments extends Component {
             content={recomment}
           />),
         )}
-        <PostComment user={user} />
+        {
+          // <PostComment user={user} />
+        }
       </div>
     )
   }

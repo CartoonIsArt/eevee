@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Button, Input, notification } from 'antd'
 import ReactMarkdown from 'react-markdown'
+import { request } from '../fetches/request'
+
+const args = [];
 
 class Write extends Component {
   static openNotificationWithIcon(type) {
@@ -18,6 +21,10 @@ class Write extends Component {
       text: '',
       mode: 'edit',
     }
+  }
+  onClickMethod() {
+    args.push({ type: 'String', key: 'text', value: this.state.text })
+    request('POST', 'documents', args)
   }
   render() {
     const text = this.state.text
@@ -47,11 +54,11 @@ class Write extends Component {
       btn = (<div style={{ display: 'flex' }}>
         <Button icon="reload" onClick={() => this.setState({ mode: 'edit' })}>
                 수정
-              </Button>
+        </Button>
         <div style={{ width: '4px' }} />
         {
           // eslint-disable-next-line
-          <Button icon="cloud-upload" type="primary" onClick={() => console.log(text)}>
+          <Button icon="cloud-upload" type="primary" onClick={() => this.onClickMethod()}>
             완료
           </Button>
         }
