@@ -30,7 +30,7 @@ class PostComment extends Component {
     })
     if (this.responses.status === 200) {
       Modal.success({
-        title: '댓글 작성이 완료되었습니다!',
+        title: '댓글 작성 완료.',
         content: '당신의 댓글을 이제 모두가 볼 수 있습니다!',
         onOk() { location.href = '/login' },
       });
