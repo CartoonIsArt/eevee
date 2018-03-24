@@ -472,7 +472,8 @@ class Registration extends Component {
       })
       Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
     })
-    if (this.responses.status < 300) {
+    if (this.responses.status < 300 &&
+      this.responses.status >= 200) {
       Modal.success({
         title: '가입 신청이 완료되었습니다!',
         content: '오늘 안으로 가입 승인이 완료될 거에요.',
