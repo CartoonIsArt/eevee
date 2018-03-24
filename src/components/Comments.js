@@ -19,6 +19,7 @@ class Comments extends Component {
                   17기 찹쌀밥{'\n'}
                   18기 순두부{'\n'}
                   16기 닭죽{'\n'}
+                  19기 바보곰{'\n'}
               </pre>
               }
             placement="rightTop"
@@ -35,7 +36,7 @@ class Comments extends Component {
           />),
         )}
         <div style={{ height: '4px' }} />
-        <PostComment user={user} />
+        <PostComment user={user} feedId={this.props.feed.id} />
       </div>
     )
   }

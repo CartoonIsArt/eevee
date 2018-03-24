@@ -72,7 +72,7 @@ class Deactivate extends Component {
                 <Button key="뒤로" size="large" onClick={() => this.handleCancel()}>뒤로</Button>,
                 <Button key="초기화" type="danger" size="large" onClick={() => this.handleOk()}>
                     초기화
-                  </Button>,
+                </Button>,
               ]}
             >
               정말정말 초기화 하시겠습니까?
@@ -85,11 +85,11 @@ class Deactivate extends Component {
                 <Button key="뒤로" size="large" onClick={() => this.handleCancel()}>뒤로</Button>,
                 <Button key="정말루 초기화" type="danger" size="large" onClick={() => this.handleOk()}>
                         정말루 초기화
-                      </Button>,
+                </Button>,
               ]}
             >
                   정말정말 초기화 하시겠습니까?
-                </Modal>
+            </Modal>
             }
 
         </div>
