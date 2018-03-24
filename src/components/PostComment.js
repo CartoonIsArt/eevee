@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, Button } from 'antd'
+import { Input, Button, Modal } from 'antd'
 import { request } from '../fetches/request'
 
 const args = [];
@@ -16,6 +16,25 @@ class PostComment extends Component {
     args.push({ type: 'String', key: 'text', value: this.state.text })
 
     request('POST', 'comments', args)
+    .then((r) => {
+      this.setState({
+        responses: r,
+      })
+      console.log(this.state.responses);
+    })
+    .catch((e) => {
+      this.setState({
+        responses: e.response,
+      })
+      Modal.warning({ title: '오류.', content: '댓글을 올리지 못 했습니다.' })
+    })
+    if (this.responses.status === 200) {
+      Modal.success({
+        title: '댓글 작성이 완료되었습니다!',
+        content: '당신의 댓글을 이제 모두가 볼 수 있습니다!',
+        onOk() { location.href = '/login' },
+      });
+    }
   }
   onChangeInput(e) {
     this.setState(e);
