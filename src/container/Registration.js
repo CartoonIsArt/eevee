@@ -464,7 +464,6 @@ class Registration extends Component {
       this.setState({
         responses: r,
       })
-      console.log(r);
       console.log(this.state.responses);
     })
     .catch((e) => {
