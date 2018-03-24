@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Icon, Input, Button } from 'antd'
+import { Form, Icon, Input, Button, Modal } from 'antd'
 import { postLogin } from '../actions'
 import { request } from '../fetches/request'
 
@@ -15,6 +15,7 @@ class Login extends Component {
       isLoginClicked: false,
       id: '',
       password: '',
+      responses: [],
     }
   }
 
@@ -22,10 +23,27 @@ class Login extends Component {
     args.push({ type: 'String', key: 'username', value: this.state.id })
     args.push({ type: 'String', key: 'password', value: this.state.password })
     request('POST', 'login', args)
-    location.href = '/'
+    .then((r) => {
+      this.setState({
+        responses: r,
+      })
+      console.log(this.state.responses);
+    })
+    .catch((e) => {
+      this.setState({
+        responses: e.response,
+      })
+      Modal.warning({ title: '로그인에 실패했습니다.', content: '입력한 아이디와 비밀번호를 확인해주세요.' })
+    })
+    if (this.responses.status === 200) { // 백엔드 수정 후 확인바람
+      location.href = '/'
+    }
   }
+
   toLogin() {
-    if (!this.state.isLoginClicked) this.setState({ isLoginClicked: true })
+    if (!this.state.isLoginClicked) {
+      this.setState({ isLoginClicked: true })
+    }
   }
 
   handleSubmit(e) {
