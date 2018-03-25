@@ -10,6 +10,7 @@ class PostComment extends Component {
     super(props)
     this.state = {
       text: '',
+      response: [],
     };
   }
   onButtonClicked() {
@@ -29,7 +30,7 @@ class PostComment extends Component {
       })
       Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
     })
-    if (this.responses.status === 200) {
+    if (this.state.responses.status === 200) {
       Modal.success({
         title: '댓글 작성 완료',
         content: '당신의 댓글을 이제 모두가 볼 수 있습니다!',
