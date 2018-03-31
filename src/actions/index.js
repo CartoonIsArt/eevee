@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { request } from '../fetches/request'
 
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
@@ -10,7 +10,10 @@ const SET_NOTIES = 'SETNOTIES'
 
 const setSun = sun => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setUser = user => ({ type: SET_USER, user })
+const setUser = value => ({
+  type: SET_USER,
+  user: value,
+})
 const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
 const setMembers = members => ({ type: SET_MEMBERS, members })
 const setNoties = noties => ({ type: SET_NOTIES, noties })
@@ -108,10 +111,18 @@ export const getMembers = () => (dispatch) => {
 }
 
 export const getUser = () => (dispatch) => {
-  dispatch(setUser({
-    has_logged_in: true,
-    user: user2,
-  }))
+  request('GET', 'users/session', [])
+  .then((r) => {
+    console.log(r)
+    dispatch(setUser(r))
+  })
+  .catch((e) => {
+    console.log(e)
+    console.log(e.response)
+    if (e.response.status === 401) {
+      location.href = '/Login'
+    }
+  })
 }
 
 export const getNoties = () => (dispatch) => {
@@ -295,9 +306,12 @@ export const getTimeline = () => (dispatch) => {
   return 'next cur'
 }
 
+/*
+로그인함수의 정체가 뭔지 모르겠다.
 export const postLogin = (body) => {
   axios.post(
     '/api/login',
     body,
   )
 }
+*/
