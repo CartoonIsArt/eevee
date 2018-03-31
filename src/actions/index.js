@@ -42,7 +42,8 @@ const user1 = {
   isRegular: true,
   is_admin: false,
   is_staff: false,
-  fullname: '16기 와아이',
+  nTh: 16,
+  fullname: '와아이',
   phone_number: '010-0000-0000',
   student_number: '2000000000',
   username: 'kswcia',
@@ -67,7 +68,8 @@ const user2 = {
   isRegular: true,
   is_admin: false,
   is_staff: false,
-  fullname: '13기 송민준',
+  nTh: 13,
+  fullname: '송민준',
   phone_number: '010-0000-0000',
   student_number: '2000000000',
   username: 'eksrns22tp',
@@ -91,7 +93,8 @@ const user3 = {
   isRegular: true,
   is_admin: false,
   is_staff: false,
-  fullname: '18기 송나리',
+  nTh: 18,
+  fullname: '송나리',
   phone_number: '010-0000-0000',
   student_number: '2000000000',
   username: 'na06130',
@@ -114,7 +117,7 @@ export const getUser = () => (dispatch) => {
   request('GET', 'users/session', [])
   .then((r) => {
     console.log(r)
-    dispatch(setUser(r))
+    dispatch(setUser(r.data))
   })
   .catch((e) => {
     console.log(e)

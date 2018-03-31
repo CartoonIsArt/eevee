@@ -8,7 +8,8 @@ import { printTime } from '../policy'
 
 class Comment extends Component {
   render() {
-    const author = this.props.content.author.fullname
+    const author = this.props.content.author
+    const nickname = `${author.nTh}기 ${author.fullname}`
     const text = this.props.content.text
     const createdAt = this.props.content.createdAt
     const recomments = this.props.content.recomments
@@ -24,10 +25,10 @@ class Comment extends Component {
           <div style={{ width: '91%' }}>
             <p>
               <Popover
-                content={<Namecard content={this.props.content.author} />}
+                content={<Namecard content={author} />}
                 placement="leftTop"
               >
-                <Link to={`/members/${author}`}> {author} </Link>
+                <Link to={`/members/${nickname}`}> {nickname} </Link>
               </Popover>
               {text}
             </p>

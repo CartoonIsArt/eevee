@@ -8,6 +8,7 @@ import { printTime } from '../policy'
 class Noti extends Component {
   render() {
     const noti = this.props.content
+    const nickname = `${noti.from.nTh}기 ${noti.from.fullname}`
     return (
       <div key={noti.id}>
         <div
@@ -37,7 +38,7 @@ class Noti extends Component {
                   placement="leftTop"
                   content={<Namecard content={noti.from} />}
                 >
-                  <a href="#"> {noti.from.fullname}</a>
+                  <a href="#"> {nickname}</a>
                 </Popover>
               </div>
               <div style={{ color: 'rgba(1,1,1,0.5)' }}> {printTime(noti.createdAt)} </div>

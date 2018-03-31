@@ -47,7 +47,7 @@ class Members extends Component {
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {this.props.members
                   .filter(member =>
-                      member.last_name.includes(filter) ||
+                      member.fullname.includes(filter) ||
                       member.username.includes(filter))
                   .map(member =>
                   (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
@@ -60,7 +60,7 @@ class Members extends Component {
               {this.props.members
                 .filter(member =>
                     member.isActive &&
-                     (member.last_name.includes(filter) ||
+                     (member.fullname.includes(filter) ||
                       member.username.includes(filter)))
                 .map(member =>
                 (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>

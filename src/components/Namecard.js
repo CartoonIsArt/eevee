@@ -6,6 +6,7 @@ class Namecard extends Component {
   render() {
     let cwidth = '320px'  // component width
     const user = this.props.content
+    const nickname = `${user.nTh}기 ${user.fullname}`
     cwidth = this.props.width
     return (
       <div style={{ width: cwidth }}>
@@ -21,7 +22,7 @@ class Namecard extends Component {
           <div style={{ fontSize: '18pt', textAlign: 'left' }}>
             <div style={{ height: '34%', fontWeight: 'bold' }} >
               <Link to={`/members/${user.username}`}>
-                {user.fullname}
+                {nickname}
               </Link>
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
