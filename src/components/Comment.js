@@ -8,12 +8,12 @@ import { printTime } from '../policy'
 
 class Comment extends Component {
   render() {
-    const author = this.props.content.author.last_name
+    const author = this.props.content.author.fullname
     const text = this.props.content.text
-    const createdAt = this.props.content.write_date
+    const createdAt = this.props.content.createdAt
     const recomments = this.props.content.recomments
-    const imgsrc = this.props.content.author.image.src
-    const imgalt = this.props.content.author.image.alt
+    const imgsrc = this.props.content.author.profileImage.savedPath
+    const imgalt = this.props.content.author.profileImage.filename
     const user = this.props.user
     return (
       <div style={{ margin: '2px 0px' }} >

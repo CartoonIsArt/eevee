@@ -12,10 +12,10 @@ class Feed extends Component {
       <article style={{ marginBottom: '4px' }}>
         <Doc
           user={user}
-          content={this.props.content}
+          content={content}
         />
         <Comments
-          user={user.user}
+          user={content.author}
           content={comments}
           feed={content}
         />
