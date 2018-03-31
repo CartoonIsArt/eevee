@@ -101,17 +101,20 @@ class Sider extends Component {
           <Menu.Item key="/old/texts"> (구) 자유</Menu.Item>
           */}
         </SubMenu>
-        <SubMenu
-          key="sub6"
-          title={
-            <span><Icon type="tool" /><span>임원진도구</span></span>}
-        >
-          <Menu.Item key="/deactivate">활동인구초기화</Menu.Item>
-        </SubMenu>
+        {
+          user.is_admin ?
+            <SubMenu
+              key="sub6"
+              title={<span><Icon type="tool" /><span>임원진 도구</span></span>}
+            >
+              <Menu.Item key="/deactivate">활동인구 초기화</Menu.Item>
+            </SubMenu>
+          :
+            <div />
+        }
         <SubMenu
           key="sub7"
-          title={
-            <span><Icon type="frown" /><span>로그아웃</span></span>}
+          title={<span><Icon type="frown" /><span>로그아웃</span></span>}
         >
           <Menu.Item key="/logout">로그아웃</Menu.Item>
         </SubMenu>
