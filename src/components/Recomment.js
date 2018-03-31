@@ -6,10 +6,10 @@ import Namecard from './Namecard'
 class Recomment extends Component {
   render() {
     const content = this.props.content
-    const author = content.author.last_name
+    const author = content.author.fullname
     const text = content.text
-    const imgsrc = content.author.image.src
-    const imgalt = content.author.image.alt
+    const imgsrc = content.author.profileImage.savedPath
+    const imgalt = content.author.profileImage.filename
     return (
       <div style={{ margin: '2px 0px' }} >
         <div style={{ display: 'flex' }} >

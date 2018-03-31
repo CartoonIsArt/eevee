@@ -22,11 +22,11 @@ class Doc extends Component {
   render() {
     const isAppending = this.state.isAppending
     const content = this.props.content
-    const author = content.author.last_name
+    const author = content.author.fullname
     const text = content.text
-    const createdAt = content.write_date
-    const imgsrc = content.author.image.src
-    const imgalt = content.author.image.alt
+    const createdAt = content.createdAt
+    const imgsrc = content.author.profileImage.savedPath
+    const imgalt = content.author.profileImage.filename
     const images = content.images
     const user = this.props.user
     return (
