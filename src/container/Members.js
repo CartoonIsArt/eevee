@@ -57,16 +57,18 @@ class Members extends Component {
               </div>
             </TabPane>
             <TabPane tab="활동인구" key="act">
-              {this.props.members
-                .filter(member =>
-                    member.isActive &&
-                     (member.fullname.includes(filter) ||
-                      member.username.includes(filter)))
-                .map(member =>
-                (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
-                  <Namecard content={member} width="240px" />
-                </div>),
-                )}
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {this.props.members
+                  .filter(member =>
+                      member.isActive &&
+                      (member.fullname.includes(filter) ||
+                        member.username.includes(filter)))
+                  .map(member =>
+                  (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
+                    <Namecard content={member} width="240px" />
+                  </div>),
+                  )}
+              </div>
             </TabPane>
           </Tabs>
         }

@@ -58,7 +58,11 @@ class Sider extends Component {
       >
         {user.has_logged_in ?
           <div style={{ height: '240px', overflow: 'hidden' }}>
-            <img src={user.user.image.src} alt={user.user.image.alt} width="100%" />
+            <img
+              src={user.profileImage.savedPath}
+              alt={user.profileImage.filename}
+              width="100%"
+            />
           </div> :
           <div style={{ height: '240px', background: 'black' }} />
         }
