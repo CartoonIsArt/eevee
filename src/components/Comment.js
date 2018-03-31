@@ -28,7 +28,7 @@ class Comment extends Component {
                 content={<Namecard content={author} />}
                 placement="leftTop"
               >
-                <Link to={`/members/${nickname}`}> {nickname} </Link>
+                <Link to={`/members/${author.username}`}> {nickname} </Link>
               </Popover>
               {text}
             </p>

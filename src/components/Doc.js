@@ -58,7 +58,7 @@ class Doc extends Component {
                 placement="leftTop"
                 content={<Namecard content={author} />}
               >
-                <Link to={`/members/${nickname}`}> {nickname} </Link>
+                <Link to={`/members/${author.username}`}> {nickname} </Link>
               </Popover>
             </div>
             <div> {printTime(createdAt)} </div>
