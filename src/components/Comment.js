@@ -15,6 +15,7 @@ class Comment extends Component {
     const imgsrc = this.props.content.author.image.src
     const imgalt = this.props.content.author.image.alt
     const user = this.props.user
+    const commentId = this.props.content.id
     return (
       <div style={{ margin: '2px 0px' }} >
         <div style={{ display: 'flex' }} >
@@ -48,6 +49,7 @@ class Comment extends Component {
               </div>
             </div>
             <Recomments
+              commentId={commentId}
               user={user}
               content={recomments}
             />
