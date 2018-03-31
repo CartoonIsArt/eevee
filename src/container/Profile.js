@@ -7,9 +7,9 @@ import { getUser } from '../actions'
 
 
 class Profile extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const user = this.props.user
-    if (user.user === undefined) { this.props.getUser() }
+    if (user === undefined) { this.props.getUser() }
   }
   render() {
     const user = this.props.user
@@ -17,8 +17,8 @@ class Profile extends Component {
       <div style={{ background: '#FFFFFF' }}>
         {user.has_logged_in &&
         <div>
-          <Namecard content={user.user} />
-          <Activity content={user.user} />
+          <Namecard content={user} />
+          <Activity content={user} />
         </div>
         }
       </div>

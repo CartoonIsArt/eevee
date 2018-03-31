@@ -4,7 +4,9 @@ const init = {
 const user = (state = init, action) => {
   switch (action.type) {
     case 'SETUSER':
-      return action.user
+      return Object.assign({}, state, {
+        user: action.user,
+      })
     case 'LOGIN':
       return state.append(user)
     default:
