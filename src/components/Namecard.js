@@ -10,7 +10,7 @@ class Namecard extends Component {
     return (
       <div style={{ width: cwidth }}>
         <a className="ant-anchor-link-title" href="#">
-          <img width="100%" src={user.image.src} alt={user.image.alt} />
+          <img width="100%" src={user.profileImage.savedPath} alt={user.profileImage.filename} />
         </a>
         <div style={{ height: '98px',
           display: 'flex',
@@ -21,7 +21,7 @@ class Namecard extends Component {
           <div style={{ fontSize: '18pt', textAlign: 'left' }}>
             <div style={{ height: '34%', fontWeight: 'bold' }} >
               <Link to={`/members/${user.username}`}>
-                {user.last_name}
+                {user.fullname}
               </Link>
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
