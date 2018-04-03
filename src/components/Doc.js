@@ -22,11 +22,12 @@ class Doc extends Component {
   render() {
     const isAppending = this.state.isAppending
     const content = this.props.content
-    const author = content.author.fullname
+    const author = content.author
+    const nickname = `${author.nTh}기 ${author.fullname}`
     const text = content.text
     const createdAt = content.createdAt
-    const imgsrc = content.author.profileImage.savedPath
-    const imgalt = content.author.profileImage.filename
+    const imgsrc = author.profileImage.savedPath
+    const imgalt = author.profileImage.filename
     const images = content.images
     const user = this.props.user
     return (
@@ -55,9 +56,9 @@ class Doc extends Component {
             <div style={{ fontSize: '14pt' }}>
               <Popover
                 placement="leftTop"
-                content={<Namecard content={content.author} />}
+                content={<Namecard content={author} />}
               >
-                <Link to={`/members/${author}`}> {author} </Link>
+                <Link to={`/members/${author.username}`}> {nickname} </Link>
               </Popover>
             </div>
             <div> {printTime(createdAt)} </div>
