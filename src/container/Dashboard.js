@@ -15,21 +15,23 @@ class Dashboard extends Component {
     this.state = {
       isActivated: false,
       responses: [],
+      user: [],
     }
   }
 
   onClickMethod() {
     const user = this.props.user
-    args.push({ type: 'Boolean', key: 'isActivate', value: this.state.id })
     if (user.user === undefined) { this.props.getUser() }
-    console.log(user)
-    request('PATCH', `users/${user.id}`, args)
+    console.log(user.user.id)
+    args.push({ type: 'Boolean', key: 'isActivate', value: true })
+    request('PATCH', `users/${user.user.id}`, args)
     .then((r) => {
       this.setState({
         responses: r,
       })
       console.log(this.state.responses);
       this.setState({ isActivated: this.state.responses.data.isActivated })
+      console.log(this.state.isActivated);
     })
     .catch((e) => {
       this.setState({
