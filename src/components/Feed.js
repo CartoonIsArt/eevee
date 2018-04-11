@@ -6,7 +6,6 @@ import Comments from './Comments'
 class Feed extends Component {
   render() {
     const content = this.props.content
-    const comments = content.comments
     const user = this.props.user
     return (
       <article style={{ marginBottom: '4px' }}>
@@ -16,7 +15,7 @@ class Feed extends Component {
         />
         <Comments
           user={content.author}
-          content={comments}
+          content={content.comments}
           feed={content}
         />
       </article>

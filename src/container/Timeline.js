@@ -8,9 +8,12 @@ import { getTimeline, getUser } from '../actions'
 
 class Timeline extends Component {
   componentWillMount() {
-    const timeline = this.props.timeline
-    this.props.getUser()
-    if (timeline.length === 0) { this.props.getTimeline() }
+    if (this.props.timeline.length === 0) {
+      this.props.getTimeline()
+    }
+    if (this.props.user === undefined) {
+      this.props.getUser()
+    }
   }
   render() {
     const timeline = this.props.timeline

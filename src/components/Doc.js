@@ -6,7 +6,7 @@ import { Button, Popover } from 'antd'
 import Line from './Line'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
-import Album from './Album'
+// import Album from './Album'
 import Write from './Write'
 
 class Doc extends Component {
@@ -28,7 +28,7 @@ class Doc extends Component {
     const createdAt = content.createdAt
     const imgsrc = author.profileImage.savedPath
     const imgalt = author.profileImage.filename
-    const images = content.images
+    // const images = content.images
     const user = this.props.user
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }} >
@@ -67,7 +67,7 @@ class Doc extends Component {
         <div style={{ margin: '4px 0px' }}>
           <ReactMarkdown source={text} />
         </div>
-        <Album content={images} height="320px" />
+        { /* <Album content={images} height="320px" /> */ }
         <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
           <Write user={user} />
         </div>
