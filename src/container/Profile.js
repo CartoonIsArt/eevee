@@ -8,9 +8,11 @@ import { getUser } from '../actions'
 
 class Profile extends Component {
   componentWillMount() {
+    /*
     if (this.props.user.has_logged_in === false) {
       this.props.getUser()
     }
+    */
   }
   render() {
     const user = this.props.user

@@ -11,9 +11,11 @@ class Timeline extends Component {
     if (this.props.timeline.length === 0) {
       this.props.getTimeline()
     }
+    /*
     if (this.props.user.has_logged_in === false) {
       this.props.getUser()
     }
+    */
   }
   render() {
     const timeline = this.props.timeline
