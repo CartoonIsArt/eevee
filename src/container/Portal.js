@@ -7,7 +7,7 @@ import Timeline from './Timeline'
 class Portal extends Component {
   render() {
     return (
-      <Row style={{ marginTop: '8px' }}>
+      <Row style={{ width: '1280px', marginTop: '8px' }}>
         <Col span={6}>
           <aside>
             <Profile />

@@ -21,7 +21,7 @@ class Sider extends Component {
     }
   }
   componentWillMount() {
-    if (this.props.user.user === undefined) {
+    if (this.props.user.has_logged_in === false) {
       this.props.getUser()
     }
   }

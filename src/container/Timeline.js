@@ -11,23 +11,22 @@ class Timeline extends Component {
     if (this.props.timeline.length === 0) {
       this.props.getTimeline()
     }
-    if (this.props.user.user === undefined) {
+    if (this.props.user.has_logged_in === false) {
       this.props.getUser()
     }
   }
   render() {
     const timeline = this.props.timeline
-    const user = this.props.user.user
-    console.log(user)
+    const user = this.props.user
     return (
       <section style={{ padding: '0px 8px' }}>
-        {user ?
+        {user.has_logged_in ?
           <Write
             user={user}
           /> :
           this.props.getUser()
         }
-        {user ?
+        {user.has_logged_in ?
         timeline.map(feed =>
           (<Feed
             user={user}

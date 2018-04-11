@@ -47,7 +47,7 @@ class EditUserProfile extends Component {
 
   componentWillMount() {
     const user = this.props.user
-    if (user.user === undefined) { this.props.getUser() }
+    if (user.has_logged_in === false) { this.props.getUser() }
   }
 
   onChangeInput(e) {
