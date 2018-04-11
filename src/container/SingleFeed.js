@@ -19,9 +19,7 @@ class SingleFeed extends Component {
     this.props.getFeed(this.props.params.id)
     .then(content => this.setState({content}))
     */
-   // 수정 필요
-    const user = this.props.user
-    if (user.has_logged_in === false) {
+    if (this.props.user.user === undefined) {
       this.props.getUser()
     }
     const content = getFeed(this.props.match.params.id)
@@ -38,7 +36,7 @@ class SingleFeed extends Component {
           </aside>
         </Col>
         <Col span={12}>
-          {content && user.has_logged_in &&
+          {content && // user.has_logged_in &&
           <section style={{ padding: '0px 8px' }} >
             <Feed
               user={user.user}

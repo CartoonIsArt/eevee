@@ -21,9 +21,7 @@ class Sider extends Component {
     }
   }
   componentWillMount() {
-    // 수정 필요
-    const user = this.props.user
-    if (user.has_logged_in === false) {
+    if (this.props.user.user === undefined) {
       this.props.getUser()
     }
   }
@@ -57,15 +55,15 @@ class Sider extends Component {
         onOpenChange={openKeys => this.onOpenChange(openKeys)}
         onClick={e => this.handleClick(e)}
       >
-        {user.has_logged_in ?
+        {// user.has_logged_in ?
           <div style={{ height: '240px', overflow: 'hidden' }}>
             <img
               src={user.profileImage.savedPath}
               alt={user.profileImage.filename}
               width="100%"
             />
-          </div> :
-          <div style={{ height: '240px', background: 'black' }} />
+          </div> /* :
+          <div style={{ height: '240px', background: 'black' }} /> */
         }
         {/* 배포후 패치해도 되는 내용
         <SubMenu

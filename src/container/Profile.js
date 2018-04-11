@@ -8,18 +8,21 @@ import { getUser } from '../actions'
 
 class Profile extends Component {
   componentWillMount() {
-    this.props.getUser()
+    if (this.props.user.user === undefined) {
+      this.props.getUser()
+    }
   }
   render() {
-    const user = this.props.user
+    const user = this.props.user.user
     console.log(user)
     return (
       <div style={{ background: '#FFFFFF' }}>
-        {user.has_logged_in && // 불필요
+        {user ?
           <div>
             <Namecard content={user} />
             <Activity content={user} />
-          </div>
+          </div> :
+          this.props.getUser()
         }
       </div>
     )

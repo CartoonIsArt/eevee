@@ -11,25 +11,31 @@ class Timeline extends Component {
     if (this.props.timeline.length === 0) {
       this.props.getTimeline()
     }
-    if (this.props.user === undefined) {
+    if (this.props.user.user === undefined) {
       this.props.getUser()
     }
   }
   render() {
     const timeline = this.props.timeline
-    const user = this.props.user
+    const user = this.props.user.user
+    console.log(user)
     return (
       <section style={{ padding: '0px 8px' }}>
-        <Write
-          user={user}
-        />
-        {timeline.map(feed =>
+        {user ?
+          <Write
+            user={user}
+          /> :
+          this.props.getUser()
+        }
+        {user ?
+        timeline.map(feed =>
           (<Feed
             user={user}
             key={feed.id}
             content={feed}
           />),
-        )}
+        ) :
+        this.props.getUser()}
         { /*
         <Ads />
         <Ads />
