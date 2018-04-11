@@ -20,17 +20,16 @@ class PostComment extends Component {
     request('POST', 'comments', args)
     .then((r) => {
       this.setState({
-        responses: r,
+        response: r,
       })
-      console.log(this.state.responses);
     })
     .catch((e) => {
       this.setState({
-        responses: e.response,
+        response: e.response,
       })
       Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
     })
-    if (this.state.responses.status === 200) {
+    if (this.state.response.status === 200) {
       Modal.success({
         title: '댓글 작성 완료',
         content: '당신의 댓글을 이제 모두가 볼 수 있습니다!',
