@@ -4,7 +4,19 @@ import Doc from './Doc'
 import Comments from './Comments'
 
 class Feed extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      viewComments: false,
+    }
+  }
+  toggleCommentView() {
+    this.setState({
+      viewComments: !this.state.viewComments,
+    })
+  }
   render() {
+    const viewComments = this.state.viewComments
     const content = this.props.content
     const user = this.props.user
     return (
@@ -12,11 +24,13 @@ class Feed extends Component {
         <Doc
           user={user}
           content={content}
+          onClickComments={() => this.toggleCommentView()}
         />
         <Comments
           user={content.author}
           content={content.comments}
           feed={content}
+          viewComments={viewComments}
         />
       </article>
     )

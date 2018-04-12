@@ -90,8 +90,9 @@ class Doc extends Component {
               shape="circle"
               icon="edit"
               size="small"
+              onClick={() => this.props.onClickComments()}
             />
-            <a>
+            <a onClick={() => this.props.onClickComments()}>
               댓글
             </a>
           </div>
