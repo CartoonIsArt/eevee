@@ -91,7 +91,6 @@ class Logout extends Component {
                         type="danger"
                         size="small"
                         icon="user"
-                        // onClick={() => {}} has_logged_in을 false로 바꿀 것
                       >
                         난 떠날 거야
                       </Button>

@@ -19,6 +19,7 @@ class SingleFeed extends Component {
     this.props.getFeed(this.props.params.id)
     .then(content => this.setState({content}))
     */
+   // 수정 필요
     const user = this.props.user
     if (user.has_logged_in === false) {
       this.props.getUser()

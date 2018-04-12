@@ -155,6 +155,20 @@ export const getNoties = () => (dispatch) => {
 }
 
 export const getTimeline = () => (dispatch) => {
+  request('GET', 'documents', [])
+  .then((r) => {
+    console.log(r)
+    dispatch(setTimeline(r.data))
+  })
+  .catch((e) => {
+    console.log(e)
+    if (e.response.status === 401) {
+      location.href = '/Login'
+    }
+  })
+
+  /*eslint-disable */
+  /*
   dispatch(setTimeline([
     {
       id: 1,
@@ -306,6 +320,8 @@ export const getTimeline = () => (dispatch) => {
       comments: [],
     },
   ]))
+  */
+ /*eslint-enable */
   return 'next cur'
 }
 

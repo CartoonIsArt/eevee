@@ -18,15 +18,13 @@ class Comment extends Component {
   }
   render() {
     const isRecomment = this.state.isRecomment
-    const author = this.props.content.author
-    const nickname = `${author.nTh}기 ${author.fullname}`
-    const text = this.props.content.text
-    const createdAt = this.props.content.createdAt
-    const recomments = this.props.content.recomments
-    const imgsrc = this.props.content.author.profileImage.savedPath
-    const imgalt = this.props.content.author.profileImage.filename
+    const content = this.props.content
     const user = this.props.user
-    const commentId = this.props.content.id
+    const author = content.author
+    const nickname = `${author.nTh}기 ${author.fullname}`
+    const imgsrc = author.profileImage.savedPath
+    const imgalt = author.profileImage.filename
+
     return (
       <div style={{ margin: '2px 0px' }} >
         <div style={{ display: 'flex' }} >
@@ -41,7 +39,7 @@ class Comment extends Component {
               >
                 <Link to={`/members/${author.username}`}> {nickname} </Link>
               </Popover>
-              {text}
+              {content.text}
             </p>
             <div style={{ display: 'flex' }}>
               <Popover
@@ -56,14 +54,14 @@ class Comment extends Component {
               </Popover>
               <a> Reply 3 </a>
               <div style={{ color: '#0a0a0' }}>
-                {printTime(createdAt)}
+                {printTime(content.createdAt)}
               </div>
             </div>
             <Recomments
-              commentId={commentId}
+              commentId={content.id}
               user={user}
-              content={recomments}
               isRecomment={isRecomment}
+              content={content.replies}
             />
           </div>
           <div>
