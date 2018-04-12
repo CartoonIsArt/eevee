@@ -17,8 +17,11 @@ class Recomments extends Component {
           />),
         )}
         {
-          isRecomment ?
-            <PostRecomment user={user} commentId={this.props.commentId} /> : <div />
+          isRecomment &&
+          <PostRecomment
+            user={user}
+            commentId={this.props.commentId}
+          />
         }
       </div>
     )
