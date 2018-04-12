@@ -157,9 +157,7 @@ export const getTimeline = () => (dispatch) => {
     dispatch(setTimeline(r.data))
   })
   .catch((e) => {
-    if (e.response.status === 401) {
-      location.href = '/Login'
-    }
+    console.log(e)
   })
 
   /*eslint-disable */
