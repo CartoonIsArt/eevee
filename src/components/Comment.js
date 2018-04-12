@@ -18,12 +18,13 @@ class Comment extends Component {
   }
   render() {
     const isRecomment = this.state.isRecomment
-    const author = this.props.content.author.last_name
+    const author = this.props.content.author
+    const nickname = `${author.nTh}기 ${author.fullname}`
     const text = this.props.content.text
-    const createdAt = this.props.content.write_date
+    const createdAt = this.props.content.createdAt
     const recomments = this.props.content.recomments
-    const imgsrc = this.props.content.author.image.src
-    const imgalt = this.props.content.author.image.alt
+    const imgsrc = this.props.content.author.profileImage.savedPath
+    const imgalt = this.props.content.author.profileImage.filename
     const user = this.props.user
     const commentId = this.props.content.id
     return (
@@ -35,10 +36,10 @@ class Comment extends Component {
           <div style={{ width: '91%' }}>
             <p>
               <Popover
-                content={<Namecard content={this.props.content.author} />}
+                content={<Namecard content={author} />}
                 placement="leftTop"
               >
-                <Link to={`/members/${author}`}> {author} </Link>
+                <Link to={`/members/${author.username}`}> {nickname} </Link>
               </Popover>
               {text}
             </p>

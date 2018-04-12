@@ -55,8 +55,8 @@ class Userpage extends Component {
                 {member.length > 0 &&
                   <div className="my-inform-value">
                     <ol>
-                      <li>{member[0].last_name}</li>
-                      <li>{member[0].last_name}</li>
+                      <li>{`${member[0].nTh}기`}</li>
+                      <li>{member[0].fullname}</li>
                       <li>{member[0].student_number}</li>
                       <li>{member[0].department}</li>
                       <li>{Userpage.check(member[0].isActivated)}</li>

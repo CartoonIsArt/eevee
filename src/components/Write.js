@@ -25,6 +25,7 @@ class Write extends Component {
   onClickMethod() {
     args.push({ type: 'String', key: 'text', value: this.state.text })
     request('POST', 'documents', args)
+    this.setState({ text: '', mode: 'edit' })
   }
   render() {
     const text = this.state.text
@@ -68,7 +69,7 @@ class Write extends Component {
       <div style={{ marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF' }} >
         <div style={{ marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden' }} >
           {user.has_logged_in &&
-          <img src={user.user.image.src} alt={user.user.image.alt} width="100%" />
+          <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
         }
         </div>
         <div style={{ flexGrow: 1 }}>

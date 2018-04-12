@@ -426,9 +426,9 @@ class Registration extends Component {
   onChangeInput(e) {
     this.setState(e);
   }
-  onNumberChange(value, selectedOptions) {
-    console.log(value, selectedOptions);
-    this.setState({ nTh: selectedOptions });
+  onNumberChange(value, selectedOption) {
+    console.log(value, selectedOption);
+    this.setState({ nTh: value[0] });
   }
   onDateChange(date, dateString) {
     console.log(date, dateString);
@@ -438,7 +438,8 @@ class Registration extends Component {
     if (this.isEmpty()) {
       Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
       return;
-    } else if (this.state.password !== this.state.passwordCheck) {
+    } else
+    if (this.state.password !== this.state.passwordCheck) {
       Modal.warning({ title: '비밀번호를 확인해주세요!', content: '비밀번호가 일치하지 않습니다.' });
       return;
     }

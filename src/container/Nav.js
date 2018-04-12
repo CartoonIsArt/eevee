@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Affix, Input, Button } from 'antd'
+import { Affix, Input, Button, Modal } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
@@ -23,7 +23,17 @@ class Nav extends Component {
           <div className="Nav" style={{ display: 'flex', flexDirection: 'row', alignContent: 'left' }}>
             <div style={{ width: '10%' }}>
               <Link className="ant-anchor-link-title" width="10%" to="/">
-                <img height="44px" width="107px" src="https://cia.kw.ac.kr/media/logo.png" alt="logo" />
+                <Button onClick={() => {
+                  Modal.success({
+                    title: 'hello~',
+                    content: 'hi~',
+                    onOk() {},
+                  },
+                );
+                }}
+                >
+                  <img height="44px" width="107px" src="https://cia.kw.ac.kr/media/logo.png" alt="logo" />
+                </Button>
               </Link>
             </div>
             <div style={{ display: 'flex', width: '80%', padding: '7px' }}>
