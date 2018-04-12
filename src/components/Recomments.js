@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Recomment from './Recomment'
-// import PostComment from './PostComment'
+import PostRecomment from './PostRecomment'
 
 class Recomments extends Component {
   render() {
+    const isRecomment = this.props.isRecomment
     const recomments = this.props.content
-    // const user = this.props.user
+    const user = this.props.user
     return (
       <div>
         {recomments.map(recomment =>
@@ -16,7 +17,11 @@ class Recomments extends Component {
           />),
         )}
         {
-          // <PostComment user={user} />
+          isRecomment &&
+          <PostRecomment
+            user={user}
+            commentId={this.props.commentId}
+          />
         }
       </div>
     )

@@ -7,6 +7,7 @@ import Line from '../components/Line'
 
 class Comments extends Component {
   render() {
+    const viewComments = this.props.viewComments
     const comments = this.props.content
     const user = this.props.user
     return (
@@ -36,7 +37,13 @@ class Comments extends Component {
           />),
         )}
         <div style={{ height: '4px' }} />
-        <PostComment user={user} feedId={this.props.feed.id} />
+        {
+          viewComments &&
+          <PostComment
+            user={user}
+            feedId={this.props.feed.id}
+          />
+        }
       </div>
     )
   }

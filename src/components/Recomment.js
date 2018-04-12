@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Popover } from 'antd'
+import { Popover } from 'antd'
 import Namecard from './Namecard'
 
 class Recomment extends Component {
@@ -30,9 +30,6 @@ class Recomment extends Component {
             <div>
               <a> Like 2 </a> 13hrs
             </div>
-          </div>
-          <div>
-            <Button icon="down" shape="circle" size="small" />
           </div>
         </div>
       </div>
