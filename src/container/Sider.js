@@ -57,14 +57,15 @@ class Sider extends Component {
         onOpenChange={openKeys => this.onOpenChange(openKeys)}
         onClick={e => this.handleClick(e)}
       >
-        {// user.has_logged_in ?
+        {user.has_logged_in ?
           <div style={{ height: '240px', overflow: 'hidden' }}>
             <img
               src={user.profileImage.savedPath}
               alt={user.profileImage.filename}
               width="100%"
             />
-          </div> /* :
+          </div> :
+          this.props.getUser() /* :
           <div style={{ height: '240px', background: 'black' }} /> */
         }
         {/* 배포후 패치해도 되는 내용
