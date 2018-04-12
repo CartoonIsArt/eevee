@@ -7,7 +7,17 @@ import Namecard from './Namecard'
 import { printTime } from '../policy'
 
 class Comment extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isRecomment: false,
+    }
+  }
+  toggleRecomment() {
+    this.setState({ isRecomment: !this.state.isRecomment })
+  }
   render() {
+    const isRecomment = this.state.isRecomment
     const author = this.props.content.author.last_name
     const text = this.props.content.text
     const createdAt = this.props.content.write_date
@@ -52,10 +62,16 @@ class Comment extends Component {
               commentId={commentId}
               user={user}
               content={recomments}
+              isRecomment={isRecomment}
             />
           </div>
           <div>
-            <Button icon="down" shape="circle" size="small" />
+            <Button
+              icon="down"
+              shape="circle"
+              size="small"
+              onClick={() => this.toggleRecomment()}
+            />
           </div>
         </div>
       </div>
