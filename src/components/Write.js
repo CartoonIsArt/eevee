@@ -68,9 +68,7 @@ class Write extends Component {
     return (
       <div style={{ marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF' }} >
         <div style={{ marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden' }} >
-          {// user.has_logged_in &&
-            <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
-        }
+          <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
         </div>
         <div style={{ flexGrow: 1 }}>
           { display }
