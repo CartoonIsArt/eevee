@@ -5,31 +5,60 @@ import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
 import Write from '../components/Write'
 import { getTimeline, getUser } from '../actions'
+import { request } from '../fetches/request'
 
 class Timeline extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      response: '',
+    }
+  }
   componentWillMount() {
     if (this.props.timeline.length === 0) {
       this.props.getTimeline()
     }
-    if (this.props.user === undefined) {
+    /*
+    if (this.props.user.has_logged_in === false) {
       this.props.getUser()
     }
+    */
+  }
+  writeComplete() {
+    request('GET', 'documents', [])
+    .then((res) => {
+      this.props.timeline = res.data
+      this.setState({
+        response: res,
+      })
+    })
+    .catch((err) => {
+      this.setState({
+        response: err.response,
+      })
+    })
   }
   render() {
     const timeline = this.props.timeline
     const user = this.props.user
     return (
       <section style={{ padding: '0px 8px' }}>
-        <Write
-          user={user}
-        />
-        {timeline.map(feed =>
+        {user.has_logged_in ?
+          <Write
+            user={user}
+            writeComplete={() => this.writeComplete()}
+          /> :
+          this.props.getUser()
+        }
+        {user.has_logged_in ?
+        timeline.map(feed =>
           (<Feed
             user={user}
             key={feed.id}
             content={feed}
           />),
-        )}
+        ) :
+        this.props.getUser()}
         { /*
         <Ads />
         <Ads />

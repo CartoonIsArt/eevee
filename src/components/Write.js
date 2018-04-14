@@ -25,7 +25,12 @@ class Write extends Component {
   onClickMethod() {
     args.push({ type: 'String', key: 'text', value: this.state.text })
     request('POST', 'documents', args)
-    this.setState({ text: '', mode: 'edit' })
+    .then(() => {
+      this.setState({ text: '', mode: 'edit' })
+      this.props.writeComplete()
+    })
+    .catch(() => {
+    })
   }
   render() {
     const text = this.state.text
@@ -68,9 +73,7 @@ class Write extends Component {
     return (
       <div style={{ marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF' }} >
         <div style={{ marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden' }} >
-          {user.has_logged_in && // 불필요
           <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
-        }
         </div>
         <div style={{ flexGrow: 1 }}>
           { display }

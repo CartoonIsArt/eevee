@@ -41,7 +41,7 @@ class PostRecomment extends Component {
       <LocaleProvider locale={koKR}>
         <div style={{ display: 'flex' }} >
           <div style={{ marginRight: '4px', width: '32px', height: '32px', background: '#FFF' }} >
-            <img src={user.image.src} alt={user.image.alt} width="100%" />
+            <img src={user.profileImage.src} alt={user.profileImage.alt} width="100%" />
           </div>
           <div style={{
             width: '94%',

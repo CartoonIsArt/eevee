@@ -21,11 +21,11 @@ class Sider extends Component {
     }
   }
   componentWillMount() {
-    // 수정 필요
-    const user = this.props.user
-    if (user.has_logged_in === false) {
+    /*
+    if (this.props.user.has_logged_in === false) {
       this.props.getUser()
     }
+    */
   }
   onOpenChange(openKeys) {
     const state = this.state;
@@ -65,7 +65,8 @@ class Sider extends Component {
               width="100%"
             />
           </div> :
-          <div style={{ height: '240px', background: 'black' }} />
+          this.props.getUser() /* :
+          <div style={{ height: '240px', background: 'black' }} /> */
         }
         {/* 배포후 패치해도 되는 내용
         <SubMenu

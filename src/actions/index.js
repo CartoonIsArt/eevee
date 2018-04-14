@@ -116,12 +116,9 @@ export const getMembers = () => (dispatch) => {
 export const getUser = () => (dispatch) => {
   request('GET', 'users/session', [])
   .then((r) => {
-    console.log(r)
     dispatch(setUser(r.data))
   })
   .catch((e) => {
-    console.log(e)
-    console.log(e.response)
     if (e.response.status === 401) {
       location.href = '/Login'
     }
@@ -157,14 +154,10 @@ export const getNoties = () => (dispatch) => {
 export const getTimeline = () => (dispatch) => {
   request('GET', 'documents', [])
   .then((r) => {
-    console.log(r)
     dispatch(setTimeline(r.data))
   })
   .catch((e) => {
     console.log(e)
-    if (e.response.status === 401) {
-      location.href = '/Login'
-    }
   })
 
   /*eslint-disable */

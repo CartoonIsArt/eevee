@@ -20,13 +20,14 @@ class PostComment extends Component {
     request('POST', 'comments', args)
     .then((r) => {
       this.setState({
-        responses: r,
+        response: r,
       })
-      console.log(this.state.responses);
+      this.props.onClickWriteComment()
+      this.setState({ text: '' })
     })
     .catch((e) => {
       this.setState({
-        responses: e.response,
+        response: e.response,
       })
       Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
     })
