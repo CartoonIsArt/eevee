@@ -23,7 +23,7 @@ class Portal extends Component {
           </aside>
         </Col>
         <Col span={12}>
-          <Timeline onLikeIt={() => this.onLikeIt()} />
+          <Timeline onLikeIt={() => this.onLikeIt()} redraw={this.state.redraw} />
         </Col>
         <Col span={6}>
           <Affix offsetTop={52}>
