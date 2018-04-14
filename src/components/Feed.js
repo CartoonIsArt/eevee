@@ -26,6 +26,7 @@ class Feed extends Component {
           content={content}
           onClickComments={() => this.toggleCommentView()}
           onLikeIt={() => this.props.onLikeIt()}
+          writeComplete={() => this.props.writeComplete()}
         />
         <Comments
           user={content.author}

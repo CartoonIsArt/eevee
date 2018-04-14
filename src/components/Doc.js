@@ -101,7 +101,13 @@ class Doc extends Component {
         </div>
         { /* <Album content={images} height="320px" /> */ }
         <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
-          <Write user={user} />
+          <Write
+            user={user}
+            isAppending={isAppending}
+            documentId={this.props.content.id}
+            writeComplete={() => this.props.writeComplete()}
+            toggleAppending={() => this.toggleAppending()}
+          />
         </div>
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>

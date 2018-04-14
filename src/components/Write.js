@@ -12,7 +12,7 @@ class Write extends Component {
     })
     notification[type]({
       message: '마크다운 간단문법',
-      description: "### 제목 ''굵은글씨'' '''기울임'''",
+      description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
     })
   }
   constructor(props) {
@@ -23,14 +23,26 @@ class Write extends Component {
     }
   }
   onClickMethod() {
-    args.push({ type: 'String', key: 'text', value: this.state.text })
-    request('POST', 'documents', args)
-    .then(() => {
-      this.setState({ text: '', mode: 'edit' })
-      this.props.writeComplete()
-    })
-    .catch(() => {
-    })
+    if (this.props.isAppending) {
+      args.push({ type: 'String', key: 'text', value: this.state.text })
+      request('PATCH', `documents/${this.props.documentId}`, args)
+      .then(() => {
+        this.setState({ text: '', mode: 'edit' })
+        this.props.writeComplete()
+        this.props.toggleAppending()
+      })
+      .catch(() => {
+      })
+    } else {
+      args.push({ type: 'String', key: 'text', value: this.state.text })
+      request('POST', 'documents', args)
+      .then(() => {
+        this.setState({ text: '', mode: 'edit' })
+        this.props.writeComplete()
+      })
+      .catch(() => {
+      })
+    }
   }
   render() {
     const text = this.state.text
