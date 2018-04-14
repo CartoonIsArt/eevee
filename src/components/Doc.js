@@ -113,7 +113,7 @@ class Doc extends Component {
               size="small"
               onClick={() => this.onClickLikeIt()}
             />
-            <a>
+            <a onClick={() => this.onClickLikeIt()}>
               좋아요
             </a>
           </div>
