@@ -108,7 +108,7 @@ class Sider extends Component {
           */}
         </SubMenu>
         {
-          user.is_admin ?
+          user.isSuperUser ?
             <SubMenu
               key="sub6"
               title={<span><Icon type="tool" /><span>임원진 도구</span></span>}

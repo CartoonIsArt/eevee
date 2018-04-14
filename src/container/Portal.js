@@ -5,16 +5,25 @@ import Noties from './Noties'
 import Timeline from './Timeline'
 
 class Portal extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      redraw: false,
+    }
+  }
+  onLikeIt() {
+    this.setState({ redraw: !this.state.redraw })
+  }
   render() {
     return (
       <Row style={{ width: '1280px', marginTop: '8px' }}>
         <Col span={6}>
           <aside>
-            <Profile />
+            <Profile redraw={this.state.redraw} />
           </aside>
         </Col>
         <Col span={12}>
-          <Timeline />
+          <Timeline onLikeIt={() => this.onLikeIt()} />
         </Col>
         <Col span={6}>
           <Affix offsetTop={52}>

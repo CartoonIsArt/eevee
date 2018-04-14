@@ -56,6 +56,7 @@ class Timeline extends Component {
             user={user}
             key={feed.id}
             content={feed}
+            onLikeIt={() => this.props.onLikeIt()}
           />),
         ) :
         this.props.getUser()}

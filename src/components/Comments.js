@@ -30,6 +30,7 @@ class Comments extends Component {
   render() {
     const viewComments = this.props.viewComments
     const comments = this.props.content
+    const feed = this.props.feed
     const user = this.props.user
     return (
       <div style={{ background: '#fff', display: 'flex', flexDirection: 'column', padding: '8px', overflow: 'hidden' }} >
@@ -37,16 +38,15 @@ class Comments extends Component {
           <Icon type="like" style={{ paddingRight: '4px' }} />
           <Popover
             content={
-              <pre>
-                  17기 찹쌀밥{'\n'}
-                  18기 순두부{'\n'}
-                  16기 닭죽{'\n'}
-                  19기 바보곰{'\n'}
-              </pre>
-              }
+              feed.likedBy.map(lover => (
+                <pre>
+                  {`${lover.nTh}기 ${lover.fullname}`}
+                </pre>
+              ))
+            }
             placement="rightTop"
           >
-            <a> 3 </a>
+            <a> {feed.likedBy.length} </a>
           </Popover>
         </div>
         <Line />
