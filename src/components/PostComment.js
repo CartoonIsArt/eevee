@@ -22,6 +22,8 @@ class PostComment extends Component {
       this.setState({
         response: r,
       })
+      this.props.onClickWriteComment()
+      this.setState({ text: '' })
     })
     .catch((e) => {
       this.setState({
