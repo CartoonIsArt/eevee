@@ -25,7 +25,12 @@ class Write extends Component {
   onClickMethod() {
     args.push({ type: 'String', key: 'text', value: this.state.text })
     request('POST', 'documents', args)
-    this.setState({ text: '', mode: 'edit' })
+    .then(() => {
+      this.setState({ text: '', mode: 'edit' })
+      this.props.writeComplete()
+    })
+    .catch(() => {
+    })
   }
   render() {
     const text = this.state.text

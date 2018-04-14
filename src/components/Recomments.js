@@ -5,7 +5,7 @@ import PostRecomment from './PostRecomment'
 
 class Recomments extends Component {
   render() {
-    const isRecomment = this.props.isRecomment
+    const viewRecomment = this.props.viewRecomment
     const recomments = this.props.content
     const user = this.props.user
     return (
@@ -17,7 +17,7 @@ class Recomments extends Component {
           />),
         )}
         {
-          isRecomment &&
+          viewRecomment &&
           <PostRecomment
             user={user}
             commentId={this.props.commentId}

@@ -10,14 +10,14 @@ class Comment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isRecomment: false,
+      viewRecomment: false,
     }
   }
   toggleRecomment() {
-    this.setState({ isRecomment: !this.state.isRecomment })
+    this.setState({ viewRecomment: !this.state.viewRecomment })
   }
   render() {
-    const isRecomment = this.state.isRecomment
+    const viewRecomment = this.state.viewRecomment
     const content = this.props.content
     const user = this.props.user
     const author = content.author
@@ -60,7 +60,7 @@ class Comment extends Component {
             <Recomments
               commentId={content.id}
               user={user}
-              isRecomment={isRecomment}
+              viewRecomment={viewRecomment}
               content={content.replies}
             />
           </div>
