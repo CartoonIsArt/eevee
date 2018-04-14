@@ -86,12 +86,16 @@ class Doc extends Component {
           </div>
           <div style={{ flexGrow: 2 }} >
             <div style={{ fontSize: '14pt' }}>
-              <Popover
-                placement="leftTop"
-                content={<Namecard content={author} />}
-              >
-                <Link to={`/members/${author.username}`}> {nickname} </Link>
-              </Popover>
+              {
+                author.nTh ?
+                  <Popover
+                    placement="leftTop"
+                    content={<Namecard content={author} />}
+                  >
+                    <Link to={`/members/${author.username}`}> {nickname} </Link>
+                  </Popover>
+                : <div> 탈퇴한 회원 </div>
+              }
             </div>
             <div> {printTime(createdAt)} </div>
           </div>
