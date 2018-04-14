@@ -8,12 +8,44 @@ import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
+import { request } from '../fetches/request'
 
 class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isAppending: false,
+      response: '',
+    }
+  }
+  onClickLikeIt() {
+    const content = this.props.content
+    const user = this.props.user
+
+    if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
+      request('POST', `documents/${content.id}/LikeIt`, [])
+      .then((r) => {
+        this.props.content.likedBy = r.data
+        this.setState({
+          response: r,
+        })
+        this.props.onLikeIt()
+      })
+      .catch((e) => {
+        this.setState({ response: e })
+      })
+    } else {
+      request('DELETE', `documents/${content.id}/LikeIt`, [])
+      .then(
+        request('GET', `documents/${content.id}/LikeIt`, [])
+        .then((r) => {
+          this.props.content.likedBy = r.data
+          this.setState({ response: r })
+          this.props.onLikeIt()
+        }))
+      .catch((e) => {
+        this.setState({ response: e })
+      })
     }
   }
   toggleAppending() {
@@ -79,6 +111,7 @@ class Doc extends Component {
               shape="circle"
               icon="like"
               size="small"
+              onClick={() => this.onClickLikeIt()}
             />
             <a>
               좋아요

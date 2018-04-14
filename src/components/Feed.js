@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Doc from './Doc'
 import Comments from './Comments'
+import Doc from './Doc'
 
 class Feed extends Component {
   constructor(props) {
@@ -25,6 +25,7 @@ class Feed extends Component {
           user={user}
           content={content}
           onClickComments={() => this.toggleCommentView()}
+          onLikeIt={() => this.props.onLikeIt()}
         />
         <Comments
           user={content.author}
