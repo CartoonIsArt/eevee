@@ -465,7 +465,6 @@ class Registration extends Component {
       this.setState({
         response: r,
       })
-
       Modal.success({
         title: '가입 신청이 완료되었습니다!',
         content: '오늘 안으로 가입 승인이 완료될 거에요.',
