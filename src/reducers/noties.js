@@ -3,7 +3,10 @@ const noties = (state = [], action) => {
     case 'SETNOTIES':
       return action.noties
     case 'APPEND':
-      return state.append(noties)
+      return [
+        ...state,
+        noties,
+      ]
     default:
       return state
   }
