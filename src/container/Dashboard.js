@@ -23,7 +23,7 @@ class Dashboard extends Component {
     const user = this.props.user
     if (user.user === undefined) { this.props.getUser() }
     console.log(user.user.id)
-    args.push({ type: 'Boolean', key: 'isActivate', value: true })
+    args.push({ type: 'Boolean', key: 'isActivated', value: true })
     request('PATCH', `users/${user.user.id}`, args)
     .then((r) => {
       this.setState({
