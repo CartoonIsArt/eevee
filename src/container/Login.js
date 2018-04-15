@@ -11,7 +11,6 @@ class Login extends Component {
     super(props)
     this.state = {
       isActivated: false,
-      isLoginClicked: false,
       id: '',
       password: '',
       responses: [],
@@ -32,12 +31,6 @@ class Login extends Component {
       console.log(e)
       Modal.warning({ title: '로그인에 실패했습니다.', content: '입력한 아이디와 비밀번호를 확인해주세요.' })
     })
-  }
-
-  toLogin() {
-    if (!this.state.isLoginClicked) {
-      this.setState({ isLoginClicked: true })
-    }
   }
 
   render() {
