@@ -17,18 +17,15 @@ class Timeline extends Component {
     }
   }
   componentWillMount() {
-    console.log('1')
     this.props.getTimeline()
   }
   componentWillReceiveProps(newProps) {
     if (newProps.toggleDraw !== this.state.toggleDraw) {
-      console.log('2')
       this.props.getTimeline()
       this.setState({ toggleDraw: newProps.toggleDraw })
     }
   }
   writeComplete() {
-    console.log('3')
     this.props.getTimeline()
     this.props.onChanged()
   }
