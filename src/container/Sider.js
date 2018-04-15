@@ -68,14 +68,17 @@ class Sider extends Component {
           this.props.getUser() /* :
           <div style={{ height: '240px', background: 'black' }} /> */
         }
+        {
+          user.isActivated ||
+          <SubMenu
+            key="sub1"
+            title={
+              <span><Icon type="appstore" /><span>대시보드</span></span>}
+          >
+            <Menu.Item key="/dashboard">대시보드</Menu.Item>
+          </SubMenu>
+        }
         {/* 배포후 패치해도 되는 내용
-        <SubMenu
-          key="sub1"
-          title={
-            <span><Icon type="appstore" /><span>대시보드</span></span>}
-        >
-          <Menu.Item key="/dashboard">대시보드</Menu.Item>
-        </SubMenu>
         <SubMenu
           key="sub2"
           title={
@@ -108,15 +111,13 @@ class Sider extends Component {
           */}
         </SubMenu>
         {
-          user.isSuperUser ?
-            <SubMenu
-              key="sub6"
-              title={<span><Icon type="tool" /><span>임원진 도구</span></span>}
-            >
-              <Menu.Item key="/deactivate">활동인구 초기화</Menu.Item>
-            </SubMenu>
-          :
-            <div />
+          user.isSuperUser &&
+          <SubMenu
+            key="sub6"
+            title={<span><Icon type="tool" /><span>임원진 도구</span></span>}
+          >
+            <Menu.Item key="/deactivate">활동인구 초기화</Menu.Item>
+          </SubMenu>
         }
         <SubMenu
           key="sub7"

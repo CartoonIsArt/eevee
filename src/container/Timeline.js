@@ -12,6 +12,7 @@ class Timeline extends Component {
     super(props)
     this.state = {
       response: '',
+      redraw: false,
     }
   }
   componentWillMount() {
@@ -23,6 +24,12 @@ class Timeline extends Component {
       this.props.getUser()
     }
     */
+  }
+  componentWillReceiveProps(newProps) {
+    if (newProps.redraw !== this.state.redraw) {
+      this.props.getTimeline()
+      this.setState({ redraw: newProps.redraw })
+    }
   }
   writeComplete() {
     request('GET', 'documents', [])
