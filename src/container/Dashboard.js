@@ -13,7 +13,6 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isActivated: false,
       responses: [],
       user: [],
     }
@@ -22,16 +21,14 @@ class Dashboard extends Component {
   onClickMethod() {
     const user = this.props.user
     if (user.user === undefined) { this.props.getUser() }
-    console.log(user.user.id)
+    console.log(user.id)
     args.push({ type: 'Boolean', key: 'isActivated', value: true })
-    request('PATCH', `users/${user.user.id}`, args)
+    request('PATCH', `users/${user.id}`, args)
     .then((r) => {
+      this.props.getUser()
       this.setState({
         responses: r,
       })
-      console.log(this.state.responses);
-      this.setState({ isActivated: this.state.responses.data.isActivated })
-      console.log(this.state.isActivated);
     })
     .catch((e) => {
       this.setState({
@@ -44,7 +41,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        {this.state.isActivated ?
+        {this.props.user.isActivated ?
           <Regulared /> :
           <div style={{
             display: 'flex',
