@@ -135,18 +135,21 @@ class Doc extends Component {
               댓글
             </a>
           </div>
-          <div>
-            <Button
-              style={{ marginRight: '4px' }}
-              shape="circle"
-              icon="plus"
-              size="small"
-              onClick={() => this.toggleAppending()}
-            />
-            <a onClick={() => this.toggleAppending()}>
-              이어쓰기
-            </a>
-          </div>
+          {
+            (author.username === user.username) &&
+            <div>
+              <Button
+                style={{ marginRight: '4px' }}
+                shape="circle"
+                icon="plus"
+                size="small"
+                onClick={() => this.toggleAppending()}
+              />
+              <a onClick={() => this.toggleAppending()}>
+                이어쓰기
+              </a>
+            </div>
+          }
         </div>
       </div>
     )
