@@ -3,7 +3,10 @@ const members = (state = [], action) => {
     case 'SETMEMBERS':
       return action.members
     case 'APPEND':
-      return state.append(action.members)
+      return [
+        ...state,
+        action.members,
+      ]
     default:
       return state
   }

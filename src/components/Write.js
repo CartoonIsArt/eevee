@@ -12,7 +12,7 @@ class Write extends Component {
     })
     notification[type]({
       message: '마크다운 간단문법',
-      description: "### 제목 ''굵은글씨'' '''기울임'''",
+      description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
     })
   }
   constructor(props) {
@@ -23,8 +23,26 @@ class Write extends Component {
     }
   }
   onClickMethod() {
-    args.push({ type: 'String', key: 'text', value: this.state.text })
-    request('POST', 'documents', args)
+    if (this.props.isAppending) {
+      args.push({ type: 'String', key: 'text', value: this.state.text })
+      request('PATCH', `documents/${this.props.documentId}`, args)
+      .then(() => {
+        this.setState({ text: '', mode: 'edit' })
+        this.props.writeComplete()
+        this.props.toggleAppending()
+      })
+      .catch(() => {
+      })
+    } else {
+      args.push({ type: 'String', key: 'text', value: this.state.text })
+      request('POST', 'documents', args)
+      .then(() => {
+        this.setState({ text: '', mode: 'edit' })
+        this.props.writeComplete()
+      })
+      .catch(() => {
+      })
+    }
   }
   render() {
     const text = this.state.text
@@ -67,9 +85,7 @@ class Write extends Component {
     return (
       <div style={{ marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF' }} >
         <div style={{ marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden' }} >
-          {user.has_logged_in &&
-          <img src={user.user.image.src} alt={user.user.image.alt} width="100%" />
-        }
+          <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
         </div>
         <div style={{ flexGrow: 1 }}>
           { display }

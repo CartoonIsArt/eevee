@@ -8,6 +8,7 @@ import { printTime } from '../policy'
 class Noti extends Component {
   render() {
     const noti = this.props.content
+    const nickname = `${noti.from.nTh}기 ${noti.from.fullname}`
     return (
       <div key={noti.id}>
         <div
@@ -23,7 +24,11 @@ class Noti extends Component {
             style={{ width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden', backgroundSize: 'cover' }}
           >
             <a href="#">
-              <img width="100%" src={noti.from.image.src} alt={noti.from.image.alt} />
+              <img
+                width="100%"
+                src={noti.from.profileImage.savedPath}
+                alt={noti.from.profileImage.filename}
+              />
             </a>
           </div>
           <div style={{ flexGrow: '2', display: 'flex', alignItems: 'stretch', flexDirection: 'column' }}>
@@ -33,10 +38,10 @@ class Noti extends Component {
                   placement="leftTop"
                   content={<Namecard content={noti.from} />}
                 >
-                  <a href="#"> {noti.from.last_name}</a>
+                  <a href="#"> {nickname}</a>
                 </Popover>
               </div>
-              <div style={{ color: 'rgba(1,1,1,0.5)' }}> {printTime(noti.write_date)} </div>
+              <div style={{ color: 'rgba(1,1,1,0.5)' }}> {printTime(noti.createdAt)} </div>
             </div>
             <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
               <a href="#" >

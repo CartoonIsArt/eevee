@@ -6,14 +6,46 @@ import { Button, Popover } from 'antd'
 import Line from './Line'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
-import Album from './Album'
+// import Album from './Album'
 import Write from './Write'
+import { request } from '../fetches/request'
 
 class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isAppending: false,
+      response: '',
+    }
+  }
+  onClickLikeIt() {
+    const content = this.props.content
+    const user = this.props.user
+
+    if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
+      request('POST', `documents/${content.id}/LikeIt`, [])
+      .then((r) => {
+        this.props.content.likedBy = r.data
+        this.setState({
+          response: r,
+        })
+        this.props.onLikeIt()
+      })
+      .catch((e) => {
+        this.setState({ response: e })
+      })
+    } else {
+      request('DELETE', `documents/${content.id}/LikeIt`, [])
+      .then(
+        request('GET', `documents/${content.id}/LikeIt`, [])
+        .then((r) => {
+          this.props.content.likedBy = r.data
+          this.setState({ response: r })
+          this.props.onLikeIt()
+        }))
+      .catch((e) => {
+        this.setState({ response: e })
+      })
     }
   }
   toggleAppending() {
@@ -22,12 +54,13 @@ class Doc extends Component {
   render() {
     const isAppending = this.state.isAppending
     const content = this.props.content
-    const author = content.author.last_name
+    const author = content.author
+    const nickname = `${author.nTh}기 ${author.fullname}`
     const text = content.text
-    const createdAt = content.write_date
-    const imgsrc = content.author.image.src
-    const imgalt = content.author.image.alt
-    const images = content.images
+    const createdAt = content.createdAt
+    const imgsrc = author.profileImage.savedPath
+    const imgalt = author.profileImage.filename
+    // const images = content.images
     const user = this.props.user
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }} >
@@ -53,12 +86,16 @@ class Doc extends Component {
           </div>
           <div style={{ flexGrow: 2 }} >
             <div style={{ fontSize: '14pt' }}>
-              <Popover
-                placement="leftTop"
-                content={<Namecard content={content.author} />}
-              >
-                <Link to={`/members/${author}`}> {author} </Link>
-              </Popover>
+              {
+                author.nTh ?
+                  <Popover
+                    placement="leftTop"
+                    content={<Namecard content={author} />}
+                  >
+                    <Link to={`/members/${author.username}`}> {nickname} </Link>
+                  </Popover>
+                : <div> 탈퇴한 회원 </div>
+              }
             </div>
             <div> {printTime(createdAt)} </div>
           </div>
@@ -66,9 +103,15 @@ class Doc extends Component {
         <div style={{ margin: '4px 0px' }}>
           <ReactMarkdown source={text} />
         </div>
-        <Album content={images} height="320px" />
+        { /* <Album content={images} height="320px" /> */ }
         <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
-          <Write user={user} />
+          <Write
+            user={user}
+            isAppending={isAppending}
+            documentId={this.props.content.id}
+            writeComplete={() => this.props.writeComplete()}
+            toggleAppending={() => this.toggleAppending()}
+          />
         </div>
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
@@ -78,8 +121,9 @@ class Doc extends Component {
               shape="circle"
               icon="like"
               size="small"
+              onClick={() => this.onClickLikeIt()}
             />
-            <a>
+            <a onClick={() => this.onClickLikeIt()}>
               좋아요
             </a>
           </div>
@@ -89,8 +133,9 @@ class Doc extends Component {
               shape="circle"
               icon="edit"
               size="small"
+              onClick={() => this.props.onClickComments()}
             />
-            <a>
+            <a onClick={() => this.props.onClickComments()}>
               댓글
             </a>
           </div>

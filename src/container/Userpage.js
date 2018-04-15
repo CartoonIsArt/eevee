@@ -15,6 +15,7 @@ class Userpage extends Component {
     this.props.getMembers()
   }
   render() {
+    // 유저 페이지 넘길 때, props로 유저 아이디 넘기면 좋을 듯합니다
     const members = this.props.members
     const username = this.props.match.params.username
     const member = members.length > 0 ? members.filter(m => m.username === username) : []
@@ -27,8 +28,8 @@ class Userpage extends Component {
             </div>
           </div>
           <div className="menu-bar">
-            <div className="menu"><a href="">내가쓴글</a></div>
-            <div className="menu"><a href="">좋아요 누른글</a></div>
+            <div className="menu"><a href="">작성한 글</a></div>
+            <div className="menu"><a href="">좋아요한 글</a></div>
             <div className="menu"><a href="">댓글단 글</a></div>
             <div className="menu last"><a href="/members">회원들</a></div>
             <div className="blank" />
@@ -40,7 +41,7 @@ class Userpage extends Component {
         <div className="under-board">
           <div className="my-inform-size">
             <div className="my-inform-board">
-              <div className="my-inform-title"><Icon type="user" /> 내 정보</div>
+              <div className="my-inform-title"><Icon type="user" /> 유저 정보</div>
               <div className="my-inform-content">
                 <div className="my-inform-key">
                   <ol>
@@ -55,12 +56,12 @@ class Userpage extends Component {
                 {member.length > 0 &&
                   <div className="my-inform-value">
                     <ol>
-                      <li>{member[0].last_name}</li>
-                      <li>{member[0].last_name}</li>
-                      <li>{member[0].student_number}</li>
+                      <li>{member[0].nTh}기</li>
+                      <li>{member[0].fullname}</li>
+                      <li>{member[0].studentNumber}</li>
                       <li>{member[0].department}</li>
                       <li>{Userpage.check(member[0].isActivated)}</li>
-                      <li>{Userpage.check(member[0].isRegularMember)}</li>
+                      <li>{Userpage.check(member[0].isRegular)}</li>
                     </ol>
                   </div>
                 }
@@ -69,7 +70,7 @@ class Userpage extends Component {
           </div>
           <div className="my-write-size">
             <div className="my-write-title">
-              <Icon type="edit" /> 내가 쓴글
+              <Icon type="edit" /> 작성한 글
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', padding: '12px' }}>
               <div style={{ display: 'block' }}>

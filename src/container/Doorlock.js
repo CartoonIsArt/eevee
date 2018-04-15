@@ -12,10 +12,10 @@ class Doorlock extends Component {
     }
   }
   verify() {
-    if (this.props.user.user.isRegularMember) {
+    if (this.props.user.isRegular) {
       this.setState({ mode: 'Regular' })
     } else {
-      this.setState({ mode: 'Ilregular' })
+      this.setState({ mode: 'Irregular' })
     }
   }
   render() {

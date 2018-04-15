@@ -7,19 +7,28 @@ import { getUser } from '../actions'
 
 
 class Profile extends Component {
-  componentWillMount() {
-    const user = this.props.user
-    if (user.user === undefined) { this.props.getUser() }
+  constructor(props) {
+    super(props)
+    this.state = {
+      redraw: false,
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    if (newProps.redraw !== this.state.redraw) {
+      this.props.getUser()
+      this.setState({ redraw: newProps.redraw })
+    }
   }
   render() {
     const user = this.props.user
     return (
       <div style={{ background: '#FFFFFF' }}>
-        {user.has_logged_in &&
-        <div>
-          <Namecard content={user.user} />
-          <Activity content={user.user} />
-        </div>
+        {user.has_logged_in ?
+          <div>
+            <Namecard content={user} />
+            <Activity content={user} />
+          </div> :
+          this.props.getUser()
         }
       </div>
     )

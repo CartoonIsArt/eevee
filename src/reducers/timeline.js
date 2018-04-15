@@ -3,7 +3,10 @@ const timeline = (state = [], action) => {
     case 'SETTIMELINE':
       return action.timeline
     case 'APPEND':
-      return state.append(timeline)
+      return [
+        ...state,
+        timeline,
+      ]
     default:
       return state
   }

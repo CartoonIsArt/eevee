@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Popover } from 'antd'
+import { Popover } from 'antd'
 import Namecard from './Namecard'
 
 class Recomment extends Component {
   render() {
     const content = this.props.content
-    const author = content.author.last_name
+    const author = content.author
+    const nickname = `${author.nTh}기 ${author.fullname}`
     const text = content.text
-    const imgsrc = content.author.image.src
-    const imgalt = content.author.image.alt
+    const imgsrc = author.profileImage.savedPath
+    const imgalt = author.profileImage.filename
     return (
       <div style={{ margin: '2px 0px' }} >
         <div style={{ display: 'flex' }} >
@@ -19,19 +20,16 @@ class Recomment extends Component {
           <div style={{ width: '91%' }}>
             <p>
               <Popover
-                content={<Namecard content={content.author} />}
+                content={<Namecard content={author} />}
                 placement="leftTop"
               >
-                <a> {author} </a>
+                <a> {nickname} </a>
               </Popover>
               {text}
             </p>
             <div>
               <a> Like 2 </a> 13hrs
             </div>
-          </div>
-          <div>
-            <Button icon="down" shape="circle" size="small" />
           </div>
         </div>
       </div>

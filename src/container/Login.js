@@ -127,7 +127,7 @@ class Login extends Component {
             <Form onSubmit={e => this.handleSubmit(e)} className="login-form">
               <FormItem>
                 {getFieldDecorator('username', {
-                  rules: [{ required: true, message: 'Please input your username!' }],
+                  rules: [{ required: true, message: '아이디를 입력해주세요!' }],
                 })(
                   <Input
                     prefix={<Icon type="user" style={{ fontSize: 12 }} />}
@@ -139,7 +139,7 @@ class Login extends Component {
               </FormItem>
               <FormItem>
                 {getFieldDecorator('password', {
-                  rules: [{ required: true, message: 'Please input your Password!' }],
+                  rules: [{ required: true, message: '비밀번호를 입력해주세요!' }],
                 })(
                   <Input
                     prefix={<Icon type="lock" style={{ fontSize: 12 }} />}

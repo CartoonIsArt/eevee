@@ -420,15 +420,15 @@ class Registration extends Component {
       profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
       previewVisible: false,
       fileList: [],
-      responses: [],
+      response: '',
     };
   }
   onChangeInput(e) {
     this.setState(e);
   }
-  onNumberChange(value, selectedOptions) {
-    console.log(value, selectedOptions);
-    this.setState({ nTh: selectedOptions });
+  onNumberChange(value, selectedOption) {
+    console.log(value, selectedOption);
+    this.setState({ nTh: value[0] });
   }
   onDateChange(date, dateString) {
     console.log(date, dateString);
@@ -438,13 +438,14 @@ class Registration extends Component {
     if (this.isEmpty()) {
       Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
       return;
-    } else if (this.state.password !== this.state.passwordCheck) {
+    } else
+    if (this.state.password !== this.state.passwordCheck) {
       Modal.warning({ title: '비밀번호를 확인해주세요!', content: '비밀번호가 일치하지 않습니다.' });
       return;
     }
     console.log(this.state);
     args.push({ type: 'String', key: 'fullname', value: this.state.userName })
-    args.push({ type: 'Number', key: 'nTh', value: this.state.nTh[0].value })
+    args.push({ type: 'Number', key: 'nTh', value: this.state.nTh })
     args.push({ type: 'String', key: 'dateOfBirth', value: this.state.birthday })
     args.push({ type: 'String', key: 'username', value: this.state.id })
     args.push({ type: 'String', key: 'password', value: this.state.password })
@@ -462,23 +463,20 @@ class Registration extends Component {
     request('POST', 'users', args)
     .then((r) => {
       this.setState({
-        responses: r,
+        response: r,
       })
-      console.log(this.state.responses);
-    })
-    .catch((e) => {
-      this.setState({
-        responses: e.response,
-      })
-      Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
-    })
-    if (this.responses.status === 200) {
       Modal.success({
         title: '가입 신청이 완료되었습니다!',
         content: '오늘 안으로 가입 승인이 완료될 거에요.',
         onOk() { location.href = '/login' },
-      });
-    }
+      })
+    })
+    .catch((e) => {
+      this.setState({
+        response: e.response,
+      })
+      Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
+    })
   }
   isEmpty() {
     if (this.state.userName &&
