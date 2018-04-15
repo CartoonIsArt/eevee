@@ -29,7 +29,7 @@ class Doc extends Component {
         this.setState({
           response: r,
         })
-        this.props.onLikeIt()
+        this.props.onChanged()
       })
       .catch((e) => {
         this.setState({ response: e })
@@ -41,7 +41,7 @@ class Doc extends Component {
         .then((r) => {
           this.props.content.likedBy = r.data
           this.setState({ response: r })
-          this.props.onLikeIt()
+          this.props.onChanged()
         }))
       .catch((e) => {
         this.setState({ response: e })

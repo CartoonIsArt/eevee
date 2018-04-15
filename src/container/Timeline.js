@@ -5,37 +5,32 @@ import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
 import Write from '../components/Write'
 import { getTimeline, getUser } from '../actions'
-import { request } from '../fetches/request'
+// import { request } from '../fetches/request'
 
 class Timeline extends Component {
   constructor(props) {
     super(props)
     this.state = {
       response: '',
-      redraw: false,
+      toggleDraw: false,
       page: 1,
     }
   }
   componentWillMount() {
+    console.log('1')
     this.props.getTimeline()
   }
   componentWillReceiveProps(newProps) {
-    if (newProps.redraw !== this.state.redraw) {
+    if (newProps.toggleDraw !== this.state.toggleDraw) {
+      console.log('2')
       this.props.getTimeline()
-      this.setState({ redraw: newProps.redraw })
+      this.setState({ toggleDraw: newProps.toggleDraw })
     }
   }
   writeComplete() {
-    request('GET', `timeline/${this.state.page}`, [])
-    .then((r) => {
-      this.props.timeline = r.data
-      this.setState({
-        response: r,
-      })
-    })
-    .catch((e) => {
-      console.log(e)
-    })
+    console.log('3')
+    this.props.getTimeline()
+    this.props.onChanged()
   }
   render() {
     const timeline = this.props.timeline
@@ -56,7 +51,7 @@ class Timeline extends Component {
             user={user}
             key={feed.id}
             content={feed}
-            onLikeIt={() => this.props.onLikeIt()}
+            onChanged={() => this.props.onChanged()}
             writeComplete={() => this.writeComplete()}
           />),
         ) :

@@ -10,13 +10,13 @@ class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redraw: false,
+      toggleDraw: false,
     }
   }
   componentWillReceiveProps(newProps) {
-    if (newProps.redraw !== this.state.redraw) {
+    if (newProps.toggleDraw !== this.state.toggleDraw) {
       this.props.getUser()
-      this.setState({ redraw: newProps.redraw })
+      this.setState({ toggleDraw: newProps.toggleDraw })
     }
   }
   render() {

@@ -15,16 +15,12 @@ class Comments extends Component {
   }
   onClickWriteComment() {
     request('GET', `documents/${this.props.feed.id}`, [])
-    .then((res) => {
-      this.props.content = res.data.comments
-      this.setState({
-        response: res,
-      })
+    .then((r) => {
+      this.props.content = r.data.comments
+      this.props.onChanged()
     })
-    .catch((err) => {
-      this.setState({
-        response: err.response,
-      })
+    .catch((e) => {
+      console.log(e)
     })
   }
   render() {

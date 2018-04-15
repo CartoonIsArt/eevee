@@ -8,23 +8,23 @@ class Portal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redraw: false,
+      toggleDraw: false,
     }
   }
-  onLikeIt() {
-    this.setState({ redraw: !this.state.redraw })
+  onChanged() {
+    this.setState({ toggleDraw: !this.state.toggleDraw })
   }
   render() {
-    const redraw = this.state.redraw
+    const toggleDraw = this.state.toggleDraw
     return (
       <Row style={{ width: '1280px', marginTop: '8px' }}>
         <Col span={6}>
           <aside>
-            <Profile redraw={redraw} />
+            <Profile toggleDraw={toggleDraw} />
           </aside>
         </Col>
         <Col span={12}>
-          <Timeline onLikeIt={() => this.onLikeIt()} redraw={redraw} />
+          <Timeline onChanged={() => this.onChanged()} toggleDraw={toggleDraw} />
         </Col>
         <Col span={6}>
           <Affix offsetTop={52}>
