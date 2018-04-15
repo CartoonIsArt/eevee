@@ -1,14 +1,46 @@
 import React, { Component } from 'react'
-import { Button, Icon } from 'antd'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Button, Icon, Modal } from 'antd'
 import Regulared from '../components/Regulared'
+import { request } from '../fetches/request'
+import { getUser } from '../actions'
+
+
+const args = [];
 
 class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isActivated: false,
+      responses: [],
+      user: [],
     }
   }
+
+  onClickMethod() {
+    const user = this.props.user
+    if (user.user === undefined) { this.props.getUser() }
+    console.log(user.user.id)
+    args.push({ type: 'Boolean', key: 'isActivated', value: true })
+    request('PATCH', `users/${user.user.id}`, args)
+    .then((r) => {
+      this.setState({
+        responses: r,
+      })
+      console.log(this.state.responses);
+      this.setState({ isActivated: this.state.responses.data.isActivated })
+      console.log(this.state.isActivated);
+    })
+    .catch((e) => {
+      this.setState({
+        responses: e.response,
+      })
+      Modal.warning({ title: '활동인구 등록에 실패했습니다.' })
+    })
+  }
+
   render() {
     return (
       <div>
@@ -46,7 +78,7 @@ class Dashboard extends Component {
                     <div style={{ fontSize: '14pt', fontWeight: 'bold' }}>회칙 보기</div>
                   </a>
                   <Button
-                    onClick={() => this.setState({ isActivated: true })}
+                    onClick={() => this.onClickMethod()}
                     size="large"
                     icon="double-right"
                     style={{ fontSize: '14pt', fontWeight: 'bold', backgroundColor: '#1976D2', color: 'white' }}
@@ -60,4 +92,17 @@ class Dashboard extends Component {
     )
   }
 }
-export default Dashboard
+Dashboard.propTypes = {
+  user: PropTypes.object.isRequired,
+  getUser: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+  getUser,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+
