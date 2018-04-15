@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
+import { request } from '../fetches/request'
 
 class Comment extends Component {
   constructor(props) {
@@ -13,14 +14,42 @@ class Comment extends Component {
       viewRecomment: false,
     }
   }
+  onClickLikeIt() {
+    const comment = this.props.content
+    const user = this.props.user
+
+    if (comment.likedBy.findIndex(lover => lover.id === user.id) === -1) {
+      request('POST', `comments/${comment.id}/LikeIt`, [])
+      .then((r) => {
+        this.props.content.likedBy = r.data
+        this.setState({
+          response: r,
+        })
+      })
+      .catch((e) => {
+        this.setState({ response: e })
+      })
+    } else {
+      request('DELETE', `comments/${comment.id}/LikeIt`, [])
+      .then(
+        request('GET', `comments/${comment.id}/LikeIt`, [])
+        .then((r) => {
+          this.props.content.likedBy = r.data
+          this.setState({ response: r })
+        }))
+      .catch((e) => {
+        this.setState({ response: e })
+      })
+    }
+  }
   toggleRecomment() {
     this.setState({ viewRecomment: !this.state.viewRecomment })
   }
   render() {
     const viewRecomment = this.state.viewRecomment
-    const content = this.props.content
+    const comment = this.props.content
     const user = this.props.user
-    const author = content.author
+    const author = comment.author
     const nickname = `${author.nTh}기 ${author.fullname}`
     const imgsrc = author.profileImage.savedPath
     const imgalt = author.profileImage.filename
@@ -39,29 +68,37 @@ class Comment extends Component {
               >
                 <Link to={`/members/${author.username}`}> {nickname} </Link>
               </Popover>
-              {content.text}
+              {comment.text}
             </p>
             <div style={{ display: 'flex' }}>
               <Popover
                 content={
+                  comment.likedBy.length ?
+                  comment.likedBy.map(lover => (
+                    <pre>
+                      {`${lover.nTh}기 ${lover.fullname}`}
+                    </pre>
+                  )) :
                   <pre>
-                    19기 나인스
+                    당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
                   </pre>
                 }
                 placement="rightTop"
               >
-                <a> Like 1 </a>
+                <a onClick={() => this.onClickLikeIt()}>
+                  {`Like ${comment.likedBy.length} `}
+                </a>
               </Popover>
-              <a> Reply 3 </a>
+              <pre> Reply {comment.replies.length} </pre>
               <div style={{ color: '#0a0a0' }}>
-                {printTime(content.createdAt)}
+                {printTime(comment.createdAt)}
               </div>
             </div>
             <Recomments
-              commentId={content.id}
+              commentId={comment.id}
               user={user}
               viewRecomment={viewRecomment}
-              content={content.replies}
+              content={comment.replies}
             />
           </div>
           <div>

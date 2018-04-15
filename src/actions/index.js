@@ -54,6 +54,7 @@ const user1 = {
   },
 }
 
+/*
 const user2 = {
   id: 2,
   date_joined: '2017-02-14T03:41:33.603865Z',
@@ -104,13 +105,14 @@ const user3 = {
     filename: '리_profile.png',
   },
 }
+*/
 
 export const getMembers = () => (dispatch) => {
-  dispatch(setMembers([
-    user1,
-    user2,
-    user3,
-  ]))
+  request('GET', 'users', [])
+  .then((r) => {
+    dispatch(setMembers(r.data))
+  })
+  .catch()
 }
 
 export const getUser = () => (dispatch) => {

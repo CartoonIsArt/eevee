@@ -15,7 +15,7 @@ class Doorlock extends Component {
     if (this.props.user.isRegular) {
       this.setState({ mode: 'Regular' })
     } else {
-      this.setState({ mode: 'Ilregular' })
+      this.setState({ mode: 'Irregular' })
     }
   }
   render() {
