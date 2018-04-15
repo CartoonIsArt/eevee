@@ -317,13 +317,3 @@ export const getTimeline = () => (dispatch) => {
  /*eslint-enable */
   return 'next cur'
 }
-
-/*
-로그인함수의 정체가 뭔지 모르겠다.
-export const postLogin = (body) => {
-  axios.post(
-    '/api/login',
-    body,
-  )
-}
-*/
