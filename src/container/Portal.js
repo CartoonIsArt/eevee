@@ -15,15 +15,16 @@ class Portal extends Component {
     this.setState({ redraw: !this.state.redraw })
   }
   render() {
+    const redraw = this.state.redraw
     return (
       <Row style={{ width: '1280px', marginTop: '8px' }}>
         <Col span={6}>
           <aside>
-            <Profile redraw={this.state.redraw} />
+            <Profile redraw={redraw} />
           </aside>
         </Col>
         <Col span={12}>
-          <Timeline onLikeIt={() => this.onLikeIt()} redraw={this.state.redraw} />
+          <Timeline onLikeIt={() => this.onLikeIt()} redraw={redraw} />
         </Col>
         <Col span={6}>
           <Affix offsetTop={52}>

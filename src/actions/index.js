@@ -153,8 +153,8 @@ export const getNoties = () => (dispatch) => {
   ]))
 }
 
-export const getTimeline = () => (dispatch) => {
-  request('GET', 'documents', [])
+export const getTimeline = (page = 1) => (dispatch) => {
+  request('GET', `timeline/${page}`, [])
   .then((r) => {
     dispatch(setTimeline(r.data))
   })

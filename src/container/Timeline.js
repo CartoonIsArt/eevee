@@ -13,17 +13,11 @@ class Timeline extends Component {
     this.state = {
       response: '',
       redraw: false,
+      page: 1,
     }
   }
   componentWillMount() {
-    if (this.props.timeline.length === 0) {
-      this.props.getTimeline()
-    }
-    /*
-    if (this.props.user.has_logged_in === false) {
-      this.props.getUser()
-    }
-    */
+    this.props.getTimeline()
   }
   componentWillReceiveProps(newProps) {
     if (newProps.redraw !== this.state.redraw) {
@@ -32,7 +26,7 @@ class Timeline extends Component {
     }
   }
   writeComplete() {
-    request('GET', 'documents', [])
+    request('GET', `timeline/${this.state.page}`, [])
     .then((res) => {
       this.props.timeline = res.data
       this.setState({
