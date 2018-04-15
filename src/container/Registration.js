@@ -420,7 +420,7 @@ class Registration extends Component {
       profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
       previewVisible: false,
       fileList: [],
-      responses: [],
+      response: '',
     };
   }
   onChangeInput(e) {
@@ -445,7 +445,7 @@ class Registration extends Component {
     }
     console.log(this.state);
     args.push({ type: 'String', key: 'fullname', value: this.state.userName })
-    args.push({ type: 'Number', key: 'nTh', value: this.state.nTh[0].value })
+    args.push({ type: 'Number', key: 'nTh', value: this.state.nTh })
     args.push({ type: 'String', key: 'dateOfBirth', value: this.state.birthday })
     args.push({ type: 'String', key: 'username', value: this.state.id })
     args.push({ type: 'String', key: 'password', value: this.state.password })
@@ -463,23 +463,21 @@ class Registration extends Component {
     request('POST', 'users', args)
     .then((r) => {
       this.setState({
-        responses: r,
+        response: r,
       })
-      console.log(this.state.responses);
-    })
-    .catch((e) => {
-      this.setState({
-        responses: e.response,
-      })
-      Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
-    })
-    if (this.responses.status === 200) {
+
       Modal.success({
         title: '가입 신청이 완료되었습니다!',
         content: '오늘 안으로 가입 승인이 완료될 거에요.',
         onOk() { location.href = '/login' },
-      });
-    }
+      })
+    })
+    .catch((e) => {
+      this.setState({
+        response: e.response,
+      })
+      Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
+    })
   }
   isEmpty() {
     if (this.state.userName &&
