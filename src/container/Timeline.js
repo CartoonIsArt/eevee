@@ -54,6 +54,7 @@ class Timeline extends Component {
           <Write
             user={user}
             writeComplete={() => this.writeComplete()}
+            isAppending={false}
           /> :
           this.props.getUser()
         }
@@ -64,6 +65,7 @@ class Timeline extends Component {
             key={feed.id}
             content={feed}
             onLikeIt={() => this.props.onLikeIt()}
+            writeComplete={() => this.writeComplete()}
           />),
         ) :
         this.props.getUser()}
