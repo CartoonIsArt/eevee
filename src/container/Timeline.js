@@ -27,16 +27,14 @@ class Timeline extends Component {
   }
   writeComplete() {
     request('GET', `timeline/${this.state.page}`, [])
-    .then((res) => {
-      this.props.timeline = res.data
+    .then((r) => {
+      this.props.timeline = r.data
       this.setState({
-        response: res,
+        response: r,
       })
     })
-    .catch((err) => {
-      this.setState({
-        response: err.response,
-      })
+    .catch((e) => {
+      console.log(e)
     })
   }
   render() {
