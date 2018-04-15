@@ -121,9 +121,7 @@ export const getUser = () => (dispatch) => {
     dispatch(setUser(r.data))
   })
   .catch((e) => {
-    if (e.response.status === 401) {
-      location.href = '/Login'
-    }
+    console.log(e)
   })
 }
 
@@ -154,7 +152,7 @@ export const getNoties = () => (dispatch) => {
 }
 
 export const getTimeline = () => (dispatch) => {
-  request('GET', 'documents', [])
+  request('GET', 'docume  nts', [])
   .then((r) => {
     dispatch(setTimeline(r.data))
   })
