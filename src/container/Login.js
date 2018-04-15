@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Icon, Input, Button, Modal } from 'antd'
-import { postLogin } from '../actions'
 import { request } from '../fetches/request'
 
 const FormItem = Form.Item;
@@ -19,41 +18,26 @@ class Login extends Component {
     }
   }
 
-  onClickMethod() {
+  onClickMethod(ev) {
+    ev.preventDefault()
+    ev.stopPropagation()
     args.push({ type: 'String', key: 'username', value: this.state.id })
     args.push({ type: 'String', key: 'password', value: this.state.password })
     request('POST', 'login', args)
     .then((r) => {
-      this.setState({
-        responses: r,
-      })
-      console.log(this.state.responses);
+      console.log(r);
+      location.href = '/'
     })
     .catch((e) => {
-      this.setState({
-        responses: e.response,
-      })
+      console.log(e)
       Modal.warning({ title: '로그인에 실패했습니다.', content: '입력한 아이디와 비밀번호를 확인해주세요.' })
     })
-    if (this.responses.status === 200) { // 백엔드 수정 후 확인바람
-      location.href = '/'
-    }
   }
 
   toLogin() {
     if (!this.state.isLoginClicked) {
       this.setState({ isLoginClicked: true })
     }
-  }
-
-  handleSubmit(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        postLogin(values)
-      }
-    })
   }
 
   render() {
@@ -124,7 +108,7 @@ class Login extends Component {
             </div>
           </div>
           <div>
-            <Form onSubmit={e => this.handleSubmit(e)} className="login-form">
+            <Form onSubmit={e => this.onClickMethod(e)} className="login-form">
               <FormItem>
                 {getFieldDecorator('username', {
                   rules: [{ required: true, message: '아이디를 입력해주세요!' }],
@@ -157,7 +141,6 @@ class Login extends Component {
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
-                  onClick={() => this.onClickMethod()}
                 >
                     로그인
                 </Button>
