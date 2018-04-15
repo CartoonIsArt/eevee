@@ -69,7 +69,7 @@ class Sider extends Component {
           <div style={{ height: '240px', background: 'black' }} /> */
         }
         {
-          user.isRegular ||
+          user.isActivated ||
           <SubMenu
             key="sub1"
             title={
