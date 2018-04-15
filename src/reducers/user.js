@@ -6,7 +6,10 @@ const user = (state = init, action) => {
     case 'SETUSER':
       return Object.assign(action.user, { has_logged_in: true })
     case 'LOGIN':
-      return state.append(user)
+      return [
+        ...state,
+        user,
+      ]
     default:
       return state
   }
