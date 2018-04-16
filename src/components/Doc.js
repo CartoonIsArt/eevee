@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -9,13 +10,13 @@ import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
 import { request } from '../fetches/request'
+import { getTimeline, getUser } from '../actions'
 
 class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isAppending: false,
-      response: '',
     }
   }
   onClickLikeIt() {
@@ -24,27 +25,21 @@ class Doc extends Component {
 
     if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
       request('POST', `documents/${content.id}/LikeIt`, [])
-      .then((r) => {
-        this.props.content.likedBy = r.data
-        this.setState({
-          response: r,
-        })
-        this.props.onChanged()
+      .then(() => {
+        this.props.getUser()
+        this.props.getTimeline()
       })
       .catch((e) => {
-        this.setState({ response: e })
+        console.log(e)
       })
     } else {
       request('DELETE', `documents/${content.id}/LikeIt`, [])
-      .then(
-        request('GET', `documents/${content.id}/LikeIt`, [])
-        .then((r) => {
-          this.props.content.likedBy = r.data
-          this.setState({ response: r })
-          this.props.onChanged()
-        }))
+      .then(() => {
+        this.props.getUser()
+        this.props.getTimeline()
+      })
       .catch((e) => {
-        this.setState({ response: e })
+        console.log(e)
       })
     }
   }
@@ -159,6 +154,15 @@ class Doc extends Component {
 
 Doc.propTypes = {
   content: PropTypes.object.isRequired,
+  getTimeline: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
 }
 
-export default Doc
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+  getTimeline,
+  getUser,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Doc)

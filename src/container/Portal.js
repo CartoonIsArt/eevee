@@ -5,26 +5,16 @@ import Noties from './Noties'
 import Timeline from './Timeline'
 
 class Portal extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      toggleDraw: false,
-    }
-  }
-  onChanged() {
-    this.setState({ toggleDraw: !this.state.toggleDraw })
-  }
   render() {
-    const toggleDraw = this.state.toggleDraw
     return (
       <Row style={{ width: '1280px', marginTop: '8px' }}>
         <Col span={6}>
           <aside>
-            <Profile toggleDraw={toggleDraw} />
+            <Profile />
           </aside>
         </Col>
         <Col span={12}>
-          <Timeline onChanged={() => this.onChanged()} toggleDraw={toggleDraw} />
+          <Timeline />
         </Col>
         <Col span={6}>
           <Affix offsetTop={52}>

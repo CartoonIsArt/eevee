@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Input, Button, LocaleProvider, Modal } from 'antd'
+import PropTypes from 'prop-types'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { request } from '../fetches/request'
+import { getTimeline, getUser } from '../actions'
 
 const args = [];
 
@@ -10,7 +13,6 @@ class PostComment extends Component {
     super(props)
     this.state = {
       text: '',
-      response: [],
     };
   }
   onButtonClicked() {
@@ -18,17 +20,13 @@ class PostComment extends Component {
     args.push({ type: 'String', key: 'text', value: this.state.text })
 
     request('POST', 'comments', args)
-    .then((r) => {
-      this.setState({
-        response: r,
-      })
-      this.props.onClickWriteComment()
+    .then(() => {
+      this.props.getUser()
+      this.props.getTimeline()
       this.setState({ text: '' })
     })
     .catch((e) => {
-      this.setState({
-        response: e.response,
-      })
+      console.log(e)
       Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
     })
   }
@@ -68,4 +66,16 @@ class PostComment extends Component {
   }
 }
 
-export default PostComment
+PostComment.propTypes = {
+  getTimeline: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+  getTimeline,
+  getUser,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(PostComment)

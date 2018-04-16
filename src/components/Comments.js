@@ -4,25 +4,8 @@ import PropTypes from 'prop-types'
 import Comment from './Comment'
 import PostComment from './PostComment'
 import Line from '../components/Line'
-import { request } from '../fetches/request'
 
 class Comments extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      response: '',
-    };
-  }
-  onClickWriteComment() {
-    request('GET', `documents/${this.props.feed.id}`, [])
-    .then((r) => {
-      this.props.content = r.data.comments
-      this.props.onChanged()
-    })
-    .catch((e) => {
-      console.log(e)
-    })
-  }
   render() {
     const viewComments = this.props.viewComments
     const comments = this.props.content

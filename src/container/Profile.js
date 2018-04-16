@@ -7,18 +7,6 @@ import { getUser } from '../actions'
 
 
 class Profile extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      toggleDraw: false,
-    }
-  }
-  componentWillReceiveProps(newProps) {
-    if (newProps.toggleDraw !== this.state.toggleDraw) {
-      this.props.getUser()
-      this.setState({ toggleDraw: newProps.toggleDraw })
-    }
-  }
   render() {
     const user = this.props.user
     return (

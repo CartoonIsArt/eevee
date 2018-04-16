@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Input, Button, LocaleProvider, Modal } from 'antd'
+import PropTypes from 'prop-types'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { request } from '../fetches/request'
+import { getTimeline } from '../actions'
 
 const args = [];
 
@@ -10,7 +13,6 @@ class PostRecomment extends Component {
     super(props)
     this.state = {
       text: '',
-      response: [],
     };
   }
   onButtonClicked() {
@@ -18,16 +20,12 @@ class PostRecomment extends Component {
     args.push({ type: 'String', key: 'text', value: this.state.text })
 
     request('POST', 'comments', args)
-    .then((r) => {
-      this.setState({
-        responses: r,
-      })
+    .then(() => {
+      this.props.getTimeline()
       console.log(this.state.responses);
     })
     .catch((e) => {
-      this.setState({
-        responses: e.response,
-      })
+      console.log(e)
       Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
     })
   }
@@ -67,4 +65,14 @@ class PostRecomment extends Component {
   }
 }
 
-export default PostRecomment
+PostRecomment.propTypes = {
+  getTimeline: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+  getTimeline,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(PostRecomment)

@@ -21,6 +21,7 @@ class Recomments extends Component {
           <PostRecomment
             user={user}
             commentId={this.props.commentId}
+            onClickWriteRecomment={() => this.onClickWriteRecomment()}
           />
         }
       </div>

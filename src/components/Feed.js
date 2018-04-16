@@ -25,7 +25,6 @@ class Feed extends Component {
           user={user}
           content={content}
           onClickComments={() => this.toggleCommentView()}
-          onChanged={() => this.props.onChanged()}
           writeComplete={() => this.props.writeComplete()}
         />
         <Comments
@@ -33,7 +32,6 @@ class Feed extends Component {
           content={content.comments}
           feed={content}
           viewComments={viewComments}
-          onChanged={() => this.props.onChanged()}
         />
       </article>
     )

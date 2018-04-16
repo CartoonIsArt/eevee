@@ -4,14 +4,14 @@ import { connect } from 'react-redux'
 import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
 import Write from '../components/Write'
-import { getTimeline, getUser, isAlmostScrolled } from '../actions'
+import { getTimeline, getUser } from '../actions'
+import { isAlmostScrolled } from '../lib'
 
 class Timeline extends Component {
   constructor(props) {
     super(props)
     this.state = {
       response: '',
-      toggleDraw: false,
       page: 1,
       doclen: 0,
     }
@@ -26,15 +26,6 @@ class Timeline extends Component {
   }
   componentDidMount() {
     window.addEventListener('scroll', this.wrapper)
-  }
-  componentWillReceiveProps(newProps) {
-    if ((newProps.toggleDraw !== this.state.toggleDraw) &&
-    (this.state.doclen !== this.props.timeline.length)) {
-      this.props.getTimeline(this.state.page)
-      this.setState({
-        toggleDraw: newProps.toggleDraw,
-      })
-    }
   }
   componentWillUnmount() {
     window.addEventListener('scroll', this.wrapper)
@@ -51,7 +42,6 @@ class Timeline extends Component {
         page: page + 1,
         doclen: timelinelen,
       }, () => { this.mutex = true })
-      this.props.onChanged()
     }
   }
   writeComplete() {
@@ -60,7 +50,6 @@ class Timeline extends Component {
       page: 1,
       doclen: this.props.timeline.length,
     })
-    this.props.onChanged()
   }
   render() {
     const timeline = this.props.timeline
@@ -81,7 +70,6 @@ class Timeline extends Component {
             user={user}
             key={feed.id}
             content={feed}
-            onChanged={() => this.props.onChanged()}
             writeComplete={() => this.writeComplete()}
           />),
         ) :

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button, Popover } from 'antd'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -6,6 +7,7 @@ import Recomments from './Recomments'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
 import { request } from '../fetches/request'
+import { getUser, getTimeline } from '../actions'
 
 class Comment extends Component {
   constructor(props) {
@@ -20,25 +22,21 @@ class Comment extends Component {
 
     if (comment.likedBy.findIndex(lover => lover.id === user.id) === -1) {
       request('POST', `comments/${comment.id}/LikeIt`, [])
-      .then((r) => {
-        this.props.content.likedBy = r.data
-        this.setState({
-          response: r,
-        })
+      .then(() => {
+        this.props.getTimeline()
+        this.props.getUser()
       })
       .catch((e) => {
-        this.setState({ response: e })
+        console.log(e)
       })
     } else {
       request('DELETE', `comments/${comment.id}/LikeIt`, [])
-      .then(
-        request('GET', `comments/${comment.id}/LikeIt`, [])
-        .then((r) => {
-          this.props.content.likedBy = r.data
-          this.setState({ response: r })
-        }))
+      .then(() => {
+        this.props.getTimeline()
+        this.props.getUser()
+      })
       .catch((e) => {
-        this.setState({ response: e })
+        console.log(e)
       })
     }
   }
@@ -117,6 +115,15 @@ class Comment extends Component {
 
 Comment.propTypes = {
   content: PropTypes.object.isRequired,
+  getTimeline: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
 }
 
-export default Comment
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+  getTimeline,
+  getUser,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Comment)
