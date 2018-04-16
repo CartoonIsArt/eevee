@@ -60,7 +60,7 @@ class Members extends Component {
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {this.props.members
                   .filter(member =>
-                      member.isActive &&
+                      member.isActivated &&
                       (member.fullname.includes(filter) ||
                         member.username.includes(filter)))
                   .map(member =>
