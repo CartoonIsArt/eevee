@@ -2,10 +2,10 @@ const timeline = (state = [], action) => {
   switch (action.type) {
     case 'SETTIMELINE':
       return action.timeline
-    case 'APPEND':
+    case 'APPENDTIMELINE':
       return [
         ...state,
-        timeline,
+        ...action.timeline,
       ]
     default:
       return state

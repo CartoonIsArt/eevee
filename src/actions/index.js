@@ -6,15 +6,14 @@ const SET_TIMELINE = 'SETTIMELINE'
 const SET_USER = 'SETUSER'
 const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
-// const APPEND = 'APPEND' // future
+const APPEND_TIMELINE = 'APPENDTIMELINE'
+// const APPEND_NOTIES = 'APPENDNOTIES'
 
 const setSun = sun => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setUser = value => ({
-  type: SET_USER,
-  user: value,
-})
+const setUser = value => ({ type: SET_USER, user: value })
 const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
+const appendTimeline = timeline => ({ type: APPEND_TIMELINE, timeline })
 const setMembers = members => ({ type: SET_MEMBERS, members })
 const setNoties = noties => ({ type: SET_NOTIES, noties })
 
@@ -121,9 +120,7 @@ export const getUser = () => (dispatch) => {
     dispatch(setUser(r.data))
   })
   .catch((e) => {
-    if (e.response.status === 401) {
-      location.href = '/Login'
-    }
+    console.log(e)
   })
 }
 
@@ -152,11 +149,43 @@ export const getNoties = () => (dispatch) => {
     },
   ]))
 }
+const getDocHeight = () => {
+  const D = window.top.document
+  return Math.max(
+    D.body.scrollHeight, D.documentElement.scrollHeight,
+    D.body.offsetHeight, D.documentElement.offsetHeight,
+    D.body.clientHeight, D.documentElement.clientHeight,
+  )
+}
+
+export const isAlmostScrolled = () => {
+  const winheight = window.innerHeight ||
+                    (document.documentElement ||
+                    document.body)
+                    .clientHeight
+  const docheight = getDocHeight()
+  const scrollTop = window.pageYOffset ||
+                    (document.documentElement ||
+                    document.body.parentNode ||
+                    document.body)
+                    .scrollTop
+  const trackLength = docheight - winheight
+  const pctScrolled = Math.floor((scrollTop / trackLength) * 100)
+
+  return pctScrolled > 60
+}
 
 export const getTimeline = (page = 1) => (dispatch) => {
   request('GET', `timeline/${page}`, [])
   .then((r) => {
-    dispatch(setTimeline(r.data))
+    if (!r.data.length) {
+      return
+    }
+    if (page === 1) {
+      dispatch(setTimeline(r.data))
+    } else {
+      dispatch(appendTimeline(r.data))
+    }
   })
   .catch((e) => {
     console.log(e)

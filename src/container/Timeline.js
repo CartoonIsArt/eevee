@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
 import Write from '../components/Write'
-import { getTimeline, getUser } from '../actions'
-// import { request } from '../fetches/request'
+import { getTimeline, getUser, isAlmostScrolled } from '../actions'
 
 class Timeline extends Component {
   constructor(props) {
@@ -14,19 +13,53 @@ class Timeline extends Component {
       response: '',
       toggleDraw: false,
       page: 1,
+      doclen: 0,
     }
+    this.mutex = true
+    this.wrapper = e => this.loadMore(e)
   }
   componentWillMount() {
-    this.props.getTimeline()
+    if (this.props.timeline.length === 0) {
+      this.props.getTimeline()
+      this.setState({ doclen: this.props.timeline.length })
+    }
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.wrapper)
   }
   componentWillReceiveProps(newProps) {
-    if (newProps.toggleDraw !== this.state.toggleDraw) {
-      this.props.getTimeline()
-      this.setState({ toggleDraw: newProps.toggleDraw })
+    if ((newProps.toggleDraw !== this.state.toggleDraw) &&
+    (this.state.doclen !== this.props.timeline.length)) {
+      this.props.getTimeline(this.state.page)
+      this.setState({
+        toggleDraw: newProps.toggleDraw,
+      })
+    }
+  }
+  componentWillUnmount() {
+    window.addEventListener('scroll', this.wrapper)
+  }
+  loadMore(e) {
+    const page = this.state.page
+    const timelinelen = this.props.timeline.length
+    e.preventDefault()
+    if (this.mutex && isAlmostScrolled() &&
+      (this.state.doclen !== timelinelen)) {
+      this.mutex = false
+      this.props.getTimeline(page + 1)
+      this.setState({
+        page: page + 1,
+        doclen: timelinelen,
+      }, () => { this.mutex = true })
+      this.props.onChanged()
     }
   }
   writeComplete() {
     this.props.getTimeline()
+    this.setState({
+      page: 1,
+      doclen: this.props.timeline.length,
+    })
     this.props.onChanged()
   }
   render() {
