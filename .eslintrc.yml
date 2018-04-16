@@ -11,6 +11,10 @@ plugins:
   - jsx-a11y
   - react
 rules:
+    no-console:
+    - off
+    no-confusing-arrow:
+    - off
     linebreak-style:
     - off
     jsx-a11y/href-no-hash:

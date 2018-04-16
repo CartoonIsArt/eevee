@@ -8,7 +8,7 @@ import Line from './Line'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
-import Write from './Write'
+import Write from '../container/Write'
 import { request } from '../fetches/request'
 import { getTimeline, getUser } from '../actions'
 
@@ -25,22 +25,22 @@ class Doc extends Component {
 
     if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
       request('POST', `documents/${content.id}/LikeIt`, [])
-      .then(() => {
-        this.props.getUser()
-        this.props.getTimeline()
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+        .then(() => {
+          this.props.getUser()
+          this.props.getTimeline()
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     } else {
       request('DELETE', `documents/${content.id}/LikeIt`, [])
-      .then(() => {
-        this.props.getUser()
-        this.props.getTimeline()
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+        .then(() => {
+          this.props.getUser()
+          this.props.getTimeline()
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
   toggleAppending() {
@@ -89,7 +89,7 @@ class Doc extends Component {
                   >
                     <Link to={`/members/${author.username}`}> {nickname} </Link>
                   </Popover>
-                : <div> 탈퇴한 회원 </div>
+                  : <div> 탈퇴한 회원 </div>
               }
             </div>
             <div> {printTime(createdAt)} </div>
@@ -102,10 +102,7 @@ class Doc extends Component {
         <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
           <Write
             user={user}
-            isAppending={isAppending}
-            documentId={this.props.content.id}
-            writeComplete={() => this.props.writeComplete()}
-            toggleAppending={() => this.toggleAppending()}
+            feedId={content.id}
           />
         </div>
         <Line />

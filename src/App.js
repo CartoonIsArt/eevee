@@ -23,7 +23,6 @@ const store = createStore(
 
 
 class App extends Component {
-
   static isNavEnabled() {
     const ignoredPaths = ['/login']
     return ignoredPaths.indexOf(history.location.pathname) === -1

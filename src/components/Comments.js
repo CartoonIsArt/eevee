@@ -18,14 +18,14 @@ class Comments extends Component {
           <Popover
             content={
               feed.likedBy.length ?
-              feed.likedBy.map(lover => (
+                feed.likedBy.map(lover => (
+                  <pre>
+                    {`${lover.nTh}기 ${lover.fullname}`}
+                  </pre>
+                )) :
                 <pre>
-                  {`${lover.nTh}기 ${lover.fullname}`}
-                </pre>
-              )) :
-              <pre>
                 당신이 이 글의 첫 번째 좋아요를 눌러주세요!
-              </pre>
+                </pre>
             }
             placement="rightTop"
           >

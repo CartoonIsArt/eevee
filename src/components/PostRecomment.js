@@ -20,14 +20,14 @@ class PostRecomment extends Component {
     args.push({ type: 'String', key: 'text', value: this.state.text })
 
     request('POST', 'comments', args)
-    .then(() => {
-      this.props.getTimeline()
-      console.log(this.state.responses);
-    })
-    .catch((e) => {
-      console.log(e)
-      Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
-    })
+      .then(() => {
+        this.props.getTimeline()
+        console.log(this.state.responses);
+      })
+      .catch((e) => {
+        console.log(e)
+        Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
+      })
   }
   onChangeInput(e) {
     this.setState(e);

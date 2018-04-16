@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-
-const host = 'http://localhost/api/'
+const host = 'https://cia.kw.ac.kr/api/'
 
 // method에는 명령어(GET, PATCH등...) target은 대상 타겟 도메인, args엔
 // string타입 key와 value포함.

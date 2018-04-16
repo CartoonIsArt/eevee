@@ -37,7 +37,7 @@ class Logout extends Component {
       }}
       >
         <div
-              // 로그아웃 사각형
+          // 로그아웃 사각형
           style={{
             textAlign: 'center',
             alignItems: 'center',
@@ -60,12 +60,12 @@ class Logout extends Component {
                 alt="츤데레"
                 style={{ width: '100%', overflow: 'hidden' }}
               />
-                    : <img
-                      src="https://pbs.twimg.com/profile_images/433619758450094080/dMpRXgMs_400x400.jpeg"
-                      alt="세상에서 제일 귀여운 호시이 미키"
-                      style={{ width: '100%', overflow: 'hidden' }}
-                    />
-                }
+              : <img
+                src="https://pbs.twimg.com/profile_images/433619758450094080/dMpRXgMs_400x400.jpeg"
+                alt="세상에서 제일 귀여운 호시이 미키"
+                style={{ width: '100%', overflow: 'hidden' }}
+              />
+            }
           </div>
           <div style={{ height: '120px' }}>
             <p style={{ marginTop: '4px', fontSize: '16px', fontWeight: 'bold' }}> 정말 떠나버릴 거야…? </p>
@@ -88,16 +88,16 @@ class Logout extends Component {
                 >
                         떠난다
                 </Button>
-                    : <a href="http://kr.battle.net/heroes/ko/">
-                      <Button
-                        type="danger"
-                        size="small"
-                        icon="user"
-                      >
+                : <a href="http://kr.battle.net/heroes/ko/">
+                  <Button
+                    type="danger"
+                    size="small"
+                    icon="user"
+                  >
                         난 떠날 거야
-                      </Button>
-                    </a>
-                }
+                  </Button>
+                </a>
+              }
             </div>
           </div>
         </div>

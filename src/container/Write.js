@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Button, Input, notification } from 'antd'
 import ReactMarkdown from 'react-markdown'
-import { request } from '../fetches/request'
-
-const args = [];
+import { connect } from 'react-redux'
+import { patchDocument, postDocument } from '../actions'
 
 class Write extends Component {
   static openNotificationWithIcon(type) {
@@ -18,31 +17,24 @@ class Write extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      /* 수정할 경우 수정할 글의 ID */
+      feedId: Number.isInteger(this.props.feedId) ? this.props.feedId : -1,
       text: '',
       mode: 'edit',
     }
   }
   onClickMethod() {
-    if (this.props.isAppending) {
-      args.push({ type: 'String', key: 'text', value: this.state.text })
-      request('PATCH', `documents/${this.props.documentId}`, args)
-      .then(() => {
-        this.setState({ text: '', mode: 'edit' })
-        this.props.writeComplete()
-        this.props.toggleAppending()
-      })
-      .catch(() => {
-      })
+    const {
+      feedId,
+    } = this.state
+    if (feedId < 0) {
+      /* 새 글일 경우 */
+      this.props.postDocument(this.state)
     } else {
-      args.push({ type: 'String', key: 'text', value: this.state.text })
-      request('POST', 'documents', args)
-      .then(() => {
-        this.setState({ text: '', mode: 'edit' })
-        this.props.writeComplete()
-      })
-      .catch(() => {
-      })
+      /* 이어쓰기일 경우 */
+      this.props.patchDocument(this.feedId, this.state)
     }
+    this.setState({ text: '', mode: 'edit' })
   }
   render() {
     const text = this.state.text
@@ -101,4 +93,11 @@ class Write extends Component {
   }
 }
 
-export default Write
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+  postDocument,
+  patchDocument,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Write)

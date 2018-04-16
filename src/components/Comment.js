@@ -22,22 +22,22 @@ class Comment extends Component {
 
     if (comment.likedBy.findIndex(lover => lover.id === user.id) === -1) {
       request('POST', `comments/${comment.id}/LikeIt`, [])
-      .then(() => {
-        this.props.getTimeline()
-        this.props.getUser()
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+        .then(() => {
+          this.props.getTimeline()
+          this.props.getUser()
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     } else {
       request('DELETE', `comments/${comment.id}/LikeIt`, [])
-      .then(() => {
-        this.props.getTimeline()
-        this.props.getUser()
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+        .then(() => {
+          this.props.getTimeline()
+          this.props.getUser()
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
   toggleRecomment() {
@@ -72,14 +72,14 @@ class Comment extends Component {
               <Popover
                 content={
                   comment.likedBy.length ?
-                  comment.likedBy.map(lover => (
+                    comment.likedBy.map(lover => (
+                      <pre>
+                        {`${lover.nTh}기 ${lover.fullname}`}
+                      </pre>
+                    )) :
                     <pre>
-                      {`${lover.nTh}기 ${lover.fullname}`}
-                    </pre>
-                  )) :
-                  <pre>
                     당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
-                  </pre>
+                    </pre>
                 }
                 placement="rightTop"
               >

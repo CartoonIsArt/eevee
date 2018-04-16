@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
-import Write from '../components/Write'
+import Write from '../container/Write'
 import { getTimeline, getUser } from '../actions'
 import { isAlmostScrolled } from '../lib'
 
@@ -13,16 +13,12 @@ class Timeline extends Component {
     this.state = {
       response: '',
       page: 1,
-      doclen: 0,
     }
     this.mutex = true
     this.wrapper = e => this.loadMore(e)
   }
   componentWillMount() {
-    if (this.props.timeline.length === 0) {
-      this.props.getTimeline()
-      this.setState({ doclen: this.props.timeline.length })
-    }
+    this.props.getTimeline()
   }
   componentDidMount() {
     window.addEventListener('scroll', this.wrapper)
@@ -32,52 +28,30 @@ class Timeline extends Component {
   }
   loadMore(e) {
     const page = this.state.page
-    const timelinelen = this.props.timeline.length
     e.preventDefault()
-    if (this.mutex && isAlmostScrolled() &&
-      (this.state.doclen !== timelinelen)) {
+    if (this.mutex && isAlmostScrolled()) {
       this.mutex = false
       this.props.getTimeline(page + 1)
       this.setState({
         page: page + 1,
-        doclen: timelinelen,
       }, () => { this.mutex = true })
     }
-  }
-  writeComplete() {
-    this.props.getTimeline()
-    this.setState({
-      page: 1,
-      doclen: this.props.timeline.length,
-    })
   }
   render() {
     const timeline = this.props.timeline
     const user = this.props.user
     return (
       <section style={{ padding: '0px 8px' }}>
-        {user.has_logged_in ?
-          <Write
-            user={user}
-            writeComplete={() => this.writeComplete()}
-            isAppending={false}
-          /> :
-          this.props.getUser()
-        }
-        {user.has_logged_in ?
-        timeline.map(feed =>
+        <Write
+          user={user}
+        /> :
+        { timeline.map(feed =>
           (<Feed
             user={user}
             key={feed.id}
             content={feed}
-            writeComplete={() => this.writeComplete()}
-          />),
-        ) :
-        this.props.getUser()}
-        { /*
-        <Ads />
-        <Ads />
-        */ }
+          />))
+        }
       </section>
     )
   }

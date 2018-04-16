@@ -23,14 +23,14 @@ class Login extends Component {
     args.push({ type: 'String', key: 'username', value: this.state.id })
     args.push({ type: 'String', key: 'password', value: this.state.password })
     request('POST', 'login', args)
-    .then((r) => {
-      console.log(r);
-      location.href = '/'
-    })
-    .catch((e) => {
-      console.log(e)
-      Modal.warning({ title: '로그인에 실패했습니다.', content: '입력한 아이디와 비밀번호를 확인해주세요.' })
-    })
+      .then((r) => {
+        console.log(r);
+        location.href = '/'
+      })
+      .catch((e) => {
+        console.log(e)
+        Modal.warning({ title: '로그인에 실패했습니다.', content: '입력한 아이디와 비밀번호를 확인해주세요.' })
+      })
   }
 
   render() {
@@ -54,7 +54,7 @@ class Login extends Component {
         align="middle"
       >
         <div
-         // 상단 바
+          // 상단 바
           style={{
             height: '232px',
           }}
@@ -72,7 +72,7 @@ class Login extends Component {
           </div>
         </div>
         <div
-            // 로그인 사각형
+          // 로그인 사각형
           style={{
             textAlign: 'center',
             justifyContent: 'space-between',
@@ -112,7 +112,7 @@ class Login extends Component {
                     value={id}
                     onChange={e => this.setState({ id: e.target.value })}
                   />,
-                      )}
+                )}
               </FormItem>
               <FormItem>
                 {getFieldDecorator('password', {
@@ -125,7 +125,7 @@ class Login extends Component {
                     value={password}
                     onChange={e => this.setState({ password: e.target.value })}
                   />,
-                      )}
+                )}
               </FormItem>
               <FormItem>
 
