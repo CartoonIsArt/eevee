@@ -11,7 +11,7 @@ const APPEND_TIMELINE = 'APPENDTIMELINE'
 
 const setSun = sun => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setUser = value => ({ type: SET_USER, user: value })
+const setUser = user => ({ type: SET_USER, user })
 const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = timeline => ({ type: APPEND_TIMELINE, timeline })
 const setMembers = members => ({ type: SET_MEMBERS, members })
@@ -148,31 +148,6 @@ export const getNoties = () => (dispatch) => {
       had_read: false,
     },
   ]))
-}
-const getDocHeight = () => {
-  const D = window.top.document
-  return Math.max(
-    D.body.scrollHeight, D.documentElement.scrollHeight,
-    D.body.offsetHeight, D.documentElement.offsetHeight,
-    D.body.clientHeight, D.documentElement.clientHeight,
-  )
-}
-
-export const isAlmostScrolled = () => {
-  const winheight = window.innerHeight ||
-                    (document.documentElement ||
-                    document.body)
-                    .clientHeight
-  const docheight = getDocHeight()
-  const scrollTop = window.pageYOffset ||
-                    (document.documentElement ||
-                    document.body.parentNode ||
-                    document.body)
-                    .scrollTop
-  const trackLength = docheight - winheight
-  const pctScrolled = Math.floor((scrollTop / trackLength) * 100)
-
-  return pctScrolled > 60
 }
 
 export const getTimeline = (page = 1) => (dispatch) => {
