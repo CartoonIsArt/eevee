@@ -7,13 +7,6 @@ import Write from '../components/Write'
 import { getTimeline, getUser } from '../actions'
 
 class Timeline extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      response: '',
-      redraw: false,
-    }
-  }
   componentWillMount() {
     this.props.getTimeline()
   }
@@ -25,7 +18,7 @@ class Timeline extends Component {
         {user.has_logged_in ?
           <Write
             user={user}
-            isAppending={false}
+            documentId={-1}
           /> :
           this.props.getUser()
         }

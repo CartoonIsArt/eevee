@@ -1,4 +1,7 @@
+import axios from 'axios'
 import { request } from '../fetches/request'
+
+const host = 'https://cia.kw.ac.kr/api/'
 
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
@@ -82,9 +85,6 @@ export const getNoties = () => (dispatch) => {
     {
       id: 1,
       createdAt: '2017-06-22T07:03:20.963737Z',
-      from: user1,
-      text: '님의 댓글: 구동게 메인화면에서는 모던동게 링크가 https://cia.kw.ac.kr 로 이어지는데 게시판이나 글로 이동후에는 https://128.134.57.197 로 이어집니다.',
-      had_read: false,
     },
     {
       id: 2,
@@ -104,7 +104,10 @@ export const getNoties = () => (dispatch) => {
 }
 
 export const getTimeline = () => (dispatch) => {
-  request('GET', 'documents', [])
+  axios({
+    method: 'GET',
+    url: `${host}documents`,
+  })
     .then((r) => {
       dispatch(setTimeline(r.data))
     })
@@ -115,10 +118,58 @@ export const getTimeline = () => (dispatch) => {
   return 'next cur'
 }
 
-export const patchDocument = (id, args) => dispatch => {
-  request('PATCH', `documents/${id}`, args)
-  .then(r => {
-    dispatch(updateFeed(r.data))
+export const postDocumentLike = id => (dispatch) => {
+  axios({
+    method: 'POST',
+    url: `${host}documents/${id}/LikeIt`,
   })
-  .catch(e => console.log(e))
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        likedBy: r.data.likedBy,
+      }))
+    })
+    .catch(e => console.log(e))
+}
+
+export const deleteDocumentLike = id => (dispatch) => {
+  axios({
+    method: 'DELETE',
+    url: `${host}documents/${id}/LikeIt`,
+  })
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        likedBy: r.data.likedBy,
+      }))
+    })
+    .catch(e => console.log(e))
+}
+
+export const patchDocument = (id, data) => (dispatch) => {
+  axios({
+    method: 'PATCH',
+    url: `${host}documents/${id}`,
+    data,
+  })
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        text: r.data.text,
+
+      }))
+    })
+    .catch(e => console.log(e))
+}
+
+export const postComment = data => (dispatch) => {
+  axios({
+    method: 'POST',
+    url: `${host}comments`,
+    data,
+  })
+    .then((r) => {
+      dispatch(updateFeed(r.data))
+    })
+    .catch(e => console.log(e))
 }

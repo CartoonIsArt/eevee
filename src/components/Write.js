@@ -4,8 +4,6 @@ import { Button, Input, notification } from 'antd'
 import ReactMarkdown from 'react-markdown'
 import { patchDocument, postDocument } from '../actions'
 
-const args = [];
-
 class Write extends Component {
   static openNotificationWithIcon(type) {
     notification.config({
@@ -24,16 +22,16 @@ class Write extends Component {
     }
   }
   onClickMethod() {
-    if (this.props.parentId >  0) {
-      this.props.patchDocument(this.props.parentId, args)
-    }
-    else {
-      this.props.postDocument(args)
+    if (this.props.documentId > 0) {
+      this.props.patchDocument(this.props.documentId, this.state.text)
+    } else {
+      this.props.postDocument(this.state.text)
     }
   }
   render() {
     const text = this.state.text
     const mode = this.state.mode
+    const user = this.props.user
     let display = <div />
     let btn = <div />
     if (mode === 'edit') {
@@ -87,8 +85,7 @@ class Write extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user
+const mapStateToProps = () => ({
 })
 const mapDispatchToProps = ({
   postDocument,

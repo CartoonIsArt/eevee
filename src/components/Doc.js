@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -8,14 +9,13 @@ import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
-import { request } from '../fetches/request'
+import { postDocumentLike, deleteDocumentLike } from '../actions'
 
 class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isAppending: false,
-      response: '',
     }
   }
   onClickLikeIt() {
@@ -23,29 +23,9 @@ class Doc extends Component {
     const user = this.props.user
 
     if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
-      request('POST', `documents/${content.id}/LikeIt`, [])
-        .then((r) => {
-          this.props.content.likedBy = r.data
-          this.setState({
-            response: r,
-          })
-          this.props.onLikeIt()
-        })
-        .catch((e) => {
-          this.setState({ response: e })
-        })
+      postDocumentLike(content.id)
     } else {
-      request('DELETE', `documents/${content.id}/LikeIt`, [])
-        .then(
-          request('GET', `documents/${content.id}/LikeIt`, [])
-            .then((r) => {
-              this.props.content.likedBy = r.data
-              this.setState({ response: r })
-              this.props.onLikeIt()
-            }))
-        .catch((e) => {
-          this.setState({ response: e })
-        })
+      deleteDocumentLike(content.id)
     }
   }
   toggleAppending() {
@@ -107,10 +87,7 @@ class Doc extends Component {
         <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
           <Write
             user={user}
-            isAppending={isAppending}
             documentId={this.props.content.id}
-            writeComplete={() => this.props.writeComplete()}
-            toggleAppending={() => this.toggleAppending()}
           />
         </div>
         <Line />
@@ -160,5 +137,10 @@ class Doc extends Component {
 Doc.propTypes = {
   content: PropTypes.object.isRequired,
 }
-
-export default Doc
+const mapStateToProps = () => ({
+})
+const mapDispatchToProps = ({
+  postDocumentLike,
+  deleteDocumentLike,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Doc)

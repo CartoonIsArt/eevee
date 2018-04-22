@@ -7,18 +7,6 @@ import { getUser } from '../actions'
 
 
 class Profile extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      redraw: false,
-    }
-  }
-  componentWillReceiveProps(newProps) {
-    if (newProps.redraw !== this.state.redraw) {
-      this.props.getUser()
-      this.setState({ redraw: newProps.redraw })
-    }
-  }
   render() {
     const user = this.props.user
     return (
