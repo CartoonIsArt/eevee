@@ -18,18 +18,18 @@ class PostRecomment extends Component {
     args.push({ type: 'String', key: 'text', value: this.state.text })
 
     request('POST', 'comments', args)
-    .then((r) => {
-      this.setState({
-        responses: r,
+      .then((r) => {
+        this.setState({
+          responses: r,
+        })
+        console.log(this.state.responses);
       })
-      console.log(this.state.responses);
-    })
-    .catch((e) => {
-      this.setState({
-        responses: e.response,
+      .catch((e) => {
+        this.setState({
+          responses: e.response,
+        })
+        Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
       })
-      Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
-    })
   }
   onChangeInput(e) {
     this.setState(e);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button, Input, notification } from 'antd'
 import ReactMarkdown from 'react-markdown'
-import { request } from '../fetches/request'
+import { patchDocument, postDocument } from '../actions'
 
 const args = [];
 
@@ -23,30 +24,15 @@ class Write extends Component {
     }
   }
   onClickMethod() {
-    if (this.props.isAppending) {
-      args.push({ type: 'String', key: 'text', value: this.state.text })
-      request('PATCH', `documents/${this.props.documentId}`, args)
-      .then(() => {
-        this.setState({ text: '', mode: 'edit' })
-        this.props.writeComplete()
-        this.props.toggleAppending()
-      })
-      .catch(() => {
-      })
-    } else {
-      args.push({ type: 'String', key: 'text', value: this.state.text })
-      request('POST', 'documents', args)
-      .then(() => {
-        this.setState({ text: '', mode: 'edit' })
-        this.props.writeComplete()
-      })
-      .catch(() => {
-      })
+    if (this.props.parentId >  0) {
+      this.props.patchDocument(this.props.parentId, args)
+    }
+    else {
+      this.props.postDocument(args)
     }
   }
   render() {
     const text = this.state.text
-    const user = this.props.user
     const mode = this.state.mode
     let display = <div />
     let btn = <div />
@@ -101,4 +87,12 @@ class Write extends Component {
   }
 }
 
-export default Write
+const mapStateToProps = state => ({
+  user
+})
+const mapDispatchToProps = ({
+  postDocument,
+  patchDocument,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Write)

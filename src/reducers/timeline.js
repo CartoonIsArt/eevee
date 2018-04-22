@@ -7,6 +7,13 @@ const timeline = (state = [], action) => {
         ...state,
         timeline,
       ]
+    case 'UPDATEFEED':
+      return state.filter((feed, idx) => {
+        if (idx === action.feed.id) {
+          return action.feed
+        }
+        return feed
+      })
     default:
       return state
   }

@@ -90,7 +90,7 @@ class Deactivate extends Component {
             >
                   정말정말 초기화 하시겠습니까?
             </Modal>
-            }
+          }
 
         </div>
       </div>

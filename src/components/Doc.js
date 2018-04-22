@@ -24,28 +24,28 @@ class Doc extends Component {
 
     if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
       request('POST', `documents/${content.id}/LikeIt`, [])
-      .then((r) => {
-        this.props.content.likedBy = r.data
-        this.setState({
-          response: r,
-        })
-        this.props.onLikeIt()
-      })
-      .catch((e) => {
-        this.setState({ response: e })
-      })
-    } else {
-      request('DELETE', `documents/${content.id}/LikeIt`, [])
-      .then(
-        request('GET', `documents/${content.id}/LikeIt`, [])
         .then((r) => {
           this.props.content.likedBy = r.data
-          this.setState({ response: r })
+          this.setState({
+            response: r,
+          })
           this.props.onLikeIt()
-        }))
-      .catch((e) => {
-        this.setState({ response: e })
-      })
+        })
+        .catch((e) => {
+          this.setState({ response: e })
+        })
+    } else {
+      request('DELETE', `documents/${content.id}/LikeIt`, [])
+        .then(
+          request('GET', `documents/${content.id}/LikeIt`, [])
+            .then((r) => {
+              this.props.content.likedBy = r.data
+              this.setState({ response: r })
+              this.props.onLikeIt()
+            }))
+        .catch((e) => {
+          this.setState({ response: e })
+        })
     }
   }
   toggleAppending() {
@@ -94,7 +94,7 @@ class Doc extends Component {
                   >
                     <Link to={`/members/${author.username}`}> {nickname} </Link>
                   </Popover>
-                : <div> 탈퇴한 회원 </div>
+                  : <div> 탈퇴한 회원 </div>
               }
             </div>
             <div> {printTime(createdAt)} </div>

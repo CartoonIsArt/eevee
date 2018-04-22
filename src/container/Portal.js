@@ -11,9 +11,6 @@ class Portal extends Component {
       redraw: false,
     }
   }
-  onLikeIt() {
-    this.setState({ redraw: !this.state.redraw })
-  }
   render() {
     return (
       <Row style={{ width: '1280px', marginTop: '8px' }}>
@@ -23,7 +20,7 @@ class Portal extends Component {
           </aside>
         </Col>
         <Col span={12}>
-          <Timeline onLikeIt={() => this.onLikeIt()} redraw={this.state.redraw} />
+          <Timeline />
         </Col>
         <Col span={6}>
           <Affix offsetTop={52}>

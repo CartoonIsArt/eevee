@@ -5,7 +5,6 @@ import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
 import Write from '../components/Write'
 import { getTimeline, getUser } from '../actions'
-import { request } from '../fetches/request'
 
 class Timeline extends Component {
   constructor(props) {
@@ -16,34 +15,7 @@ class Timeline extends Component {
     }
   }
   componentWillMount() {
-    if (this.props.timeline.length === 0) {
-      this.props.getTimeline()
-    }
-    /*
-    if (this.props.user.has_logged_in === false) {
-      this.props.getUser()
-    }
-    */
-  }
-  componentWillReceiveProps(newProps) {
-    if (newProps.redraw !== this.state.redraw) {
-      this.props.getTimeline()
-      this.setState({ redraw: newProps.redraw })
-    }
-  }
-  writeComplete() {
-    request('GET', 'documents', [])
-    .then((res) => {
-      this.props.timeline = res.data
-      this.setState({
-        response: res,
-      })
-    })
-    .catch((err) => {
-      this.setState({
-        response: err.response,
-      })
-    })
+    this.props.getTimeline()
   }
   render() {
     const timeline = this.props.timeline
@@ -53,22 +25,19 @@ class Timeline extends Component {
         {user.has_logged_in ?
           <Write
             user={user}
-            writeComplete={() => this.writeComplete()}
             isAppending={false}
           /> :
           this.props.getUser()
         }
         {user.has_logged_in ?
-        timeline.map(feed =>
-          (<Feed
-            user={user}
-            key={feed.id}
-            content={feed}
-            onLikeIt={() => this.props.onLikeIt()}
-            writeComplete={() => this.writeComplete()}
-          />),
-        ) :
-        this.props.getUser()}
+          timeline.map(feed =>
+            (<Feed
+              user={user}
+              key={feed.id}
+              content={feed}
+            />),
+          ) :
+          this.props.getUser()}
         { /*
         <Ads />
         <Ads />

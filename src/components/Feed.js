@@ -28,12 +28,14 @@ class Feed extends Component {
           onLikeIt={() => this.props.onLikeIt()}
           writeComplete={() => this.props.writeComplete()}
         />
-        <Comments
-          user={content.author}
-          content={content.comments}
-          feed={content}
-          viewComments={viewComments}
-        />
+        {
+          viewComments &&
+          <Comments
+            user={content.author}
+            content={content.comments}
+            feed={content}
+          />
+        }
       </article>
     )
   }

@@ -18,19 +18,19 @@ class PostComment extends Component {
     args.push({ type: 'String', key: 'text', value: this.state.text })
 
     request('POST', 'comments', args)
-    .then((r) => {
-      this.setState({
-        response: r,
+      .then((r) => {
+        this.setState({
+          response: r,
+        })
+        this.props.onClickWriteComment()
+        this.setState({ text: '' })
       })
-      this.props.onClickWriteComment()
-      this.setState({ text: '' })
-    })
-    .catch((e) => {
-      this.setState({
-        response: e.response,
+      .catch((e) => {
+        this.setState({
+          response: e.response,
+        })
+        Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
       })
-      Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
-    })
   }
   onChangeInput(e) {
     this.setState(e);
