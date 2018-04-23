@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * fix: `matchMedia` not present, legacy browsers require a polyfill
  */

@@ -59,21 +59,19 @@ class Timeline extends Component {
         {user.has_logged_in ?
           <Write
             user={user}
-            writeComplete={() => this.writeComplete()}
-            isAppending={false}
+            documentId={-1}
           /> :
           this.props.getUser()
         }
         {user.has_logged_in ?
-        timeline.map(feed =>
-          (<Feed
-            user={user}
-            key={feed.id}
-            content={feed}
-            writeComplete={() => this.writeComplete()}
-          />),
-        ) :
-        this.props.getUser()}
+          timeline.map(feed =>
+            (<Feed
+              user={user}
+              key={feed.id}
+              content={feed}
+            />),
+          ) :
+          this.props.getUser()}
         { /*
         <Ads />
         <Ads />

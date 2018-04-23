@@ -13,12 +13,12 @@ class Noti extends Component {
       <div key={noti.id}>
         <div
           className="noti"
-              // eslint-disable-next-line
+          // eslint-disable-next-line
               onClick={() => console.log(noti.id)}
           style={
-                noti.had_read ?
-                  { height: '56px', display: 'flex', alignItems: 'stretch' } :
-                  { background: '#bbdefb', height: '56px', display: 'flex', alignItems: 'stretch' }}
+            noti.had_read ?
+              { height: '56px', display: 'flex', alignItems: 'stretch' } :
+              { background: '#bbdefb', height: '56px', display: 'flex', alignItems: 'stretch' }}
         >
           <div
             style={{ width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden', backgroundSize: 'cover' }}

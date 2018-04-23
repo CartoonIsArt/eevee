@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 class Namecard extends Component {
   render() {
-    let cwidth = '320px'  // component width
+    let cwidth = '320px' // component width
     const user = this.props.content
     const nickname = `${user.nTh}기 ${user.fullname}`
     cwidth = this.props.width

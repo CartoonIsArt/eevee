@@ -9,8 +9,7 @@ import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
-import { request } from '../fetches/request'
-import { getTimeline, getUser } from '../actions'
+import { postDocumentLike, deleteDocumentLike } from '../actions'
 
 class Doc extends Component {
   constructor(props) {
@@ -24,23 +23,9 @@ class Doc extends Component {
     const user = this.props.user
 
     if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
-      request('POST', `documents/${content.id}/LikeIt`, [])
-      .then(() => {
-        this.props.getUser()
-        this.props.getTimeline()
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+      postDocumentLike(content.id)
     } else {
-      request('DELETE', `documents/${content.id}/LikeIt`, [])
-      .then(() => {
-        this.props.getUser()
-        this.props.getTimeline()
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+      deleteDocumentLike(content.id)
     }
   }
   toggleAppending() {
@@ -89,7 +74,7 @@ class Doc extends Component {
                   >
                     <Link to={`/members/${author.username}`}> {nickname} </Link>
                   </Popover>
-                : <div> 탈퇴한 회원 </div>
+                  : <div> 탈퇴한 회원 </div>
               }
             </div>
             <div> {printTime(createdAt)} </div>
@@ -102,10 +87,7 @@ class Doc extends Component {
         <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
           <Write
             user={user}
-            isAppending={isAppending}
             documentId={this.props.content.id}
-            writeComplete={() => this.props.writeComplete()}
-            toggleAppending={() => this.toggleAppending()}
           />
         </div>
         <Line />
@@ -154,15 +136,11 @@ class Doc extends Component {
 
 Doc.propTypes = {
   content: PropTypes.object.isRequired,
-  getTimeline: PropTypes.func.isRequired,
-  getUser: PropTypes.func.isRequired,
 }
-
-const mapStateToProps = state => ({
-  user: state.user,
+const mapStateToProps = () => ({
 })
 const mapDispatchToProps = ({
-  getTimeline,
-  getUser,
+  postDocumentLike,
+  deleteDocumentLike,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Doc)

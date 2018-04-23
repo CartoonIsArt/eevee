@@ -45,7 +45,7 @@ class SingleFeed extends Component {
               content={content}
             />
           </section>
-        }
+          }
         </Col>
         <Col span={6}>
           <Affix offsetTop={44}>

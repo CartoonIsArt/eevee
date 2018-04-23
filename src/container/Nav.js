@@ -29,7 +29,7 @@ class Nav extends Component {
                     content: 'hi~',
                     onOk() {},
                   },
-                );
+                  );
                 }}
                 >
                   <img height="44px" width="107px" src="https://cia.kw.ac.kr/media/logo.png" alt="logo" />

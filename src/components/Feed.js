@@ -25,14 +25,15 @@ class Feed extends Component {
           user={user}
           content={content}
           onClickComments={() => this.toggleCommentView()}
-          writeComplete={() => this.props.writeComplete()}
         />
-        <Comments
-          user={content.author}
-          content={content.comments}
-          feed={content}
-          viewComments={viewComments}
-        />
+        {
+          viewComments &&
+          <Comments
+            user={content.author}
+            content={content.comments}
+            feed={content}
+          />
+        }
       </article>
     )
   }

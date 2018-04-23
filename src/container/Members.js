@@ -17,7 +17,7 @@ class Members extends Component {
   }
   componentWillMount() {
     this.props.getMembers()
-      // .then(() => this.setState({ onLoad: true}))
+    // .then(() => this.setState({ onLoad: true}))
     this.setState({ onLoad: true })
   }
   render() {
@@ -47,13 +47,13 @@ class Members extends Component {
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {this.props.members
                   .filter(member =>
-                      member.fullname.includes(filter) ||
+                    member.fullname.includes(filter) ||
                       member.username.includes(filter))
                   .map(member =>
-                  (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
-                    <Namecard content={member} width="240px" />
-                  </div>),
-                )}
+                    (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
+                      <Namecard content={member} width="240px" />
+                    </div>),
+                  )}
               </div>
             </TabPane>
             <TabPane tab="활동인구" key="act">
@@ -64,9 +64,9 @@ class Members extends Component {
                       (member.fullname.includes(filter) ||
                         member.username.includes(filter)))
                   .map(member =>
-                  (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
-                    <Namecard content={member} width="240px" />
-                  </div>),
+                    (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
+                      <Namecard content={member} width="240px" />
+                    </div>),
                   )}
               </div>
             </TabPane>

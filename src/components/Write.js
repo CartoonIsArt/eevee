@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button, Input, notification } from 'antd'
 import ReactMarkdown from 'react-markdown'
-import { request } from '../fetches/request'
-
-const args = [];
+import { patchDocument, postDocument } from '../actions'
 
 class Write extends Component {
   static openNotificationWithIcon(type) {
@@ -23,31 +22,16 @@ class Write extends Component {
     }
   }
   onClickMethod() {
-    if (this.props.isAppending) {
-      args.push({ type: 'String', key: 'text', value: this.state.text })
-      request('PATCH', `documents/${this.props.documentId}`, args)
-      .then(() => {
-        this.setState({ text: '', mode: 'edit' })
-        this.props.writeComplete()
-        this.props.toggleAppending()
-      })
-      .catch(() => {
-      })
+    if (this.props.documentId > 0) {
+      this.props.patchDocument(this.props.documentId, this.state.text)
     } else {
-      args.push({ type: 'String', key: 'text', value: this.state.text })
-      request('POST', 'documents', args)
-      .then(() => {
-        this.setState({ text: '', mode: 'edit' })
-        this.props.writeComplete()
-      })
-      .catch(() => {
-      })
+      this.props.postDocument(this.state.text)
     }
   }
   render() {
     const text = this.state.text
-    const user = this.props.user
     const mode = this.state.mode
+    const user = this.props.user
     let display = <div />
     let btn = <div />
     if (mode === 'edit') {
@@ -101,4 +85,11 @@ class Write extends Component {
   }
 }
 
-export default Write
+const mapStateToProps = () => ({
+})
+const mapDispatchToProps = ({
+  postDocument,
+  patchDocument,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Write)
