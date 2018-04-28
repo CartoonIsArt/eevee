@@ -19,10 +19,8 @@ class Timeline extends Component {
     this.wrapper = e => this.loadMore(e)
   }
   componentWillMount() {
-    if (this.props.timeline.length === 0) {
-      this.props.getTimeline()
-      this.setState({ doclen: this.props.timeline.length })
-    }
+    this.props.getTimeline()
+    this.setState({ doclen: this.props.timeline.length })
   }
   componentDidMount() {
     window.addEventListener('scroll', this.wrapper)
@@ -44,13 +42,6 @@ class Timeline extends Component {
         doclen: timelinelen,
       }, () => { this.mutex = true })
     }
-  }
-  writeComplete() {
-    this.props.getTimeline()
-    this.setState({
-      page: 1,
-      doclen: this.props.timeline.length,
-    })
   }
   render() {
     const timeline = this.props.timeline
