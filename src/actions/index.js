@@ -10,14 +10,14 @@ const UPDATE_FEED = 'UPDATEFEED'
 const SET_USER = 'SETUSER'
 const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
-// const APPEND_TIMELINE = 'APPENDTIMELINE'
+const APPEND_TIMELINE = 'APPENDTIMELINE'
 // const APPEND_NOTIES = 'APPENDNOTIES'
 
 const setSun = sun => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
 const setUser = user => ({ type: SET_USER, user })
 const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
-// const appendTimeline = timeline => ({ type: APPEND_TIMELINE, timeline })
+const appendTimeline = timeline => ({ type: APPEND_TIMELINE, timeline })
 const updateFeed = feed => ({ type: UPDATE_FEED, feed })
 const setMembers = members => ({ type: SET_MEMBERS, members })
 const setNoties = noties => ({ type: SET_NOTIES, noties })
@@ -61,20 +61,20 @@ const user1 = {
 
 export const getMembers = () => (dispatch) => {
   axios.get(`${host}users`)
-  .then((r) => {
-    dispatch(setMembers(r.data))
-  })
-  .catch()
+    .then((r) => {
+      dispatch(setMembers(r.data))
+    })
+    .catch()
 }
 
 export const getUser = () => (dispatch) => {
   axios.get(`${host}users/session`)
-  .then((r) => {
-    dispatch(setUser(r.data))
-  })
-  .catch((e) => {
-    console.log(e)
-  })
+    .then((r) => {
+      dispatch(setUser(r.data))
+    })
+    .catch((e) => {
+      console.log(e)
+    })
 }
 
 export const getNoties = () => (dispatch) => {
@@ -105,56 +105,88 @@ export const getNoties = () => (dispatch) => {
 
 export const getTimeline = (page = 1) => (dispatch) => {
   axios.get(`${host}timeline/${page}`)
-  .then((r) => {
-    dispatch(setTimeline(r.data))
-  })
-  .catch((e) => {
-    console.log(e)
-  })
+    .then((r) => {
+      dispatch(setTimeline(r.data))
+    })
+    .catch((e) => {
+      console.log(e)
+    })
   return 'next cur'
 }
 
 export const postDocumentLike = id => (dispatch) => {
   axios.post(`${host}documents/${id}/LikeIt`)
-  .then((r) => {
-    dispatch(updateFeed({
-      id,
-      likedBy: r.data.likedBy,
-    }))
-  })
-  .catch(e => console.log(e))
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        likedBy: r.data.likedBy,
+      }))
+    })
+    .catch(e => console.log(e))
 }
 
 export const deleteDocumentLike = id => (dispatch) => {
   axios.delete(`${host}documents/${id}/LikeIt`)
-  .then((r) => {
-    dispatch(updateFeed({
-      id,
-      likedBy: r.data.likedBy,
-    }))
-  })
-  .catch(e => console.log(e))
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        likedBy: r.data.likedBy,
+      }))
+    })
+    .catch(e => console.log(e))
 }
 
-export const patchDocument = (id, data) => (dispatch) => {
+export const postCommentLike = id => (dispatch) => {
+  axios.post(`${host}comments/${id}/LikeIt`)
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        likedBy: r.data.likedBy,
+      }))
+    })
+    .catch(e => console.log(e))
+}
+
+export const deleteCommentLike = id => (dispatch) => {
+  axios.delete(`${host}comments/${id}/LikeIt`)
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        likedBy: r.data.likedBy,
+      }))
+    })
+    .catch(e => console.log(e))
+}
+
+export const patchDocument = (id, text) => (dispatch) => {
   axios.patch(`${host}documents/${id}`, {
-    params: data,
+    text,
   })
-  .then((r) => {
-    dispatch(updateFeed({
-      id,
-      text: r.data.text,
-    }))
-  })
-  .catch(e => console.log(e))
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        text: r.data.text,
+      }))
+    })
+    .catch(e => console.log(e))
 }
 
-export const postComment = data => (dispatch) => {
+export const postComment = text => (dispatch) => {
   axios.post(`${host}comments`, {
-    params: data,
+    text,
   })
-  .then((r) => {
-    dispatch(updateFeed(r.data))
+    .then((r) => {
+      dispatch(updateFeed(r.data))
+    })
+    .catch(e => console.log(e))
+}
+
+export const postDocument = text => (dispatch) => {
+  axios.post(`${host}documents`, {
+    text,
   })
-  .catch(e => console.log(e))
+    .then((r) => {
+      dispatch(appendTimeline(r.data))
+    })
+    .catch(e => console.log(e))
 }

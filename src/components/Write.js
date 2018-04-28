@@ -27,6 +27,7 @@ class Write extends Component {
     } else {
       this.props.postDocument(this.state.text)
     }
+    this.setState({ text: '', mode: 'edit' })
   }
   render() {
     const text = this.state.text

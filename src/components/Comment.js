@@ -6,8 +6,7 @@ import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
-import { request } from '../fetches/request'
-import { getUser, getTimeline } from '../actions'
+import { postCommentLike, deleteCommentLike } from '../actions'
 
 class Comment extends Component {
   constructor(props) {
@@ -21,23 +20,9 @@ class Comment extends Component {
     const user = this.props.user
 
     if (comment.likedBy.findIndex(lover => lover.id === user.id) === -1) {
-      request('POST', `comments/${comment.id}/LikeIt`, [])
-      .then(() => {
-        this.props.getTimeline()
-        this.props.getUser()
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+      postCommentLike(comment.id)
     } else {
-      request('DELETE', `comments/${comment.id}/LikeIt`, [])
-      .then(() => {
-        this.props.getTimeline()
-        this.props.getUser()
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+      deleteCommentLike(comment.id)
     }
   }
   toggleRecomment() {
@@ -115,15 +100,12 @@ class Comment extends Component {
 
 Comment.propTypes = {
   content: PropTypes.object.isRequired,
-  getTimeline: PropTypes.func.isRequired,
-  getUser: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
+const mapStateToProps = () => ({
 })
 const mapDispatchToProps = ({
-  getTimeline,
-  getUser,
+  postCommentLike,
+  deleteCommentLike,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Comment)

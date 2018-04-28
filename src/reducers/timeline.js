@@ -8,6 +8,7 @@ const timeline = (state = [], action) => {
         ...action.timeline,
       ]
     case 'UPDATEFEED':
+      console.log(state, action)
       return state.filter((feed, idx) => {
         if (idx === action.feed.id) {
           return action.feed

@@ -34,6 +34,7 @@ class Timeline extends Component {
     const page = this.state.page
     const timelinelen = this.props.timeline.length
     e.preventDefault()
+    console.log(isAlmostScrolled())
     if (this.mutex && isAlmostScrolled() &&
       (this.state.doclen !== timelinelen)) {
       this.mutex = false
