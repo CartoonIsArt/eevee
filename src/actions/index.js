@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // const host = 'https://cia.kw.ac.kr/api/'
-const host = 'https://localhost/api/'
+const host = 'http://localhost/api/'
 
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
@@ -82,17 +82,13 @@ export const getNoties = () => (dispatch) => {
   dispatch(setNoties([
     {
       id: 1,
-      createdAt: '2017-06-22T07:03:20.963737Z',
-    },
-    {
-      id: 2,
       createdAt: '2017-06-23T07:03:20.963737Z',
       from: user1,
       text: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
       had_read: true,
     },
     {
-      id: 3,
+      id: 2,
       createdAt: '2017-06-10T07:03:20.963737Z',
       from: user1,
       text: '공지: 6월 종강총회 회의록',
@@ -101,8 +97,8 @@ export const getNoties = () => (dispatch) => {
   ]))
 }
 
-export const getTimeline = () => (dispatch) => {
-  axios.get(`${host}documents`)
+export const getTimeline = (page = 1) => (dispatch) => {
+  axios.get(`${host}timeline/${page}`)
     .then((r) => {
       dispatch(setTimeline(r.data))
     })
