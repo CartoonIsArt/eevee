@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { request } from '../fetches/request'
 
-const host = 'https://cia.kw.ac.kr/api/'
+// const host = 'https://cia.kw.ac.kr/api/'
+const host = 'http://localhost/api/'
 
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
@@ -60,21 +60,21 @@ const user1 = {
 
 
 export const getMembers = () => (dispatch) => {
-  request('GET', 'users', [])
-    .then((r) => {
-      dispatch(setMembers(r.data))
-    })
-    .catch()
+  axios.get(`${host}users`)
+  .then((r) => {
+    dispatch(setMembers(r.data))
+  })
+  .catch()
 }
 
 export const getUser = () => (dispatch) => {
-  request('GET', 'users/session', [])
-    .then((r) => {
-      dispatch(setUser(r.data))
-    })
-    .catch((e) => {
-      console.log(e)
-    })
+  axios.get(`${host}users/session`)
+  .then((r) => {
+    dispatch(setUser(r.data))
+  })
+  .catch((e) => {
+    console.log(e)
+  })
 }
 
 export const getNoties = () => (dispatch) => {
@@ -103,73 +103,58 @@ export const getNoties = () => (dispatch) => {
   ]))
 }
 
-export const getTimeline = () => (dispatch) => {
-  axios({
-    method: 'GET',
-    url: `${host}documents`,
+export const getTimeline = (page = 1) => (dispatch) => {
+  axios.get(`${host}timeline/${page}`)
+  .then((r) => {
+    dispatch(setTimeline(r.data))
   })
-    .then((r) => {
-      dispatch(setTimeline(r.data))
-    })
-    .catch((e) => {
-      console.log(e)
-    })
-
+  .catch((e) => {
+    console.log(e)
+  })
   return 'next cur'
 }
 
 export const postDocumentLike = id => (dispatch) => {
-  axios({
-    method: 'POST',
-    url: `${host}documents/${id}/LikeIt`,
+  axios.post(`${host}documents/${id}/LikeIt`)
+  .then((r) => {
+    dispatch(updateFeed({
+      id,
+      likedBy: r.data.likedBy,
+    }))
   })
-    .then((r) => {
-      dispatch(updateFeed({
-        id,
-        likedBy: r.data.likedBy,
-      }))
-    })
-    .catch(e => console.log(e))
+  .catch(e => console.log(e))
 }
 
 export const deleteDocumentLike = id => (dispatch) => {
-  axios({
-    method: 'DELETE',
-    url: `${host}documents/${id}/LikeIt`,
+  axios.delete(`${host}documents/${id}/LikeIt`)
+  .then((r) => {
+    dispatch(updateFeed({
+      id,
+      likedBy: r.data.likedBy,
+    }))
   })
-    .then((r) => {
-      dispatch(updateFeed({
-        id,
-        likedBy: r.data.likedBy,
-      }))
-    })
-    .catch(e => console.log(e))
+  .catch(e => console.log(e))
 }
 
 export const patchDocument = (id, data) => (dispatch) => {
-  axios({
-    method: 'PATCH',
-    url: `${host}documents/${id}`,
-    data,
+  axios.patch(`${host}documents/${id}`, {
+    params: data,
   })
-    .then((r) => {
-      dispatch(updateFeed({
-        id,
-        text: r.data.text,
-
-      }))
-    })
-    .catch(e => console.log(e))
+  .then((r) => {
+    dispatch(updateFeed({
+      id,
+      text: r.data.text,
+    }))
+  })
+  .catch(e => console.log(e))
 }
 
 export const postComment = data => (dispatch) => {
-  axios({
-    method: 'POST',
-    url: `${host}comments`,
-    data,
+  axios.post(`${host}comments`, {
+    params: data,
   })
-    .then((r) => {
-      dispatch(updateFeed(r.data))
-    })
-    .catch(e => console.log(e))
+  .then((r) => {
+    dispatch(updateFeed(r.data))
+  })
+  .catch(e => console.log(e))
 }
