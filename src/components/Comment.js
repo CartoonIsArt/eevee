@@ -72,7 +72,10 @@ class Comment extends Component {
                   {`Like ${comment.likedBy.length} `}
                 </a>
               </Popover>
-              <pre> Reply {comment.replies.length} </pre>
+              {
+                comment.replies &&
+                <pre> Reply {comment.replies.length} </pre>
+              }
               <div style={{ color: '#0a0a0' }}>
                 {printTime(comment.createdAt)}
               </div>
@@ -81,7 +84,7 @@ class Comment extends Component {
               commentId={comment.id}
               user={user}
               viewRecomment={viewRecomment}
-              content={comment.replies}
+              content={comment.replies ? comment.replies : []}
             />
           </div>
           <div>

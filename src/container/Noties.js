@@ -8,8 +8,7 @@ import { getNoties } from '../actions'
 
 class Noties extends Component {
   componentWillMount() {
-    const noties = this.props.noties
-    if (noties.length === 0) { this.props.getNoties() }
+    this.props.getNoties()
   }
   render() {
     const noties = this.props.noties

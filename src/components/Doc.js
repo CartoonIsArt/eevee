@@ -9,7 +9,7 @@ import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
-import { postDocumentLike, deleteDocumentLike } from '../actions'
+import { getUser, postDocumentLike, deleteDocumentLike } from '../actions'
 
 class Doc extends Component {
   constructor(props) {
@@ -23,10 +23,11 @@ class Doc extends Component {
     const user = this.props.user
 
     if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
-      postDocumentLike(content.id)
+      this.props.postDocumentLike(content.id, user.id)
     } else {
-      deleteDocumentLike(content.id)
+      this.props.deleteDocumentLike(content.id, user.id)
     }
+    this.props.getUser()
   }
   toggleAppending() {
     this.setState({ isAppending: !this.state.isAppending })
@@ -136,10 +137,15 @@ class Doc extends Component {
 
 Doc.propTypes = {
   content: PropTypes.object.isRequired,
+  getUser: PropTypes.func.isRequired,
+  postDocumentLike: PropTypes.func.isRequired,
+  deleteDocumentLike: PropTypes.func.isRequired,
 }
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
+  user: state.user,
 })
 const mapDispatchToProps = ({
+  getUser,
   postDocumentLike,
   deleteDocumentLike,
 })

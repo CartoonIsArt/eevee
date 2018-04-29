@@ -1,17 +1,25 @@
+import { mergeObject } from '../lib'
+
 const timeline = (state = [], action) => {
   switch (action.type) {
     case 'SETTIMELINE':
-      return action.timeline
-    case 'APPENDTIMELINE':
       return [
         ...state,
         ...action.timeline,
       ]
+    case 'APPENDFEED':
+      return Object.values([action.feed, ...state])
     case 'UPDATEFEED':
-      console.log(state, action)
-      return state.filter((feed, idx) => {
-        if (idx === action.feed.id) {
-          return action.feed
+      return state.map((feed) => {
+        if (feed.id === action.feed.id) {
+          return mergeObject(feed, action.feed)
+        }
+        return feed
+      })
+    case 'APPENDCOMMENT':
+      return state.map((feed) => {
+        if (feed.id === action.comment.rootDocument.id) {
+          return Object.values([action.comment, ...feed.comments])
         }
         return feed
       })

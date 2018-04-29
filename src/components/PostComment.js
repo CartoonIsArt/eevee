@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { Input, Button, LocaleProvider } from 'antd'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
-
-const args = [];
 
 class PostComment extends Component {
   constructor(props) {
@@ -14,10 +13,11 @@ class PostComment extends Component {
     };
   }
   onButtonClicked() {
-    args.push({ type: 'Number', key: 'documentId', value: this.props.feedId })
-    args.push({ type: 'String', key: 'text', value: this.state.text })
-
-    postComment(args)
+    this.props.postComment({
+      documentId: this.props.feedId,
+      text: this.state.text,
+    })
+    this.setState({ text: '' })
   }
   onChangeInput(e) {
     this.setState(e);
@@ -54,6 +54,11 @@ class PostComment extends Component {
     )
   }
 }
+
+PostComment.PropTypes = {
+  postComment: PropTypes.func.isRequired,
+}
+
 const mapStateToProps = () => ({
 })
 const mapDispatchToProps = ({

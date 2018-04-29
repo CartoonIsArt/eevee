@@ -4,8 +4,6 @@ import { Input, Button, LocaleProvider } from 'antd'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
 
-const args = [];
-
 class PostRecomment extends Component {
   constructor(props) {
     super(props)
@@ -14,10 +12,11 @@ class PostRecomment extends Component {
     };
   }
   onButtonClicked() {
-    args.push({ type: 'Number', key: 'commentId', value: this.props.commentId })
-    args.push({ type: 'String', key: 'text', value: this.state.text })
-
-    postComment(args)
+    this.props.postComment({
+      commentId: this.props.commentId,
+      text: this.state.text,
+    })
+    this.setState({ text: '' })
   }
   onChangeInput(e) {
     this.setState(e);

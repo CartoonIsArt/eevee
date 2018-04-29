@@ -7,17 +7,17 @@ const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
 const SET_TIMELINE = 'SETTIMELINE'
 const UPDATE_FEED = 'UPDATEFEED'
+const APPEND_FEED = 'APPENDFEED'
 const SET_USER = 'SETUSER'
 const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
-const APPEND_TIMELINE = 'APPENDTIMELINE'
 // const APPEND_NOTIES = 'APPENDNOTIES'
 
 const setSun = sun => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
 const setUser = user => ({ type: SET_USER, user })
 const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
-const appendTimeline = timeline => ({ type: APPEND_TIMELINE, timeline })
+const appendFeed = feed => ({ type: APPEND_FEED, feed })
 const updateFeed = feed => ({ type: UPDATE_FEED, feed })
 const setMembers = members => ({ type: SET_MEMBERS, members })
 const setNoties = noties => ({ type: SET_NOTIES, noties })
@@ -111,47 +111,46 @@ export const getTimeline = (page = 1) => (dispatch) => {
     .catch((e) => {
       console.log(e)
     })
-  return 'next cur'
 }
 
-export const postDocumentLike = id => (dispatch) => {
-  axios.post(`${host}documents/${id}/LikeIt`)
+export const postDocumentLike = (id, userid) => (dispatch) => {
+  axios.post(`${host}documents/${id}/likeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id,
+        id: userid,
         likedBy: r.data.likedBy,
       }))
     })
     .catch(e => console.log(e))
 }
 
-export const deleteDocumentLike = id => (dispatch) => {
-  axios.delete(`${host}documents/${id}/LikeIt`)
+export const deleteDocumentLike = (id, userid) => (dispatch) => {
+  axios.delete(`${host}documents/${id}/likeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id,
+        id: userid,
         likedBy: r.data.likedBy,
       }))
     })
     .catch(e => console.log(e))
 }
 
-export const postCommentLike = id => (dispatch) => {
+export const postCommentLike = (id, userid) => (dispatch) => {
   axios.post(`${host}comments/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id,
+        id: userid,
         likedBy: r.data.likedBy,
       }))
     })
     .catch(e => console.log(e))
 }
 
-export const deleteCommentLike = id => (dispatch) => {
+export const deleteCommentLike = (id, userid) => (dispatch) => {
   axios.delete(`${host}comments/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id,
+        id: userid,
         likedBy: r.data.likedBy,
       }))
     })
@@ -171,12 +170,27 @@ export const patchDocument = (id, text) => (dispatch) => {
     .catch(e => console.log(e))
 }
 
-export const postComment = text => (dispatch) => {
+// postRecomment 함수 작성이 필요합니다.
+// 아니면 postComment로 해결해주세요.
+export const postComment = data => (dispatch) => {
   axios.post(`${host}comments`, {
-    text,
+    documentId: data.documentId,
+    commentId: data.commentId,
+    text: data.text,
   })
     .then((r) => {
-      dispatch(updateFeed(r.data))
+      dispatch(updateFeed({
+        id: data.documentId,
+        comments: [
+          ...r.data.rootDocument.comments,
+          {
+            ...r.data,
+            likedBy: [],
+            replies: [],
+          },
+        ],
+        likedBy: [],
+      }))
     })
     .catch(e => console.log(e))
 }
@@ -186,7 +200,11 @@ export const postDocument = text => (dispatch) => {
     text,
   })
     .then((r) => {
-      dispatch(appendTimeline(r.data))
+      dispatch(appendFeed({
+        ...r.data,
+        comments: [],
+        likedBy: [],
+      }))
     })
     .catch(e => console.log(e))
 }
