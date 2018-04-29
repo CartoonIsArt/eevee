@@ -12,6 +12,7 @@ class Noties extends Component {
   }
   render() {
     const noties = this.props.noties
+    console.log(noties)
     return (
       <div >
         <div style={{ height: '8px' }} />
@@ -27,7 +28,7 @@ class Noties extends Component {
           <Line />
           <div style={{ height: '156px', overflowY: 'scroll' }}>
             {noties.map(noti =>
-              <Noti content={noti} />,
+              <Noti content={noti} key={noti.id} />,
             )}
           </div>
         </div>
