@@ -57,14 +57,14 @@ class Comment extends Component {
               <Popover
                 content={
                   comment.likedBy.length ?
-                  comment.likedBy.map(lover => (
-                    <pre>
-                      {`${lover.nTh}기 ${lover.fullname}`}
-                    </pre>
-                  )) :
+                comment.likedBy.map(lover => (
                   <pre>
-                    당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
+                    {`${lover.nTh}기 ${lover.fullname}`}
                   </pre>
+                )) :
+                <pre>
+                  당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
+                </pre>
                 }
                 placement="rightTop"
               >
