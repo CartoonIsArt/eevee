@@ -4,31 +4,9 @@ import PropTypes from 'prop-types'
 import Comment from './Comment'
 import PostComment from './PostComment'
 import Line from '../components/Line'
-import { request } from '../fetches/request'
 
 class Comments extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      response: '',
-    };
-  }
-  onClickWriteComment() {
-    request('GET', `documents/${this.props.feed.id}`, [])
-    .then((res) => {
-      this.props.content = res.data.comments
-      this.setState({
-        response: res,
-      })
-    })
-    .catch((err) => {
-      this.setState({
-        response: err.response,
-      })
-    })
-  }
   render() {
-    const viewComments = this.props.viewComments
     const comments = this.props.content
     const feed = this.props.feed
     const user = this.props.user
@@ -39,14 +17,14 @@ class Comments extends Component {
           <Popover
             content={
               feed.likedBy.length ?
-              feed.likedBy.map(lover => (
+                feed.likedBy.map(lover => (
+                  <pre>
+                    {`${lover.nTh}기 ${lover.fullname}`}
+                  </pre>
+                )) :
                 <pre>
-                  {`${lover.nTh}기 ${lover.fullname}`}
-                </pre>
-              )) :
-              <pre>
                 당신이 이 글의 첫 번째 좋아요를 눌러주세요!
-              </pre>
+                </pre>
             }
             placement="rightTop"
           >
@@ -62,14 +40,10 @@ class Comments extends Component {
           />),
         )}
         <div style={{ height: '4px' }} />
-        {
-          viewComments &&
-          <PostComment
-            user={user}
-            feedId={this.props.feed.id}
-            onClickWriteComment={() => this.onClickWriteComment()}
-          />
-        }
+        <PostComment
+          user={user}
+          feedId={this.props.feed.id}
+        />
       </div>
     )
   }

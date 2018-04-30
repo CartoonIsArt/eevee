@@ -8,11 +8,11 @@ import { getNoties } from '../actions'
 
 class Noties extends Component {
   componentWillMount() {
-    const noties = this.props.noties
-    if (noties.length === 0) { this.props.getNoties() }
+    this.props.getNoties()
   }
   render() {
     const noties = this.props.noties
+    console.log(noties)
     return (
       <div >
         <div style={{ height: '8px' }} />
@@ -28,7 +28,7 @@ class Noties extends Component {
           <Line />
           <div style={{ height: '156px', overflowY: 'scroll' }}>
             {noties.map(noti =>
-              <Noti content={noti} />,
+              <Noti content={noti} key={noti.id} />,
             )}
           </div>
         </div>

@@ -5,45 +5,42 @@ import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
 import Write from '../components/Write'
 import { getTimeline, getUser } from '../actions'
-import { request } from '../fetches/request'
+import { isAlmostScrolled } from '../lib'
 
 class Timeline extends Component {
   constructor(props) {
     super(props)
     this.state = {
       response: '',
-      redraw: false,
+      page: 1,
+      doclen: 0,
     }
+    this.mutex = true
+    this.wrapper = e => this.loadMore(e)
   }
   componentWillMount() {
-    if (this.props.timeline.length === 0) {
-      this.props.getTimeline()
-    }
-    /*
-    if (this.props.user.has_logged_in === false) {
-      this.props.getUser()
-    }
-    */
+    this.props.getTimeline()
+    this.setState({ doclen: this.props.timeline.length })
   }
-  componentWillReceiveProps(newProps) {
-    if (newProps.redraw !== this.state.redraw) {
-      this.props.getTimeline()
-      this.setState({ redraw: newProps.redraw })
-    }
+  componentDidMount() {
+    window.addEventListener('scroll', this.wrapper)
   }
-  writeComplete() {
-    request('GET', 'documents', [])
-    .then((res) => {
-      this.props.timeline = res.data
+  componentWillUnmount() {
+    window.addEventListener('scroll', this.wrapper)
+  }
+  loadMore(e) {
+    const page = this.state.page
+    const timelinelen = this.props.timeline.length
+    e.preventDefault()
+    if (this.mutex && isAlmostScrolled() &&
+      (this.state.doclen !== timelinelen)) {
+      this.mutex = false
+      this.props.getTimeline(page + 1)
       this.setState({
-        response: res,
-      })
-    })
-    .catch((err) => {
-      this.setState({
-        response: err.response,
-      })
-    })
+        page: page + 1,
+        doclen: timelinelen,
+      }, () => { this.mutex = true })
+    }
   }
   render() {
     const timeline = this.props.timeline
@@ -53,22 +50,19 @@ class Timeline extends Component {
         {user.has_logged_in ?
           <Write
             user={user}
-            writeComplete={() => this.writeComplete()}
-            isAppending={false}
+            documentId={-1}
           /> :
           this.props.getUser()
         }
         {user.has_logged_in ?
-        timeline.map(feed =>
-          (<Feed
-            user={user}
-            key={feed.id}
-            content={feed}
-            onLikeIt={() => this.props.onLikeIt()}
-            writeComplete={() => this.writeComplete()}
-          />),
-        ) :
-        this.props.getUser()}
+          timeline.map(feed =>
+            (<Feed
+              user={user}
+              key={feed.id}
+              content={feed}
+            />),
+          ) :
+          this.props.getUser()}
         { /*
         <Ads />
         <Ads />

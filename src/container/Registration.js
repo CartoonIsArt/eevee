@@ -461,22 +461,22 @@ class Registration extends Component {
       args.push({ type: 'String', key: 'profileImage', value: this.state.fileList[0].name })
     }
     request('POST', 'users', args)
-    .then((r) => {
-      this.setState({
-        response: r,
+      .then((r) => {
+        this.setState({
+          response: r,
+        })
+        Modal.success({
+          title: '가입 신청이 완료되었습니다!',
+          content: '오늘 안으로 가입 승인이 완료될 거에요.',
+          onOk() { location.href = '/login' },
+        })
       })
-      Modal.success({
-        title: '가입 신청이 완료되었습니다!',
-        content: '오늘 안으로 가입 승인이 완료될 거에요.',
-        onOk() { location.href = '/login' },
+      .catch((e) => {
+        this.setState({
+          response: e.response,
+        })
+        Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
       })
-    })
-    .catch((e) => {
-      this.setState({
-        response: e.response,
-      })
-      Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
-    })
   }
   isEmpty() {
     if (this.state.userName &&
@@ -488,7 +488,7 @@ class Registration extends Component {
           this.state.number &&
           this.state.email &&
           this.state.phoneNumber
-        ) { return false; }
+    ) { return false; }
     return true;
   }
   handleCancelProfile() {
@@ -506,268 +506,268 @@ class Registration extends Component {
 
   render() {
     const { userName, id, password, passwordCheck, major,
-        number, email, phoneNumber, title, character,
-        fileList, previewVisible, profile,
-        agreeLaw, agreeTerms } = this.state;
+      number, email, phoneNumber, title, character,
+      fileList, previewVisible, profile,
+      agreeLaw, agreeTerms } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
         <div><p> 업로드 </p></div>
       </div>
-      );
+    );
 
     return (
       <LocaleProvider locale={koKR}>
         {
-            this.state.agreeAll ?
-              <div style={{ width: '1280px' }} /* 전체 div */ >
-                <div style={{ display: 'flex', marginLeft: '220px' }} /* 왼쪽 div */ >
-                  <div style={{ width: '512px', marginRight: '40px' }}>
-                    <div
-                      style={{ display: 'flex', marginBottom: '20px' }}
-                    >
-                      <div style={{
-                        width: '512px',
-                        height: '80px',
-                        padding: '10px',
-                        paddingLeft: '32px',
-                        fontSize: '40px',
-                        fontWeight: 'bold',
-                        textAlign: 'left',
-                        backgroundColor: 'rgba(255,255,255,0.5)',
-                      }}
-                      > CIA 회원가입
-                      </div>
+          this.state.agreeAll ?
+            <div style={{ width: '1280px' }} /* 전체 div */ >
+              <div style={{ display: 'flex', marginLeft: '220px' }} /* 왼쪽 div */ >
+                <div style={{ width: '512px', marginRight: '40px' }}>
+                  <div
+                    style={{ display: 'flex', marginBottom: '20px' }}
+                  >
+                    <div style={{
+                      width: '512px',
+                      height: '80px',
+                      padding: '10px',
+                      paddingLeft: '32px',
+                      fontSize: '40px',
+                      fontWeight: 'bold',
+                      textAlign: 'left',
+                      backgroundColor: 'rgba(255,255,255,0.5)',
+                    }}
+                    > CIA 회원가입
                     </div>
-                    <img
-                      src="https://static.zerochan.net/Roa.%28Onoue.Ren%29.full.2177663.jpg"
-                      alt="가로로 긴 그림"
-                      style={{ width: '512px', overflow: 'hidden' }}
+                  </div>
+                  <img
+                    src="https://static.zerochan.net/Roa.%28Onoue.Ren%29.full.2177663.jpg"
+                    alt="가로로 긴 그림"
+                    style={{ width: '512px', overflow: 'hidden' }}
+                  />
+                </div>
+                <div style={{ width: '288px', marginTop: '20px' }} /* 오른쪽 div */ >
+                  <Alert message="* 부분은 필수 입력사항입니다" type="warning" />
+                  <Form style={{ marginTop: '20px' }}>
+                    <FormItem label="프로필 사진">
+                      <div style={{ marginTop: '8px' }}>
+                        <div>
+                          <Upload
+                            action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동하게
+                            listType="picture-card"
+                            fileList={fileList}
+                            onPreview={e => this.handlePreview(e)}
+                            onChange={e => this.handleChange(e)}
+                            beforeUpload={e => beforeUpload(e)}
+                          >
+                            {fileList.length ? null : uploadButton}
+                          </Upload>
+                          <Modal
+                            visible={previewVisible}
+                            footer={null}
+                            onCancel={() => this.handleCancelProfile()}
+                          >
+                            <img
+                              alt="프로필 이미지"
+                              style={{ width: '100%' }}
+                              src={profile}
+                            />
+                          </Modal>
+                        </div>
+                      </div>
+                    </FormItem>
+                  </Form>
+                  <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                    <Input
+                      addonBefore="*이름"
+                      size="large"
+                      style={{ width: '288px', marginRight: '20px' }}
+                      onChange={e => this.onChangeInput({ userName: e.target.value })}
+                      value={userName}
                     />
                   </div>
-                  <div style={{ width: '288px', marginTop: '20px' }} /* 오른쪽 div */ >
-                    <Alert message="* 부분은 필수 입력사항입니다" type="warning" />
-                    <Form style={{ marginTop: '20px' }}>
-                      <FormItem label="프로필 사진">
-                        <div style={{ marginTop: '8px' }}>
-                          <div>
-                            <Upload
-                              action="//jsonplaceholder.typicode.com/posts/"  // 실제로 작동하게
-                              listType="picture-card"
-                              fileList={fileList}
-                              onPreview={e => this.handlePreview(e)}
-                              onChange={e => this.handleChange(e)}
-                              beforeUpload={e => beforeUpload(e)}
-                            >
-                              {fileList.length ? null : uploadButton}
-                            </Upload>
-                            <Modal
-                              visible={previewVisible}
-                              footer={null}
-                              onCancel={() => this.handleCancelProfile()}
-                            >
-                              <img
-                                alt="프로필 이미지"
-                                style={{ width: '100%' }}
-                                src={profile}
-                              />
-                            </Modal>
-                          </div>
-                        </div>
-                      </FormItem>
-                    </Form>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <Input
-                        addonBefore="*이름"
+                  <div style={{ display: 'flex', marginBottom: '20px' }}>
+                    <div>
+                      <Cascader
+                        style={{ width: '140px', marginRight: '8px' }}
+                        options={options}
                         size="large"
-                        style={{ width: '288px', marginRight: '20px' }}
-                        onChange={e => this.onChangeInput({ userName: e.target.value })}
-                        value={userName}
+                        onChange={(value, option) => this.onNumberChange(value, option)}
+                        placeholder="*기수를 선택하세요"
+                        showSearch
+                      />
+                      <DatePicker
+                        style={{ width: '140px' }}
+                        size="large"
+                        onChange={(date, dateString) => this.onDateChange(date, dateString)}
+                        placeholder="*생일을 선택하세요"
                       />
                     </div>
-                    <div style={{ display: 'flex', marginBottom: '20px' }}>
-                      <div>
-                        <Cascader
-                          style={{ width: '140px', marginRight: '8px' }}
-                          options={options}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                    <Input
+                      addonBefore="*아이디"
+                      size="large"
+                      style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
+                      onChange={e => this.onChangeInput({ id: e.target.value })}
+                      value={id}
+                    />
+                    <Input
+                      addonBefore="*비밀번호"
+                      type="password"
+                      size="large"
+                      style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
+                      onChange={e => this.onChangeInput({ password: e.target.value })}
+                      value={password}
+                    />
+                    <Input
+                      addonBefore="*비밀번호 확인"
+                      type="password"
+                      size="large"
+                      style={{ width: '288px' }}
+                      onChange={e => this.onChangeInput({ passwordCheck: e.target.value })}
+                      value={passwordCheck}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                    <Input
+                      addonBefore="*학과(학부)"
+                      size="large"
+                      style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
+                      onChange={e => this.onChangeInput({ major: e.target.value })}
+                      placeholder="ex) 컴퓨터정보공학부"
+                      value={major}
+                    />
+                    <Input
+                      addonBefore="*학번"
+                      size="large"
+                      style={{ width: '288px' }}
+                      onChange={e => this.onChangeInput({ number: e.target.value })}
+                      placeholder="ex) 2017000000"
+                      value={number}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                    <Input
+                      addonBefore="*이메일"
+                      size="large"
+                      style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
+                      onChange={e => this.onChangeInput({ email: e.target.value })}
+                      placeholder="ex) example@example.com"
+                      value={email}
+                    />
+                    <Input
+                      addonBefore="*핸드폰(010-)"
+                      size="large"
+                      style={{ width: '288px' }}
+                      onChange={e => this.onChangeInput({ phoneNumber: e.target.value })}
+                      placeholder="ex) 1234-5678"
+                      value={phoneNumber}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                    <div style={{ display: 'flex' }}>
+                      <div style={{ width: '288px', display: 'flex', flexDirection: 'column' }}>
+                        <Input
+                          addonBefore="만화"
                           size="large"
-                          onChange={(value, option) => this.onNumberChange(value, option)}
-                          placeholder="*기수를 선택하세요"
-                          showSearch
+                          style={{ width: '288px', marginBottom: '8px' }}
+                          onChange={e => this.onChangeInput({ title: e.target.value })}
+                          placeholder="ex) 하이큐"
+                          value={title}
                         />
-                        <DatePicker
-                          style={{ width: '140px' }}
+                        <Input
+                          addonBefore="캐릭터"
                           size="large"
-                          onChange={(date, dateString) => this.onDateChange(date, dateString)}
-                          placeholder="*생일을 선택하세요"
+                          style={{ width: '288px', marginBottom: '20px' }}
+                          onChange={e => this.onChangeInput({ character: e.target.value })}
+                          placeholder="ex) 카게야마 토비오"
+                          value={character}
                         />
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <Input
-                        addonBefore="*아이디"
-                        size="large"
-                        style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                        onChange={e => this.onChangeInput({ id: e.target.value })}
-                        value={id}
-                      />
-                      <Input
-                        addonBefore="*비밀번호"
-                        type="password"
-                        size="large"
-                        style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                        onChange={e => this.onChangeInput({ password: e.target.value })}
-                        value={password}
-                      />
-                      <Input
-                        addonBefore="*비밀번호 확인"
-                        type="password"
-                        size="large"
-                        style={{ width: '288px' }}
-                        onChange={e => this.onChangeInput({ passwordCheck: e.target.value })}
-                        value={passwordCheck}
-                      />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <Input
-                        addonBefore="*학과(학부)"
-                        size="large"
-                        style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                        onChange={e => this.onChangeInput({ major: e.target.value })}
-                        placeholder="ex) 컴퓨터정보공학부"
-                        value={major}
-                      />
-                      <Input
-                        addonBefore="*학번"
-                        size="large"
-                        style={{ width: '288px' }}
-                        onChange={e => this.onChangeInput({ number: e.target.value })}
-                        placeholder="ex) 2017000000"
-                        value={number}
-                      />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <Input
-                        addonBefore="*이메일"
-                        size="large"
-                        style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                        onChange={e => this.onChangeInput({ email: e.target.value })}
-                        placeholder="ex) example@example.com"
-                        value={email}
-                      />
-                      <Input
-                        addonBefore="*핸드폰(010-)"
-                        size="large"
-                        style={{ width: '288px' }}
-                        onChange={e => this.onChangeInput({ phoneNumber: e.target.value })}
-                        placeholder="ex) 1234-5678"
-                        value={phoneNumber}
-                      />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <div style={{ display: 'flex' }}>
-                        <div style={{ width: '288px', display: 'flex', flexDirection: 'column' }}>
-                          <Input
-                            addonBefore="만화"
-                            size="large"
-                            style={{ width: '288px', marginBottom: '8px' }}
-                            onChange={e => this.onChangeInput({ title: e.target.value })}
-                            placeholder="ex) 하이큐"
-                            value={title}
-                          />
-                          <Input
-                            addonBefore="캐릭터"
-                            size="large"
-                            style={{ width: '288px', marginBottom: '20px' }}
-                            onChange={e => this.onChangeInput({ character: e.target.value })}
-                            placeholder="ex) 카게야마 토비오"
-                            value={character}
-                          />
-                          <Button
-                            size="large"
-                            type="primary"
-                            onClick={() => this.onButtonClicked()}
-                          >
+                        <Button
+                          size="large"
+                          type="primary"
+                          onClick={() => this.onButtonClicked()}
+                        >
                             환영해요!
-                          </Button>
-                        </div>
+                        </Button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
             :
+            <div
+              className="agree"
+              style={{ margin: '8px 0 8px 0', padding: '12px', backgroundColor: '#ffffff' }}
+            >
               <div
-                className="agree"
-                style={{ margin: '8px 0 8px 0', padding: '12px', backgroundColor: '#ffffff' }}
+                className="agree-box"
+                style={{
+                  padding: '12px',
+                  border: '1.5px solid black',
+                  borderRadius: '10px',
+                }}
               >
+                <Checkbox
+                  style={{ fontSize: '20px', fontWeight: 'bold' }}
+                  checked={this.state.agreeLaw}
+                  onChange={() => this.setState({ agreeLaw: (!agreeLaw) })}
+                  className="pt-large"
+                > C.I.A. 회칙 동의(필수)
+                </Checkbox>
                 <div
-                  className="agree-box"
+                  className="agree-text"
                   style={{
-                    padding: '12px',
-                    border: '1.5px solid black',
-                    borderRadius: '10px',
-                  }}
+                    wordWrap: 'break-word',
+                    whiteSpace: 'pre-line',
+                    overflowY: 'scroll',
+                    height: '200px' }}
                 >
-                  <Checkbox
-                    style={{ fontSize: '20px', fontWeight: 'bold' }}
-                    checked={this.state.agreeLaw}
-                    onChange={() => this.setState({ agreeLaw: (!agreeLaw) })}
-                    className="pt-large"
-                  > C.I.A. 회칙 동의(필수)
-                  </Checkbox>
-                  <div
-                    className="agree-text"
-                    style={{
-                      wordWrap: 'break-word',
-                      whiteSpace: 'pre-line',
-                      overflowY: 'scroll',
-                      height: '200px' }}
+                  {text1}
+                </div>
+              </div>
+              <div
+                className="agree-box"
+                style={{
+                  padding: '12px',
+                  border: '1.5px solid black',
+                  borderRadius: '10px',
+                  marginTop: '20px',
+                }}
+              >
+                <Checkbox
+                  style={{ fontSize: '20px', fontWeight: 'bold' }}
+                  checked={this.state.agreeTerms}
+                  onChange={() => this.setState({ agreeTerms: (!agreeTerms) })}
+                  className="pt-large"
+                > 개인정보 수집 및 이용에 대한 안내(필수)
+                </Checkbox>
+                <div className="agree-text">
+                  <div style={{
+                    wordWrap: 'break-word',
+                    whiteSpace: 'pre-line',
+                    overflowY: 'scroll',
+                    height: '200px' }}
                   >
-                    {text1}
+                    {text2}
                   </div>
                 </div>
-                <div
-                  className="agree-box"
-                  style={{
-                    padding: '12px',
-                    border: '1.5px solid black',
-                    borderRadius: '10px',
-                    marginTop: '20px',
-                  }}
-                >
-                  <Checkbox
-                    style={{ fontSize: '20px', fontWeight: 'bold' }}
-                    checked={this.state.agreeTerms}
-                    onChange={() => this.setState({ agreeTerms: (!agreeTerms) })}
-                    className="pt-large"
-                  > 개인정보 수집 및 이용에 대한 안내(필수)
-                  </Checkbox>
-                  <div className="agree-text">
-                    <div style={{
-                      wordWrap: 'break-word',
-                      whiteSpace: 'pre-line',
-                      overflowY: 'scroll',
-                      height: '200px' }}
-                    >
-                      {text2}
-                    </div>
-                  </div>
-                </div>
-                <Button
-                  type="primary"
-                  className="pt-button pt-intent-success float-right"
-                  style={{ marginTop: '20px' }}
-                  onClick={() => this.state.agreeLaw &&
+              </div>
+              <Button
+                type="primary"
+                className="pt-button pt-intent-success float-right"
+                style={{ marginTop: '20px' }}
+                onClick={() => this.state.agreeLaw &&
                                  this.state.agreeTerms &&
                                  this.setState({ agreeAll: true }) &&
                                 console.log(this.state.agreeAll)}
-                  disabled={!(this.state.agreeLaw && this.state.agreeTerms)}
-                >
+                disabled={!(this.state.agreeLaw && this.state.agreeTerms)}
+              >
                 동의합니다
-                  <span className="pt-icon-standard pt-icon-arrow-right pt-align-right" />
-                </Button>
-              </div>
+                <span className="pt-icon-standard pt-icon-arrow-right pt-align-right" />
+              </Button>
+            </div>
         }
       </LocaleProvider>
     )

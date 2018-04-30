@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button, Popover } from 'antd'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
-import { request } from '../fetches/request'
+import { postCommentLike, deleteCommentLike } from '../actions'
 
 class Comment extends Component {
   constructor(props) {
@@ -19,27 +20,9 @@ class Comment extends Component {
     const user = this.props.user
 
     if (comment.likedBy.findIndex(lover => lover.id === user.id) === -1) {
-      request('POST', `comments/${comment.id}/LikeIt`, [])
-      .then((r) => {
-        this.props.content.likedBy = r.data
-        this.setState({
-          response: r,
-        })
-      })
-      .catch((e) => {
-        this.setState({ response: e })
-      })
+      postCommentLike(comment.id)
     } else {
-      request('DELETE', `comments/${comment.id}/LikeIt`, [])
-      .then(
-        request('GET', `comments/${comment.id}/LikeIt`, [])
-        .then((r) => {
-          this.props.content.likedBy = r.data
-          this.setState({ response: r })
-        }))
-      .catch((e) => {
-        this.setState({ response: e })
-      })
+      deleteCommentLike(comment.id)
     }
   }
   toggleRecomment() {
@@ -74,14 +57,14 @@ class Comment extends Component {
               <Popover
                 content={
                   comment.likedBy.length ?
-                  comment.likedBy.map(lover => (
-                    <pre>
-                      {`${lover.nTh}기 ${lover.fullname}`}
-                    </pre>
-                  )) :
+                comment.likedBy.map(lover => (
                   <pre>
-                    당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
+                    {`${lover.nTh}기 ${lover.fullname}`}
                   </pre>
+                )) :
+                <pre>
+                  당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
+                </pre>
                 }
                 placement="rightTop"
               >
@@ -89,7 +72,10 @@ class Comment extends Component {
                   {`Like ${comment.likedBy.length} `}
                 </a>
               </Popover>
-              <pre> Reply {comment.replies.length} </pre>
+              {
+                comment.replies &&
+                <pre> Reply {comment.replies.length} </pre>
+              }
               <div style={{ color: '#0a0a0' }}>
                 {printTime(comment.createdAt)}
               </div>
@@ -98,7 +84,7 @@ class Comment extends Component {
               commentId={comment.id}
               user={user}
               viewRecomment={viewRecomment}
-              content={comment.replies}
+              content={comment.replies ? comment.replies : []}
             />
           </div>
           <div>
@@ -119,4 +105,10 @@ Comment.propTypes = {
   content: PropTypes.object.isRequired,
 }
 
-export default Comment
+const mapStateToProps = () => ({
+})
+const mapDispatchToProps = ({
+  postCommentLike,
+  deleteCommentLike,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Comment)

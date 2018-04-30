@@ -1,35 +1,22 @@
 import React, { Component } from 'react'
-import { Input, Button, LocaleProvider, Modal } from 'antd'
+import { connect } from 'react-redux'
+import { Input, Button, LocaleProvider } from 'antd'
 import koKR from 'antd/lib/locale-provider/ko_KR'
-import { request } from '../fetches/request'
-
-const args = [];
+import { postComment } from '../actions'
 
 class PostRecomment extends Component {
   constructor(props) {
     super(props)
     this.state = {
       text: '',
-      response: [],
     };
   }
   onButtonClicked() {
-    args.push({ type: 'Number', key: 'commentId', value: this.props.commentId })
-    args.push({ type: 'String', key: 'text', value: this.state.text })
-
-    request('POST', 'comments', args)
-    .then((r) => {
-      this.setState({
-        responses: r,
-      })
-      console.log(this.state.responses);
+    this.props.postComment({
+      commentId: this.props.commentId,
+      text: this.state.text,
     })
-    .catch((e) => {
-      this.setState({
-        responses: e.response,
-      })
-      Modal.warning({ title: '오류', content: '댓글을 작성하지 못 했습니다.' })
-    })
+    this.setState({ text: '' })
   }
   onChangeInput(e) {
     this.setState(e);
@@ -67,4 +54,9 @@ class PostRecomment extends Component {
   }
 }
 
-export default PostRecomment
+const mapStateToProps = () => ({
+})
+const mapDispatchToProps = ({
+  postComment,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(PostRecomment)

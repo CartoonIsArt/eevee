@@ -87,13 +87,13 @@ class EditUserProfile extends Component {
 
   render() {
     const { userName, email, major, phoneNumber, title, character,
-        previewVisible, profile, fileList } = this.state;
+      previewVisible, profile, fileList } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
         <div><p> 업로드 </p></div>
       </div>
-        );
+    );
 
     return (
       <LocaleProvider locale={koKR}>
@@ -207,7 +207,7 @@ class EditUserProfile extends Component {
                 <div style={{ marginTop: '8px' }}>
                   <div>
                     <Upload
-                      action="//jsonplaceholder.typicode.com/posts/"  // 실제로 작동할 수 있도록 작성해야 함
+                      action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동할 수 있도록 작성해야 함
                       listType="picture-card"
                       fileList={fileList}
                       onPreview={e => this.handlePreview(e)}

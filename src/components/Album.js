@@ -129,7 +129,7 @@ class Album extends Component {
                       }}
                     />
                   </div>),
-              )}
+                )}
               </div>
             </div>
             {modal}
@@ -175,27 +175,27 @@ class Album extends Component {
                 </div>
                 <div style={{ height: '38%', display: 'flex', overflow: 'hidden' }}>
                   { content.slice(2).map((c, idx) =>
-                  (<div
-                    onClick={() => this.handleClick(idx + 2)}
-                    tabIndex={-1}
-                    role="button"
-                    key={c.id}
-                    style={{ position: 'relative', boxSizing: 'border-box', border: '2px solid white', width: '50%', overflow: 'hidden' }}
-                  >
-                    <img
-                      src={c.src}
-                      alt={c.alt}
-                      style={{
-                        position: 'absolute',
-                        top: '-100%',
-                        left: '-100%',
-                        right: '-100%',
-                        bottom: '-100%',
-                        margin: 'auto',
-                      }}
-                    />
-                  </div>),
-                )}
+                    (<div
+                      onClick={() => this.handleClick(idx + 2)}
+                      tabIndex={-1}
+                      role="button"
+                      key={c.id}
+                      style={{ position: 'relative', boxSizing: 'border-box', border: '2px solid white', width: '50%', overflow: 'hidden' }}
+                    >
+                      <img
+                        src={c.src}
+                        alt={c.alt}
+                        style={{
+                          position: 'absolute',
+                          top: '-100%',
+                          left: '-100%',
+                          right: '-100%',
+                          bottom: '-100%',
+                          margin: 'auto',
+                        }}
+                      />
+                    </div>),
+                  )}
                 </div>
               </div>
             </div>
@@ -206,7 +206,6 @@ class Album extends Component {
         return (
           <div />
         )
-
     }
   }
 }

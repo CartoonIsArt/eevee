@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -8,14 +9,13 @@ import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
-import { request } from '../fetches/request'
+import { getUser, postDocumentLike, deleteDocumentLike } from '../actions'
 
 class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isAppending: false,
-      response: '',
     }
   }
   onClickLikeIt() {
@@ -23,30 +23,11 @@ class Doc extends Component {
     const user = this.props.user
 
     if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
-      request('POST', `documents/${content.id}/LikeIt`, [])
-      .then((r) => {
-        this.props.content.likedBy = r.data
-        this.setState({
-          response: r,
-        })
-        this.props.onLikeIt()
-      })
-      .catch((e) => {
-        this.setState({ response: e })
-      })
+      this.props.postDocumentLike(content.id, user.id)
     } else {
-      request('DELETE', `documents/${content.id}/LikeIt`, [])
-      .then(
-        request('GET', `documents/${content.id}/LikeIt`, [])
-        .then((r) => {
-          this.props.content.likedBy = r.data
-          this.setState({ response: r })
-          this.props.onLikeIt()
-        }))
-      .catch((e) => {
-        this.setState({ response: e })
-      })
+      this.props.deleteDocumentLike(content.id, user.id)
     }
+    this.props.getUser()
   }
   toggleAppending() {
     this.setState({ isAppending: !this.state.isAppending })
@@ -94,7 +75,7 @@ class Doc extends Component {
                   >
                     <Link to={`/members/${author.username}`}> {nickname} </Link>
                   </Popover>
-                : <div> 탈퇴한 회원 </div>
+                  : <div> 탈퇴한 회원 </div>
               }
             </div>
             <div> {printTime(createdAt)} </div>
@@ -107,10 +88,7 @@ class Doc extends Component {
         <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
           <Write
             user={user}
-            isAppending={isAppending}
             documentId={this.props.content.id}
-            writeComplete={() => this.props.writeComplete()}
-            toggleAppending={() => this.toggleAppending()}
           />
         </div>
         <Line />
@@ -159,6 +137,16 @@ class Doc extends Component {
 
 Doc.propTypes = {
   content: PropTypes.object.isRequired,
+  getUser: PropTypes.func.isRequired,
+  postDocumentLike: PropTypes.func.isRequired,
+  deleteDocumentLike: PropTypes.func.isRequired,
 }
-
-export default Doc
+const mapStateToProps = state => ({
+  user: state.user,
+})
+const mapDispatchToProps = ({
+  getUser,
+  postDocumentLike,
+  deleteDocumentLike,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Doc)

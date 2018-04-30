@@ -2,7 +2,7 @@ const noties = (state = [], action) => {
   switch (action.type) {
     case 'SETNOTIES':
       return action.noties
-    case 'APPEND':
+    case 'APPENDNOTIES':
       return [
         ...state,
         noties,

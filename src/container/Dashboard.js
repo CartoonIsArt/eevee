@@ -24,18 +24,18 @@ class Dashboard extends Component {
     console.log(user.id)
     args.push({ type: 'Boolean', key: 'isActivated', value: true })
     request('PATCH', `users/${user.id}`, args)
-    .then((r) => {
-      this.props.getUser()
-      this.setState({
-        responses: r,
+      .then((r) => {
+        this.props.getUser()
+        this.setState({
+          responses: r,
+        })
       })
-    })
-    .catch((e) => {
-      this.setState({
-        responses: e.response,
+      .catch((e) => {
+        this.setState({
+          responses: e.response,
+        })
+        Modal.warning({ title: '활동인구 등록에 실패했습니다.' })
       })
-      Modal.warning({ title: '활동인구 등록에 실패했습니다.' })
-    })
   }
 
   render() {
