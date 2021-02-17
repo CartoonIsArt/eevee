@@ -3,6 +3,11 @@ import { mergeObject } from '../lib'
 const timeline = (state = [], action) => {
   switch (action.type) {
     case 'SETTIMELINE':
+<<<<<<< HEAD
+=======
+      return action.timeline
+    case 'APPENDTIMELINE':
+>>>>>>> dc46c2cfaa6a9556b4f66e532324521cc73acec8
       return [
         ...state,
         ...action.timeline,

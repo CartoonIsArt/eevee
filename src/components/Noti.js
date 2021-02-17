@@ -8,6 +8,7 @@ import { printTime } from '../policy'
 class Noti extends Component {
   render() {
     const noti = this.props.content
+    console.log(noti)
     const nickname = `${noti.from.nTh}기 ${noti.from.fullname}`
     return (
       <div key={noti.id}>
