@@ -51,7 +51,6 @@ class Login extends Component {
           backgroundSize: '100% 100%',
           overflow: 'hidden',
         }}
-        align="middle"
       >
         <div
           // 상단 바
