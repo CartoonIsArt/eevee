@@ -1,13 +1,12 @@
 import axios from 'axios'
 
 // const host = 'https://cia.kw.ac.kr/api/'
-const host = 'http://localhost/api/'
+const host = 'http://localhost:3000/'
 
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
 const SET_TIMELINE = 'SETTIMELINE'
 const UPDATE_FEED = 'UPDATEFEED'
-const APPEND_FEED = 'APPENDFEED'
 const SET_USER = 'SETUSER'
 const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
@@ -16,7 +15,7 @@ const APPEND_TIMELINE = 'APPENDTIMELINE'
 
 const setSun = sun => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setUser = user => ({ type: SET_USER, user })
+const setUser = value => ({ type: SET_USER, user: value })
 const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = timeline => ({ type: APPEND_TIMELINE, timeline })
 const updateFeed = feed => ({ type: UPDATE_FEED, feed })
@@ -105,22 +104,11 @@ export const getTimeline = (page = 1) => (dispatch) => {
     })
 }
 
-export const postDocumentLike = (id, userid) => (dispatch) => {
-  axios.post(`${host}documents/${id}/likeIt`)
-    .then((r) => {
-      dispatch(updateFeed({
-        id: userid,
-        likedBy: r.data.likedBy,
-      }))
-    })
-    .catch(e => console.log(e))
-}
-
 export const postDocumentLike = id => (dispatch) => {
   axios.post(`${host}documents/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id: userid,
+        id,
         likedBy: r.data.likedBy,
       }))
     })
@@ -131,7 +119,7 @@ export const deleteDocumentLike = id => (dispatch) => {
   axios.delete(`${host}documents/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id: userid,
+        id,
         likedBy: r.data.likedBy,
       }))
     })
@@ -151,18 +139,12 @@ export const patchDocument = (id, data) => (dispatch) => {
     .catch(e => console.log(e))
 }
 
-// postRecomment 함수 작성이 필요합니다.
-// 아니면 postComment로 해결해주세요.
 export const postComment = data => (dispatch) => {
   axios.post(`${host}comments`, {
     data,
   })
     .then((r) => {
-      dispatch(appendFeed({
-        ...r.data,
-        comments: [],
-        likedBy: [],
-      }))
+      dispatch(updateFeed(r.data))
     })
     .catch(e => console.log(e))
 }
