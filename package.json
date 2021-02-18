@@ -5,7 +5,7 @@
   "homepage": "https://cartoonisart.github.io",
   "dependencies": {
     "antd": "2.13.11",
-    "axios": "^0.17.1",
+    "axios": "0.21.1",
     "history": "^4.6.1",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
