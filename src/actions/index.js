@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // const host = 'https://cia.kw.ac.kr/api/'
-const host = 'http://localhost:3000/'
+const host = 'http://localhost/api/'
 
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
