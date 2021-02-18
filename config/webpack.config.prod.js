@@ -3,11 +3,12 @@
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 process.noDeprecation = true;
 
@@ -33,11 +34,7 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 // Note: defined here because it will be used more than once.
 const cssFilename = 'static/css/[name].[contenthash:8].css';
 
-// ExtractTextPlugin expects the build output to be flat.
-// (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
-// However, our output is structured with css, js and media folders.
-// To have this structure working with relative paths, we have to use custom options.
-const extractTextPluginOptions = shouldUseRelativeAssetPaths
+const miniCssExtractPluginOptions = shouldUseRelativeAssetPaths
   // Making sure that the publicPath goes back to to build folder.
   ? { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
@@ -46,6 +43,7 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
 module.exports = {
+  mode: 'production',
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
@@ -135,7 +133,7 @@ module.exports = {
       // "css" loader resolves paths in CSS and adds assets as dependencies.
       // "style" loader normally turns CSS into JS modules injecting <style>,
       // but unlike in development configuration, we do something different.
-      // `ExtractTextPlugin` first applies the "postcss" and "css" loaders
+      // first applies the "postcss" and "css" loaders
       // (second argument), then grabs the result CSS and puts it into a
       // separate file in our build process. This way we actually ship
       // a single CSS file in production instead of JS code injecting <style>
@@ -144,26 +142,26 @@ module.exports = {
       // in the main CSS file.
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract(Object.assign({},
+        use: [
           {
-            fallback: 'style-loader',
-            use: [
-              'css-loader?importLoaders=1',
-              'postcss-loader',
-            ]
-          }, extractTextPluginOptions))
+            loader: MiniCssExtractPlugin.loader,
+            options: miniCssExtractPluginOptions
+          },
+          'css-loader?importLoaders=1',
+          'postcss-loader',
+        ]
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract(Object.assign({},
+        loader: [
           {
-            fallback: 'style-loader',
-            use: [
-              'css-loader?importLoaders=1',
-              'postcss-loader',
-              'sass-loader',
-            ]
-          }, extractTextPluginOptions))
+            loader: MiniCssExtractPlugin.loader,
+            options: miniCssExtractPluginOptions
+          },
+          'css-loader?importLoaders=1',
+          'postcss-loader',
+          'sass-loader',
+        ]
       },
       // "file" loader for svg
       {
@@ -179,12 +177,6 @@ module.exports = {
   },
 
   plugins: [
-    // Makes some environment variables available in index.html.
-    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    // In production, it will be an empty string unless you specify "homepage"
-    // in `package.json`, in which case it will be the pathname of that URL.
-    new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
@@ -202,6 +194,12 @@ module.exports = {
         minifyURLs: true,
       },
     }),
+    // Makes some environment variables available in index.html.
+    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    // In production, it will be an empty string unless you specify "homepage"
+    // in `package.json`, in which case it will be the pathname of that URL.
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
@@ -209,24 +207,19 @@ module.exports = {
     new webpack.DefinePlugin(env.stringified),
     // This helps ensure the builds are consistent if source hasn't changed:
     new webpack.optimize.OccurrenceOrderPlugin(),
-    // Try to dedupe duplicated modules, if any:
-    new webpack.optimize.DedupePlugin(),
     // Minify the code.
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true, // React doesn't support IE8
+    new UglifyJsPlugin({
+      uglifyOptions: {
         warnings: false,
-      },
-      mangle: {
-        screw_ie8: true,
-      },
-      output: {
-        comments: false,
-        screw_ie8: true,
-      },
+        compress: {},
+        mangle: true,
+        output: {
+          comments: false,
+        },
+        ie8: false, // React doesn't support IE8
+      }
     }),
-    // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin(cssFilename),
+    new MiniCssExtractPlugin({ filename: cssFilename }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
