@@ -53,7 +53,8 @@ const user1 = {
   username: 'kswcia',
   profileImage: {
     id: 1,
-    savedPath: 'https://cia.kw.ac.kr/media/2462a3f1-9bb5-4758-9cbe-fcf7f33db668.png',
+    // savedPath: 'https://cia.kw.ac.kr/media/2462a3f1-9bb5-4758-9cbe-fcf7f33db668.png',
+    savedPath: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
     filename: 'kPanic.png',
   },
 }

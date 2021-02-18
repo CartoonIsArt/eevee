@@ -22,7 +22,8 @@ class Portal extends Component {
               <Noties />
               <Card title="외부링크" style={{ marginTop: '4px' }} >
                 <p>
-                  <a href="https://cia.kw.ac.kr/wiki/index.php"> 동아리 위키 </a>
+                  {/* <a href="https://cia.kw.ac.kr/wiki/index.php"> 동아리 위키 </a> */}
+                  <a href="https://cafe.naver.com/ciapg523"> 동아리 카페 </a>
                 </p>
                 <p>
                   <a href="https://github.com/CartoonIsArt/"> 인사부 열정페이팀 </a>

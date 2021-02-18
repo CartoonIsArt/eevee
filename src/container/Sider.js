@@ -102,7 +102,8 @@ class Sider extends Component {
             <span><Icon type="smile" /><span>C.I.A.</span></span>}
         >
           <Menu.Item key="/law">
-            <a href="https://cia.kw.ac.kr/wiki/index.php?title=%ED%9A%8C%EC%B9%99" target="_blank" rel="noopener noreferrer">회칙</a>
+            {/* <a href="https://cia.kw.ac.kr/wiki/index.php?title=%ED%9A%8C%EC%B9%99" target="_blank" rel="noopener noreferrer">회칙</a> */}
+            <a href="https://cafe.naver.com/ciapg523/62" target="_blank" rel="noopener noreferrer">회칙</a>
           </Menu.Item>
           <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
           {/* 배포 후 패치

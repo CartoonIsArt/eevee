@@ -18,7 +18,8 @@ const user1 = {
   username: 'kswcia',
   image: {
     id: 1,
-    src: 'https://cia.kw.ac.kr/media/2462a3f1-9bb5-4758-9cbe-fcf7f33db668.png',
+    // src: 'https://cia.kw.ac.kr/media/2462a3f1-9bb5-4758-9cbe-fcf7f33db668.png',
+    src: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
     alt: 'kPanic.png',
   },
 }
@@ -36,12 +37,14 @@ export const getFeed = id => ({
   images: [
     {
       id: 2,
-      src: 'https://cia.kw.ac.kr/media/20c2603a-013e-4e24-a517-64ecc5e97007.jpg',
+      // src: 'https://cia.kw.ac.kr/media/20c2603a-013e-4e24-a517-64ecc5e97007.jpg',
+      src: 'https://avatars.githubusercontent.com/u/28249912?s=400&u=27f87d52634c36eaec9d1715e6e7f2924a1c6c04&v=4',
       alt: 'aaa.jpg',
     },
     {
       id: 3,
-      src: 'https://cia.kw.ac.kr/media/8c061e9e-0478-4772-aef9-ce6899fc7a92.jpg',
+      // src: 'https://cia.kw.ac.kr/media/8c061e9e-0478-4772-aef9-ce6899fc7a92.jpg',
+      src: 'https://avatars.githubusercontent.com/u/29831584?s=400&u=150413c16f6c1de35e683bcb82abdfa6d44206e6&v=4',
       alt: 'bbb.jpg',
     },
   ],

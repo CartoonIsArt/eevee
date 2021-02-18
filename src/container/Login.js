@@ -85,7 +85,8 @@ class Login extends Component {
           <div>
             <div style={{ textAlign: 'left' }}>
               <img
-                src="https://cia.kw.ac.kr/media/logo.png"
+                // src="https://cia.kw.ac.kr/media/logo.png"
+                src="https://avatars.githubusercontent.com/u/26453921?s=200&v=4"
                 alt="CIA 로고"
                 style={{ width: '240px', overflow: 'hidden' }}
               />

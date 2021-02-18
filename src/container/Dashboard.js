@@ -71,7 +71,8 @@ class Dashboard extends Component {
                   <div style={{ margin: '8px 0px' }}><Icon size="small" style={{ margin: '4px' }} type="user-add" />동게 프리미엄 계정</div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <a href="https://cia.kw.ac.kr/wiki/index.php?title=%ED%9A%8C%EC%B9%99#.EC.A0.9C3.EC.A0.88_.EC.A0.95.ED.9A.8C.EC.9B.90">
+                  {/* <a href="https://cia.kw.ac.kr/wiki/index.php?title=%ED%9A%8C%EC%B9%99#.EC.A0.9C3.EC.A0.88_.EC.A0.95.ED.9A.8C.EC.9B.90"> */}
+                  <a href="https://cafe.naver.com/ciapg523/62">
                     <div style={{ fontSize: '14pt', fontWeight: 'bold' }}>회칙 보기</div>
                   </a>
                   <Button
