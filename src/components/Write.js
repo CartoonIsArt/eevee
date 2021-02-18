@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Input, notification } from 'antd'
 import ReactMarkdown from 'react-markdown'
 import { patchDocument, postDocument } from '../actions'
+
+const Button = require('antd/lib/button')
+const Input = require('antd/lib/input')
+const notification = require('antd/lib/notification')
 
 class Write extends Component {
   static openNotificationWithIcon(type) {

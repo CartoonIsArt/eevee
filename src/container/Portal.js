@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import { Affix, Row, Col, Card } from 'antd'
 import Profile from './Profile'
 import Noties from './Noties'
 import Timeline from './Timeline'
+
+const Affix = require('antd/lib/affix')
+const Row = require('antd/lib/row')
+const Col = require('antd/lib/col')
+const Card = require('antd/lib/card')
 
 class Portal extends Component {
   render() {

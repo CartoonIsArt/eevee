@@ -124,7 +124,12 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel',
-
+        query: {
+          plugins: [['import', {
+            'libraryName': 'antd',
+            'style': true,   // or 'css'
+          }, 'antd']]
+        }
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.

@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Input, Button, LocaleProvider } from 'antd'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
+
+const Input = require('antd/lib/input')
+const Button = require('antd/lib/button')
+const LocaleProvider = require('antd/lib/locale-provider')
 
 class PostRecomment extends Component {
   constructor(props) {

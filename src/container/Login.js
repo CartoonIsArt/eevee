@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Icon, Input, Button, Modal } from 'antd'
 import { request } from '../fetches/request'
+
+const Form = require('antd/lib/form')
+const Icon = require('antd/lib/icon')
+const Input = require('antd/lib/input')
+const Button = require('antd/lib/button')
+const Modal = require('antd/lib/modal')
 
 const FormItem = Form.Item;
 const args = [];
@@ -101,7 +106,6 @@ class Login extends Component {
           </div>
           <div>
             <Form
-              initialValues={{ remember: true }}
               className="login-form"
               onSubmit={e => this.onClickMethod(e)}
             >

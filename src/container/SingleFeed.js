@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import { Affix, Row, Col } from 'antd'
 import { connect } from 'react-redux'
 import Profile from './Profile'
 import Noties from './Noties'
 import Feed from '../components/Feed'
 import { getUser } from '../actions'
 import { getFeed } from '../fetches'
+
+const Affix = require('antd/lib/affix')
+const Row = require('antd/lib/row')
+const Col = require('antd/lib/col')
 
 class SingleFeed extends Component {
   constructor(props) {

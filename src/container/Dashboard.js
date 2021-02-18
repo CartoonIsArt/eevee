@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Button, Icon, Modal } from 'antd'
 import Regulared from '../components/Regulared'
 import { request } from '../fetches/request'
 import { getUser } from '../actions'
 
+const Button = require('antd/lib/button')
+const Icon = require('antd/lib/icon')
+const Modal = require('antd/lib/modal')
 
 const args = [];
 

@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Button, Popover } from 'antd'
 import Line from './Line'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
 import { getUser, postDocumentLike, deleteDocumentLike } from '../actions'
+
+const Button = require('antd/lib/button')
+const Popover = require('antd/lib/popover')
 
 class Doc extends Component {
   constructor(props) {

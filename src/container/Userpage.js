@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Button, Icon } from 'antd'
 import { getMembers } from '../actions'
+
+const Button = require('antd/lib/button')
+const Icon = require('antd/lib/icon')
 
 class Userpage extends Component {
   static check(boolean) {

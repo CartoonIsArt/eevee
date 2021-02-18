@@ -1,8 +1,20 @@
 import React, { Component } from 'react'
-import { Alert, Button, Cascader, Checkbox, DatePicker, Form, Icon, Input, LocaleProvider, message, Modal, Upload } from 'antd'
 import moment from 'moment'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { request } from '../fetches/request'
+
+const Alert = require('antd/lib/alert')
+const Cascader = require('antd/lib/cascader')
+const Checkbox = require('antd/lib/checkbox')
+const Upload = require('antd/lib/upload')
+const message = require('antd/lib/message')
+const DatePicker = require('antd/lib/date-picker')
+const LocaleProvider = require('antd/lib/locale-provider')
+const Form = require('antd/lib/form')
+const Button = require('antd/lib/button')
+const Icon = require('antd/lib/icon')
+const Modal = require('antd/lib/modal')
+const Input = require('antd/lib/input')
 
 const FormItem = Form.Item;
 

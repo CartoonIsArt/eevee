@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import { Affix, Input, Button, Modal } from 'antd'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
+
+const Affix = require('antd/lib/affix')
+const Button = require('antd/lib/button')
+const Modal = require('antd/lib/modal')
+const Input = require('antd/lib/input')
 
 class Nav extends Component {
   toggleMode() {

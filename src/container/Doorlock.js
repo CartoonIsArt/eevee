@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Icon } from 'antd'
 import { connect } from 'react-redux'
 import { getUser } from '../actions'
 import { neogulman } from '../policy'
+
+const Button = require('antd/lib/button')
+const Icon = require('antd/lib/icon')
 
 class Doorlock extends Component {
   constructor(props) {

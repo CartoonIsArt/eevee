@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Popover } from 'antd'
 import Namecard from './Namecard'
 import Line from './Line'
 import { printTime } from '../policy'
+
+const Popover = require('antd/lib/popover')
 
 class Noti extends Component {
   render() {

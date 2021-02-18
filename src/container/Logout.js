@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getUser } from '../actions'
+
+const Button = require('antd/lib/button')
 
 class Logout extends Component {
   constructor(props) {

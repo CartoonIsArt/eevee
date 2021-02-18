@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Menu, Icon } from 'antd';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUser } from '../actions'
+
+const Menu = require('antd/lib/menu')
+const Icon = require('antd/lib/icon')
 
 const SubMenu = Menu.SubMenu;
 

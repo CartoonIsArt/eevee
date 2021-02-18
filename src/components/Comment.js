@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Popover } from 'antd'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
 import { postCommentLike, deleteCommentLike } from '../actions'
+
+const Button = require('antd/lib/button')
+const Popover = require('antd/lib/popover')
 
 class Comment extends Component {
   constructor(props) {
