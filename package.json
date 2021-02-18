@@ -37,6 +37,7 @@
     "cross-spawn": "4.0.2",
     "css-loader": "1.0.0",
     "detect-port": "1.1.0",
+    "domexception": "2.0.1",
     "dotenv": "2.0.0",
     "eslint": "6.7.2",
     "eslint-config-airbnb": "^15.0.1",
