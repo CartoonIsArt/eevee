@@ -61,7 +61,8 @@ class Logout extends Component {
                 alt="츤데레"
                 style={{ width: '100%', overflow: 'hidden' }}
               />
-              : <img
+              :
+              <img
                 src="https://pbs.twimg.com/profile_images/433619758450094080/dMpRXgMs_400x400.jpeg"
                 alt="세상에서 제일 귀여운 호시이 미키"
                 style={{ width: '100%', overflow: 'hidden' }}
@@ -87,7 +88,7 @@ class Logout extends Component {
                     this.setIsOnce()
                   }}
                 >
-                        떠난다
+                  떠난다
                 </Button>
                 : <a href="http://kr.battle.net/heroes/ko/">
                   <Button
@@ -95,7 +96,7 @@ class Logout extends Component {
                     size="small"
                     icon="user"
                   >
-                        난 떠날 거야
+                    난 떠날 거야
                   </Button>
                 </a>
               }

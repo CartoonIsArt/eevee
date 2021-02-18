@@ -141,9 +141,9 @@ class Login extends Component {
                   htmlType="submit"
                   className="login-form-button"
                 >
-                    로그인
+                  로그인
                 </Button>
-                  아니면 <Link to="/registration"> 지금 회원가입 하세요! </Link>
+                아니면 <Link to="/registration"> 지금 회원가입 하세요! </Link>
               </FormItem>
             </Form>
           </div>

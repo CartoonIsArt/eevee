@@ -700,7 +700,7 @@ class Registration extends Component {
                           type="primary"
                           onClick={() => this.onButtonClicked()}
                         >
-                            환영해요!
+                          환영해요!
                         </Button>
                       </div>
                     </div>

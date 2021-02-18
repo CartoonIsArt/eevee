@@ -65,7 +65,7 @@ class Comment extends Component {
                       </pre>
                     )) :
                     <pre>
-                  당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
+                      당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
                     </pre>
                 }
                 placement="rightTop"
