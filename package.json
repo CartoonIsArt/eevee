@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "https://cartoonisart.github.io",
   "dependencies": {
-    "antd": "^2.10.1",
+    "antd": "2.13.11",
     "axios": "^0.17.1",
     "history": "^4.6.1",
     "moment": "^2.18.1",

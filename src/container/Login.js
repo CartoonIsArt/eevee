@@ -34,7 +34,6 @@ class Login extends Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
     const id = this.state.id
     const password = this.state.password
     return (
@@ -101,34 +100,37 @@ class Login extends Component {
             </div>
           </div>
           <div>
-            <Form onSubmit={e => this.onClickMethod(e)} className="login-form">
-              <FormItem>
-                {getFieldDecorator('username', {
-                  rules: [{ required: true, message: '아이디를 입력해주세요!' }],
-                })(
-                  <Input
-                    prefix={<Icon type="user" style={{ fontSize: 12 }} />}
-                    placeholder="Username"
-                    value={id}
-                    onChange={e => this.setState({ id: e.target.value })}
-                  />,
-                )}
+            <Form
+              initialValues={{ remember: true }}
+              className="login-form"
+              onSubmit={e => this.onClickMethod(e)}
+            >
+              <FormItem
+                rules={[
+                  { required: true, message: '아이디를 입력해주세요!' },
+                ]}
+              >
+                <Input
+                  prefix={<Icon type="user" style={{ fontSize: 12 }} />}
+                  placeholder="Username"
+                  value={id}
+                  onChange={e => this.setState({ id: e.target.value })}
+                />
+              </FormItem>
+              <FormItem
+                rules={[
+                  { required: true, message: '비밀번호를 입력해주세요!' },
+                ]}
+              >
+                <Input
+                  prefix={<Icon type="lock" style={{ fontSize: 12 }} />}
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={e => this.setState({ password: e.target.value })}
+                />
               </FormItem>
               <FormItem>
-                {getFieldDecorator('password', {
-                  rules: [{ required: true, message: '비밀번호를 입력해주세요!' }],
-                })(
-                  <Input
-                    prefix={<Icon type="lock" style={{ fontSize: 12 }} />}
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={e => this.setState({ password: e.target.value })}
-                  />,
-                )}
-              </FormItem>
-              <FormItem>
-
                 <Button
                   style={{ width: '100%' }}
                   type="primary"
