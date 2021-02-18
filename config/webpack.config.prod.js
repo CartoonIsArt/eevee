@@ -143,10 +143,11 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: miniCssExtractPluginOptions
-          },
+          // {
+          //   loader: MiniCssExtractPlugin.loader,
+          //   options: miniCssExtractPluginOptions
+          // },
+          'style-loader',
           'css-loader?importLoaders=1',
           'postcss-loader',
         ]
@@ -154,10 +155,11 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: miniCssExtractPluginOptions
-          },
+          // {
+          //   loader: MiniCssExtractPlugin.loader,
+          //   options: miniCssExtractPluginOptions
+          // },
+          'style-loader',
           'css-loader?importLoaders=1',
           'postcss-loader',
           'sass-loader',
