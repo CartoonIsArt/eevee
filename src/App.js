@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 import { Route } from 'react-router-dom'
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
@@ -10,7 +10,7 @@ import Nav from './container/Nav'
 import reducers from './reducers'
 import { routes } from './Route'
 
-const history = createHistory()
+const history = createBrowserHistory()
 const middleware = applyMiddleware(
   routerMiddleware(history),
   thunk,
