@@ -16,11 +16,11 @@ const Input = require('antd/lib/input')
 const FormItem = Form.Item;
 
 function beforeUpload(file) {
-  const isImage = file.type === 'image/gif' ||
-                  file.type === 'image/png' ||
-                  file.type === 'image/jpeg' ||
-                  file.type === 'image/bmp' ||
-                  file.type === 'image/webp';
+  const isImage = file.type === 'image/gif'
+                  || file.type === 'image/png'
+                  || file.type === 'image/jpeg'
+                  || file.type === 'image/bmp'
+                  || file.type === 'image/webp';
   if (!isImage) {
     message.error('이미지만 업로드 해주세요!');
   }
@@ -64,39 +64,49 @@ class EditUserProfile extends Component {
   onChangeInput(e) {
     this.setState(e);
   }
+
   onDateChange(date, dateString) {
     console.log(date, dateString);
     this.setState({ birthday: dateString });
   }
+
   handleOk() {
     console.log(this.state)
     this.setState({ visible: false });
   }
+
   handleCancel() {
     this.setState({ visible: false });
   }
+
   showModal() {
     this.setState({ visible: true });
   }
+
   handleCancelProfile() {
     this.setState({ previewVisible: false })
   }
+
   handlePreview(file) {
     this.setState({
       profile: file.url || file.thumbUrl,
       previewVisible: true,
     });
   }
+
   handleChange({ fileList }) {
     this.setState({ fileList })
   }
+
   handleSubmit() {
     this.showModal();
   }
 
   render() {
-    const { userName, email, major, phoneNumber, title, character,
-      previewVisible, profile, fileList } = this.state;
+    const {
+      userName, email, major, phoneNumber, title, character,
+      previewVisible, profile, fileList,
+    } = this.state;
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -112,12 +122,14 @@ class EditUserProfile extends Component {
           marginLeft: '8px',
           marginTop: '8px',
           display: 'flex',
-          flexDrection: 'column' }}
+          flexDrection: 'column',
+        }}
         >
           <div style={{
             width: '400px',
             marginTop: '52px',
-            marginLeft: '80px' }}
+            marginLeft: '80px',
+          }}
           >
             <h1 style={{ marginBottom: '52px' }}> 프로필 수정 </h1>
             <Form onSubmit={() => this.handleSubmit()}>
@@ -125,7 +137,7 @@ class EditUserProfile extends Component {
                 label="이름"
               >
                 <Input
-                  onChange={e => this.onChangeInput({ userName: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ userName: e.target.value })}
                   placeholder="ex) 19기 xxx"
                   value={userName}
                 />
@@ -134,7 +146,7 @@ class EditUserProfile extends Component {
                 label="이메일"
               >
                 <Input
-                  onChange={e => this.onChangeInput({ email: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ email: e.target.value })}
                   placeholder="ex) example@example.com"
                   value={email}
                 />
@@ -151,7 +163,7 @@ class EditUserProfile extends Component {
                 label="학과(학부)"
               >
                 <Input
-                  onChange={e => this.onChangeInput({ major: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ major: e.target.value })}
                   placeholder="ex) 컴퓨터소프트웨어학과"
                   value={major}
                 />
@@ -162,7 +174,7 @@ class EditUserProfile extends Component {
                 <Input
                   addonBefore="010"
                   style={{ width: '100%' }}
-                  onChange={e => this.onChangeInput({ phoneNumber: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ phoneNumber: e.target.value })}
                   placeholder="ex) 1234 - 1234"
                   value={phoneNumber}
                 />
@@ -173,14 +185,14 @@ class EditUserProfile extends Component {
                 <Input
                   addonBefore="만화 제목"
                   style={{ width: '100%' }}
-                  onChange={e => this.onChangeInput({ title: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ title: e.target.value })}
                   placeholder="ex) 하이큐"
                   value={title}
                 />
                 <Input
                   addonBefore="캐릭터 이름"
                   style={{ marginTop: '8px', width: '100%' }}
-                  onChange={e => this.onChangeInput({ character: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ character: e.target.value })}
                   placeholder="ex) 카게야마 토비오"
                   value={character}
                 />
@@ -189,7 +201,8 @@ class EditUserProfile extends Component {
             <div style={{
               marginTop: '80px',
               marginLeft: '400px',
-              marginBottom: '80px' }}
+              marginBottom: '80px',
+            }}
             >
               <Button type="primary" onClick={() => this.showModal()}> 저장 </Button>
               <Modal
@@ -209,7 +222,8 @@ class EditUserProfile extends Component {
             marginTop: '136px',
             marginLeft: '40px',
             display: 'flex',
-            flexDrection: 'row' }}
+            flexDrection: 'row',
+          }}
           >
             <Form onSubmit={() => this.handleSubmit()}>
               <FormItem label="프로필 사진">
@@ -219,9 +233,9 @@ class EditUserProfile extends Component {
                       action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동할 수 있도록 작성해야 함
                       listType="picture-card"
                       fileList={fileList}
-                      onPreview={e => this.handlePreview(e)}
-                      onChange={e => this.handleChange(e)}
-                      beforeUpload={e => beforeUpload(e)}
+                      onPreview={(e) => this.handlePreview(e)}
+                      onChange={(e) => this.handleChange(e)}
+                      beforeUpload={(e) => beforeUpload(e)}
                     >
                       {fileList.length ? null : uploadButton}
                     </Upload>
@@ -247,7 +261,7 @@ class EditUserProfile extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
 })
 const mapDispatchToProps = ({

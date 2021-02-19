@@ -10,15 +10,17 @@ class Feed extends Component {
       viewComments: false,
     }
   }
+
   toggleCommentView() {
     this.setState({
       viewComments: !this.state.viewComments,
     })
   }
+
   render() {
-    const viewComments = this.state.viewComments
-    const content = this.props.content
-    const user = this.props.user
+    const { viewComments } = this.state
+    const { content } = this.props
+    const { user } = this.props
     return (
       <article style={{ marginBottom: '4px' }}>
         <Doc
@@ -27,12 +29,14 @@ class Feed extends Component {
           onClickComments={() => this.toggleCommentView()}
         />
         {
-          viewComments &&
+          viewComments
+          && (
           <Comments
             user={content.author}
             content={content.comments}
             feed={content}
           />
+          )
         }
       </article>
     )

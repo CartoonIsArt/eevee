@@ -11,16 +11,17 @@ const Input = require('antd/lib/input')
 class Nav extends Component {
   toggleMode() {
     const loc = this.props.location
-    const history = this.props.history
+    const { history } = this.props
     if (loc.pathname === '/') {
       history.push('/dashboard')
     } else {
       history.push('/')
     }
   }
+
   render() {
-    const Search = Input.Search;
-    const pathname = this.props.location.pathname
+    const { Search } = Input;
+    const { pathname } = this.props.location
     return (
       <Affix>
         <nav className="Nav-wrapper">
@@ -32,8 +33,7 @@ class Nav extends Component {
                     title: 'hello~',
                     content: 'hi~',
                     onOk() {},
-                  },
-                  );
+                  });
                 }}
                 >
                   {/* <img height="44px" width="107px" src="https://cia.kw.ac.kr/media/logo.png" alt="logo" /> */}
@@ -67,7 +67,7 @@ Nav.propTypes = {
   location: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   router: state.router,
 })
 const mapDispatchToProps = ({

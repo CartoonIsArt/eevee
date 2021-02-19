@@ -6,16 +6,19 @@ const Popover = require('antd/lib/popover')
 
 class Recomment extends Component {
   render() {
-    const content = this.props.content
-    const author = content.author
+    const { content } = this.props
+    const { author } = content
     const nickname = `${author.nTh}기 ${author.fullname}`
-    const text = content.text
+    const { text } = content
     const imgsrc = author.profileImage.savedPath
     const imgalt = author.profileImage.filename
     return (
-      <div style={{ margin: '2px 0px' }} >
-        <div style={{ display: 'flex' }} >
-          <div style={{ width: '32px', marginRight: '4px', height: '32px', background: '#686868' }} >
+      <div style={{ margin: '2px 0px' }}>
+        <div style={{ display: 'flex' }}>
+          <div style={{
+            width: '32px', marginRight: '4px', height: '32px', background: '#686868',
+          }}
+          >
             <img src={imgsrc} alt={imgalt} style={{ width: '100%' }} />
           </div>
           <div style={{ width: '91%' }}>
@@ -24,12 +27,18 @@ class Recomment extends Component {
                 content={<Namecard content={author} />}
                 placement="leftTop"
               >
-                <a> {nickname} </a>
+                <a>
+                  {' '}
+                  {nickname}
+                  {' '}
+                </a>
               </Popover>
               {text}
             </p>
             <div>
-              <a> Like 2 </a> 13hrs
+              <a> Like 2 </a>
+              {' '}
+              13hrs
             </div>
           </div>
         </div>

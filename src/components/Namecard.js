@@ -13,14 +13,16 @@ class Namecard extends Component {
         <a className="ant-anchor-link-title" href="#">
           <img width="100%" src={user.profileImage.savedPath} alt={user.profileImage.filename} />
         </a>
-        <div style={{ height: '98px',
+        <div style={{
+          height: '98px',
           display: 'flex',
           flexDirection: 'row',
           padding: '8px',
-          lineHeight: '1rem' }}
+          lineHeight: '1rem',
+        }}
         >
           <div style={{ fontSize: '18pt', textAlign: 'left' }}>
-            <div style={{ height: '34%', fontWeight: 'bold' }} >
+            <div style={{ height: '34%', fontWeight: 'bold' }}>
               <Link to={`/members/${user.username}`}>
                 {nickname}
               </Link>

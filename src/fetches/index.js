@@ -52,4 +52,3 @@ export const getFeed = id => ({
   likedBy: [],
 })
 /* eslint-enable */
-

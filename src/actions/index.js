@@ -13,14 +13,14 @@ const SET_NOTIES = 'SETNOTIES'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
 // const APPEND = 'APPEND' // future
 
-const setSun = sun => ({ type: SET_SUN, sun })
+const setSun = (sun) => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setUser = value => ({ type: SET_USER, user: value })
-const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
-const appendTimeline = timeline => ({ type: APPEND_TIMELINE, timeline })
-const updateFeed = feed => ({ type: UPDATE_FEED, feed })
-const setMembers = members => ({ type: SET_MEMBERS, members })
-const setNoties = noties => ({ type: SET_NOTIES, noties })
+const setUser = (value) => ({ type: SET_USER, user: value })
+const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
+const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
+const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
+const setMembers = (members) => ({ type: SET_MEMBERS, members })
+const setNoties = (noties) => ({ type: SET_NOTIES, noties })
 
 export const sunrise = () => (dispatch) => {
   dispatch(setSun(true))
@@ -59,7 +59,6 @@ const user1 = {
   },
 }
 
-
 export const getMembers = () => (dispatch) => {
   axios.get(`${host}users`)
     .then((r) => {
@@ -73,7 +72,7 @@ export const getUser = () => (dispatch) => {
     .then((r) => {
       dispatch(setUser(r.data))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
 export const getNoties = () => (dispatch) => {
@@ -105,7 +104,7 @@ export const getTimeline = (page = 1) => (dispatch) => {
     })
 }
 
-export const postDocumentLike = id => (dispatch) => {
+export const postDocumentLike = (id) => (dispatch) => {
   axios.post(`${host}documents/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
@@ -113,10 +112,10 @@ export const postDocumentLike = id => (dispatch) => {
         likedBy: r.data.likedBy,
       }))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
-export const deleteDocumentLike = id => (dispatch) => {
+export const deleteDocumentLike = (id) => (dispatch) => {
   axios.delete(`${host}documents/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
@@ -124,7 +123,7 @@ export const deleteDocumentLike = id => (dispatch) => {
         likedBy: r.data.likedBy,
       }))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
 export const patchDocument = (id, data) => (dispatch) => {
@@ -137,25 +136,25 @@ export const patchDocument = (id, data) => (dispatch) => {
         text: r.data.text,
       }))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
-export const postComment = data => (dispatch) => {
+export const postComment = (data) => (dispatch) => {
   axios.post(`${host}comments`, {
     data,
   })
     .then((r) => {
       dispatch(updateFeed(r.data))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
-export const postDocument = data => (dispatch) => {
+export const postDocument = (data) => (dispatch) => {
   axios.post(`${host}documents`, {
     data,
   })
     .then((r) => {
       dispatch(appendTimeline(r.data))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }

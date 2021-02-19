@@ -5,24 +5,26 @@ import PostRecomment from './PostRecomment'
 
 class Recomments extends Component {
   render() {
-    const viewRecomment = this.props.viewRecomment
+    const { viewRecomment } = this.props
     const recomments = this.props.content
-    const user = this.props.user
+    const { user } = this.props
     return (
       <div>
-        {recomments.map(recomment =>
-          (<Recomment
+        {recomments.map((recomment) => (
+          <Recomment
             key={recomment.id}
             content={recomment}
-          />),
-        )}
+          />
+        ))}
         {
-          viewRecomment &&
+          viewRecomment
+          && (
           <PostRecomment
             user={user}
             commentId={this.props.commentId}
             onClickWriteRecomment={() => this.onClickWriteRecomment()}
           />
+          )
         }
       </div>
     )

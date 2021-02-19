@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Comment from './Comment'
 import PostComment from './PostComment'
-import Line from '../components/Line'
+import Line from './Line'
 
 const Icon = require('antd/lib/icon')
 const Popover = require('antd/lib/popover')
@@ -10,37 +10,46 @@ const Popover = require('antd/lib/popover')
 class Comments extends Component {
   render() {
     const comments = this.props.content
-    const feed = this.props.feed
-    const user = this.props.user
+    const { feed } = this.props
+    const { user } = this.props
     return (
-      <div style={{ background: '#fff', display: 'flex', flexDirection: 'column', padding: '8px', overflow: 'hidden' }} >
+      <div style={{
+        background: '#fff', display: 'flex', flexDirection: 'column', padding: '8px', overflow: 'hidden',
+      }}
+      >
         <div>
           <Icon type="like" style={{ paddingRight: '4px' }} />
           <Popover
             content={
-              feed.likedBy.length ?
-                feed.likedBy.map(lover => (
+              feed.likedBy.length
+                ? feed.likedBy.map((lover) => (
                   <pre>
                     {`${lover.nTh}기 ${lover.fullname}`}
                   </pre>
-                )) :
-                <pre>
-                  당신이 이 글의 첫 번째 좋아요를 눌러주세요!
-                </pre>
+                ))
+                : (
+                  <pre>
+                    당신이 이 글의 첫 번째 좋아요를 눌러주세요!
+                  </pre>
+                )
             }
             placement="rightTop"
           >
-            <a> {feed.likedBy.length} </a>
+            <a>
+              {' '}
+              {feed.likedBy.length}
+              {' '}
+            </a>
           </Popover>
         </div>
         <Line />
-        {comments.map(comment =>
-          (<Comment
+        {comments.map((comment) => (
+          <Comment
             key={comment.id}
             user={user}
             content={comment}
-          />),
-        )}
+          />
+        ))}
         <div style={{ height: '4px' }} />
         <PostComment
           user={user}

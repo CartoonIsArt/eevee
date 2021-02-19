@@ -21,7 +21,6 @@ const store = createStore(
   middleware,
 )
 
-
 class App extends Component {
   static isNavEnabled() {
     const ignoredPaths = ['/login']
@@ -34,7 +33,7 @@ class App extends Component {
         <ConnectedRouter history={history}>
           <div style={{ background: '#dfdfdf' }}>
             { App.isNavEnabled() && (<Nav />) }
-            <div className="Container" >
+            <div className="Container">
               {routes.map((route, idx) =>
                 // eslint-disable-next-line
                 (<div key={idx} style={{ display: 'flex' }}> 
@@ -48,8 +47,8 @@ class App extends Component {
                     exact={route.exact}
                     component={route.main}
                   />
-                </div>))
-              }
+                </div>
+                ))}
             </div>
           </div>
         </ConnectedRouter>

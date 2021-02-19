@@ -6,8 +6,8 @@ import Namecard from '../components/Namecard'
 const Tabs = require('antd/lib/tabs')
 const Input = require('antd/lib/input')
 
-const TabPane = Tabs.TabPane
-const Search = Input.Search
+const { TabPane } = Tabs
+const { Search } = Input
 
 class Members extends Component {
   constructor(props) {
@@ -17,11 +17,13 @@ class Members extends Component {
       filter: '',
     }
   }
+
   componentWillMount() {
     this.props.getMembers()
     // .then(() => this.setState({ onLoad: true}))
     this.setState({ onLoad: true })
   }
+
   render() {
     const {
       filter,
@@ -40,46 +42,56 @@ class Members extends Component {
         <div style={{ height: '5%' }} onClick={() => this.setState({ onLoad: true })}>
           <h1> 회원목록 </h1>
         </div>
-        {onLoad &&
+        {onLoad
+          && (
           <Tabs
             tabBarExtraContent={
-              <Search onChange={e => this.setState({ filter: e.target.value })} />}
+              <Search onChange={(e) => this.setState({ filter: e.target.value })} />
+}
           >
             <TabPane tab="모든회원" key="all">
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {this.props.members
-                  .filter(member =>
-                    member.fullname.includes(filter) ||
-                      member.username.includes(filter))
-                  .map(member =>
-                    (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
+                  .filter((member) => member.fullname.includes(filter)
+                      || member.username.includes(filter))
+                  .map((member) => (
+                    <div
+                      key={member.id}
+                      style={{
+                        margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px',
+                      }}
+                    >
                       <Namecard content={member} width="240px" />
-                    </div>),
-                  )}
+                    </div>
+                  ))}
               </div>
             </TabPane>
             <TabPane tab="활동인구" key="act">
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {this.props.members
-                  .filter(member =>
-                    member.isActivated &&
-                      (member.fullname.includes(filter) ||
-                        member.username.includes(filter)))
-                  .map(member =>
-                    (<div key={member.id} style={{ margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px' }}>
+                  .filter((member) => member.isActivated
+                      && (member.fullname.includes(filter)
+                        || member.username.includes(filter)))
+                  .map((member) => (
+                    <div
+                      key={member.id}
+                      style={{
+                        margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px',
+                      }}
+                    >
                       <Namecard content={member} width="240px" />
-                    </div>),
-                  )}
+                    </div>
+                  ))}
               </div>
             </TabPane>
           </Tabs>
-        }
+          )}
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   members: state.members,
 })
 const mapDispatchToProps = ({

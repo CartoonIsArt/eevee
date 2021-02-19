@@ -20,34 +20,37 @@ class Doc extends Component {
       isAppending: false,
     }
   }
-  onClickLikeIt() {
-    const content = this.props.content
-    const user = this.props.user
 
-    if (content.likedBy.findIndex(lover => lover.id === user.id) === -1) {
+  onClickLikeIt() {
+    const { content } = this.props
+    const { user } = this.props
+
+    if (content.likedBy.findIndex((lover) => lover.id === user.id) === -1) {
       this.props.postDocumentLike(content.id, user.id)
     } else {
       this.props.deleteDocumentLike(content.id, user.id)
     }
     this.props.getUser()
   }
+
   toggleAppending() {
     this.setState({ isAppending: !this.state.isAppending })
   }
+
   render() {
-    const isAppending = this.state.isAppending
-    const content = this.props.content
-    const author = content.author
+    const { isAppending } = this.state
+    const { content } = this.props
+    const { author } = content
     const nickname = `${author.nTh}기 ${author.fullname}`
-    const text = content.text
-    const createdAt = content.createdAt
+    const { text } = content
+    const { createdAt } = content
     const imgsrc = author.profileImage.savedPath
     const imgalt = author.profileImage.filename
     // const images = content.images
-    const user = this.props.user
+    const { user } = this.props
     return (
-      <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }} >
-        <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }} >
+      <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
+        <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
           <div>
             여기는 뭘 넣으면 예쁠까?
           </div>
@@ -58,7 +61,8 @@ class Doc extends Component {
         </div>
         <Line />
         <div style={{ display: 'flex', marginTop: '4px' }}>
-          <div style={{ width: '48px',
+          <div style={{
+            width: '48px',
             height: '48px',
             background: '#0000FF',
             marginRight: '4px',
@@ -67,27 +71,37 @@ class Doc extends Component {
           >
             <img src={imgsrc} alt={imgalt} style={{ width: '100%' }} />
           </div>
-          <div style={{ flexGrow: 2 }} >
+          <div style={{ flexGrow: 2 }}>
             <div style={{ fontSize: '14pt' }}>
               {
-                author.nTh ?
-                  <Popover
-                    placement="leftTop"
-                    content={<Namecard content={author} />}
-                  >
-                    <Link to={`/members/${author.username}`}> {nickname} </Link>
-                  </Popover>
+                author.nTh
+                  ? (
+                    <Popover
+                      placement="leftTop"
+                      content={<Namecard content={author} />}
+                    >
+                      <Link to={`/members/${author.username}`}>
+                        {' '}
+                        {nickname}
+                        {' '}
+                      </Link>
+                    </Popover>
+                  )
                   : <div> 탈퇴한 회원 </div>
               }
             </div>
-            <div> {printTime(createdAt)} </div>
+            <div>
+              {' '}
+              {printTime(createdAt)}
+              {' '}
+            </div>
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
           <ReactMarkdown source={text} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
-        <div style={isAppending ? { display: 'block' } : { display: 'none' }} >
+        <div style={isAppending ? { display: 'block' } : { display: 'none' }}>
           <Write
             user={user}
             documentId={this.props.content.id}
@@ -143,7 +157,7 @@ Doc.propTypes = {
   postDocumentLike: PropTypes.func.isRequired,
   deleteDocumentLike: PropTypes.func.isRequired,
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
 })
 const mapDispatchToProps = ({

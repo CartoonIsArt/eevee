@@ -14,6 +14,7 @@ class PostRecomment extends Component {
       text: '',
     };
   }
+
   onButtonClicked() {
     this.props.postComment({
       commentId: this.props.commentId,
@@ -21,16 +22,21 @@ class PostRecomment extends Component {
     })
     this.setState({ text: '' })
   }
+
   onChangeInput(e) {
     this.setState(e);
   }
+
   render() {
-    const user = this.props.user
-    const text = this.state.text
+    const { user } = this.props
+    const { text } = this.state
     return (
       <LocaleProvider locale={koKR}>
-        <div style={{ display: 'flex' }} >
-          <div style={{ marginRight: '4px', width: '32px', height: '32px', background: '#FFF' }} >
+        <div style={{ display: 'flex' }}>
+          <div style={{
+            marginRight: '4px', width: '32px', height: '32px', background: '#FFF',
+          }}
+          >
             <img src={user.profileImage.src} alt={user.profileImage.alt} width="100%" />
           </div>
           <div style={{
@@ -42,7 +48,7 @@ class PostRecomment extends Component {
               <Input
                 type="textarea"
                 autosize={{ minRows: 1 }}
-                onChange={e => this.onChangeInput({ text: e.target.value })}
+                onChange={(e) => this.onChangeInput({ text: e.target.value })}
                 placeholder="Write Recomment"
                 value={text}
               />

@@ -13,14 +13,16 @@ class Userpage extends Component {
     }
     return <Icon type="close" />
   }
+
   componentWillMount() {
     this.props.getMembers()
   }
+
   render() {
     // 유저 페이지 넘길 때, props로 유저 아이디 넘기면 좋을 듯합니다
-    const members = this.props.members
-    const username = this.props.match.params.username
-    const member = members.length > 0 ? members.filter(m => m.username === username) : []
+    const { members } = this.props
+    const { username } = this.props.match.params
+    const member = members.length > 0 ? members.filter((m) => m.username === username) : []
     return (
       <div className="userpage">
         <div className="header">
@@ -36,14 +38,20 @@ class Userpage extends Component {
             <div className="menu last"><a href="/members">회원들</a></div>
             <div className="blank" />
             <Button className="menu-btn" type="dashed">
-              <Icon type="tool" /> 프로필 수정
+              <Icon type="tool" />
+              {' '}
+              프로필 수정
             </Button>
           </div>
         </div>
         <div className="under-board">
           <div className="my-inform-size">
             <div className="my-inform-board">
-              <div className="my-inform-title"><Icon type="user" /> 유저 정보</div>
+              <div className="my-inform-title">
+                <Icon type="user" />
+                {' '}
+                유저 정보
+              </div>
               <div className="my-inform-content">
                 <div className="my-inform-key">
                   <ol>
@@ -55,10 +63,14 @@ class Userpage extends Component {
                     <li>정회원</li>
                   </ol>
                 </div>
-                {member.length > 0 &&
+                {member.length > 0
+                  && (
                   <div className="my-inform-value">
                     <ol>
-                      <li>{member[0].nTh}기</li>
+                      <li>
+                        {member[0].nTh}
+                        기
+                      </li>
                       <li>{member[0].fullname}</li>
                       <li>{member[0].studentNumber}</li>
                       <li>{member[0].department}</li>
@@ -66,13 +78,15 @@ class Userpage extends Component {
                       <li>{Userpage.check(member[0].isRegular)}</li>
                     </ol>
                   </div>
-                }
+                  )}
               </div>
             </div>
           </div>
           <div className="my-write-size">
             <div className="my-write-title">
-              <Icon type="edit" /> 작성한 글
+              <Icon type="edit" />
+              {' '}
+              작성한 글
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', padding: '12px' }}>
               <div style={{ display: 'block' }}>
@@ -108,7 +122,7 @@ class Userpage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   members: state.members,
 })
 const mapDispatchToProps = ({

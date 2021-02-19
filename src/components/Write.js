@@ -17,6 +17,7 @@ class Write extends Component {
       description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
     })
   }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -24,6 +25,7 @@ class Write extends Component {
       mode: 'edit',
     }
   }
+
   onClickMethod() {
     if (this.props.documentId > 0) {
       this.props.patchDocument(this.props.documentId, this.state.text)
@@ -32,52 +34,62 @@ class Write extends Component {
     }
     this.setState({ text: '', mode: 'edit' })
   }
+
   render() {
-    const text = this.state.text
-    const mode = this.state.mode
-    const user = this.props.user
+    const { text } = this.state
+    const { mode } = this.state
+    const { user } = this.props
     let display = <div />
     let btn = <div />
     if (mode === 'edit') {
-      display = (<Input
-        type="textarea"
-        autosize={{ minRows: 4 }}
-        style={{ width: '100%' }}
-        value={text}
-        onChange={e => this.setState({ text: e.target.value })}
-      />)
-      btn = (<div style={{ display: 'flex' }}>
-        <Button icon="question-circle" onClick={() => Write.openNotificationWithIcon('info')}>
-          문법
-        </Button>
-        <div style={{ width: '4px' }} />
-        <Button icon="edit" onClick={() => this.setState({ mode: 'preview' })}>
-          글쓸거임?
-        </Button>
-      </div>)
+      display = (
+        <Input
+          type="textarea"
+          autosize={{ minRows: 4 }}
+          style={{ width: '100%' }}
+          value={text}
+          onChange={(e) => this.setState({ text: e.target.value })}
+        />
+      )
+      btn = (
+        <div style={{ display: 'flex' }}>
+          <Button icon="question-circle" onClick={() => Write.openNotificationWithIcon('info')}>
+            문법
+          </Button>
+          <div style={{ width: '4px' }} />
+          <Button icon="edit" onClick={() => this.setState({ mode: 'preview' })}>
+            글쓸거임?
+          </Button>
+        </div>
+      )
     } else if (mode === 'preview') {
       display = <ReactMarkdown source={text} />
-      btn = (<div style={{ display: 'flex' }}>
-        <Button icon="reload" onClick={() => this.setState({ mode: 'edit' })}>
-          수정
-        </Button>
-        <div style={{ width: '4px' }} />
-        {
-          // eslint-disable-next-line
+      btn = (
+        <div style={{ display: 'flex' }}>
+          <Button icon="reload" onClick={() => this.setState({ mode: 'edit' })}>
+            수정
+          </Button>
+          <div style={{ width: '4px' }} />
           <Button icon="cloud-upload" type="primary" onClick={() => this.onClickMethod()}>
             완료
           </Button>
-        }
-      </div>)
+        </div>
+      )
     }
     return (
-      <div style={{ marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF' }} >
-        <div style={{ marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden' }} >
+      <div style={{
+        marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF',
+      }}
+      >
+        <div style={{
+          marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden',
+        }}
+        >
           <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
         </div>
         <div style={{ flexGrow: 1 }}>
           { display }
-          <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }} >
+          <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
             <Button icon="picture" shape="circle" />
             <div>
               {btn}

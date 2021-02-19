@@ -39,8 +39,8 @@ class Login extends Component {
   }
 
   render() {
-    const id = this.state.id
-    const password = this.state.password
+    const { id } = this.state
+    const { password } = this.state
     return (
       <div
         style={{
@@ -107,7 +107,7 @@ class Login extends Component {
           <div>
             <Form
               className="login-form"
-              onSubmit={e => this.onClickMethod(e)}
+              onSubmit={(e) => this.onClickMethod(e)}
             >
               <FormItem
                 rules={[
@@ -118,7 +118,7 @@ class Login extends Component {
                   prefix={<Icon type="user" style={{ fontSize: 12 }} />}
                   placeholder="Username"
                   value={id}
-                  onChange={e => this.setState({ id: e.target.value })}
+                  onChange={(e) => this.setState({ id: e.target.value })}
                 />
               </FormItem>
               <FormItem
@@ -131,7 +131,7 @@ class Login extends Component {
                   type="password"
                   placeholder="Password"
                   value={password}
-                  onChange={e => this.setState({ password: e.target.value })}
+                  onChange={(e) => this.setState({ password: e.target.value })}
                 />
               </FormItem>
               <FormItem>
@@ -143,7 +143,9 @@ class Login extends Component {
                 >
                   로그인
                 </Button>
-                아니면 <Link to="/registration"> 지금 회원가입 하세요! </Link>
+                아니면
+                {' '}
+                <Link to="/registration"> 지금 회원가입 하세요! </Link>
               </FormItem>
             </Form>
           </div>

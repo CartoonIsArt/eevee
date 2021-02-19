@@ -11,36 +11,41 @@ class Album extends Component {
       focus: '',
     }
   }
+
   handleClick(idx) {
     this.setState({
       focus: this.props.content[idx],
       isModalOn: true,
     })
   }
+
   closeModal() {
     this.setState({ isModalOn: false })
   }
+
   render() {
     const style = { height: this.props.height, overflow: 'hidden' }
-    const content = this.props.content
+    const { content } = this.props
     const nContent = content.length
-    const isModalOn = this.state.isModalOn
-    const focus = this.state.focus
-    const modal = (<Modal
-      visible={isModalOn}
-      onOk={() => this.closeModal()}
-      onCancel={() => this.closeModal()}
-      footer={[]}
-    >
-      <img
-        src={focus.src}
-        alt={focus.alt}
-        style={{
-          maxWidth: '100%',
-          overflow: 'hidden',
-        }}
-      />
-    </Modal>)
+    const { isModalOn } = this.state
+    const { focus } = this.state
+    const modal = (
+      <Modal
+        visible={isModalOn}
+        onOk={() => this.closeModal()}
+        onCancel={() => this.closeModal()}
+        footer={[]}
+      >
+        <img
+          src={focus.src}
+          alt={focus.alt}
+          style={{
+            maxWidth: '100%',
+            overflow: 'hidden',
+          }}
+        />
+      </Modal>
+    )
 
     switch (nContent) {
       case 1:
@@ -58,13 +63,15 @@ class Album extends Component {
         return (
           <div style={style}>
             <div style={{ display: 'flex', height: '100%' }}>
-              { content.map((c, idx) =>
-                (<div
+              { content.map((c, idx) => (
+                <div
                   onClick={() => this.handleClick(idx)}
                   role="button"
                   tabIndex={-1}
                   key={c.id}
-                  style={{ boxSizing: 'border-box', position: 'relative', border: '2px solid white', width: '50%', height: '100%', overflow: 'hidden' }}
+                  style={{
+                    boxSizing: 'border-box', position: 'relative', border: '2px solid white', width: '50%', height: '100%', overflow: 'hidden',
+                  }}
                 >
                   <img
                     src={c.src}
@@ -78,8 +85,8 @@ class Album extends Component {
                       margin: 'auto',
                     }}
                   />
-                </div>),
-              )}
+                </div>
+              ))}
             </div>
             {modal}
           </div>
@@ -92,7 +99,9 @@ class Album extends Component {
                 onClick={() => this.handleClick(0)}
                 tabIndex={-1}
                 role="button"
-                style={{ boxSizing: 'border-box', border: '2px solid white', position: 'relative', width: '62%', height: '100%', overflow: 'hidden' }}
+                style={{
+                  boxSizing: 'border-box', border: '2px solid white', position: 'relative', width: '62%', height: '100%', overflow: 'hidden',
+                }}
               >
                 <img
                   src={content[0].src}
@@ -108,13 +117,15 @@ class Album extends Component {
                 />
               </div>
               <div style={{ width: '38%' }}>
-                { content.slice(1).map((c, idx) =>
-                  (<div
+                { content.slice(1).map((c, idx) => (
+                  <div
                     onClick={() => this.handleClick(idx + 1)}
                     tabIndex={-1}
                     role="button"
                     key={c.id}
-                    style={{ position: 'relative', boxSizing: 'border-box', border: '2px solid white', height: '50%', overflow: 'hidden' }}
+                    style={{
+                      position: 'relative', boxSizing: 'border-box', border: '2px solid white', height: '50%', overflow: 'hidden',
+                    }}
                   >
                     <img
                       src={c.src}
@@ -128,8 +139,8 @@ class Album extends Component {
                         margin: 'auto',
                       }}
                     />
-                  </div>),
-                )}
+                  </div>
+                ))}
               </div>
             </div>
             {modal}
@@ -143,7 +154,9 @@ class Album extends Component {
                 onClick={() => this.handleClick(0)}
                 tabIndex={-1}
                 role="button"
-                style={{ boxSizing: 'border-box', border: '2px solid white', position: 'relative', width: '62%', height: '100%', overflow: 'hidden' }}
+                style={{
+                  boxSizing: 'border-box', border: '2px solid white', position: 'relative', width: '62%', height: '100%', overflow: 'hidden',
+                }}
               >
                 <img
                   src={content[0].src}
@@ -174,13 +187,15 @@ class Album extends Component {
                   />
                 </div>
                 <div style={{ height: '38%', display: 'flex', overflow: 'hidden' }}>
-                  { content.slice(2).map((c, idx) =>
-                    (<div
+                  { content.slice(2).map((c, idx) => (
+                    <div
                       onClick={() => this.handleClick(idx + 2)}
                       tabIndex={-1}
                       role="button"
                       key={c.id}
-                      style={{ position: 'relative', boxSizing: 'border-box', border: '2px solid white', width: '50%', overflow: 'hidden' }}
+                      style={{
+                        position: 'relative', boxSizing: 'border-box', border: '2px solid white', width: '50%', overflow: 'hidden',
+                      }}
                     >
                       <img
                         src={c.src}
@@ -194,8 +209,8 @@ class Album extends Component {
                           margin: 'auto',
                         }}
                       />
-                    </div>),
-                  )}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

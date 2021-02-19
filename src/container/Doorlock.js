@@ -13,6 +13,7 @@ class Doorlock extends Component {
       mode: 'warning',
     }
   }
+
   verify() {
     if (this.props.user.isRegular) {
       this.setState({ mode: 'Regular' })
@@ -20,6 +21,7 @@ class Doorlock extends Component {
       this.setState({ mode: 'Irregular' })
     }
   }
+
   render() {
     if (this.state.mode === 'warning') {
       return (
@@ -39,7 +41,9 @@ class Doorlock extends Component {
             padding: '20px',
             marginBottom: '12px',
           }}
-          >동방 비밀번호</h1>
+          >
+            동방 비밀번호
+          </h1>
           <div style={{
             fontSize: '24px',
             color: 'red',
@@ -47,7 +51,9 @@ class Doorlock extends Component {
             padding: '12px',
           }}
           >
-            <Icon type="exclamation-circle" /> 동방 비밀번호를 동아리 회원 이외의 사람이나 준회원에게 알려주면 안됩니다!
+            <Icon type="exclamation-circle" />
+            {' '}
+            동방 비밀번호를 동아리 회원 이외의 사람이나 준회원에게 알려주면 안됩니다!
           </div>
           <div>
             <Button
@@ -55,15 +61,18 @@ class Doorlock extends Component {
                 backgroundColor: '#1976D2',
                 fontSize: '12pt',
                 color: 'white',
-                margin: '12px 0px' }}
+                margin: '12px 0px',
+              }}
               onClick={() => this.verify()}
             >
-              <Icon type="double-right" /> 보러가기
+              <Icon type="double-right" />
+              {' '}
+              보러가기
             </Button>
           </div>
         </div>
       )
-    } else if (this.state.mode === 'Regular') {
+    } if (this.state.mode === 'Regular') {
       return (
         <div style={{
           display: 'flex',
@@ -80,12 +89,16 @@ class Doorlock extends Component {
             padding: '20px',
             marginBottom: '12pt',
           }}
-          >동방 비밀번호</h1>
+          >
+            동방 비밀번호
+          </h1>
           <h1 style={{
             margin: '12px 0px',
             fontSize: '24pt',
           }}
-          >[동방 비번]</h1>
+          >
+            [동방 비번]
+          </h1>
         </div>
       )
     }
@@ -106,7 +119,9 @@ class Doorlock extends Component {
           padding: '20px',
           marginBottom: '12px',
         }}
-        >동방 비밀번호</h1>
+        >
+          동방 비밀번호
+        </h1>
         <div style={{ margin: '12px 0px' }}>
           <img
             src={neogulman}
@@ -125,7 +140,7 @@ class Doorlock extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
 })
 const mapDispatchToProps = ({

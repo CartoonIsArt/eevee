@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 // const host = 'https://cia.kw.ac.kr/api/'
 const host = 'http://localhost/api/'
 
@@ -17,7 +16,7 @@ export function request(method, target, args) {
       })
     }
     return axios(url)
-  } else if (['POST', 'PUT', 'PATCH'].includes(method)) {
+  } if (['POST', 'PUT', 'PATCH'].includes(method)) {
     console.log(args)
     const data = {}
     args.forEach((e) => {
