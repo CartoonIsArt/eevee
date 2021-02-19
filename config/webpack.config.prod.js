@@ -9,6 +9,7 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 process.noDeprecation = true;
 
@@ -86,14 +87,6 @@ module.exports = {
 
   module: {
     rules: [
-      // First, run the linter.
-      // It's important to do this before Babel processes the JS.
-      {
-        test: /\.(js|jsx)$/,
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        include: paths.appSrc,
-      },
       // ** ADDING/UPDATING LOADERS **
       // The "url" loader handles all assets unless explicitly excluded.
       // The `exclude` list *must* be updated with every change to loader extensions.
@@ -179,6 +172,10 @@ module.exports = {
   },
 
   plugins: [
+    new ESLintPlugin({
+      extensions: ['js', 'jsx'],
+      files: paths.appSrc,
+    }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
