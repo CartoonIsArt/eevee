@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
-import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { createBrowserHistory } from 'history'
 import { Route } from 'react-router-dom'
-import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
-import thunk from 'redux-thunk'
+import { ConnectedRouter } from 'connected-react-router'
 import './App.css';
 import Nav from './container/Nav'
-import reducers from './reducers'
 import { routes } from './Route'
+import configureStore from './store';
 
 const history = createBrowserHistory()
-const middleware = applyMiddleware(
-  routerMiddleware(history),
-  thunk,
-)
-
-const store = createStore(
-  reducers,
-  middleware,
-)
+const store = configureStore(history)
 
 class App extends Component {
   static isNavEnabled() {
@@ -36,18 +26,19 @@ class App extends Component {
             <div className="Container">
               {routes.map((route, idx) =>
                 // eslint-disable-next-line
-                (<div key={idx} style={{ display: 'flex' }}> 
-                  <Route
-                    path={route.path}
-                    exact={route.exact}
-                    component={route.sidebar}
-                  />
-                  <Route
-                    path={route.path}
-                    exact={route.exact}
-                    component={route.main}
-                  />
-                </div>
+                (
+                  <div key={idx} style={{ display: 'flex' }}>
+                    <Route
+                      path={route.path}
+                      exact={route.exact}
+                      component={route.sidebar}
+                    />
+                    <Route
+                      path={route.path}
+                      exact={route.exact}
+                      component={route.main}
+                    />
+                  </div>
                 ))}
             </div>
           </div>

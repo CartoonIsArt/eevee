@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
+import { connectRouter } from 'connected-react-router'
 import user from './user'
 import members from './members'
 import noties from './noties'
 import sun from './sun'
 import timeline from './timeline'
 
-const reducers = combineReducers({
-  router: routerReducer,
+const createRootReducer = (history) => combineReducers({
+  router: connectRouter(history),
   sun,
   user,
   members,
@@ -15,4 +15,4 @@ const reducers = combineReducers({
   timeline,
 })
 
-export default reducers
+export default createRootReducer
