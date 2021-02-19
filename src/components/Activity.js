@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 class Activity extends Component {
   render() {
-    const {user} = this.props.content
+    const user = this.props.content
     return (
       <div style={{
         height: '98px',
