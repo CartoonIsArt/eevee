@@ -4,7 +4,7 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
@@ -83,6 +83,11 @@ module.exports = {
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
     },
+    fallback: {
+      fs: false,
+      net: false,
+      tls: false,
+    }
   },
 
   module: {
@@ -104,7 +109,7 @@ module.exports = {
           /\.svg$/,
         ],
         loader: 'url-loader',
-        query: {
+        options: {
           limit: 10000,
           name: 'static/media/[name].[hash:8].[ext]',
         },
@@ -114,7 +119,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel-loader',
-        query: {
+        options: {
           plugins: [['import', {
             libraryName: 'antd',
             style: true, // or 'css'
@@ -147,7 +152,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: [
+        use: [
           // {
           //   loader: MiniCssExtractPlugin.loader,
           //   options: miniCssExtractPluginOptions
@@ -162,7 +167,7 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: 'file-loader',
-        query: {
+        options: {
           name: 'static/media/[name].[hash:8].[ext]',
         },
       },
@@ -204,8 +209,6 @@ module.exports = {
     // It is absolutely essential that NODE_ENV was set to production here.
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
-    // This helps ensure the builds are consistent if source hasn't changed:
-    new webpack.optimize.OccurrenceOrderPlugin(),
     // Minify the code.
     new UglifyJsPlugin({
       uglifyOptions: {
@@ -222,7 +225,7 @@ module.exports = {
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
       fileName: 'asset-manifest.json',
     }),
     
@@ -242,11 +245,4 @@ module.exports = {
       }
     })
   ],
-  // Some libraries import Node modules but don't use them in the browser.
-  // Tell Webpack to provide empty mocks for them so importing them works.
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-  },
 };

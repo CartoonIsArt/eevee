@@ -83,6 +83,11 @@ module.exports = {
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
     },
+    fallback: {
+      fs: false,
+      net: false,
+      tls: false,
+    }
   },
 
   module: {
@@ -110,7 +115,7 @@ module.exports = {
           /\.svg$/,
         ],
         loader: 'url-loader',
-        query: {
+        options: {
           limit: 10000,
           name: 'static/media/[name].[hash:8].[ext]',
         },
@@ -120,7 +125,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         include: paths.appSrc,
         loader: 'babel-loader',
-        query: {
+        options: {
 
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -158,7 +163,7 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: 'file-loader',
-        query: {
+        options: {
           name: 'static/media/[name].[hash:8].[ext]',
         },
       },
@@ -212,11 +217,4 @@ module.exports = {
       }
     })
   ],
-  // Some libraries import Node modules but don't use them in the browser.
-  // Tell Webpack to provide empty mocks for them so importing them works.
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty',
-  },
 };
