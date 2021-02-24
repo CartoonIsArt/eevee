@@ -74,6 +74,7 @@
   },
   "resolutions": {
     "**/react-dev-utils": "10.2.1",
+    "**/immer": "8.0.1",
     "**/browserslist": "4.16.3",
     "**/chokidar": "3.4.1",
     "**/serialize-javascript": "3.1.0",
