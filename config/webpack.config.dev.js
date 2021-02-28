@@ -147,7 +147,23 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader?importLoaders=1',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [[
+                  autoprefixer({
+                    browsers: [
+                      '>1%',
+                      'last 4 versions',
+                      'Firefox ESR',
+                      'not ie < 9', // React doesn't support IE8 anyway
+                    ]
+                  })
+                ]]
+              }
+            }
+          },
         ],
       },
       {
@@ -155,7 +171,23 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader?importLoaders=1',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [[
+                  autoprefixer({
+                    browsers: [
+                      '>1%',
+                      'last 4 versions',
+                      'Firefox ESR',
+                      'not ie < 9', // React doesn't support IE8 anyway
+                    ]
+                  })
+                ]]
+              }
+            }
+          },
           'sass-loader',
         ]
       },
@@ -200,21 +232,5 @@ module.exports = {
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebookincubator/create-react-app/issues/186
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        // We use PostCSS for autoprefixing only.
-        postcss: [
-          autoprefixer({
-            browsers: [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 9', // React doesn't support IE8 anyway
-            ]
-          })
-        ]
-      }
-    })
   ],
 };

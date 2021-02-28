@@ -147,7 +147,23 @@ module.exports = {
           // },
           'style-loader',
           'css-loader?importLoaders=1',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [[
+                  autoprefixer({
+                    browsers: [
+                      '>1%',
+                      'last 4 versions',
+                      'Firefox ESR',
+                      'not ie < 9', // React doesn't support IE8 anyway
+                    ]
+                  })
+                ]]
+              }
+            }
+          },
         ]
       },
       {
@@ -159,7 +175,23 @@ module.exports = {
           // },
           'style-loader',
           'css-loader?importLoaders=1',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [[
+                  autoprefixer({
+                    browsers: [
+                      '>1%',
+                      'last 4 versions',
+                      'Firefox ESR',
+                      'not ie < 9', // React doesn't support IE8 anyway
+                    ]
+                  })
+                ]]
+              }
+            }
+          },
           'sass-loader',
         ]
       },
@@ -228,21 +260,5 @@ module.exports = {
     new WebpackManifestPlugin({
       fileName: 'asset-manifest.json',
     }),
-    
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        // We use PostCSS for autoprefixing only.
-        postcss: [
-          autoprefixer({
-            browsers: [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 9', // React doesn't support IE8 anyway
-            ]
-          })
-        ]
-      }
-    })
   ],
 };
