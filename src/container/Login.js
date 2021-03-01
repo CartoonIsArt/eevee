@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import { request } from '../fetches/request'
+import PropTypes from 'prop-types'
+import { getUser } from '../actions'
+import { connect } from 'react-redux'
 
 const Form = require('antd/lib/form')
 const Icon = require('antd/lib/icon')
@@ -22,6 +26,11 @@ class Login extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.auth)
+      this.props.history.push('/')
+  }
+
   onClickMethod(ev) {
     ev.preventDefault()
     ev.stopPropagation()
@@ -30,7 +39,7 @@ class Login extends Component {
     request('POST', 'login', args)
       .then((r) => {
         console.log(r);
-        location.href = '/'
+        this.props.getUser()
       })
       .catch((e) => {
         console.log(e)
@@ -161,6 +170,19 @@ class Login extends Component {
   }
 }
 
-const WrappedNormalLoginForm = Form.create()(Login);
+Login.propTypes = {
+  getUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  auth: PropTypes.bool.isRequired,
+}
 
-export default WrappedNormalLoginForm
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+const mapDispatchToProps = ({
+  getUser,
+})
+
+const WrappedNormalLoginForm = Form.create()(Login)
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedNormalLoginForm))

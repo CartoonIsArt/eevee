@@ -5,6 +5,7 @@ import members from './members'
 import noties from './noties'
 import sun from './sun'
 import timeline from './timeline'
+import auth from './auth'
 
 const createRootReducer = (history) => combineReducers({
   router: connectRouter(history),
@@ -13,6 +14,7 @@ const createRootReducer = (history) => combineReducers({
   members,
   noties,
   timeline,
+  auth,
 })
 
 export default createRootReducer

@@ -11,6 +11,7 @@ const SET_USER = 'SETUSER'
 const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
+const SET_LOGIN = 'SETLOGIN'
 // const APPEND = 'APPEND' // future
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
@@ -21,6 +22,11 @@ const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNoties = (noties) => ({ type: SET_NOTIES, noties })
+const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
+
+export const notifyLogin = () => (dispatch) => {
+  dispatch(setLogin(true))
+}
 
 export const sunrise = () => (dispatch) => {
   dispatch(setSun(true))
