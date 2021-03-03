@@ -12,6 +12,7 @@ const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
 const SET_LOGIN = 'SETLOGIN'
+const APPEND_FEED = 'APPENDFEED'
 // const APPEND = 'APPEND' // future
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
@@ -19,6 +20,7 @@ const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
 const setUser = (value) => ({ type: SET_USER, user: value })
 const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
+const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNoties = (noties) => ({ type: SET_NOTIES, noties })
@@ -160,7 +162,7 @@ export const postDocument = (data) => (dispatch) => {
     data,
   })
     .then((r) => {
-      dispatch(appendTimeline(r.data))
+      dispatch(appendFeed(r.data))
     })
     .catch((e) => console.log(e))
 }

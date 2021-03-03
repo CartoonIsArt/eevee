@@ -7,26 +7,74 @@ const Button = require('antd/lib/button')
 const Input = require('antd/lib/input')
 const notification = require('antd/lib/notification')
 
-class Write extends Component {
-  static openNotificationWithIcon(type) {
-    notification.config({
-      duration: 0,
-    })
-    notification[type]({
-      message: '마크다운 간단문법',
-      description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
-    })
-  }
+const openNotificationWithIcon = () => {
+  notification.info({
+    message: '마크다운 간단문법',
+    description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
+  })
+}
 
+class Write extends Component {
   constructor(props) {
     super(props)
     this.state = {
       text: '',
       mode: 'edit',
     }
+    notification.config({
+      duration: 0,
+    })
   }
 
-  onClickMethod() {
+  getDisplay(mode, text) {
+    const editModeDisplay = (text) => (
+      <Input
+        type="textarea"
+        autosize={{ minRows: 4 }}
+        style={{ width: '100%' }}
+        value={text}
+        onChange={(e) => this.setState({ text: e.target.value })}
+      />
+    )
+    const previewModeDisplay = (text) => (<ReactMarkdown source={text} />)
+    if (mode === 'edit') return editModeDisplay(text)
+    if (mode === 'preview') return previewModeDisplay(text)
+    return <div />
+  }
+
+  changeMode(mode) {
+    this.setState({ mode })
+  }
+
+  getButton(mode) {
+    const editModeButton = (
+      <div style={{ display: 'flex' }}>
+        <Button icon="question-circle" onClick={() => openNotificationWithIcon()}>
+          문법
+        </Button>
+        <div style={{ width: '4px' }} />
+        <Button icon="edit" onClick={() => this.changeMode('preview')}>
+          글쓸거임?
+        </Button>
+      </div>
+    )
+    const previewModeButton = (
+      <div style={{ display: 'flex' }}>
+        <Button icon="reload" onClick={() => this.changeMode('edit')}>
+          수정
+        </Button>
+        <div style={{ width: '4px' }} />
+        <Button icon="cloud-upload" type="primary" onClick={() => this.uploadDocument()}>
+          완료
+        </Button>
+      </div>
+    )
+    if (mode === 'edit') return editModeButton
+    if (mode === 'preview') return previewModeButton
+    return <div />
+  }
+
+  uploadDocument() {
     if (this.props.documentId > 0) {
       this.props.patchDocument(this.props.documentId, this.state.text)
     } else {
@@ -39,43 +87,10 @@ class Write extends Component {
     const { text } = this.state
     const { mode } = this.state
     const { user } = this.props
-    let display = <div />
-    let btn = <div />
-    if (mode === 'edit') {
-      display = (
-        <Input
-          type="textarea"
-          autosize={{ minRows: 4 }}
-          style={{ width: '100%' }}
-          value={text}
-          onChange={(e) => this.setState({ text: e.target.value })}
-        />
-      )
-      btn = (
-        <div style={{ display: 'flex' }}>
-          <Button icon="question-circle" onClick={() => Write.openNotificationWithIcon('info')}>
-            문법
-          </Button>
-          <div style={{ width: '4px' }} />
-          <Button icon="edit" onClick={() => this.setState({ mode: 'preview' })}>
-            글쓸거임?
-          </Button>
-        </div>
-      )
-    } else if (mode === 'preview') {
-      display = <ReactMarkdown source={text} />
-      btn = (
-        <div style={{ display: 'flex' }}>
-          <Button icon="reload" onClick={() => this.setState({ mode: 'edit' })}>
-            수정
-          </Button>
-          <div style={{ width: '4px' }} />
-          <Button icon="cloud-upload" type="primary" onClick={() => this.onClickMethod()}>
-            완료
-          </Button>
-        </div>
-      )
-    }
+
+    const display = this.getDisplay(mode, text)
+    const button = this.getButton(mode)
+
     return (
       <div style={{
         marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF',
@@ -91,9 +106,7 @@ class Write extends Component {
           { display }
           <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
             <Button icon="picture" shape="circle" />
-            <div>
-              {btn}
-            </div>
+            { button }
           </div>
         </div>
       </div>
