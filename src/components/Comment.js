@@ -58,9 +58,7 @@ class Comment extends Component {
                 placement="leftTop"
               >
                 <Link to={`/members/${author.username}`}>
-                  {' '}
-                  {nickname}
-                  {' '}
+                  {` ${nickname} `}
                 </Link>
               </Popover>
               {comment.text}

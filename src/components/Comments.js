@@ -35,11 +35,7 @@ class Comments extends Component {
             }
             placement="rightTop"
           >
-            <a>
-              {' '}
-              {feed.likedBy.length}
-              {' '}
-            </a>
+            <a> {` ${feed.likedBy.length} `} </a>
           </Popover>
         </div>
         <Line />
