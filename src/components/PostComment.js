@@ -64,7 +64,7 @@ class PostComment extends Component {
   }
 }
 
-PostComment.PropTypes = {
+PostComment.propTypes = {
   postComment: PropTypes.func.isRequired,
 }
 
