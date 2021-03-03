@@ -22,8 +22,8 @@ class Comments extends Component {
           <Popover
             content={
               feed.likedBy.length
-                ? feed.likedBy.map((lover) => (
-                  <pre>
+                ? feed.likedBy.map((lover, idx) => (
+                  <pre key={idx}>
                     {`${lover.nTh}기 ${lover.fullname}`}
                   </pre>
                 ))
