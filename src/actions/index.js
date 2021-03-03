@@ -13,6 +13,7 @@ const SET_NOTIES = 'SETNOTIES'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
 const SET_LOGIN = 'SETLOGIN'
 const APPEND_FEED = 'APPENDFEED'
+const APPEND_COMMENT = 'APPENDCOMMENT'
 // const APPEND = 'APPEND' // future
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
@@ -22,6 +23,7 @@ const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
+const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNoties = (noties) => ({ type: SET_NOTIES, noties })
 const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
@@ -152,7 +154,7 @@ export const postComment = (data) => (dispatch) => {
     data,
   })
     .then((r) => {
-      dispatch(updateFeed(r.data))
+      dispatch(appendComment(r.data))
     })
     .catch((e) => console.log(e))
 }
@@ -162,7 +164,29 @@ export const postDocument = (data) => (dispatch) => {
     data,
   })
     .then((r) => {
-      dispatch(appendFeed(r.data))
+      dispatch(appendDocument(r.data))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const postCommentLike = (id) => (dispatch) => {
+  axios.post(`${host}comments/${id}/LikeIt`)
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        likedBy: r.data.likedBy,
+      }))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const deleteCommentLike = (id) => (dispatch) => {
+  axios.delete(`${host}comments/${id}/LikeIt`)
+    .then((r) => {
+      dispatch(updateFeed({
+        id,
+        likedBy: r.data.likedBy,
+      }))
     })
     .catch((e) => console.log(e))
 }

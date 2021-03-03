@@ -20,9 +20,8 @@ const timeline = (state = [], action) => {
       })
     case 'APPENDCOMMENT':
       return state.map((feed) => {
-        if (feed.id === action.comment.rootDocument.id) {
-          return Object.values([action.comment, ...feed.comments])
-        }
+        if (feed.id === action.comment.rootDocument.id)
+          feed.comments.push(action.comment)
         return feed
       })
     default:
