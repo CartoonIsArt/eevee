@@ -4,12 +4,12 @@ const user1 = {
   date_of_birth: '1999-11-11 03:00:00+00:00',
   department: '전자통신공학과',
   nFeeds: 3,
-  nComments: 5,
+  commentsCount: 5,
   nLikes: 4,
   isActive: false,
   isContributer: false,
   isGraduate: false,
-  isRegularMember: true,
+  isRegular: true,
   is_admin: false,
   is_staff: false,
   last_name: '16기 와아이',
@@ -49,6 +49,6 @@ export const getFeed = id => ({
     },
   ],
   comments: [],
-  likedBy: [],
+  likedUsers: [],
 })
 /* eslint-enable */

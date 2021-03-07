@@ -22,7 +22,7 @@ class Comment extends Component {
     const comment = this.props.content
     const { user } = this.props
 
-    if (comment.likedBy.findIndex((lover) => lover.id === user.id) === -1) {
+    if (comment.likedUsers.findIndex((lover) => lover.id === user.id) === -1) {
       postCommentLike(comment.id)
     } else {
       deleteCommentLike(comment.id)
@@ -61,15 +61,15 @@ class Comment extends Component {
                   {` ${nickname} `}
                 </Link>
               </Popover>
-              {comment.text}
+              {comment.content}
             </p>
             <div style={{ display: 'flex' }}>
               <Popover
                 content={
-                  comment.likedBy.length
-                    ? comment.likedBy.map((lover) => (
+                  comment.likedUsers.length
+                    ? comment.likedUsers.map((lover) => (
                       <pre>
-                        {`${lover.nTh}기 ${lover.fullname}`}
+                      {`${lover.nTh}기 ${lover.fullname}`}
                       </pre>
                     ))
                     : (
@@ -81,7 +81,7 @@ class Comment extends Component {
                 placement="rightTop"
               >
                 <a onClick={() => this.onClickLikeIt()}>
-                  {`Like ${comment.likedBy.length} `}
+                  {`Like ${comment.likedUsers.length} `}
                 </a>
               </Popover>
               {

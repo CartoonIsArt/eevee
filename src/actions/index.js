@@ -1,7 +1,6 @@
-import axios from 'axios'
+import axios from '../fetches/axios'
 
 // const host = 'https://cia.kw.ac.kr/api/'
-const host = 'http://localhost/api/'
 
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
@@ -44,33 +43,32 @@ export const suntoggle = () => (dispatch) => {
 
 const user1 = {
   id: 1,
-  date_joined: '2017-02-05 05:10:13.768196+00:00',
-  date_of_birth: '1999-11-11 03:00:00+00:00',
+  joinDate: '2017-02-05 05:10:13.768196+00:00',
+  birthdate: '1999-11-11 03:00:00+00:00',
   department: '전자통신공학과',
-  nDocuments: 3,
-  nComments: 5,
-  nDocumentLikes: 4,
+  documentsCount: 3,
+  commentsCount: 5,
+  likedDocumentsCount: 4,
   isActive: false,
-  isContributer: false,
-  isGraduate: false,
+  // isContributer: false,
+  hasGraduated: false,
   isRegular: true,
-  is_admin: false,
-  is_staff: false,
+  isSuperuser: false,
+  // is_staff: false,
   nTh: 16,
   fullname: '와아이',
-  phone_number: '010-0000-0000',
-  student_number: '2000000000',
+  phoneNumber: '010-0000-0000',
+  studentNumber: '2000000000',
   username: 'kswcia',
   profileImage: {
     id: 1,
-    // savedPath: 'https://cia.kw.ac.kr/media/2462a3f1-9bb5-4758-9cbe-fcf7f33db668.png',
     savedPath: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
     filename: 'kPanic.png',
   },
 }
 
 export const getMembers = () => (dispatch) => {
-  axios.get(`${host}users`)
+  axios.get('/user')
     .then((r) => {
       dispatch(setMembers(r.data))
     })
@@ -78,7 +76,7 @@ export const getMembers = () => (dispatch) => {
 }
 
 export const getUser = () => (dispatch) => {
-  axios.get(`${host}users/session`)
+  axios.get('/user/authenticated')
     .then((r) => {
       dispatch(setUser(r.data))
     })
@@ -91,21 +89,21 @@ export const getNoties = () => (dispatch) => {
       id: 1,
       createdAt: '2017-06-23T07:03:20.963737Z',
       from: user1,
-      text: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
+      content: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
       had_read: true,
     },
     {
       id: 2,
       createdAt: '2017-06-10T07:03:20.963737Z',
       from: user1,
-      text: '공지: 6월 종강총회 회의록',
+      content: '공지: 6월 종강총회 회의록',
       had_read: false,
     },
   ]))
 }
 
 export const getTimeline = (page = 1) => (dispatch) => {
-  axios.get(`${host}timeline/${page}`)
+  axios.get(`/timeline/${page}`)
     .then((r) => {
       dispatch(setTimeline(r.data))
     })
@@ -115,78 +113,85 @@ export const getTimeline = (page = 1) => (dispatch) => {
 }
 
 export const postDocumentLike = (id) => (dispatch) => {
-  axios.post(`${host}documents/${id}/LikeIt`)
+  axios.post(`/document/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
         id,
-        likedBy: r.data.likedBy,
+        likedUsers: r.data.likedUsers,
       }))
+      dispatch(setUser(r.data.author))
     })
     .catch((e) => console.log(e))
 }
 
 export const deleteDocumentLike = (id) => (dispatch) => {
-  axios.delete(`${host}documents/${id}/LikeIt`)
+  axios.delete(`/document/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
         id,
-        likedBy: r.data.likedBy,
+        likedUsers: r.data.likedUsers,
       }))
+      dispatch(setUser(r.data.author))
     })
     .catch((e) => console.log(e))
 }
 
 export const patchDocument = (id, data) => (dispatch) => {
-  axios.patch(`${host}documents/${id}`, {
+  axios.patch(`/document/${id}`, {
     data,
   })
     .then((r) => {
       dispatch(updateFeed({
         id,
-        text: r.data.text,
+        content: r.data.content,
       }))
+      dispatch(setUser(r.data.author))
     })
     .catch((e) => console.log(e))
 }
 
 export const postComment = (data) => (dispatch) => {
-  axios.post(`${host}comments`, {
+  axios.post('/comment', {
     data,
   })
     .then((r) => {
       dispatch(appendComment(r.data))
+      dispatch(setUser(r.data.author))
     })
     .catch((e) => console.log(e))
 }
 
 export const postDocument = (data) => (dispatch) => {
-  axios.post(`${host}documents`, {
+  axios.post('/document', {
     data,
   })
     .then((r) => {
-      dispatch(appendDocument(r.data))
+      dispatch(appendFeed(r.data))
+      dispatch(setUser(r.data.author))
     })
     .catch((e) => console.log(e))
 }
 
 export const postCommentLike = (id) => (dispatch) => {
-  axios.post(`${host}comments/${id}/LikeIt`)
+  axios.post(`/comment/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
         id,
-        likedBy: r.data.likedBy,
+        likedUsers: r.data.likedUsers,
       }))
+      dispatch(setUser(r.data.author))
     })
     .catch((e) => console.log(e))
 }
 
 export const deleteCommentLike = (id) => (dispatch) => {
-  axios.delete(`${host}comments/${id}/LikeIt`)
+  axios.delete(`/comment/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
         id,
-        likedBy: r.data.likedBy,
+        likedUsers: r.data.likedUsers,
       }))
+      dispatch(setUser(r.data.author))
     })
     .catch((e) => console.log(e))
 }

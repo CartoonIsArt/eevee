@@ -36,13 +36,13 @@ class EditUserProfile extends Component {
     super(props)
     this.state = {
       visible: false,
-      userName: '',
+      fullname: '',
       email: '',
-      birthday: '',
+      birthdate: '',
       major: '',
       phoneNumber: '',
-      title: '',
-      character: '',
+      favoriteComic: '',
+      favoriteCharacter: '',
       profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg', // 기존 이미지로 설정해야됨
       previewVisible: false,
       fileList: [{
@@ -67,7 +67,7 @@ class EditUserProfile extends Component {
 
   onDateChange(date, dateString) {
     console.log(date, dateString);
-    this.setState({ birthday: dateString });
+    this.setState({ birthdate: dateString });
   }
 
   handleOk() {
@@ -104,7 +104,7 @@ class EditUserProfile extends Component {
 
   render() {
     const {
-      userName, email, major, phoneNumber, title, character,
+      fullname, email, major, phoneNumber, favoriteComic, favoriteCharacter,
       previewVisible, profile, fileList,
     } = this.state;
     const uploadButton = (
@@ -137,9 +137,9 @@ class EditUserProfile extends Component {
                 label="이름"
               >
                 <Input
-                  onChange={(e) => this.onChangeInput({ userName: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ fullname: e.target.value })}
                   placeholder="ex) 19기 xxx"
-                  value={userName}
+                  value={fullname}
                 />
               </FormItem>
               <FormItem
@@ -185,16 +185,16 @@ class EditUserProfile extends Component {
                 <Input
                   addonBefore="만화 제목"
                   style={{ width: '100%' }}
-                  onChange={(e) => this.onChangeInput({ title: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
                   placeholder="ex) 하이큐"
-                  value={title}
+                  value={favoriteComic}
                 />
                 <Input
                   addonBefore="캐릭터 이름"
                   style={{ marginTop: '8px', width: '100%' }}
-                  onChange={(e) => this.onChangeInput({ character: e.target.value })}
+                  onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
                   placeholder="ex) 카게야마 토비오"
-                  value={character}
+                  value={favoriteCharacter}
                 />
               </FormItem>
             </Form>
@@ -206,7 +206,7 @@ class EditUserProfile extends Component {
             >
               <Button type="primary" onClick={() => this.showModal()}> 저장 </Button>
               <Modal
-                title="수정하시겠습니까?"
+                favoriteComic="수정하시겠습니까?"
                 visible={this.state.visible}
                 onOk={() => this.handleOk()}
                 onCancel={() => this.handleCancel()}

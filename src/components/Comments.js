@@ -21,10 +21,10 @@ class Comments extends Component {
           <Icon type="like" style={{ paddingRight: '4px' }} />
           <Popover
             content={
-              feed.likedBy.length
-                ? feed.likedBy.map((lover, idx) => (
+              feed.likedUsers.length
+                ? feed.likedUsers.map((lover, idx) => (
                   <pre key={idx}>
-                    {`${lover.nTh}기 ${lover.fullname}`}
+                  {`${lover.nTh}기 ${lover.fullname}`}
                   </pre>
                 ))
                 : (
@@ -35,7 +35,7 @@ class Comments extends Component {
             }
             placement="rightTop"
           >
-            <a> {` ${feed.likedBy.length} `} </a>
+            <a> {` ${feed.likedUsers.length} `} </a>
           </Popover>
         </div>
         <Line />

@@ -18,7 +18,7 @@ class Activity extends Component {
           <div style={{ height: '50%' }}> 글</div>
           <a className="ant-anchor-link-title" href="#">
             {' '}
-            {user.nDocuments}
+            {user.documentsCount}
             {' '}
           </a>
         </div>
@@ -26,7 +26,7 @@ class Activity extends Component {
           <div style={{ height: '50%' }}> 댓글 </div>
           <a className="ant-anchor-link-title" href="#">
             {' '}
-            {user.nComments}
+            {user.commentsCount}
             {' '}
           </a>
         </div>
@@ -34,7 +34,7 @@ class Activity extends Component {
           <div style={{ height: '50%' }}> 좋아요 </div>
           <a className="ant-anchor-link-title" href="#">
             {' '}
-            {user.nDocumentLikes}
+            {user.likedDocumentsCount}
             {' '}
           </a>
         </div>

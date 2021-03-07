@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import koKR from 'antd/lib/locale-provider/ko_KR'
-import { request } from '../fetches/request'
+import axios from '../fetches/axios'
 
 const Alert = require('antd/lib/alert')
 const Cascader = require('antd/lib/cascader')
@@ -383,7 +383,6 @@ const text2 = '\n'
     + '                      - 통신비밀보호법\n'
     + '                      로그인 기록: 3개월';
 const options = [];
-const args = [];
 
 function init() {
   for (let i = 1; i <= moment().get('year') - 1998; i += 1) {
@@ -416,9 +415,9 @@ class Registration extends Component {
       agreeLaw: false,
       agreeTerms: false,
       agreeAll: false,
-      userName: '',
+      fullname: '',
       nTh: '',
-      birthday: '',
+      birthdate: '',
       id: '',
       password: '',
       passwordCheck: '',
@@ -426,8 +425,8 @@ class Registration extends Component {
       number: '',
       email: '',
       phoneNumber: '',
-      title: '',
-      character: '',
+      favoriteComic: '',
+      favoriteCharacter: '',
       profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
       previewVisible: false,
       fileList: [],
@@ -446,41 +445,39 @@ class Registration extends Component {
 
   onDateChange(date, dateString) {
     console.log(date, dateString);
-    this.setState({ birthday: dateString });
+    this.setState({ birthdate: dateString });
   }
 
   onButtonClicked() {
     if (this.isEmpty()) {
-      Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
+      Modal.warning({ favoriteComic: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
       return;
     } if (this.state.password !== this.state.passwordCheck) {
-      Modal.warning({ title: '비밀번호를 확인해주세요!', content: '비밀번호가 일치하지 않습니다.' });
+      Modal.warning({ favoriteComic: '비밀번호를 확인해주세요!', content: '비밀번호가 일치하지 않습니다.' });
       return;
     }
     console.log(this.state);
-    args.push({ type: 'String', key: 'fullname', value: this.state.userName })
-    args.push({ type: 'Number', key: 'nTh', value: this.state.nTh })
-    args.push({ type: 'String', key: 'dateOfBirth', value: this.state.birthday })
-    args.push({ type: 'String', key: 'username', value: this.state.id })
-    args.push({ type: 'String', key: 'password', value: this.state.password })
-    args.push({ type: 'String', key: 'department', value: this.state.major })
-    args.push({ type: 'Number', key: 'studentNumber', value: this.state.number })
-    args.push({ type: 'String', key: 'email', value: this.state.email })
-    args.push({ type: 'String', key: 'phoneNumber', value: this.state.phoneNumber })
-    args.push({ type: 'String', key: 'favoriteComic', value: this.state.title })
-    args.push({ type: 'String', key: 'favoriteCharacter', value: this.state.character })
-    if (this.state.fileList.length < 1) {
-      args.push({ type: 'String', key: 'profileImage', value: 'default' })
-    } else {
-      args.push({ type: 'String', key: 'profileImage', value: this.state.fileList[0].name })
+    const args = {
+      fullname: this.state.fullname,
+      nTh: this.state.nTh,
+      birthdate: this.state.birthdate,
+      username: this.state.id,
+      password: this.state.password,
+      department: this.state.major,
+      studentNumber: this.state.number,
+      email: this.state.email,
+      phoneNumber: this.state.phoneNumber,
+      favoriteComic: this.state.favoriteComic,
+      favoriteCharacter: this.state.favoriteCharacter,
+      profileImage: this.state.fileList.length < 1 ? 'default' : this.state.fileList[0].name,
     }
-    request('POST', 'users', args)
+    axios.post('/public/user', args)
       .then((r) => {
         this.setState({
           response: r,
         })
         Modal.success({
-          title: '가입 신청이 완료되었습니다!',
+          favoriteComic: '가입 신청이 완료되었습니다!',
           content: '오늘 안으로 가입 승인이 완료될 거에요.',
           onOk() { location.href = '/login' },
         })
@@ -489,14 +486,14 @@ class Registration extends Component {
         this.setState({
           response: e.response,
         })
-        Modal.warning({ title: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
+        Modal.warning({ favoriteComic: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
       })
   }
 
   isEmpty() {
-    if (this.state.userName
+    if (this.state.fullname
           && this.state.nTh
-          && this.state.birthday
+          && this.state.birthdate
           && this.state.id
           && this.state.password
           && this.state.major
@@ -524,8 +521,8 @@ class Registration extends Component {
 
   render() {
     const {
-      userName, id, password, passwordCheck, major,
-      number, email, phoneNumber, title, character,
+      fullname, id, password, passwordCheck, major,
+      number, email, phoneNumber, favoriteComic, favoriteCharacter,
       fileList, previewVisible, profile,
       agreeLaw, agreeTerms,
     } = this.state;
@@ -604,8 +601,8 @@ class Registration extends Component {
                         addonBefore="*이름"
                         size="large"
                         style={{ width: '288px', marginRight: '20px' }}
-                        onChange={(e) => this.onChangeInput({ userName: e.target.value })}
-                        value={userName}
+                        onChange={(e) => this.onChangeInput({ fullname: e.target.value })}
+                        value={fullname}
                       />
                     </div>
                     <div style={{ display: 'flex', marginBottom: '20px' }}>
@@ -694,17 +691,17 @@ class Registration extends Component {
                             addonBefore="만화"
                             size="large"
                             style={{ width: '288px', marginBottom: '8px' }}
-                            onChange={(e) => this.onChangeInput({ title: e.target.value })}
+                            onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
                             placeholder="ex) 하이큐"
-                            value={title}
+                            value={favoriteComic}
                           />
                           <Input
                             addonBefore="캐릭터"
                             size="large"
                             style={{ width: '288px', marginBottom: '20px' }}
-                            onChange={(e) => this.onChangeInput({ character: e.target.value })}
+                            onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
                             placeholder="ex) 카게야마 토비오"
-                            value={character}
+                            value={favoriteCharacter}
                           />
                           <Button
                             size="large"

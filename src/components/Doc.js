@@ -25,7 +25,7 @@ class Doc extends Component {
     const { content } = this.props
     const { user } = this.props
 
-    if (content.likedBy.findIndex((lover) => lover.id === user.id) === -1) {
+    if (content.likedUsers.findIndex((lover) => lover.id === user.id) === -1) {
       this.props.postDocumentLike(content.id, user.id)
     } else {
       this.props.deleteDocumentLike(content.id, user.id)
@@ -42,7 +42,6 @@ class Doc extends Component {
     const { content } = this.props
     const { author } = content
     const nickname = `${author.nTh}기 ${author.fullname}`
-    const { text } = content
     const { createdAt } = content
     const imgsrc = author.profileImage.savedPath
     const imgalt = author.profileImage.filename
@@ -98,7 +97,7 @@ class Doc extends Component {
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
-          <ReactMarkdown source={text} />
+          <ReactMarkdown source={content.content} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
         <div style={isAppending ? { display: 'block' } : { display: 'none' }}>

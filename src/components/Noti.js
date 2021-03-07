@@ -66,7 +66,7 @@ class Noti extends Component {
                   color: 'rgba(0,0,0, 0.8)', wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box',
                 }}
                 >
-                  { noti.text }
+                  { noti.content }
                 </div>
               </a>
             </div>

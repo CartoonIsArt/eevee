@@ -69,7 +69,7 @@ class Members extends Component {
             <TabPane tab="활동인구" key="act">
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {this.props.members
-                  .filter((member) => member.isActivated
+                  .filter((member) => member.isActive
                       && (member.fullname.includes(filter)
                         || member.username.includes(filter)))
                   .map((member) => (

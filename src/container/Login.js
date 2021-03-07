@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import { request } from '../fetches/request'
+import axios from '../fetches/axios'
 import PropTypes from 'prop-types'
 import { getUser } from '../actions'
 import { connect } from 'react-redux'
@@ -13,13 +13,12 @@ const Button = require('antd/lib/button')
 const Modal = require('antd/lib/modal')
 
 const FormItem = Form.Item;
-const args = [];
 
 class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isActivated: false,
+      isActive: false,
       id: '',
       password: '',
       responses: [],
@@ -34,11 +33,12 @@ class Login extends Component {
   onClickMethod(ev) {
     ev.preventDefault()
     ev.stopPropagation()
-    args.push({ type: 'String', key: 'username', value: this.state.id })
-    args.push({ type: 'String', key: 'password', value: this.state.password })
-    request('POST', 'login', args)
+    const args = {
+      username: this.state.id,
+      password: this.state.password
+    }
+    axios.post('/public/login', args)
       .then((r) => {
-        console.log(r);
         this.props.getUser()
       })
       .catch((e) => {

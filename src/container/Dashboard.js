@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Regulared from '../components/Regulared'
-import { request } from '../fetches/request'
+import axios from '../fetches/axios'
 import { getUser } from '../actions'
 
 const Button = require('antd/lib/button')
 const Icon = require('antd/lib/icon')
 const Modal = require('antd/lib/modal')
-
-const args = [];
 
 class Dashboard extends Component {
   constructor(props) {
@@ -24,8 +22,8 @@ class Dashboard extends Component {
     const { user } = this.props
     if (user.user === undefined) { this.props.getUser() }
     console.log(user.id)
-    args.push({ type: 'Boolean', key: 'isActivated', value: true })
-    request('PATCH', `users/${user.id}`, args)
+    const args = { isActive: true }
+    axios.patch(`/user/${user.id}`, args)
       .then((r) => {
         this.props.getUser()
         this.setState({
@@ -43,7 +41,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        {this.props.user.isActivated
+        {this.props.user.isActive
           ? <Regulared />
           : (
             <div style={{

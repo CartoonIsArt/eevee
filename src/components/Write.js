@@ -18,7 +18,7 @@ class Write extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: '',
+      content: '',
       mode: 'edit',
     }
     notification.config({
@@ -26,19 +26,19 @@ class Write extends Component {
     })
   }
 
-  getDisplay(mode, text) {
-    const editModeDisplay = (text) => (
+  getDisplay(mode, content) {
+    const editModeDisplay = (content) => (
       <Input
         type="textarea"
         autosize={{ minRows: 4 }}
         style={{ width: '100%' }}
-        value={text}
-        onChange={(e) => this.setState({ text: e.target.value })}
+        value={content}
+        onChange={(e) => this.setState({ content: e.target.value })}
       />
     )
-    const previewModeDisplay = (text) => (<ReactMarkdown source={text} />)
-    if (mode === 'edit') return editModeDisplay(text)
-    if (mode === 'preview') return previewModeDisplay(text)
+    const previewModeDisplay = (content) => (<ReactMarkdown source={content} />)
+    if (mode === 'edit') return editModeDisplay(content)
+    if (mode === 'preview') return previewModeDisplay(content)
     return <div />
   }
 
@@ -76,19 +76,19 @@ class Write extends Component {
 
   uploadDocument() {
     if (this.props.documentId > 0) {
-      this.props.patchDocument(this.props.documentId, this.state.text)
+      this.props.patchDocument(this.props.documentId, this.state.content)
     } else {
-      this.props.postDocument(this.state.text)
+      this.props.postDocument(this.state.content)
     }
-    this.setState({ text: '', mode: 'edit' })
+    this.setState({ content: '', mode: 'edit' })
   }
 
   render() {
-    const { text } = this.state
+    const { content } = this.state
     const { mode } = this.state
     const { user } = this.props
 
-    const display = this.getDisplay(mode, text)
+    const display = this.getDisplay(mode, content)
     const button = this.getButton(mode)
 
     return (
