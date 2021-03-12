@@ -10,6 +10,8 @@ const user = (state = init, action) => {
         ...state,
         user,
       ]
+    case 'UPDATEUSER':
+      return action.user
     default:
       return state
   }

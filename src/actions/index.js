@@ -13,6 +13,7 @@ const APPEND_TIMELINE = 'APPENDTIMELINE'
 const SET_LOGIN = 'SETLOGIN'
 const APPEND_FEED = 'APPENDFEED'
 const APPEND_COMMENT = 'APPENDCOMMENT'
+const UPDATE_USER = 'UPDATEUSER'
 // const APPEND = 'APPEND' // future
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
@@ -26,6 +27,7 @@ const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNoties = (noties) => ({ type: SET_NOTIES, noties })
 const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
+const updateUser = (user) => ({ type: UPDATE_USER, user })
 
 export const notifyLogin = () => (dispatch) => {
   dispatch(setLogin(true))
@@ -192,6 +194,14 @@ export const deleteCommentLike = (id) => (dispatch) => {
         likedUsers: r.data.likedUsers,
       }))
       dispatch(setUser(r.data.author))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const patchUser = (user) => (dispatch) => {
+  axios.patch(`/user/${user.id}`, user)
+    .then((r) => {
+      dispatch(updateUser(r.data))
     })
     .catch((e) => console.log(e))
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import koKR from 'antd/lib/locale-provider/ko_KR';
 import { connect } from 'react-redux';
-import { getUser } from '../actions';
+import { patchUser, getUser } from '../actions';
 
 const Upload = require('antd/lib/upload')
 const message = require('antd/lib/message')
@@ -36,13 +36,14 @@ class EditUserProfile extends Component {
     super(props)
     this.state = {
       visible: false,
-      fullname: '',
+      id: '', //patchUser할때 넘겨줘야함
       email: '',
       birthdate: '',
       major: '',
       phoneNumber: '',
       favoriteComic: '',
       favoriteCharacter: '',
+      password: '',
       profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg', // 기존 이미지로 설정해야됨
       previewVisible: false,
       fileList: [{
@@ -52,13 +53,6 @@ class EditUserProfile extends Component {
         url: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
       }],
     };
-  }
-
-  componentWillMount() {
-    /*
-    const user = this.props.user
-    if (user.has_logged_in === false) { this.props.getUser() }
-    */
   }
 
   onChangeInput(e) {
@@ -71,7 +65,24 @@ class EditUserProfile extends Component {
   }
 
   handleOk() {
-    console.log(this.state)
+    const user = {
+      id: this.props.user.id,
+      email: this.state.email,
+      birthdate: this.state.birthdate,
+      major: this.state.major,
+      phoneNumber: this.state.phoneNumber,
+      favoriteComic: this.state.favoriteComic,
+      favoriteCharacter: this.state.favoriteCharacter,
+      profile: this.state.profile,  //백엔드수정
+      password: this.state.password
+    }
+    try{
+      this.props.patchUser(user);
+    }
+    catch(e){
+      console.log(e)
+      Modal.warning({ title: '회원정보수정에 실패했습니다.', content: '입력한 비밀번호를 확인해주세요.' })
+    }
     this.setState({ visible: false });
   }
 
@@ -104,7 +115,7 @@ class EditUserProfile extends Component {
 
   render() {
     const {
-      fullname, email, major, phoneNumber, favoriteComic, favoriteCharacter,
+      email, major, phoneNumber, favoriteComic, favoriteCharacter, password,
       previewVisible, profile, fileList,
     } = this.state;
     const uploadButton = (
@@ -133,15 +144,6 @@ class EditUserProfile extends Component {
           >
             <h1 style={{ marginBottom: '52px' }}> 프로필 수정 </h1>
             <Form onSubmit={() => this.handleSubmit()}>
-              <FormItem
-                label="이름"
-              >
-                <Input
-                  onChange={(e) => this.onChangeInput({ fullname: e.target.value })}
-                  placeholder="ex) 19기 xxx"
-                  value={fullname}
-                />
-              </FormItem>
               <FormItem
                 label="이메일"
               >
@@ -197,6 +199,14 @@ class EditUserProfile extends Component {
                   value={favoriteCharacter}
                 />
               </FormItem>
+              <FormItem
+                label="비밀번호 확인"
+              >
+                <Input
+                  onChange={(e) => this.onChangeInput({ password : e.target.value })}
+                  value={password}
+                />
+              </FormItem>
             </Form>
             <div style={{
               marginTop: '80px',
@@ -206,14 +216,11 @@ class EditUserProfile extends Component {
             >
               <Button type="primary" onClick={() => this.showModal()}> 저장 </Button>
               <Modal
-                favoriteComic="수정하시겠습니까?"
                 visible={this.state.visible}
                 onOk={() => this.handleOk()}
                 onCancel={() => this.handleCancel()}
               >
-                <p> 비밀번호를 입력하세요</p>
-                <input style={{ width: '200px', marginTop: '12px' }} />
-                { /* 비밀번호 일치하는지 확인해야됨 */ }
+                <h1>정말 수정하시겠습니까?</h1>
               </Modal>
             </div>
           </div>
@@ -265,6 +272,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 const mapDispatchToProps = ({
+  patchUser,
   getUser,
 })
 

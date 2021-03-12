@@ -497,7 +497,7 @@ class Registration extends Component {
           && this.state.id
           && this.state.password
           && this.state.major
-          && this.state.number
+          && this.state.number //변수이름 바꾸기
           && this.state.email
           && this.state.phoneNumber
     ) { return false; }
@@ -650,7 +650,7 @@ class Registration extends Component {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
                       <Input
-                        addonBefore="*학과(학부)"
+                        addonBefore="*전공"
                         size="large"
                         style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
                         onChange={(e) => this.onChangeInput({ major: e.target.value })}
