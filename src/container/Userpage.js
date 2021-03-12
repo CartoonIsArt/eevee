@@ -2,20 +2,21 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getMembers } from '../actions'
+import PropTypes from 'prop-types'
 
 const Button = require('antd/lib/button')
 const Icon = require('antd/lib/icon')
 
 class Userpage extends Component {
+  constructor(props) {
+    super(props)
+    this.props.getMembers()
+  }
   static check(boolean) {
     if (boolean) {
       return <Icon type="check" />
     }
     return <Icon type="close" />
-  }
-
-  componentWillMount() {
-    this.props.getMembers()
   }
 
   render() {
@@ -35,9 +36,9 @@ class Userpage extends Component {
             <div className="menu"><a href="">작성한 글</a></div>
             <div className="menu"><a href="">좋아요한 글</a></div>
             <div className="menu"><a href="">댓글단 글</a></div>
-            <div className="menu last"><a href="/members">회원들</a></div>
+            <div className="menu last" onClick={()=>this.props.history.push('/members')}>회원들</div>
             <div className="blank" />
-            <Button className="menu-btn" type="dashed">
+            <Button className="menu-btn" type="dashed" onClick={()=>this.props.history.push('/settings/account')}>
               <Icon type="tool" />
               {' '}
               프로필 수정
@@ -67,10 +68,7 @@ class Userpage extends Component {
                   && (
                   <div className="my-inform-value">
                     <ol>
-                      <li>
-                        {member[0].nTh}
-                        기
-                      </li>
+                      <li>{member[0].nTh}기</li>
                       <li>{member[0].fullname}</li>
                       <li>{member[0].studentNumber}</li>
                       <li>{member[0].department}</li>
@@ -120,6 +118,10 @@ class Userpage extends Component {
       </div>
     )
   }
+}
+
+Userpage.propTypes = {
+  history: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
