@@ -264,6 +264,7 @@ class Registration extends Component {
                           onChange={(date, dateString) => this.onDateChange(date, dateString)}
                           placeholder="*생일을 선택하세요"
                           defaultValue={default_birthdate}
+                          disabledDate={(currentDate) => { return currentDate && currentDate.isBefore('1900-01-01'); }}
                         />
                       </div>
                     </div>
