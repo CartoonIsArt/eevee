@@ -21,6 +21,12 @@ const Input = require('antd/lib/input')
 const FormItem = Form.Item;
 const options = [];
 
+const default_nTh = (() => {
+  const today = new Date()
+  return (today.getFullYear() - 1998)
+})()
+const default_birthdate = moment().subtract(19, 'years')
+
 function init() {
   for (let i = 1; i <= moment().get('year') - 1998; i += 1) {
     options.push({ value: i, label: `${i}기` });
@@ -249,6 +255,7 @@ class Registration extends Component {
                           size="large"
                           onChange={(value, option) => this.onNumberChange(value, option)}
                           placeholder="*기수를 선택하세요"
+                          defaultValue={[default_nTh]}
                           showSearch
                         />
                         <DatePicker
@@ -256,6 +263,7 @@ class Registration extends Component {
                           size="large"
                           onChange={(date, dateString) => this.onDateChange(date, dateString)}
                           placeholder="*생일을 선택하세요"
+                          defaultValue={default_birthdate}
                         />
                       </div>
                     </div>
