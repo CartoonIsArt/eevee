@@ -34,7 +34,7 @@ This Code of Conduct applies both within project spaces and in public spaces whe
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at hero.sungwoo@gmail.com. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at cartoonisart@protonmail.ch. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
 
 Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
 
@@ -85,7 +85,7 @@ This Code of Conduct is adapted from the [Contributor Covenant][homepage], versi
 
 ## 시행  
 
-폭력적이거나 괴롭힘을 당하거나 기타 용납 될 수없는 행동의 사례는 hero.sungwoo@gmail.com의 프로젝트 팀에 문의하여보고 할 수 있습니다. 프로젝트 팀은 모든 불만 사항을 검토하고 조사하며 상황에 적절하다고 판단되는 방식으로 응답합니다. 프로젝트 팀은 사건의 기자와 관련하여 기밀 유지 의무가 있습니다. 특정 집행 정책에 대한 자세한 내용은 별도로 게시 할 수 있습니다.  
+폭력적이거나 괴롭힘을 당하거나 기타 용납 될 수없는 행동의 사례는 cartoonisart@protonmail.ch의 프로젝트 팀에 문의하여보고 할 수 있습니다. 프로젝트 팀은 모든 불만 사항을 검토하고 조사하며 상황에 적절하다고 판단되는 방식으로 응답합니다. 프로젝트 팀은 사건의 기자와 관련하여 기밀 유지 의무가 있습니다. 특정 집행 정책에 대한 자세한 내용은 별도로 게시 할 수 있습니다.  
 
 선의로 행동 강령을 준수하지 않거나 시행하지 않는 프로젝트 관리자는 프로젝트 리더십을 가진 다른 구성원이 결정한대로 일시적 또는 영구적인 파급 효과에 직면 할 수 있습니다.  
 
