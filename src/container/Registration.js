@@ -192,12 +192,11 @@ class Registration extends Component {
                         backgroundColor: 'rgba(255,255,255,0.5)',
                       }}
                       >
-                        {' '}
                         CIA 회원가입
                       </div>
                     </div>
                     <img
-                      src="https://static.zerochan.net/Roa.%28Onoue.Ren%29.full.2177663.jpg"
+                      src="/images/registration_left_side.jpg"
                       alt="가로로 긴 그림"
                       style={{ width: '512px', overflow: 'hidden' }}
                     />
