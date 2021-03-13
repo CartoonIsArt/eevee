@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Input, Button, LocaleProvider } from 'antd'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
+
+const Input = require('antd/lib/input')
+const Button = require('antd/lib/button')
+const LocaleProvider = require('antd/lib/locale-provider')
 
 class PostComment extends Component {
   constructor(props) {
@@ -12,6 +15,7 @@ class PostComment extends Component {
       text: '',
     };
   }
+
   onButtonClicked() {
     this.props.postComment({
       documentId: this.props.feedId,
@@ -19,16 +23,21 @@ class PostComment extends Component {
     })
     this.setState({ text: '' })
   }
+
   onChangeInput(e) {
     this.setState(e);
   }
+
   render() {
-    const user = this.props.user
-    const text = this.state.text
+    const { user } = this.props
+    const { text } = this.state
     return (
       <LocaleProvider locale={koKR}>
-        <div style={{ display: 'flex' }} >
-          <div style={{ marginRight: '4px', width: '32px', height: '32px', background: '#FFF' }} >
+        <div style={{ display: 'flex' }}>
+          <div style={{
+            marginRight: '4px', width: '32px', height: '32px', background: '#FFF',
+          }}
+          >
             <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
           </div>
           <div style={{
@@ -40,7 +49,7 @@ class PostComment extends Component {
               <Input
                 type="textarea"
                 autosize={{ minRows: 1 }}
-                onChange={e => this.onChangeInput({ text: e.target.value })}
+                onChange={(e) => this.onChangeInput({ text: e.target.value })}
                 placeholder="Write Comment"
                 value={text}
               />
@@ -55,7 +64,7 @@ class PostComment extends Component {
   }
 }
 
-PostComment.PropTypes = {
+PostComment.propTypes = {
   postComment: PropTypes.func.isRequired,
 }
 

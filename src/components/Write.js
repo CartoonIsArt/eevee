@@ -1,84 +1,112 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Input, notification } from 'antd'
 import ReactMarkdown from 'react-markdown'
 import { patchDocument, postDocument } from '../actions'
 
+const Button = require('antd/lib/button')
+const Input = require('antd/lib/input')
+const notification = require('antd/lib/notification')
+
+const openNotificationWithIcon = () => {
+  notification.info({
+    message: '마크다운 간단문법',
+    description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
+  })
+}
+
 class Write extends Component {
-  static openNotificationWithIcon(type) {
-    notification.config({
-      duration: 0,
-    })
-    notification[type]({
-      message: '마크다운 간단문법',
-      description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
-    })
-  }
   constructor(props) {
     super(props)
     this.state = {
-      text: '',
+      content: '',
       mode: 'edit',
     }
+    notification.config({
+      duration: 0,
+    })
   }
-  onClickMethod() {
-    if (this.props.documentId > 0) {
-      this.props.patchDocument(this.props.documentId, this.state.text)
-    } else {
-      this.props.postDocument(this.state.text)
-    }
-    this.setState({ text: '', mode: 'edit' })
-  }
-  render() {
-    const text = this.state.text
-    const mode = this.state.mode
-    const user = this.props.user
-    let display = <div />
-    let btn = <div />
-    if (mode === 'edit') {
-      display = (<Input
+
+  getDisplay(mode, content) {
+    const editModeDisplay = (content) => (
+      <Input
         type="textarea"
         autosize={{ minRows: 4 }}
         style={{ width: '100%' }}
-        value={text}
-        onChange={e => this.setState({ text: e.target.value })}
-      />)
-      btn = (<div style={{ display: 'flex' }}>
-        <Button icon="question-circle" onClick={() => Write.openNotificationWithIcon('info')}>
+        value={content}
+        onChange={(e) => this.setState({ content: e.target.value })}
+      />
+    )
+    const previewModeDisplay = (content) => (<ReactMarkdown source={content} />)
+    if (mode === 'edit') return editModeDisplay(content)
+    if (mode === 'preview') return previewModeDisplay(content)
+    return <div />
+  }
+
+  changeMode(mode) {
+    this.setState({ mode })
+  }
+
+  getButton(mode) {
+    const editModeButton = (
+      <div style={{ display: 'flex' }}>
+        <Button icon="question-circle" onClick={() => openNotificationWithIcon()}>
           문법
         </Button>
         <div style={{ width: '4px' }} />
-        <Button icon="edit" onClick={() => this.setState({ mode: 'preview' })}>
+        <Button icon="edit" onClick={() => this.changeMode('preview')}>
           글쓸거임?
         </Button>
-      </div>)
-    } else if (mode === 'preview') {
-      display = <ReactMarkdown source={text} />
-      btn = (<div style={{ display: 'flex' }}>
-        <Button icon="reload" onClick={() => this.setState({ mode: 'edit' })}>
-                수정
+      </div>
+    )
+    const previewModeButton = (
+      <div style={{ display: 'flex' }}>
+        <Button icon="reload" onClick={() => this.changeMode('edit')}>
+          수정
         </Button>
         <div style={{ width: '4px' }} />
-        {
-          // eslint-disable-next-line
-          <Button icon="cloud-upload" type="primary" onClick={() => this.onClickMethod()}>
-            완료
-          </Button>
-        }
-      </div>)
+        <Button icon="cloud-upload" type="primary" onClick={() => this.uploadDocument()}>
+          완료
+        </Button>
+      </div>
+    )
+    if (mode === 'edit') return editModeButton
+    if (mode === 'preview') return previewModeButton
+    return <div />
+  }
+
+  uploadDocument() {
+    if (this.props.documentId > 0) {
+      this.props.patchDocument(this.props.documentId, this.state.content)
+    } else {
+      this.props.postDocument(this.state.content)
     }
+    this.setState({ content: '', mode: 'edit' })
+  }
+
+  render() {
+    const { content } = this.state
+    const { mode } = this.state
+    const { user } = this.props
+
+    const display = this.getDisplay(mode, content)
+    const button = this.getButton(mode)
+
     return (
-      <div style={{ marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF' }} >
-        <div style={{ marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden' }} >
+      <div style={{
+        marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF',
+      }}
+      >
+        <div style={{
+          marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden',
+        }}
+        >
           <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
         </div>
         <div style={{ flexGrow: 1 }}>
           { display }
-          <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }} >
+          <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
             <Button icon="picture" shape="circle" />
-            <div>
-              {btn}
-            </div>
+            { button }
           </div>
         </div>
       </div>

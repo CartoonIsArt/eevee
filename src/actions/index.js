@@ -1,26 +1,37 @@
-import axios from 'axios'
+import axios from '../fetches/axios'
 
 // const host = 'https://cia.kw.ac.kr/api/'
-const host = 'http://localhost/api/'
 
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
 const SET_TIMELINE = 'SETTIMELINE'
 const UPDATE_FEED = 'UPDATEFEED'
-const APPEND_FEED = 'APPENDFEED'
 const SET_USER = 'SETUSER'
 const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
-// const APPEND_NOTIES = 'APPENDNOTIES'
+const APPEND_TIMELINE = 'APPENDTIMELINE'
+const SET_LOGIN = 'SETLOGIN'
+const APPEND_FEED = 'APPENDFEED'
+const APPEND_COMMENT = 'APPENDCOMMENT'
+const UPDATE_USER = 'UPDATEUSER'
+// const APPEND = 'APPEND' // future
 
-const setSun = sun => ({ type: SET_SUN, sun })
+const setSun = (sun) => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setUser = user => ({ type: SET_USER, user })
-const setTimeline = timeline => ({ type: SET_TIMELINE, timeline })
-const appendFeed = feed => ({ type: APPEND_FEED, feed })
-const updateFeed = feed => ({ type: UPDATE_FEED, feed })
-const setMembers = members => ({ type: SET_MEMBERS, members })
-const setNoties = noties => ({ type: SET_NOTIES, noties })
+const setUser = (value) => ({ type: SET_USER, user: value })
+const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
+const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
+const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
+const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
+const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
+const setMembers = (members) => ({ type: SET_MEMBERS, members })
+const setNoties = (noties) => ({ type: SET_NOTIES, noties })
+const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
+const updateUser = (user) => ({ type: UPDATE_USER, user })
+
+export const notifyLogin = () => (dispatch) => {
+  dispatch(setLogin(true))
+}
 
 export const sunrise = () => (dispatch) => {
   dispatch(setSun(true))
@@ -34,33 +45,32 @@ export const suntoggle = () => (dispatch) => {
 
 const user1 = {
   id: 1,
-  date_joined: '2017-02-05 05:10:13.768196+00:00',
-  date_of_birth: '1999-11-11 03:00:00+00:00',
+  joinDate: '2017-02-05 05:10:13.768196+00:00',
+  birthdate: '1999-11-11 03:00:00+00:00',
   department: '전자통신공학과',
-  nDocuments: 3,
-  nComments: 5,
-  nDocumentLikes: 4,
+  documentsCount: 3,
+  commentsCount: 5,
+  likedDocumentsCount: 4,
   isActive: false,
-  isContributer: false,
-  isGraduate: false,
+  // isContributer: false,
+  hasGraduated: false,
   isRegular: true,
-  is_admin: false,
-  is_staff: false,
+  isSuperuser: false,
+  // is_staff: false,
   nTh: 16,
   fullname: '와아이',
-  phone_number: '010-0000-0000',
-  student_number: '2000000000',
+  phoneNumber: '010-0000-0000',
+  studentNumber: '2000000000',
   username: 'kswcia',
   profileImage: {
     id: 1,
-    savedPath: 'https://cia.kw.ac.kr/media/2462a3f1-9bb5-4758-9cbe-fcf7f33db668.png',
+    savedPath: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
     filename: 'kPanic.png',
   },
 }
 
-
 export const getMembers = () => (dispatch) => {
-  axios.get(`${host}users`)
+  axios.get('/user')
     .then((r) => {
       dispatch(setMembers(r.data))
     })
@@ -68,43 +78,34 @@ export const getMembers = () => (dispatch) => {
 }
 
 export const getUser = () => (dispatch) => {
-  axios.get(`${host}users/session`)
+  axios.get('/user/authenticated')
     .then((r) => {
       dispatch(setUser(r.data))
     })
-    .catch((e) => {
-      console.log(e)
-    })
+    .catch((e) => console.log(e))
 }
 
 export const getNoties = () => (dispatch) => {
   dispatch(setNoties([
     {
       id: 1,
-      createdAt: '2017-06-22T07:03:20.963737Z',
-      from: user1,
-      text: '님의 댓글: 구동게 메인화면에서는 모던동게 링크가 https://cia.kw.ac.kr 로 이어지는데 게시판이나 글로 이동후에는 https://128.134.57.197 로 이어집니다.',
-      had_read: false,
-    },
-    {
-      id: 2,
       createdAt: '2017-06-23T07:03:20.963737Z',
       from: user1,
-      text: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
+      content: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
       had_read: true,
     },
     {
-      id: 3,
+      id: 2,
       createdAt: '2017-06-10T07:03:20.963737Z',
       from: user1,
-      text: '공지: 6월 종강총회 회의록',
+      content: '공지: 6월 종강총회 회의록',
       had_read: false,
     },
   ]))
 }
 
 export const getTimeline = (page = 1) => (dispatch) => {
-  axios.get(`${host}timeline/${page}`)
+  axios.get(`/timeline/${page}`)
     .then((r) => {
       dispatch(setTimeline(r.data))
     })
@@ -113,98 +114,94 @@ export const getTimeline = (page = 1) => (dispatch) => {
     })
 }
 
-export const postDocumentLike = (id, userid) => (dispatch) => {
-  axios.post(`${host}documents/${id}/likeIt`)
+export const postDocumentLike = (id) => (dispatch) => {
+  axios.post(`/document/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id: userid,
-        likedBy: r.data.likedBy,
+        id,
+        likedUsers: r.data.likedUsers,
       }))
+      dispatch(setUser(r.data.author))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
-export const deleteDocumentLike = (id, userid) => (dispatch) => {
-  axios.delete(`${host}documents/${id}/likeIt`)
+export const deleteDocumentLike = (id) => (dispatch) => {
+  axios.delete(`/document/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id: userid,
-        likedBy: r.data.likedBy,
+        id,
+        likedUsers: r.data.likedUsers,
       }))
+      dispatch(setUser(r.data.author))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
-export const postCommentLike = (id, userid) => (dispatch) => {
-  axios.post(`${host}comments/${id}/LikeIt`)
-    .then((r) => {
-      dispatch(updateFeed({
-        id: userid,
-        likedBy: r.data.likedBy,
-      }))
-    })
-    .catch(e => console.log(e))
-}
-
-export const deleteCommentLike = (id, userid) => (dispatch) => {
-  axios.delete(`${host}comments/${id}/LikeIt`)
-    .then((r) => {
-      dispatch(updateFeed({
-        id: userid,
-        likedBy: r.data.likedBy,
-      }))
-    })
-    .catch(e => console.log(e))
-}
-
-export const patchDocument = (id, text) => (dispatch) => {
-  axios.patch(`${host}documents/${id}`, {
-    text,
+export const patchDocument = (id, data) => (dispatch) => {
+  axios.patch(`/document/${id}`, {
+    data,
   })
     .then((r) => {
       dispatch(updateFeed({
         id,
-        text: r.data.text,
+        content: r.data.content,
       }))
+      dispatch(setUser(r.data.author))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
-// postRecomment 함수 작성이 필요합니다.
-// 아니면 postComment로 해결해주세요.
-export const postComment = data => (dispatch) => {
-  axios.post(`${host}comments`, {
-    documentId: data.documentId,
-    commentId: data.commentId,
-    text: data.text,
+export const postComment = (data) => (dispatch) => {
+  axios.post('/comment', {
+    data,
   })
+    .then((r) => {
+      dispatch(appendComment(r.data))
+      dispatch(setUser(r.data.author))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const postDocument = (data) => (dispatch) => {
+  axios.post('/document', {
+    data,
+  })
+    .then((r) => {
+      dispatch(appendFeed(r.data))
+      dispatch(setUser(r.data.author))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const postCommentLike = (id) => (dispatch) => {
+  axios.post(`/comment/${id}/LikeIt`)
     .then((r) => {
       dispatch(updateFeed({
-        id: data.documentId,
-        comments: [
-          ...r.data.rootDocument.comments,
-          {
-            ...r.data,
-            likedBy: [],
-            replies: [],
-          },
-        ],
-        likedBy: [],
+        id,
+        likedUsers: r.data.likedUsers,
       }))
+      dispatch(setUser(r.data.author))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
 }
 
-export const postDocument = text => (dispatch) => {
-  axios.post(`${host}documents`, {
-    text,
-  })
+export const deleteCommentLike = (id) => (dispatch) => {
+  axios.delete(`/comment/${id}/LikeIt`)
     .then((r) => {
-      dispatch(appendFeed({
-        ...r.data,
-        comments: [],
-        likedBy: [],
+      dispatch(updateFeed({
+        id,
+        likedUsers: r.data.likedUsers,
       }))
+      dispatch(setUser(r.data.author))
     })
-    .catch(e => console.log(e))
+    .catch((e) => console.log(e))
+}
+
+export const patchUser = (user) => (dispatch) => {
+  axios.patch(`/user/${user.id}`, user)
+    .then((r) => {
+      dispatch(updateUser(r.data))
+    })
+    .catch((e) => console.log(e))
 }

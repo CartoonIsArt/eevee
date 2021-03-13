@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import { Affix, Row, Col } from 'antd'
 import { connect } from 'react-redux'
 import Profile from './Profile'
 import Noties from './Noties'
 import Feed from '../components/Feed'
 import { getUser } from '../actions'
 import { getFeed } from '../fetches'
+
+const Affix = require('antd/lib/affix')
+const Row = require('antd/lib/row')
+const Col = require('antd/lib/col')
 
 class SingleFeed extends Component {
   constructor(props) {
@@ -14,6 +17,7 @@ class SingleFeed extends Component {
       content: false,
     }
   }
+
   componentWillMount() {
     /* future
     this.props.getFeed(this.props.params.id)
@@ -27,9 +31,10 @@ class SingleFeed extends Component {
     const content = getFeed(this.props.match.params.id)
     this.setState({ content })
   }
+
   render() {
-    const content = this.state.content
-    const user = this.props.user
+    const { content } = this.state
+    const { user } = this.props
     return (
       <Row>
         <Col span={6}>
@@ -38,14 +43,15 @@ class SingleFeed extends Component {
           </aside>
         </Col>
         <Col span={12}>
-          {content && // user.has_logged_in &&
-          <section style={{ padding: '0px 8px' }} >
+          {content // user.has_logged_in &&
+          && (
+          <section style={{ padding: '0px 8px' }}>
             <Feed
               user={user}
               content={content}
             />
           </section>
-          }
+          )}
         </Col>
         <Col span={6}>
           <Affix offsetTop={44}>
@@ -59,7 +65,7 @@ class SingleFeed extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
 })
 const mapDispatchToProps = ({

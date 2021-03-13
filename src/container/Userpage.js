@@ -1,24 +1,29 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Button, Icon } from 'antd'
 import { getMembers } from '../actions'
+import PropTypes from 'prop-types'
+
+const Button = require('antd/lib/button')
+const Icon = require('antd/lib/icon')
 
 class Userpage extends Component {
+  constructor(props) {
+    super(props)
+    this.props.getMembers()
+  }
   static check(boolean) {
     if (boolean) {
       return <Icon type="check" />
     }
     return <Icon type="close" />
   }
-  componentWillMount() {
-    this.props.getMembers()
-  }
+
   render() {
     // 유저 페이지 넘길 때, props로 유저 아이디 넘기면 좋을 듯합니다
-    const members = this.props.members
-    const username = this.props.match.params.username
-    const member = members.length > 0 ? members.filter(m => m.username === username) : []
+    const { members } = this.props
+    const { username } = this.props.match.params
+    const member = members.length > 0 ? members.filter((m) => m.username === username) : []
     return (
       <div className="userpage">
         <div className="header">
@@ -31,17 +36,23 @@ class Userpage extends Component {
             <div className="menu"><a href="">작성한 글</a></div>
             <div className="menu"><a href="">좋아요한 글</a></div>
             <div className="menu"><a href="">댓글단 글</a></div>
-            <div className="menu last"><a href="/members">회원들</a></div>
+            <div className="menu last" onClick={()=>this.props.history.push('/members')}>회원들</div>
             <div className="blank" />
-            <Button className="menu-btn" type="dashed">
-              <Icon type="tool" /> 프로필 수정
+            <Button className="menu-btn" type="dashed" onClick={()=>this.props.history.push('/settings/account')}>
+              <Icon type="tool" />
+              {' '}
+              프로필 수정
             </Button>
           </div>
         </div>
         <div className="under-board">
           <div className="my-inform-size">
             <div className="my-inform-board">
-              <div className="my-inform-title"><Icon type="user" /> 유저 정보</div>
+              <div className="my-inform-title">
+                <Icon type="user" />
+                {' '}
+                유저 정보
+              </div>
               <div className="my-inform-content">
                 <div className="my-inform-key">
                   <ol>
@@ -53,24 +64,27 @@ class Userpage extends Component {
                     <li>정회원</li>
                   </ol>
                 </div>
-                {member.length > 0 &&
+                {member.length > 0
+                  && (
                   <div className="my-inform-value">
                     <ol>
                       <li>{member[0].nTh}기</li>
                       <li>{member[0].fullname}</li>
                       <li>{member[0].studentNumber}</li>
                       <li>{member[0].department}</li>
-                      <li>{Userpage.check(member[0].isActivated)}</li>
+                      <li>{Userpage.check(member[0].isActive)}</li>
                       <li>{Userpage.check(member[0].isRegular)}</li>
                     </ol>
                   </div>
-                }
+                  )}
               </div>
             </div>
           </div>
           <div className="my-write-size">
             <div className="my-write-title">
-              <Icon type="edit" /> 작성한 글
+              <Icon type="edit" />
+              {' '}
+              작성한 글
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', padding: '12px' }}>
               <div style={{ display: 'block' }}>
@@ -106,7 +120,11 @@ class Userpage extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+Userpage.propTypes = {
+  history: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = (state) => ({
   members: state.members,
 })
 const mapDispatchToProps = ({

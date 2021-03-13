@@ -5,19 +5,19 @@ import Namecard from '../components/Namecard'
 import Activity from '../components/Activity'
 import { getUser } from '../actions'
 
-
 class Profile extends Component {
   render() {
-    const user = this.props.user
+    const { user } = this.props
     return (
       <div style={{ background: '#FFFFFF' }}>
-        {user.has_logged_in ?
-          <div>
-            <Namecard content={user} />
-            <Activity content={user} />
-          </div> :
-          this.props.getUser()
-        }
+        {user.has_logged_in
+          ? (
+            <div>
+              <Namecard content={user} />
+              <Activity content={user} />
+            </div>
+          )
+          : this.props.getUser()}
       </div>
     )
   }
@@ -28,7 +28,7 @@ Profile.propTypes = {
   getUser: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
 })
 const mapDispatchToProps = ({

@@ -1,31 +1,45 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import { Form, Icon, Input, Button, Modal } from 'antd'
-import { request } from '../fetches/request'
+import axios from '../fetches/axios'
+import PropTypes from 'prop-types'
+import { getUser } from '../actions'
+import { connect } from 'react-redux'
+
+const Form = require('antd/lib/form')
+const Icon = require('antd/lib/icon')
+const Input = require('antd/lib/input')
+const Button = require('antd/lib/button')
+const Modal = require('antd/lib/modal')
 
 const FormItem = Form.Item;
-const args = [];
 
 class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isActivated: false,
+      isActive: false,
       id: '',
       password: '',
       responses: [],
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.auth)
+      this.props.history.push('/')
+  }
+
   onClickMethod(ev) {
     ev.preventDefault()
     ev.stopPropagation()
-    args.push({ type: 'String', key: 'username', value: this.state.id })
-    args.push({ type: 'String', key: 'password', value: this.state.password })
-    request('POST', 'login', args)
+    const args = {
+      username: this.state.id,
+      password: this.state.password
+    }
+    axios.post('/public/login', args)
       .then((r) => {
-        console.log(r);
-        location.href = '/'
+        this.props.getUser()
       })
       .catch((e) => {
         console.log(e)
@@ -34,9 +48,8 @@ class Login extends Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const id = this.state.id
-    const password = this.state.password
+    const { id } = this.state
+    const { password } = this.state
     return (
       <div
         style={{
@@ -51,7 +64,6 @@ class Login extends Component {
           backgroundSize: '100% 100%',
           overflow: 'hidden',
         }}
-        align="middle"
       >
         <div
           // 상단 바
@@ -86,7 +98,8 @@ class Login extends Component {
           <div>
             <div style={{ textAlign: 'left' }}>
               <img
-                src="https://cia.kw.ac.kr/media/logo.png"
+                // src="https://cia.kw.ac.kr/media/logo.png"
+                src="https://avatars.githubusercontent.com/u/26453921?s=200&v=4"
                 alt="CIA 로고"
                 style={{ width: '240px', overflow: 'hidden' }}
               />
@@ -101,43 +114,47 @@ class Login extends Component {
             </div>
           </div>
           <div>
-            <Form onSubmit={e => this.onClickMethod(e)} className="login-form">
-              <FormItem>
-                {getFieldDecorator('username', {
-                  rules: [{ required: true, message: '아이디를 입력해주세요!' }],
-                })(
-                  <Input
-                    prefix={<Icon type="user" style={{ fontSize: 12 }} />}
-                    placeholder="Username"
-                    value={id}
-                    onChange={e => this.setState({ id: e.target.value })}
-                  />,
-                )}
+            <Form
+              className="login-form"
+              onSubmit={(e) => this.onClickMethod(e)}
+            >
+              <FormItem
+                rules={[
+                  { required: true, message: '아이디를 입력해주세요!' },
+                ]}
+              >
+                <Input
+                  prefix={<Icon type="user" style={{ fontSize: 12 }} />}
+                  placeholder="Username"
+                  value={id}
+                  onChange={(e) => this.setState({ id: e.target.value })}
+                />
+              </FormItem>
+              <FormItem
+                rules={[
+                  { required: true, message: '비밀번호를 입력해주세요!' },
+                ]}
+              >
+                <Input
+                  prefix={<Icon type="lock" style={{ fontSize: 12 }} />}
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => this.setState({ password: e.target.value })}
+                />
               </FormItem>
               <FormItem>
-                {getFieldDecorator('password', {
-                  rules: [{ required: true, message: '비밀번호를 입력해주세요!' }],
-                })(
-                  <Input
-                    prefix={<Icon type="lock" style={{ fontSize: 12 }} />}
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={e => this.setState({ password: e.target.value })}
-                  />,
-                )}
-              </FormItem>
-              <FormItem>
-
                 <Button
                   style={{ width: '100%' }}
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
                 >
-                    로그인
+                  로그인
                 </Button>
-                  아니면 <Link to="/registration"> 지금 회원가입 하세요! </Link>
+                아니면
+                {' '}
+                <Link to="/registration"> 지금 회원가입 하세요! </Link>
               </FormItem>
             </Form>
           </div>
@@ -153,6 +170,19 @@ class Login extends Component {
   }
 }
 
-const WrappedNormalLoginForm = Form.create()(Login);
+Login.propTypes = {
+  getUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  auth: PropTypes.bool.isRequired,
+}
 
-export default WrappedNormalLoginForm
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+const mapDispatchToProps = ({
+  getUser,
+})
+
+const WrappedNormalLoginForm = Form.create()(Login)
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedNormalLoginForm))

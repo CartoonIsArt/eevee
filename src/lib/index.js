@@ -1,8 +1,8 @@
 const getWinHeight = () => (
-  window.innerHeight ||
-  window.innerHeight ||
-  (document.documentElement ||
-    document.body)
+  window.innerHeight
+  || window.innerHeight
+  || (document.documentElement
+    || document.body)
     .clientHeight
 )
 
@@ -16,10 +16,10 @@ const getDocHeight = () => {
 }
 
 const getScrollTop = () => (
-  window.pageYOffset ||
-  (document.documentElement ||
-    document.body.parentNode ||
-    document.body)
+  window.pageYOffset
+  || (document.documentElement
+    || document.body.parentNode
+    || document.body)
     .scrollTop
 )
 
@@ -35,6 +35,5 @@ export const isAlmostScrolled = () => {
 
 /* 중복되는 인자는 b쪽에 맞춰짐 */
 export const mergeObject = (a, b) => (
-  Object.assign({}, a, b)
+  { ...a, ...b }
 )
-
