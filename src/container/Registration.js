@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Children, Component } from 'react'
 import moment from 'moment'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import axios from '../fetches/axios'
@@ -19,7 +19,13 @@ const Modal = require('antd/lib/modal')
 const Input = require('antd/lib/input')
 
 const FormItem = Form.Item;
-const options = [];
+const nThs = (() => {
+  let nThs = []
+  for (let i = 1; i <= moment().get('year') - 1998; i += 1) {
+    nThs.push({ value: i, label: `${i}기` });
+  }
+  return nThs
+})()
 
 const default_nTh = (() => {
   const today = new Date()
@@ -27,12 +33,72 @@ const default_nTh = (() => {
 })()
 const default_birthdate = moment().subtract(19, 'years')
 
-function init() {
-  for (let i = 1; i <= moment().get('year') - 1998; i += 1) {
-    options.push({ value: i, label: `${i}기` });
+const majors = [{
+    label: '전자정보공과대학',
+    value: '전자정보공과대학',
+    children: [
+      { label: '전자공학과', value: '전자공학과' },
+      { label: '전자통신공학과', value: '전자통신공학과' },
+      { label: '전기공학과', value: '전기공학과' },
+      { label: '전자융합공학과', value: '전자융합공학과' },
+      { label: '전자재료공학과', value: '전자재료공학과' },
+      { label: '로봇학부', value: '로봇학부' },
+    ]
+  }, {
+    label: '소프트웨어융합대학',
+    value: '소프트웨어융합대학',
+    children: [
+      { label: '소프트웨어학부', value: '소프트웨어학부' },
+      { label: '컴퓨터정보공학부', value: '컴퓨터정보공학부' },
+      { label: '정보융합학부', value: '정보융합학부' },
+    ]
+  }, {
+    label: '공과대학',
+    value: '공과대학',
+    children: [
+      { label: '건축공학과', value: '건축공학과' },
+      { label: '환경공학과', value: '환경공학과' },
+      { label: '화학공학과', value: '화학공학과' },
+      { label: '건축학과', value: '건축학과' },
+    ]
+  }, {
+    label: '자연과학대학',
+    value: '자연과학대학',
+    children: [
+      { label: '수학과', value: '수학과' },
+      { label: '화학과', value: '화학과' },
+      { label: '전자바이오물리학과', value: '전자바이오물리학과' },
+      { label: '스포츠융합과학과', value: '스포츠융합과학과' },
+      { label: '정보콘텐츠학과(야)', value: '정보콘텐츠학과(야)' },
+    ]
+  }, {
+    label: '인문사회과학대학',
+    value: '인문사회과학대학',
+    children: [
+      { label: '국어국문학과', value: '국어국문학과' },
+      { label: '영어산업학과', value: '영어산업학과' },
+      { label: '미디어커뮤니케이션학부', value: '미디어커뮤니케이션학부' },
+      { label: '산업심리학과', value: '산업심리학과' },
+      { label: '동북아문화산업학부', value: '동북아문화산업학부' },
+    ]
+  }, {
+    label: '정책법학대학',
+    value: '정책법학대학',
+    children: [
+      { label: '행정학과', value: '행정학과' },
+      { label: '법학부', value: '법학부' },
+      { label: '국제학부', value: '국제학부' },
+      { label: '자산관리학과(야)', value: '자산관리학과(야)' },
+    ]
+  }, {
+    label: '경영대학',
+    value: '경영대학',
+    children: [
+      { label: '경영학부', value: '경영학부' },
+      { label: '국제통상학부', value: '국제통상학부' },
+    ]
   }
-}
-init();
+]
 
 function beforeUpload(file) {
   const isImage = file.type === 'image/gif'
@@ -59,13 +125,13 @@ class Registration extends Component {
       agreeTerms: false,
       agreeAll: false,
       fullname: '',
-      nTh: '',
-      birthdate: '',
+      nTh: default_nTh,
+      birthdate: default_birthdate,
       id: '',
       password: '',
       passwordCheck: '',
       major: '',
-      number: '',
+      studentNumber: '',
       email: '',
       phoneNumber: '',
       favoriteComic: '',
@@ -75,6 +141,7 @@ class Registration extends Component {
       fileList: [],
       response: '',
     };
+    let isKeyBackspace = false
   }
 
   onChangeInput(e) {
@@ -82,39 +149,56 @@ class Registration extends Component {
   }
 
   onNumberChange(value, selectedOption) {
-    console.log(value, selectedOption);
     this.setState({ nTh: value[0] });
   }
 
   onDateChange(date, dateString) {
-    console.log(date, dateString);
     this.setState({ birthdate: dateString });
+  }
+
+  onMajorChange(value, selectedOption) {
+    this.setState({ major: value[1] })
   }
 
   onButtonClicked() {
     if (this.isEmpty()) {
-      Modal.warning({ favoriteComic: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
-      return;
-    } if (this.state.password !== this.state.passwordCheck) {
-      Modal.warning({ favoriteComic: '비밀번호를 확인해주세요!', content: '비밀번호가 일치하지 않습니다.' });
-      return;
+      return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
-    console.log(this.state);
-    const args = {
+    // https://blog.itanoss.kr/ko/한글-유니코드-정리/
+    if (/[^\uac00-\ud7a3]/.test(this.state.fullname)) {
+      return Modal.warning({ title: '이름을 확인해주세요!', content: '한글 이름만 사용 가능합니다.' })
+    }
+    if (this.state.password !== this.state.passwordCheck) {
+      return Modal.warning({ title: '비밀번호를 확인해주세요!', content: '비밀번호 확인이 일치하지 않습니다.' });
+    }
+    // https://stackoverflow.com/questions/4374185/regular-expression-match-to-test-for-a-valid-year
+    // https://stackoverflow.com/questions/1538512/how-can-i-invert-a-regular-expression-in-javascript
+    if (/^(?!.*^[12][0-9]{3}\d{6}$)/.test(this.state.studentNumber)) {
+      return Modal.warning({ title: '학번을 확인해주세요!', content: '유효하지 않은 학번입니다.' })
+    }
+    // https://emailregex.com/
+    if (/^(?!.*^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$).*/.test(this.state.email)) {
+      return Modal.warning({ title: '이메일을 확인해주세요!', content: '유효하지 않은 이메일 주소입니다.' })
+    }
+    if (/^(?!.*^\d{3}[-]+\d{4}[-]+\d{4}$)/.test(this.state.phoneNumber)) {
+      return Modal.warning({ title: '전화번호를 확인해주세요!', content: '유효하지 않은 전화번호입니다.' })
+    }
+
+    const user = {
       fullname: this.state.fullname,
       nTh: this.state.nTh,
       birthdate: this.state.birthdate,
       username: this.state.id,
       password: this.state.password,
       department: this.state.major,
-      studentNumber: this.state.number,
+      studentNumber: this.state.studentNumber,
       email: this.state.email,
       phoneNumber: this.state.phoneNumber,
       favoriteComic: this.state.favoriteComic,
       favoriteCharacter: this.state.favoriteCharacter,
       profileImage: this.state.fileList.length < 1 ? 'default' : this.state.fileList[0].name,
     }
-    axios.post('/public/user', args)
+    axios.post('/public/user', user)
       .then((r) => {
         this.setState({
           response: r,
@@ -134,17 +218,15 @@ class Registration extends Component {
   }
 
   isEmpty() {
-    if (this.state.fullname
-          && this.state.nTh
-          && this.state.birthdate
-          && this.state.id
-          && this.state.password
-          && this.state.major
-          && this.state.number //변수이름 바꾸기
-          && this.state.email
-          && this.state.phoneNumber
-    ) { return false; }
-    return true;
+    return !(this.state.fullname
+            && this.state.nTh
+            && this.state.birthdate
+            && this.state.id
+            && this.state.password
+            && this.state.major
+            && this.state.studentNumber //변수이름 바꾸기
+            && this.state.email
+            && this.state.phoneNumber)
   }
 
   handleCancelProfile() {
@@ -162,10 +244,28 @@ class Registration extends Component {
     this.setState({ fileList })
   }
 
+  onChangePhoneNumber(phoneNumber) {
+    if (/(?![0-9-]{0,13}$)/.test(phoneNumber)) {
+      return
+    }
+    if (this.isKeyBackspace && phoneNumber[phoneNumber.length - 1] == '-') {
+      phoneNumber = phoneNumber.slice(0, -1)
+    }
+    if (!this.isKeyBackspace
+        && (phoneNumber.length == 3 || phoneNumber.length == 8)) {
+      phoneNumber += '-'
+    }
+    this.setState({ phoneNumber })
+  }
+
+  onKeyDownBackspace(e) {
+    this.isKeyBackspace = (e.key === 'Backspace')
+  }
+
   render() {
     const {
       fullname, id, password, passwordCheck, major,
-      number, email, phoneNumber, favoriteComic, favoriteCharacter,
+      studentNumber, email, phoneNumber, favoriteComic, favoriteCharacter,
       fileList, previewVisible, profile,
       agreeLaw, agreeTerms,
     } = this.state;
@@ -251,7 +351,7 @@ class Registration extends Component {
                       <div>
                         <Cascader
                           style={{ width: '140px', marginRight: '8px' }}
-                          options={options}
+                          options={nThs}
                           size="large"
                           onChange={(value, option) => this.onNumberChange(value, option)}
                           placeholder="*기수를 선택하세요"
@@ -294,21 +394,20 @@ class Registration extends Component {
                       />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <Input
-                        addonBefore="*전공"
+                      <Cascader
+                        style={{ width: '288px', marginBottom: '8px' }}
+                        options={majors}
                         size="large"
-                        style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                        onChange={(e) => this.onChangeInput({ major: e.target.value })}
-                        placeholder="ex) 컴퓨터정보공학부"
-                        value={major}
+                        onChange={(value, option) => this.onMajorChange(value, option)}
+                        placeholder="*전공"
                       />
                       <Input
                         addonBefore="*학번"
                         size="large"
                         style={{ width: '288px' }}
-                        onChange={(e) => this.onChangeInput({ number: e.target.value })}
+                        onChange={(e) => this.onChangeInput({ studentNumber: e.target.value })}
                         placeholder="ex) 2017000000"
-                        value={number}
+                        value={studentNumber}
                       />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
@@ -321,11 +420,12 @@ class Registration extends Component {
                         value={email}
                       />
                       <Input
-                        addonBefore="*핸드폰(010-)"
+                        addonBefore="*전화번호"
                         size="large"
                         style={{ width: '288px' }}
-                        onChange={(e) => this.onChangeInput({ phoneNumber: e.target.value })}
-                        placeholder="ex) 1234-5678"
+                        onChange={(e) => this.onChangePhoneNumber(e.target.value)}
+                        onKeyDown={(e) => this.onKeyDownBackspace(e)}
+                        placeholder="ex) 010-1234-5678"
                         value={phoneNumber}
                       />
                     </div>
