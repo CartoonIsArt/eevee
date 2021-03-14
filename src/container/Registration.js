@@ -190,7 +190,7 @@ class Registration extends Component {
       birthdate: this.state.birthdate,
       username: this.state.id,
       password: this.state.password,
-      department: this.state.major,
+      major: this.state.major,
       studentNumber: this.state.studentNumber,
       email: this.state.email,
       phoneNumber: this.state.phoneNumber,
