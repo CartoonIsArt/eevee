@@ -20,8 +20,9 @@ const Input = require('antd/lib/input')
 
 const FormItem = Form.Item;
 const nThs = (() => {
+  const max = moment().get('year') - 1998
   let nThs = []
-  for (let i = 1; i <= moment().get('year') - 1998; i += 1) {
+  for (let i = 1; i <= max; i += 1) {
     nThs.push({ value: i, label: `${i}기` });
   }
   return nThs
@@ -114,6 +115,15 @@ function beforeUpload(file) {
     message.error('10MB 넘으면 안되요!');
   }
   return isImage && isLt10M;
+}
+
+function isPermittedBirthdate(date) {
+  const max_birthdate = moment.subtract(120, 'years')
+  const min_birthdate = moment()
+
+  return date
+    && date.isBefore(max_birthdate)
+    && date.isAfter(min_birthdate)
 }
 
 class Registration extends Component {
@@ -364,7 +374,7 @@ class Registration extends Component {
                           onChange={(date, dateString) => this.onDateChange(date, dateString)}
                           placeholder="*생일을 선택하세요"
                           defaultValue={default_birthdate}
-                          disabledDate={(currentDate) => { return currentDate && currentDate.isBefore('1900-01-01'); }}
+                          disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
                         />
                       </div>
                     </div>
