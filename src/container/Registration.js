@@ -118,7 +118,7 @@ function beforeUpload(file) {
 }
 
 function isPermittedBirthdate(date) {
-  const max_birthdate = moment.subtract(120, 'years')
+  const max_birthdate = moment().subtract(120, 'years')
   const min_birthdate = moment()
 
   return date
