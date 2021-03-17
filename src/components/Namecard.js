@@ -31,7 +31,7 @@ class Namecard extends Component {
               {user.username}
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
-              {user.department}
+              {user.major}
             </div>
           </div>
         </div>

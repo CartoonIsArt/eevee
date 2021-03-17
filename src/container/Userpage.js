@@ -71,7 +71,7 @@ class Userpage extends Component {
                       <li>{member[0].nTh}기</li>
                       <li>{member[0].fullname}</li>
                       <li>{member[0].studentNumber}</li>
-                      <li>{member[0].department}</li>
+                      <li>{member[0].major}</li>
                       <li>{Userpage.check(member[0].isActive)}</li>
                       <li>{Userpage.check(member[0].isRegular)}</li>
                     </ol>

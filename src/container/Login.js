@@ -55,13 +55,12 @@ class Login extends Component {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '660px',
+          height: '100%',
           width: '100%',
           fontSize: '20px',
           margin: '0px 8px',
           textAlign: 'left',
-          backgroundImage: "url('https://68.media.tumblr.com/c8b2b39b88e638dd419e6ca50a857131/tumblr_nnx1uqMP9v1r2pvg2o1_500.gif')",
-          backgroundSize: '100% 100%',
+          backgroundImage: "url(/images/login_background.jpg)",
           overflow: 'hidden',
         }}
       >
