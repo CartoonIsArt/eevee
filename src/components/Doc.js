@@ -17,7 +17,7 @@ class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isAppending: false,
+      isAppending: true,
     }
     this.props.getUser()
   }
