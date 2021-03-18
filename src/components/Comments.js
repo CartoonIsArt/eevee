@@ -14,7 +14,6 @@ class Comments extends Component {
         background: '#fff', display: 'flex', flexDirection: 'column', padding: '8px', overflow: 'hidden',
       }}
       >
-        <Line />
         {comments.map((comment) => (
           <Comment
             key={comment.id}
