@@ -137,7 +137,7 @@ class Doc extends Component {
               </a>
             </Popover>
           </div>
-          <div style={{ marginRight: '4px' }}>
+          <div style={{ marginRight: '12px' }}>
             <Button
               style={{ marginRight: '4px' }}
               shape="circle"
@@ -146,7 +146,7 @@ class Doc extends Component {
               onClick={() => this.props.onClickComments()}
             />
             <a onClick={() => this.props.onClickComments()}>
-              댓글
+              {`댓글 ${content.comments.length}`}
             </a>
           </div>
           <div>
