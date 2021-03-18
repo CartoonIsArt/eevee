@@ -19,6 +19,7 @@ class Doc extends Component {
     this.state = {
       isAppending: false,
     }
+    this.props.getUser()
   }
 
   onClickLikeIt() {
@@ -149,6 +150,8 @@ class Doc extends Component {
               {`댓글 ${content.comments.length}`}
             </a>
           </div>
+          {content.author.id === this.props.user.id
+          ? 
           <div>
             <Button
               style={{ marginRight: '4px' }}
@@ -161,6 +164,8 @@ class Doc extends Component {
               이어쓰기
             </a>
           </div>
+          : <div />
+          }
         </div>
       </div>
     )
