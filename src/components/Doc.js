@@ -50,16 +50,12 @@ class Doc extends Component {
     const { user } = this.props
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
-        <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
-          <div>
-            여기는 뭘 넣으면 예쁠까?
-          </div>
+        {/* <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
+          <h2>{content.title}</h2>
           <div style={{ flexGrow: 2 }} />
-          <div>
-            <Button shape="circle" icon="down" size="small" />
-          </div>
+          <Button shape="circle" icon="down" size="small" />
         </div>
-        <Line />
+        <Line /> */}
         <div style={{ display: 'flex', marginTop: '4px' }}>
           <div style={{
             width: '48px',
