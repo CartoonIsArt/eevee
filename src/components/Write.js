@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import { patchDocument, postDocument } from '../actions'
 
 const Button = require('antd/lib/button')
-const Input = require('antd/lib/input')
+const Mention = require('antd/lib/mention')
 const notification = require('antd/lib/notification')
 
 const openNotificationWithIcon = () => {
@@ -26,18 +26,22 @@ class Write extends Component {
     })
   }
 
+  onEditorChange(editorState) {
+    const { toString } = Mention
+    const content = toString(editorState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
+    this.setState({ content })
+  }
+
   getDisplay(mode, content) {
-    const editModeDisplay = (content) => (
-      <Input
-        type="textarea"
-        autosize={{ minRows: 4 }}
-        style={{ width: '100%' }}
-        value={content}
-        onChange={(e) => this.setState({ content: e.target.value })}
+    const editModeDisplay = (
+      <Mention
+        style={{ width: '100%', height: '100px' }}
+        onChange={(editorState) => this.onEditorChange(editorState)}
+        multiLines
       />
     )
     const previewModeDisplay = (content) => (<ReactMarkdown source={content} />)
-    if (mode === 'edit') return editModeDisplay(content)
+    if (mode === 'edit') return editModeDisplay
     if (mode === 'preview') return previewModeDisplay(content)
     return <div />
   }
