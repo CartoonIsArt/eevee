@@ -108,17 +108,34 @@ class Doc extends Component {
         </div>
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
-          <div style={{ marginRight: '4px' }}>
-            <Button
-              style={{ marginRight: '4px' }}
-              shape="circle"
-              icon="like"
-              size="small"
-              onClick={() => this.onClickLikeIt()}
-            />
-            <a onClick={() => this.onClickLikeIt()}>
-              좋아요
-            </a>
+          <div style={{ marginRight: '12px' }}>
+            <Popover
+              content={
+                content.likedUsers.length
+                  ? content.likedUsers.map((lover, idx) => (
+                    <pre key={idx}>
+                    {`${lover.nTh}기 ${lover.fullname}`}
+                    </pre>
+                  ))
+                  : (
+                    <pre>
+                      당신이 이 글의 첫 번째 좋아요를 눌러주세요!
+                    </pre>
+                  )
+              }
+              placement="rightTop"
+            >
+              <Button
+                style={{ marginRight: '4px' }}
+                shape="circle"
+                icon="like"
+                size="small"
+                onClick={() => this.onClickLikeIt()}
+              />
+              <a onClick={() => this.onClickLikeIt()}>
+                {`좋아요 ${content.likedUsers.length}`}
+              </a>
+            </Popover>
           </div>
           <div style={{ marginRight: '4px' }}>
             <Button
