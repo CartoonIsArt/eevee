@@ -7,7 +7,6 @@ import Line from './Line'
 class Comments extends Component {
   render() {
     const comments = this.props.content
-    const { feed } = this.props
     const { user } = this.props
     return (
       <div style={{
