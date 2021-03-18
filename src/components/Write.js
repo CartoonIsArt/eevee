@@ -90,7 +90,7 @@ class Write extends Component {
   render() {
     const { content } = this.state
     const { mode } = this.state
-    const { user } = this.props
+    const { user, isAppend } = this.props
 
     const display = this.getDisplay(mode, content)
     const button = this.getButton(mode)
@@ -100,12 +100,17 @@ class Write extends Component {
         marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF',
       }}
       >
-        <div style={{
-          marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden',
-        }}
-        >
-          <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
-        </div>
+        {
+          isAppend
+          || (
+            <div style={{
+              marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden',
+            }}
+            >
+              <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
+            </div>
+          )
+        }
         <div style={{ flexGrow: 1 }}>
           { display }
           <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>

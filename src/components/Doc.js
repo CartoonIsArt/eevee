@@ -17,7 +17,7 @@ class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isAppending: true,
+      isAppend: true,
     }
     this.props.getUser()
   }
@@ -35,11 +35,11 @@ class Doc extends Component {
   }
 
   toggleAppending() {
-    this.setState({ isAppending: !this.state.isAppending })
+    this.setState({ isAppend: !this.state.isAppend })
   }
 
   render() {
-    const { isAppending } = this.state
+    const { isAppend } = this.state
     const { content } = this.props
     const { author } = content
     const nickname = `${author.nTh}기 ${author.fullname}`
@@ -97,10 +97,11 @@ class Doc extends Component {
           <ReactMarkdown source={content.content} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
-        <div style={isAppending ? { display: 'block' } : { display: 'none' }}>
+        <div style={isAppend ? { display: 'block' } : { display: 'none' }}>
           <Write
             user={user}
             documentId={this.props.content.id}
+            isAppend
           />
         </div>
         <Line />
