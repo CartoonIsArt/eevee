@@ -80,17 +80,18 @@ class Comment extends Component {
                 }
                 placement="rightTop"
               >
-              <a onClick={() => this.onClickLikeIt()}>
-                {`Like ${comment.likedUsers.length} `}
-              </a>
-            </Popover>
-            {
-              comment.replies
-              && (
-              <pre>
-                {' '}
-                Reply
-                {comment.replies.length}
+                <a
+                  style={{ marginRight: '8px' }}
+                  onClick={() => this.onClickLikeIt()}
+                >
+                  {`좋아요 ${comment.likedUsers.length}`}
+                </a>
+              </Popover>
+              {
+                comment.replies
+                && (
+                <pre>
+                  {`대댓글 ${comment.replies.length}`}
                 </pre>
                 )
               }
