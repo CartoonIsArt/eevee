@@ -146,7 +146,7 @@ export const getLikedTimeline = (username, page = 1, keyword = undefined) => (di
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
-  axios.get(`/timeline/${username}?${queryString}`)
+  axios.get(`/timeline/${username}/likes?${queryString}`)
     .then((r) => {
       dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
     })
@@ -159,7 +159,7 @@ export const getCommentedTimeline = (username, page = 1, keyword = undefined) =>
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
-  axios.get(`/timeline/${username}?${queryString}`)
+  axios.get(`/timeline/${username}/commented?${queryString}`)
     .then((r) => {
       dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
     })
