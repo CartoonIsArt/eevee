@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import axios from '../fetches/axios'
 import PropTypes from 'prop-types'
-import { getUser } from '../actions'
 import { connect } from 'react-redux'
+import axios from '../fetches/axios'
+import { getUser } from '../actions'
 
 const Form = require('antd/lib/form')
 const Icon = require('antd/lib/icon')
@@ -26,8 +26,7 @@ class Login extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.auth)
-      this.props.history.push('/')
+    if (this.props.auth) this.props.history.push('/')
   }
 
   onClickMethod(ev) {
@@ -35,7 +34,7 @@ class Login extends Component {
     ev.stopPropagation()
     const args = {
       username: this.state.id,
-      password: this.state.password
+      password: this.state.password,
     }
     axios.post('/public/login', args)
       .then((r) => {
@@ -60,7 +59,7 @@ class Login extends Component {
           fontSize: '20px',
           margin: '0px 8px',
           textAlign: 'left',
-          backgroundImage: "url(/images/login_background.jpg)",
+          backgroundImage: 'url(/images/login_background.jpg)',
           overflow: 'hidden',
         }}
       >
@@ -176,7 +175,7 @@ Login.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
 })
 const mapDispatchToProps = ({
   getUser,

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUser } from '../actions'
 
+const Affix = require('antd/lib/affix')
 const Menu = require('antd/lib/menu')
 const Icon = require('antd/lib/icon')
 
@@ -11,7 +12,7 @@ const { SubMenu } = Menu;
 class Sider extends Component {
   static getAncestorKeys(key) {
     const map = {
-      sub1: ['/dashboard'],
+      sub1: ['/enrollment'],
       sub2: ['/noties'],
     };
     return map[key] || [];
@@ -22,14 +23,7 @@ class Sider extends Component {
     this.state = {
       openKeys: [],
     }
-  }
-
-  componentWillMount() {
-    /*
-    if (this.props.user.has_logged_in === false) {
-      this.props.getUser()
-    }
-    */
+    this.props.getUser()
   }
 
   onOpenChange(openKeys) {
@@ -54,114 +48,90 @@ class Sider extends Component {
 
   render() {
     const { user } = this.props
-    const loc = this.props.location
+    const { pathname } = this.props.location
     return (
-      <Menu
-        mode="inline"
-        openKeys={this.state.openKeys}
-        selectedKeys={[loc]}
-        style={{ width: 240, minHeight: '100vh' }}
-        onOpenChange={(openKeys) => this.onOpenChange(openKeys)}
-        onClick={(e) => this.handleClick(e)}
-      >
-        {user.has_logged_in
-          ? (
-            <div style={{ height: '240px', overflow: 'hidden' }}>
+      <div style={{ width: '240px' }}>
+        <Affix offsetTop={52}>
+          <Menu
+            mode="inline"
+            openKeys={this.state.openKeys}
+            selectedKeys={[pathname]}
+            style={{ width: '240px', minHeight: '720px', maxHeight: '750px' }}
+            onOpenChange={(openKeys) => this.onOpenChange(openKeys)}
+            onClick={(e) => this.handleClick(e)}
+          >
+            <div style={{ width: '240px', height: '240px', overflow: 'hidden' }}>
               <img
                 src={user.profileImage.savedPath}
                 alt={user.profileImage.filename}
                 width="100%"
               />
             </div>
-          )
-          : this.props.getUser() /* :
-          <div style={{ height: '240px', background: 'black' }} /> */
-        }
-        {
-          user.isActive
-          || (
-          <SubMenu
-            key="sub1"
-            title={(
-              <span>
+              <Menu.Item key="/enrollment">
                 <Icon type="appstore" />
-                <span>대시보드</span>
-              </span>
-            )}
-          >
-            <Menu.Item key="/dashboard">대시보드</Menu.Item>
-          </SubMenu>
-          )
-        }
-        {/* 배포후 패치해도 되는 내용
-        <SubMenu
-          key="sub2"
-          title={
-            <span><Icon type="notification" /><span>공지사항</span></span>}
-        >
-          <Menu.Item key="/noties">공지사항</Menu.Item>
-          <Menu.Item key="/accounting">회비미납자</Menu.Item>
-          <Menu.Item key="/cleaning">청소조</Menu.Item>
-        </SubMenu>
-        */}
-        <SubMenu
-          key="sub4"
-          title={(
-            <span>
+                <span>활동인구 등록</span>
+              </Menu.Item>
+            {/* 배포후 패치해도 되는 내용
+            <SubMenu
+              key="sub2"
+              title={
+                <span><Icon type="notification" /><span>공지사항</span></span>}
+            >
+              <Menu.Item key="/noties">공지사항</Menu.Item>
+              <Menu.Item key="/accounting">회비미납자</Menu.Item>
+              <Menu.Item key="/cleaning">청소조</Menu.Item>
+            </SubMenu>
+            */}
+            <Menu.Item key="/members">
               <Icon type="team" />
               <span>회원들</span>
-            </span>
-          )}
-        >
-          <Menu.Item key="/members">회원들</Menu.Item>
-        </SubMenu>
-        <SubMenu
-          key="sub5"
-          title={(
-            <span>
-              <Icon type="smile" />
-              <span>C.I.A.</span>
-            </span>
-          )}
-        >
-          <Menu.Item key="/law">
-            {/* <a href="https://cia.kw.ac.kr/wiki/index.php?title=%ED%9A%8C%EC%B9%99" target="_blank" rel="noopener noreferrer">회칙</a> */}
-            <a href="https://cafe.naver.com/ciapg523/62" target="_blank" rel="noopener noreferrer">회칙</a>
-          </Menu.Item>
-          <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
-          {/* 배포 후 패치
-          <Menu.Item key="/old/noties">(구) 공지</Menu.Item>
-          <Menu.Item key="/old/texts"> (구) 자유</Menu.Item>
-          */}
-        </SubMenu>
-        {
-          user.isSuperUser
-          && (
-          <SubMenu
-            key="sub6"
-            title={(
-              <span>
-                <Icon type="tool" />
-                <span>임원진 도구</span>
-              </span>
-)}
-          >
-            <Menu.Item key="/deactivate">활동인구 초기화</Menu.Item>
-          </SubMenu>
-          )
-        }
-        <SubMenu
-          key="sub7"
-          title={(
-            <span>
+            </Menu.Item>
+            <SubMenu
+              key="sub5"
+              title={(
+                <span>
+                  <Icon type="smile" />
+                  <span>C.I.A.</span>
+                </span>
+              )}
+            >
+              <Menu.Item key="/law">
+                <span>회칙</span>
+              </Menu.Item>
+              {
+                user.isRegular
+                && (
+                <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
+                )
+                /* 배포 후 패치
+                <Menu.Item key="/old/noties">(구) 공지</Menu.Item>
+                <Menu.Item key="/old/texts"> (구) 자유</Menu.Item>
+                */
+              }
+            </SubMenu>
+            {
+              user.isSuperUser
+              && (
+              <SubMenu
+                key="sub6"
+                title={(
+                  <span>
+                    <Icon type="tool" />
+                    <span>임원진 도구</span>
+                  </span>
+                )}
+              >
+                <Menu.Item key="/deactivate">활동인구 초기화</Menu.Item>
+              </SubMenu>
+              )
+            }
+            <Menu.Item key="/logout">
               <Icon type="frown" />
               <span>로그아웃</span>
-            </span>
-)}
-        >
-          <Menu.Item key="/logout">로그아웃</Menu.Item>
-        </SubMenu>
-      </Menu>
+            </Menu.Item>
+          </Menu>
+        </Affix>
+      </div>
     );
   }
 }

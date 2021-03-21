@@ -69,7 +69,7 @@ class Comment extends Component {
                   comment.likedUsers.length
                     ? comment.likedUsers.map((lover) => (
                       <pre>
-                      {`${lover.nTh}기 ${lover.fullname}`}
+                        {`${lover.nTh}기 ${lover.fullname}`}
                       </pre>
                     ))
                     : (

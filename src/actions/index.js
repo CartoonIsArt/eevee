@@ -14,6 +14,8 @@ const SET_LOGIN = 'SETLOGIN'
 const APPEND_FEED = 'APPENDFEED'
 const APPEND_COMMENT = 'APPENDCOMMENT'
 const UPDATE_USER = 'UPDATEUSER'
+const LOGOUT = 'LOGOUT'
+const SET_LOGOUT = 'SETLOGOUT'
 // const APPEND = 'APPEND' // future
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
@@ -28,6 +30,8 @@ const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNoties = (noties) => ({ type: SET_NOTIES, noties })
 const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
 const updateUser = (user) => ({ type: UPDATE_USER, user })
+const logoutUser = () => ({ type: LOGOUT })
+const setLogout = () => ({ type: SET_LOGOUT })
 
 export const notifyLogin = () => (dispatch) => {
   dispatch(setLogin(true))
@@ -237,6 +241,15 @@ export const deleteCommentLike = (id) => (dispatch) => {
       const { likedUsers, user } = r.data
       dispatch(updateFeed({ id, likedUsers }))
       dispatch(setUser(user))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const logout = () => (dispatch) => {
+  axios.get('/logout')
+    .then((r) => {
+      dispatch(logoutUser())
+      dispatch(setLogout())
     })
     .catch((e) => console.log(e))
 }

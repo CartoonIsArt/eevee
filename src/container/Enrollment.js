@@ -9,7 +9,9 @@ const Button = require('antd/lib/button')
 const Icon = require('antd/lib/icon')
 const Modal = require('antd/lib/modal')
 
-class Dashboard extends Component {
+const isEnrollmentPeriod = false;// 나중에 날짜비교하기
+
+class Enrollment extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -19,23 +21,28 @@ class Dashboard extends Component {
   }
 
   onClickMethod() {
-    const { user } = this.props
-    if (user.user === undefined) { this.props.getUser() }
-    console.log(user.id)
-    const args = { isActive: true }
-    axios.patch(`/user/${user.id}`, args)
-      .then((r) => {
-        this.props.getUser()
-        this.setState({
-          responses: r,
+    // 날짜 비교
+    if (isEnrollmentPeriod) {
+      const { user } = this.props
+      if (user.user === undefined) { this.props.getUser() }
+      const args = { isActive: true }
+      // 활동인구 patch를 추가하든가 해야될듯, 기존 patchOne은 passward필요
+      axios.patch(`/user/${user.id}`, args)
+        .then((r) => {
+          this.props.getUser()
+          this.setState({
+            responses: r,
+          })
         })
-      })
-      .catch((e) => {
-        this.setState({
-          responses: e.response,
+        .catch((e) => {
+          this.setState({
+            responses: e.response,
+          })
+          Modal.warning({ title: '활동인구 등록에 실패했습니다.' })
         })
-        Modal.warning({ title: '활동인구 등록에 실패했습니다.' })
-      })
+    } else {
+      Modal.warning({ title: '활동인구 등록기간이 아닙니다.' })
+    }
   }
 
   render() {
@@ -70,7 +77,7 @@ class Dashboard extends Component {
                   height: '388px', width: '69%', marginRight: '20px', overflow: 'hidden',
                 }}
                 >
-                  <img src="http://i.imgur.com/xOR7aaQ.jpg" alt="활동인구" />
+                  <img src="/images/enrollment.jpg" alt="활동인구" />
                 </div>
                 <div style={{
                   justifyContent: 'space-between', display: 'flex', flexDirection: 'column', padding: '8px', width: '29%', border: '1px solid black', borderRadius: '4px', height: '388px',
@@ -117,7 +124,7 @@ class Dashboard extends Component {
     )
   }
 }
-Dashboard.propTypes = {
+Enrollment.propTypes = {
   user: PropTypes.object.isRequired,
   getUser: PropTypes.func.isRequired,
 }
@@ -129,4 +136,4 @@ const mapDispatchToProps = ({
   getUser,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(Enrollment)
