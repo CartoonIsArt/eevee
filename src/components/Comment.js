@@ -23,9 +23,9 @@ class Comment extends Component {
     const { user } = this.props
 
     if (comment.likedUsers.findIndex((lover) => lover.id === user.id) === -1) {
-      postCommentLike(comment.id)
+      this.props.postCommentLike(comment.id)
     } else {
-      deleteCommentLike(comment.id)
+      this.props.deleteCommentLike(comment.id)
     }
   }
 
@@ -80,17 +80,17 @@ class Comment extends Component {
                 }
                 placement="rightTop"
               >
-                <a onClick={() => this.onClickLikeIt()}>
-                  {`Like ${comment.likedUsers.length} `}
-                </a>
-              </Popover>
-              {
-                comment.replies
-                && (
-                <pre>
-                  {' '}
-                  Reply
-                  {comment.replies.length}
+              <a onClick={() => this.onClickLikeIt()}>
+                {`Like ${comment.likedUsers.length} `}
+              </a>
+            </Popover>
+            {
+              comment.replies
+              && (
+              <pre>
+                {' '}
+                Reply
+                {comment.replies.length}
                 </pre>
                 )
               }
@@ -121,6 +121,8 @@ class Comment extends Component {
 
 Comment.propTypes = {
   content: PropTypes.object.isRequired,
+  postCommentLike: PropTypes.func.isRequired,
+  deleteCommentLike: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = () => ({
