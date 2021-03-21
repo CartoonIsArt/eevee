@@ -28,9 +28,6 @@ class Namecard extends Component {
               </Link>
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
-              {user.username}
-            </div>
-            <div style={{ height: '33%', fontSize: '14pt' }}>
               {user.department}
             </div>
           </div>
