@@ -47,13 +47,12 @@ class Members extends Component {
           <Tabs
             tabBarExtraContent={
               <Search onChange={(e) => this.setState({ filter: e.target.value })} />
-}
+            }
           >
             <TabPane tab="모든회원" key="all">
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {this.props.members
-                  .filter((member) => member.fullname.includes(filter)
-                      || member.username.includes(filter))
+                  .filter((member) => `${member.nTh}기 ${member.fullname}`.includes(filter))
                   .map((member) => (
                     <div
                       key={member.id}
@@ -70,8 +69,7 @@ class Members extends Component {
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {this.props.members
                   .filter((member) => member.isActive
-                      && (member.fullname.includes(filter)
-                        || member.username.includes(filter)))
+                      && `${member.nTh}기 ${member.fullname}`.includes(filter))
                   .map((member) => (
                     <div
                       key={member.id}
