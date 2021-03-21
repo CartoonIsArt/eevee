@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getUser } from '../actions'
+import { logout } from '../actions'
 
 const Button = require('antd/lib/button')
 
@@ -9,16 +10,8 @@ class Logout extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isActive: false,
       isOnce: true,
     }
-  }
-
-  componentWillMount() {
-    /*
-    const user = this.props.user
-    if (user.has_logged_in === false) { this.props.getUser() }
-    */
   }
 
   setIsOnce() {
@@ -95,15 +88,16 @@ class Logout extends Component {
                   </Button>
                 )
                 : (
-                  <a href="http://kr.battle.net/heroes/ko/">
-                    <Button
-                      type="danger"
-                      size="small"
-                      icon="user"
-                    >
-                      난 떠날 거야
-                    </Button>
-                  </a>
+                  <Button
+                    type="danger"
+                    size="small"
+                    icon="user"
+                    onClick={() => {
+                      this.props.logout()
+                    }}
+                  >
+                    난 떠날 거야
+                  </Button>
                 )}
             </div>
           </div>
@@ -113,11 +107,15 @@ class Logout extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-})
-const mapDispatchToProps = ({
-  getUser,
+Logout.propTypes = {
+  logout: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = () => ({
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Logout)
+const mapDispatchToProps = ({
+  logout,
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Logout)

@@ -12,6 +12,8 @@ const user = (state = init, action) => {
       ]
     case 'UPDATEUSER':
       return action.user
+    case 'LOGOUT':
+      return init
     default:
       return state
   }
