@@ -2,7 +2,7 @@ const user1 = {
   id: 1,
   date_joined: '2017-02-05 05:10:13.768196+00:00',
   date_of_birth: '1999-11-11 03:00:00+00:00',
-  department: '전자통신공학과',
+  major: '전자통신공학과',
   nFeeds: 3,
   commentsCount: 5,
   nLikes: 4,

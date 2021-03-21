@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
 
-const Input = require('antd/lib/input')
+const Mention = require('antd/lib/mention')
 const Button = require('antd/lib/button')
 const LocaleProvider = require('antd/lib/locale-provider')
 
@@ -12,25 +12,26 @@ class PostComment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: '',
+      content: '',
     };
   }
 
   onButtonClicked() {
     this.props.postComment({
       documentId: this.props.feedId,
-      text: this.state.text,
+      content: this.state.content,
     })
-    this.setState({ text: '' })
+    this.setState({ content: '' })
   }
 
-  onChangeInput(e) {
-    this.setState(e);
+  onChangeInput(editorState) {
+    const { toString } = Mention
+    const content = toString(editorState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
+    this.setState({ content })
   }
 
   render() {
     const { user } = this.props
-    const { text } = this.state
     return (
       <LocaleProvider locale={koKR}>
         <div style={{ display: 'flex' }}>
@@ -46,12 +47,11 @@ class PostComment extends Component {
           }}
           >
             <div style={{ width: '94%', marginRight: '4px' }}>
-              <Input
-                type="textarea"
-                autosize={{ minRows: 1 }}
-                onChange={(e) => this.onChangeInput({ text: e.target.value })}
+              <Mention
+                style={{ width: '100%', height: '30px' }}
+                onChange={(editorState) => this.onChangeInput(editorState)}
                 placeholder="Write Comment"
-                value={text}
+                multiLines
               />
             </div>
             <div>

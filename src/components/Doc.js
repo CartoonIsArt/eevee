@@ -17,8 +17,9 @@ class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isAppending: false,
+      isAppend: false,
     }
+    this.props.getUser()
   }
 
   onClickLikeIt() {
@@ -34,11 +35,11 @@ class Doc extends Component {
   }
 
   toggleAppending() {
-    this.setState({ isAppending: !this.state.isAppending })
+    this.setState({ isAppend: !this.state.isAppend })
   }
 
   render() {
-    const { isAppending } = this.state
+    const { isAppend } = this.state
     const { content } = this.props
     const { author } = content
     const nickname = `${author.nTh}기 ${author.fullname}`
@@ -49,16 +50,12 @@ class Doc extends Component {
     const { user } = this.props
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
-        <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
-          <div>
-            여기는 뭘 넣으면 예쁠까?
-          </div>
+        {/* <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
+          <h2>{content.title}</h2>
           <div style={{ flexGrow: 2 }} />
-          <div>
-            <Button shape="circle" icon="down" size="small" />
-          </div>
+          <Button shape="circle" icon="down" size="small" />
         </div>
-        <Line />
+        <Line /> */}
         <div style={{ display: 'flex', marginTop: '4px' }}>
           <div style={{
             width: '48px',
@@ -100,27 +97,45 @@ class Doc extends Component {
           <ReactMarkdown source={content.content} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
-        <div style={isAppending ? { display: 'block' } : { display: 'none' }}>
+        <div style={isAppend ? { display: 'block' } : { display: 'none' }}>
           <Write
             user={user}
             documentId={this.props.content.id}
+            isAppend
           />
         </div>
         <Line />
         <div style={{ marginTop: '4px', display: 'flex' }}>
-          <div style={{ marginRight: '4px' }}>
-            <Button
-              style={{ marginRight: '4px' }}
-              shape="circle"
-              icon="like"
-              size="small"
-              onClick={() => this.onClickLikeIt()}
-            />
-            <a onClick={() => this.onClickLikeIt()}>
-              좋아요
-            </a>
+          <div style={{ marginRight: '12px' }}>
+            <Popover
+              content={
+                content.likedUsers.length
+                  ? content.likedUsers.map((lover, idx) => (
+                    <pre key={idx}>
+                    {`${lover.nTh}기 ${lover.fullname}`}
+                    </pre>
+                  ))
+                  : (
+                    <pre>
+                      당신이 이 글의 첫 번째 좋아요를 눌러주세요!
+                    </pre>
+                  )
+              }
+              placement="rightTop"
+            >
+              <Button
+                style={{ marginRight: '4px' }}
+                shape="circle"
+                icon="like"
+                size="small"
+                onClick={() => this.onClickLikeIt()}
+              />
+              <a onClick={() => this.onClickLikeIt()}>
+                {`좋아요 ${content.likedUsers.length}`}
+              </a>
+            </Popover>
           </div>
-          <div style={{ marginRight: '4px' }}>
+          <div style={{ marginRight: '12px' }}>
             <Button
               style={{ marginRight: '4px' }}
               shape="circle"
@@ -129,9 +144,11 @@ class Doc extends Component {
               onClick={() => this.props.onClickComments()}
             />
             <a onClick={() => this.props.onClickComments()}>
-              댓글
+              {`댓글 ${content.comments.length}`}
             </a>
           </div>
+          {content.author.id === this.props.user.id
+          ? 
           <div>
             <Button
               style={{ marginRight: '4px' }}
@@ -144,6 +161,8 @@ class Doc extends Component {
               이어쓰기
             </a>
           </div>
+          : <div />
+          }
         </div>
       </div>
     )

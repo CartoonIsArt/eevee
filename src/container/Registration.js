@@ -20,8 +20,9 @@ const Input = require('antd/lib/input')
 
 const FormItem = Form.Item;
 const nThs = (() => {
+  const max = moment().get('year') - 1998
   let nThs = []
-  for (let i = 1; i <= moment().get('year') - 1998; i += 1) {
+  for (let i = 1; i <= max; i += 1) {
     nThs.push({ value: i, label: `${i}기` });
   }
   return nThs
@@ -116,6 +117,15 @@ function beforeUpload(file) {
   return isImage && isLt10M;
 }
 
+function isPermittedBirthdate(date) {
+  const max_birthdate = moment().subtract(120, 'years')
+  const min_birthdate = moment()
+
+  return date
+    && date.isBefore(max_birthdate)
+    && date.isAfter(min_birthdate)
+}
+
 class Registration extends Component {
   constructor(props) {
     super(props)
@@ -190,7 +200,7 @@ class Registration extends Component {
       birthdate: this.state.birthdate,
       username: this.state.id,
       password: this.state.password,
-      department: this.state.major,
+      major: this.state.major,
       studentNumber: this.state.studentNumber,
       email: this.state.email,
       phoneNumber: this.state.phoneNumber,
@@ -248,12 +258,16 @@ class Registration extends Component {
     if (/(?![0-9-]{0,13}$)/.test(phoneNumber)) {
       return
     }
-    if (this.isKeyBackspace && phoneNumber[phoneNumber.length - 1] == '-') {
+    if (this.isKeyBackspace
+        && (phoneNumber.length == 4 || phoneNumber.length == 9)) {
       phoneNumber = phoneNumber.slice(0, -1)
     }
     if (!this.isKeyBackspace
-        && (phoneNumber.length == 3 || phoneNumber.length == 8)) {
-      phoneNumber += '-'
+        && (phoneNumber.length == 4 || phoneNumber.length == 9)) {
+      phoneNumber = [
+        phoneNumber.slice(0, phoneNumber.length - 1),
+        phoneNumber.slice(phoneNumber.length - 1)
+      ].join('-')
     }
     this.setState({ phoneNumber })
   }
@@ -364,7 +378,7 @@ class Registration extends Component {
                           onChange={(date, dateString) => this.onDateChange(date, dateString)}
                           placeholder="*생일을 선택하세요"
                           defaultValue={default_birthdate}
-                          disabledDate={(currentDate) => { return currentDate && currentDate.isBefore('1900-01-01'); }}
+                          disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
                         />
                       </div>
                     </div>

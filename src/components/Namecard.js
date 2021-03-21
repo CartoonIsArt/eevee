@@ -28,7 +28,7 @@ class Namecard extends Component {
               </Link>
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
-              {user.department}
+              {user.major}
             </div>
           </div>
         </div>
