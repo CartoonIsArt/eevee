@@ -17,7 +17,6 @@ class Noties extends Component {
     console.log(noties)
     return (
       <div>
-        <div style={{ height: '8px' }} />
         <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
           <div style={{
             height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column',
