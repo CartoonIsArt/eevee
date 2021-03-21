@@ -107,7 +107,7 @@ export const getNoties = () => (dispatch) => {
 export const getTimeline = (page = 1) => (dispatch) => {
   axios.get(`/timeline/${page}`)
     .then((r) => {
-      dispatch(setTimeline(r.data))
+      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
     })
     .catch((e) => {
       console.log(e)
