@@ -1,6 +1,6 @@
 import React from 'react'
 import Sider from './container/Sider'
-import Dashboard from './container/Dashboard'
+import Enrollment from './container/Enrollment'
 import Noties from './container/Noties'
 import Members from './container/Members'
 import Accounting from './container/Accounting'
@@ -47,10 +47,10 @@ export const routes = [
     main: <SingleFeed />,
   },
   {
-    path: '/dashboard',
+    path: '/enrollment',
     has_navigator: true,
     sidebar: <Sider />,
-    main: <Dashboard />,
+    main: <Enrollment />,
   },
   {
     path: '/noties',
