@@ -3,33 +3,35 @@ import { connect } from 'react-redux'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
 
-const Input = require('antd/lib/input')
+const Mention = require('antd/lib/mention')
 const Button = require('antd/lib/button')
 const LocaleProvider = require('antd/lib/locale-provider')
+
+const { toString, toContentState } = Mention
 
 class PostRecomment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: '',
+      contentState: toContentState(''),
     };
   }
 
   onButtonClicked() {
+    const content = toString(this.state.contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
     this.props.postComment({
       commentId: this.props.commentId,
-      text: this.state.text,
+      content,
     })
-    this.setState({ text: '' })
+    this.setState({ contentState: toContentState('') })
   }
 
-  onChangeInput(e) {
-    this.setState(e);
+  onChangeInput(contentState) {
+    this.setState({ contentState })
   }
 
   render() {
     const { user } = this.props
-    const { text } = this.state
     return (
       <LocaleProvider locale={koKR}>
         <div style={{ display: 'flex' }}>
@@ -37,7 +39,7 @@ class PostRecomment extends Component {
             marginRight: '4px', width: '32px', height: '32px', background: '#FFF',
           }}
           >
-            <img src={user.profileImage.src} alt={user.profileImage.alt} width="100%" />
+            <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
           </div>
           <div style={{
             width: '94%',
@@ -45,12 +47,12 @@ class PostRecomment extends Component {
           }}
           >
             <div style={{ width: '94%', marginRight: '4px' }}>
-              <Input
-                type="textarea"
-                autosize={{ minRows: 1 }}
-                onChange={(e) => this.onChangeInput({ text: e.target.value })}
+              <Mention
+                style={{ width: '100%', height: '30px' }}
+                multiLines
                 placeholder="Write Recomment"
-                value={text}
+                onChange={(contentState) => this.onChangeInput(contentState)}
+                value={this.state.contentState}
               />
             </div>
             <div>

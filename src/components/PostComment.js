@@ -8,26 +8,27 @@ const Mention = require('antd/lib/mention')
 const Button = require('antd/lib/button')
 const LocaleProvider = require('antd/lib/locale-provider')
 
+const { toString, toContentState } = Mention
+
 class PostComment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      content: '',
+      contentState: toContentState(''),
     };
   }
 
   onButtonClicked() {
+    const content = toString(this.state.contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
     this.props.postComment({
       documentId: this.props.feedId,
-      content: this.state.content,
+      content,
     })
-    this.setState({ content: '' })
+    this.setState({ contentState: toContentState('') })
   }
 
-  onChangeInput(editorState) {
-    const { toString } = Mention
-    const content = toString(editorState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
-    this.setState({ content })
+  onChangeInput(contentState) {
+    this.setState({ contentState })
   }
 
   render() {
@@ -49,8 +50,9 @@ class PostComment extends Component {
             <div style={{ width: '94%', marginRight: '4px' }}>
               <Mention
                 style={{ width: '100%', height: '30px' }}
-                onChange={(editorState) => this.onChangeInput(editorState)}
+                onChange={(contentState) => this.onChangeInput(contentState)}
                 placeholder="Write Comment"
+                value={this.state.contentState}
                 multiLines
               />
             </div>
