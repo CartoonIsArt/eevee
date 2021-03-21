@@ -26,9 +26,9 @@ class Write extends Component {
     })
   }
 
-  onEditorChange(editorState) {
+  onEditorChange(contentState) {
     const { toString } = Mention
-    const content = toString(editorState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
+    const content = toString(contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
     this.setState({ content })
   }
 
@@ -36,7 +36,7 @@ class Write extends Component {
     const editModeDisplay = (
       <Mention
         style={{ width: '100%', height: '100px' }}
-        onChange={(editorState) => this.onEditorChange(editorState)}
+        onChange={(contentState) => this.onEditorChange(contentState)}
         multiLines
       />
     )
@@ -80,9 +80,12 @@ class Write extends Component {
 
   uploadDocument() {
     if (this.props.documentId > 0) {
-      this.props.patchDocument(this.props.documentId, this.state.content)
+      this.props.patchDocument({
+        id: this.props.documentId,
+        content: this.state.content
+      })
     } else {
-      this.props.postDocument(this.state.content)
+      this.props.postDocument({ content: this.state.content })
     }
     this.setState({ content: '', mode: 'edit' })
   }

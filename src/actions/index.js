@@ -69,22 +69,6 @@ const user1 = {
   },
 }
 
-export const getMembers = () => (dispatch) => {
-  axios.get('/user')
-    .then((r) => {
-      dispatch(setMembers(r.data))
-    })
-    .catch()
-}
-
-export const getUser = () => (dispatch) => {
-  axios.get('/user/authenticated')
-    .then((r) => {
-      dispatch(setUser(r.data))
-    })
-    .catch((e) => console.log(e))
-}
-
 export const getNoties = () => (dispatch) => {
   dispatch(setNoties([
     {
@@ -104,96 +88,20 @@ export const getNoties = () => (dispatch) => {
   ]))
 }
 
-export const getTimeline = (page = 1) => (dispatch) => {
-  axios.get(`/timeline/${page}`)
+// User
+//
+export const getMembers = () => (dispatch) => {
+  axios.get('/user')
     .then((r) => {
-      dispatch(setTimeline(r.data))
+      dispatch(setMembers(r.data))
     })
-    .catch((e) => {
-      console.log(e)
-    })
+    .catch()
 }
 
-export const postDocumentLike = (id) => (dispatch) => {
-  axios.post(`/document/${id}/LikeIt`)
+export const getUser = () => (dispatch) => {
+  axios.get('/user/authenticated')
     .then((r) => {
-      dispatch(updateFeed({
-        id,
-        likedUsers: r.data.likedUsers,
-      }))
-      dispatch(setUser(r.data.author))
-    })
-    .catch((e) => console.log(e))
-}
-
-export const deleteDocumentLike = (id) => (dispatch) => {
-  axios.delete(`/document/${id}/LikeIt`)
-    .then((r) => {
-      dispatch(updateFeed({
-        id,
-        likedUsers: r.data.likedUsers,
-      }))
-      dispatch(setUser(r.data.author))
-    })
-    .catch((e) => console.log(e))
-}
-
-export const patchDocument = (id, data) => (dispatch) => {
-  axios.patch(`/document/${id}`, {
-    data,
-  })
-    .then((r) => {
-      dispatch(updateFeed({
-        id,
-        content: r.data.content,
-      }))
-      dispatch(setUser(r.data.author))
-    })
-    .catch((e) => console.log(e))
-}
-
-export const postComment = (data) => (dispatch) => {
-  axios.post('/comment', {
-    data,
-  })
-    .then((r) => {
-      dispatch(appendComment(r.data))
-      dispatch(setUser(r.data.author))
-    })
-    .catch((e) => console.log(e))
-}
-
-export const postDocument = (data) => (dispatch) => {
-  axios.post('/document', {
-    data,
-  })
-    .then((r) => {
-      dispatch(appendFeed(r.data))
-      dispatch(setUser(r.data.author))
-    })
-    .catch((e) => console.log(e))
-}
-
-export const postCommentLike = (id) => (dispatch) => {
-  axios.post(`/comment/${id}/LikeIt`)
-    .then((r) => {
-      dispatch(updateFeed({
-        id,
-        likedUsers: r.data.likedUsers,
-      }))
-      dispatch(setUser(r.data.author))
-    })
-    .catch((e) => console.log(e))
-}
-
-export const deleteCommentLike = (id) => (dispatch) => {
-  axios.delete(`/comment/${id}/LikeIt`)
-    .then((r) => {
-      dispatch(updateFeed({
-        id,
-        likedUsers: r.data.likedUsers,
-      }))
-      dispatch(setUser(r.data.author))
+      dispatch(setUser(r.data))
     })
     .catch((e) => console.log(e))
 }
@@ -202,6 +110,133 @@ export const patchUser = (user) => (dispatch) => {
   axios.patch(`/user/${user.id}`, user)
     .then((r) => {
       dispatch(updateUser(r.data))
+    })
+    .catch((e) => console.log(e))
+}
+
+// Timeline
+//
+export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
+  const parameter = keyword ? { page, keyword } : { page }
+  const queryString = new URLSearchParams(parameter).toString()
+  
+  axios.get(`/timeline?${queryString}`)
+    .then((r) => {
+      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+}
+
+export const getUserTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+  const parameter = keyword ? { page, keyword } : { page }
+  const queryString = new URLSearchParams(parameter).toString()
+  
+  axios.get(`/timeline/${username}?${queryString}`)
+    .then((r) => {
+      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+}
+
+export const getLikedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+  const parameter = keyword ? { page, keyword } : { page }
+  const queryString = new URLSearchParams(parameter).toString()
+  
+  axios.get(`/timeline/${username}/likes?${queryString}`)
+    .then((r) => {
+      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+}
+
+export const getCommentedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+  const parameter = keyword ? { page, keyword } : { page }
+  const queryString = new URLSearchParams(parameter).toString()
+  
+  axios.get(`/timeline/${username}/commented?${queryString}`)
+    .then((r) => {
+      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+}
+
+// Document
+//
+export const postDocument = (document) => (dispatch) => {
+  axios.post('/document', document)
+    .then((r) => {
+      const { document } = r.data
+      dispatch(appendFeed(document))
+      dispatch(setUser(document.author))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const patchDocument = (document) => (dispatch) => {
+  axios.patch('/document', document)
+    .then((r) => {
+      const { document } = r.data
+      dispatch(updateFeed(document))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const postDocumentLike = (id) => (dispatch) => {
+  axios.post(`/document/${id}/LikeIt`)
+    .then((r) => {
+      const { likedUsers, user } = r.data
+      dispatch(updateFeed({ id, likedUsers }))
+      dispatch(setUser(user))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const deleteDocumentLike = (id) => (dispatch) => {
+  axios.delete(`/document/${id}/LikeIt`)
+    .then((r) => {
+      const { likedUsers, user } = r.data
+      dispatch(updateFeed({ id, likedUsers }))
+      dispatch(setUser(user))
+    })
+    .catch((e) => console.log(e))
+}
+
+// Comment
+//
+export const postComment = (comment) => (dispatch) => {
+  axios.post('/comment', comment)
+    .then((r) => {
+      const { comment } = r.data
+      dispatch(appendComment(comment))
+      dispatch(setUser(comment.author))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const postCommentLike = (id) => (dispatch) => {
+  axios.post(`/comment/${id}/LikeIt`)
+    .then((r) => {
+      const { likedUsers, user } = r.data
+      dispatch(updateFeed({ id, likedUsers }))
+      dispatch(setUser(user))
+    })
+    .catch((e) => console.log(e))
+}
+
+export const deleteCommentLike = (id) => (dispatch) => {
+  axios.delete(`/comment/${id}/LikeIt`)
+    .then((r) => {
+      const { likedUsers, user } = r.data
+      dispatch(updateFeed({ id, likedUsers }))
+      dispatch(setUser(user))
     })
     .catch((e) => console.log(e))
 }

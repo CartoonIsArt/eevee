@@ -27,11 +27,10 @@ class Doc extends Component {
     const { user } = this.props
 
     if (content.likedUsers.findIndex((lover) => lover.id === user.id) === -1) {
-      this.props.postDocumentLike(content.id, user.id)
+      this.props.postDocumentLike(content.id)
     } else {
-      this.props.deleteDocumentLike(content.id, user.id)
+      this.props.deleteDocumentLike(content.id)
     }
-    this.props.getUser()
   }
 
   toggleAppending() {

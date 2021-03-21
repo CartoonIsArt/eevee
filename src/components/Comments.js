@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Comment from './Comment'
 import PostComment from './PostComment'
-import Line from './Line'
 
 class Comments extends Component {
   render() {
