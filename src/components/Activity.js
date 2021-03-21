@@ -17,25 +17,19 @@ class Activity extends Component {
         <div style={{ width: '34%' }}>
           <div style={{ height: '50%' }}> 글</div>
           <a className="ant-anchor-link-title" href="#">
-            {' '}
             {user.documentsCount}
-            {' '}
           </a>
         </div>
         <div style={{ width: '33%' }}>
           <div style={{ height: '50%' }}> 댓글 </div>
           <a className="ant-anchor-link-title" href="#">
-            {' '}
             {user.commentsCount}
-            {' '}
           </a>
         </div>
         <div style={{ width: '33%' }}>
           <div style={{ height: '50%' }}> 좋아요 </div>
           <a className="ant-anchor-link-title" href="#">
-            {' '}
             {user.likedDocumentsCount}
-            {' '}
           </a>
         </div>
       </div>
