@@ -22,6 +22,7 @@ class Sider extends Component {
     this.state = {
       openKeys: [],
     }
+    this.props.getUser()
   }
 
   onOpenChange(openKeys) {
@@ -46,29 +47,23 @@ class Sider extends Component {
 
   render() {
     const { user } = this.props
-    const loc = this.props.location
+    const { pathname } = this.props.location
     return (
       <Menu
         mode="inline"
         openKeys={this.state.openKeys}
-        selectedKeys={[loc]}
+        selectedKeys={[pathname]}
         style={{ width: 240, minHeight: '100vh' }}
         onOpenChange={(openKeys) => this.onOpenChange(openKeys)}
         onClick={(e) => this.handleClick(e)}
       >
-        {user.has_logged_in
-          ? (
-            <div style={{ height: '240px', overflow: 'hidden' }}>
-              <img
-                src={user.profileImage.savedPath}
-                alt={user.profileImage.filename}
-                width="100%"
-              />
-            </div>
-          )
-          : this.props.getUser() /* :
-          <div style={{ height: '240px', background: 'black' }} /> */
-        }
+        <div style={{ height: '240px', overflow: 'hidden' }}>
+          <img
+            src={user.profileImage.savedPath}
+            alt={user.profileImage.filename}
+            width="100%"
+          />
+        </div>
         {
           user.isActive
           || (
