@@ -123,7 +123,7 @@ export const routes = [
   {
     path: '/law',
     has_navigator: true,
-    sidebar: <div />,
+    sidebar: <Sider />,
     main: <Law />,
   },
 ]
