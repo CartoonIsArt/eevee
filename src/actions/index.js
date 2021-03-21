@@ -174,7 +174,6 @@ export const postDocument = (document) => (dispatch) => {
   axios.post('/document', document)
     .then((r) => {
       const { document } = r.data
-      console.log(document.content)
       dispatch(appendFeed(document))
       dispatch(setUser(document.author))
     })
