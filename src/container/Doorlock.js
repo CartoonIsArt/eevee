@@ -32,7 +32,6 @@ class Doorlock extends Component {
         }}
         >
           <Icon type="exclamation-circle" />
-          {' '}
           동방 비밀번호를 동아리 회원 이외의 사람이나 준회원에게 알려주면 안됩니다!
         </div>
         <div>동방비번</div>
