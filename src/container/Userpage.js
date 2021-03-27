@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { getMembers } from '../actions'
 
@@ -34,9 +34,15 @@ class Userpage extends Component {
             </div>
           </div>
           <div className="menu-bar">
-            <div className="menu"><a href="">작성한 글</a></div>
-            <div className="menu"><a href="">좋아요한 글</a></div>
-            <div className="menu"><a href="">댓글단 글</a></div>
+            <div className="menu">
+              <Link to={`/members/${username}`}>작성한 글</Link>
+            </div>
+            <div className="menu">
+              <Link to={`/members/${username}/comments`}>작성한 댓글</Link>
+            </div>
+            <div className="menu">
+              <Link to={`/members/${username}/likes`}>좋아요한 글</Link>
+            </div>
             <div className="menu last" onClick={() => this.props.history.push('/members')}>회원들</div>
             <div className="blank" />
             <Button className="menu-btn" type="dashed" onClick={() => this.props.history.push('/settings/account')}>
