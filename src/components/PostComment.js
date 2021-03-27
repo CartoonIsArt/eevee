@@ -3,10 +3,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
-
-const Mention = require('antd/lib/mention')
-const Button = require('antd/lib/button')
-const LocaleProvider = require('antd/lib/locale-provider')
+import { isSpace } from '../lib'
+import { Button, Mention, LocaleProvider, notification } from 'antd'
 
 const { toString, toContentState } = Mention
 
@@ -20,10 +18,19 @@ class PostComment extends Component {
 
   onButtonClicked() {
     const content = toString(this.state.contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
-    this.props.postComment({
-      documentId: this.props.feedId,
-      content,
-    })
+    if (isSpace(content)) {
+      notification.warning({
+        message: '댓글을 확인해주세요!',
+        description: '업로드하고자 하는 댓글 내용이 없습니다',
+        duration: 3,
+      })
+    }
+    else {
+      this.props.postComment({
+        documentId: this.props.feedId,
+        content,
+      })
+    }
     this.setState({ contentState: toContentState('') })
   }
 

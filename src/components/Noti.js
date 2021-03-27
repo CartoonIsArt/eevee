@@ -1,22 +1,25 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import Namecard from './Namecard'
 import Line from './Line'
 import { printTime } from '../policy'
-
-const Popover = require('antd/lib/popover')
+import { Popover } from 'antd'
 
 class Noti extends Component {
+  routeToFeed(feedId) {
+    this.props.history.push(`/feed/${feedId}`)
+  }
+
   render() {
     const noti = this.props.content
-    console.log(noti)
     const nickname = `${noti.from.nTh}기 ${noti.from.fullname}`
     return (
       <div key={noti.id}>
         <div
           className="noti"
           // eslint-disable-next-line
-              onClick={() => console.log(noti.id)}
+          onClick={() => this.routeToFeed(noti.id)}
           style={
             noti.had_read
               ? { height: '56px', display: 'flex', alignItems: 'stretch' }
@@ -48,21 +51,19 @@ class Noti extends Component {
                   placement="leftTop"
                   content={<Namecard content={noti.from} />}
                 >
-                  <a href="#">
-                    {' '}
+                  <a style={{ fontSize: '10pt' }} href="#">
                     {nickname}
                   </a>
                 </Popover>
               </div>
-              <div style={{ color: 'rgba(1,1,1,0.5)' }}>
-                {' '}
+              <div style={{ fontSize: '9pt', color: 'rgba(1,1,1,0.5)' }}>
                 {printTime(noti.createdAt)}
-                {' '}
               </div>
             </div>
             <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
               <a href="#">
                 <div style={{
+                  fontSize: '9pt', 
                   color: 'rgba(0,0,0, 0.8)', wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box',
                 }}
                 >
@@ -80,6 +81,7 @@ class Noti extends Component {
 
 Noti.propTypes = {
   content: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 }
 
-export default Noti
+export default withRouter(Noti)

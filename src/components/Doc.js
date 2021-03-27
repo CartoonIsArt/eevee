@@ -9,9 +9,7 @@ import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
 import { getUser, postDocumentLike, deleteDocumentLike } from '../actions'
-
-const Button = require('antd/lib/button')
-const Popover = require('antd/lib/popover')
+import { Button, Popover } from 'antd'
 
 class Doc extends Component {
   constructor(props) {
@@ -93,7 +91,7 @@ class Doc extends Component {
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
-          <ReactMarkdown source={content.content} />
+          <ReactMarkdown children={content.content} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
         <div style={isAppend ? { display: 'block' } : { display: 'none' }}>

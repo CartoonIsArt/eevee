@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import koKR from 'antd/lib/locale-provider/ko_KR';
 import { connect } from 'react-redux';
 import { patchUser, getUser } from '../actions';
-
-const Upload = require('antd/lib/upload')
-const message = require('antd/lib/message')
-const DatePicker = require('antd/lib/date-picker')
-const LocaleProvider = require('antd/lib/locale-provider')
-const Form = require('antd/lib/form')
-const Button = require('antd/lib/button')
-const Icon = require('antd/lib/icon')
-const Modal = require('antd/lib/modal')
-const Input = require('antd/lib/input')
+import {
+  Button,
+  LocaleProvider,
+  Upload,
+  message,
+  DatePicker,
+  Form,
+  Icon,
+  Modal,
+  Input
+} from 'antd'
 
 const FormItem = Form.Item;
 

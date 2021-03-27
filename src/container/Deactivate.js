@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-
-const Button = require('antd/lib/button')
-const Icon = require('antd/lib/icon')
-const Modal = require('antd/lib/modal')
+import { Button, Icon, Modal } from 'antd'
 
 class Deactivate extends Component {
   constructor(props) {

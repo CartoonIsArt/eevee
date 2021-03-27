@@ -4,19 +4,20 @@ import koKR from 'antd/lib/locale-provider/ko_KR'
 import axios from '../fetches/axios'
 import club_rules from '../terms/club_rules'
 import privacy_policy from '../terms/privacy_policy'
-
-const Alert = require('antd/lib/alert')
-const Cascader = require('antd/lib/cascader')
-const Checkbox = require('antd/lib/checkbox')
-const Upload = require('antd/lib/upload')
-const message = require('antd/lib/message')
-const DatePicker = require('antd/lib/date-picker')
-const LocaleProvider = require('antd/lib/locale-provider')
-const Form = require('antd/lib/form')
-const Button = require('antd/lib/button')
-const Icon = require('antd/lib/icon')
-const Modal = require('antd/lib/modal')
-const Input = require('antd/lib/input')
+import {
+  Alert,
+  Button,
+  Cascader, 
+  Checkbox,
+  LocaleProvider,
+  Upload,
+  message,
+  DatePicker,
+  Form,
+  Icon,
+  Modal,
+  Input
+} from 'antd'
 
 const FormItem = Form.Item;
 const nThs = (() => {

@@ -5,12 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import axios from '../fetches/axios'
 import { getUser } from '../actions'
-
-const Form = require('antd/lib/form')
-const Icon = require('antd/lib/icon')
-const Input = require('antd/lib/input')
-const Button = require('antd/lib/button')
-const Modal = require('antd/lib/modal')
+import { Form, Icon, Input, Button, Modal } from 'antd'
 
 const FormItem = Form.Item;
 

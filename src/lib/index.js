@@ -37,3 +37,8 @@ export const isAlmostScrolled = () => {
 export const mergeObject = (a, b) => (
   { ...a, ...b }
 )
+
+// https://stackoverflow.com/questions/5559425/isnullorwhitespace-in-javascript
+export const isSpace = (text) => (
+  text.replace(/\s/g, '').length < 1
+)

@@ -4,10 +4,7 @@ import PropTypes from 'prop-types'
 import Regulared from '../components/Regulared'
 import axios from '../fetches/axios'
 import { getUser } from '../actions'
-
-const Button = require('antd/lib/button')
-const Icon = require('antd/lib/icon')
-const Modal = require('antd/lib/modal')
+import { Button, Icon, Modal } from 'antd'
 
 const isEnrollmentPeriod = false;// 나중에 날짜비교하기
 
