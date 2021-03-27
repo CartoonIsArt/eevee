@@ -35,70 +35,70 @@ const default_nTh = (() => {
 const default_birthdate = moment().subtract(19, 'years')
 
 const majors = [{
-    label: '전자정보공과대학',
-    value: '전자정보공과대학',
-    children: [
-      { label: '전자공학과', value: '전자공학과' },
-      { label: '전자통신공학과', value: '전자통신공학과' },
-      { label: '전기공학과', value: '전기공학과' },
-      { label: '전자융합공학과', value: '전자융합공학과' },
-      { label: '전자재료공학과', value: '전자재료공학과' },
-      { label: '로봇학부', value: '로봇학부' },
-    ]
-  }, {
-    label: '소프트웨어융합대학',
-    value: '소프트웨어융합대학',
-    children: [
-      { label: '소프트웨어학부', value: '소프트웨어학부' },
-      { label: '컴퓨터정보공학부', value: '컴퓨터정보공학부' },
-      { label: '정보융합학부', value: '정보융합학부' },
-    ]
-  }, {
-    label: '공과대학',
-    value: '공과대학',
-    children: [
-      { label: '건축공학과', value: '건축공학과' },
-      { label: '환경공학과', value: '환경공학과' },
-      { label: '화학공학과', value: '화학공학과' },
-      { label: '건축학과', value: '건축학과' },
-    ]
-  }, {
-    label: '자연과학대학',
-    value: '자연과학대학',
-    children: [
-      { label: '수학과', value: '수학과' },
-      { label: '화학과', value: '화학과' },
-      { label: '전자바이오물리학과', value: '전자바이오물리학과' },
-      { label: '스포츠융합과학과', value: '스포츠융합과학과' },
-      { label: '정보콘텐츠학과(야)', value: '정보콘텐츠학과(야)' },
-    ]
-  }, {
-    label: '인문사회과학대학',
-    value: '인문사회과학대학',
-    children: [
-      { label: '국어국문학과', value: '국어국문학과' },
-      { label: '영어산업학과', value: '영어산업학과' },
-      { label: '미디어커뮤니케이션학부', value: '미디어커뮤니케이션학부' },
-      { label: '산업심리학과', value: '산업심리학과' },
-      { label: '동북아문화산업학부', value: '동북아문화산업학부' },
-    ]
-  }, {
-    label: '정책법학대학',
-    value: '정책법학대학',
-    children: [
-      { label: '행정학과', value: '행정학과' },
-      { label: '법학부', value: '법학부' },
-      { label: '국제학부', value: '국제학부' },
-      { label: '자산관리학과(야)', value: '자산관리학과(야)' },
-    ]
-  }, {
-    label: '경영대학',
-    value: '경영대학',
-    children: [
-      { label: '경영학부', value: '경영학부' },
-      { label: '국제통상학부', value: '국제통상학부' },
-    ]
-  }
+  label: '전자정보공과대학',
+  value: '전자정보공과대학',
+  children: [
+    { label: '전자공학과', value: '전자공학과' },
+    { label: '전자통신공학과', value: '전자통신공학과' },
+    { label: '전기공학과', value: '전기공학과' },
+    { label: '전자융합공학과', value: '전자융합공학과' },
+    { label: '전자재료공학과', value: '전자재료공학과' },
+    { label: '로봇학부', value: '로봇학부' },
+  ],
+}, {
+  label: '소프트웨어융합대학',
+  value: '소프트웨어융합대학',
+  children: [
+    { label: '소프트웨어학부', value: '소프트웨어학부' },
+    { label: '컴퓨터정보공학부', value: '컴퓨터정보공학부' },
+    { label: '정보융합학부', value: '정보융합학부' },
+  ],
+}, {
+  label: '공과대학',
+  value: '공과대학',
+  children: [
+    { label: '건축공학과', value: '건축공학과' },
+    { label: '환경공학과', value: '환경공학과' },
+    { label: '화학공학과', value: '화학공학과' },
+    { label: '건축학과', value: '건축학과' },
+  ],
+}, {
+  label: '자연과학대학',
+  value: '자연과학대학',
+  children: [
+    { label: '수학과', value: '수학과' },
+    { label: '화학과', value: '화학과' },
+    { label: '전자바이오물리학과', value: '전자바이오물리학과' },
+    { label: '스포츠융합과학과', value: '스포츠융합과학과' },
+    { label: '정보콘텐츠학과(야)', value: '정보콘텐츠학과(야)' },
+  ],
+}, {
+  label: '인문사회과학대학',
+  value: '인문사회과학대학',
+  children: [
+    { label: '국어국문학과', value: '국어국문학과' },
+    { label: '영어산업학과', value: '영어산업학과' },
+    { label: '미디어커뮤니케이션학부', value: '미디어커뮤니케이션학부' },
+    { label: '산업심리학과', value: '산업심리학과' },
+    { label: '동북아문화산업학부', value: '동북아문화산업학부' },
+  ],
+}, {
+  label: '정책법학대학',
+  value: '정책법학대학',
+  children: [
+    { label: '행정학과', value: '행정학과' },
+    { label: '법학부', value: '법학부' },
+    { label: '국제학부', value: '국제학부' },
+    { label: '자산관리학과(야)', value: '자산관리학과(야)' },
+  ],
+}, {
+  label: '경영대학',
+  value: '경영대학',
+  children: [
+    { label: '경영학부', value: '경영학부' },
+    { label: '국제통상학부', value: '국제통상학부' },
+  ],
+},
 ]
 
 function beforeUpload(file) {
@@ -234,7 +234,7 @@ class Registration extends Component {
             && this.state.id
             && this.state.password
             && this.state.major
-            && this.state.studentNumber //변수이름 바꾸기
+            && this.state.studentNumber // 변수이름 바꾸기
             && this.state.email
             && this.state.phoneNumber)
   }
@@ -266,7 +266,7 @@ class Registration extends Component {
         && (phoneNumber.length == 4 || phoneNumber.length == 9)) {
       phoneNumber = [
         phoneNumber.slice(0, phoneNumber.length - 1),
-        phoneNumber.slice(phoneNumber.length - 1)
+        phoneNumber.slice(phoneNumber.length - 1),
       ].join('-')
     }
     this.setState({ phoneNumber })
@@ -328,26 +328,26 @@ class Registration extends Component {
                         <div style={{ marginTop: '8px' }}>
                           <div>
                             <Upload
-                action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동하게
-                listType="picture-card"
-                fileList={fileList}
-                onPreview={(e) => this.handlePreview(e)}
-                onChange={(e) => this.handleChange(e)}
-                beforeUpload={(e) => beforeUpload(e)}
-              >
-                {fileList.length ? null : uploadButton}
-              </Upload>
+                              action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동하게
+                              listType="picture-card"
+                              fileList={fileList}
+                              onPreview={(e) => this.handlePreview(e)}
+                              onChange={(e) => this.handleChange(e)}
+                              beforeUpload={(e) => beforeUpload(e)}
+                            >
+                              {fileList.length ? null : uploadButton}
+                            </Upload>
                             <Modal
-                visible={previewVisible}
-                footer={null}
-                onCancel={() => this.handleCancelProfile()}
-              >
-                <img
-                              alt="프로필 이미지"
-                              style={{ width: '100%' }}
-                              src={profile}
-                            />
-              </Modal>
+                              visible={previewVisible}
+                              footer={null}
+                              onCancel={() => this.handleCancelProfile()}
+                            >
+                              <img
+                                alt="프로필 이미지"
+                                style={{ width: '100%' }}
+                                src={profile}
+                              />
+                            </Modal>
                           </div>
                         </div>
                       </FormItem>
@@ -467,7 +467,7 @@ class Registration extends Component {
                             type="primary"
                             onClick={() => this.onButtonClicked()}
                           >
-                          환영해요!
+                            환영해요!
                           </Button>
                         </div>
                       </div>

@@ -37,11 +37,8 @@ class Nav extends Component {
               />
             </div>
             <div style={{ width: '10%', padding: '7px' }}>
-              <Link to={pathname === '/' ? '/dashboard' : '/'}>
-                <Button
-                  icon="bulb"
-                  shape="circle"
-                />
+              <Link to={pathname === '/' ? '/enrollment' : '/'}>
+                <Button icon="bulb">Enrollment</Button>
               </Link>
             </div>
           </div>

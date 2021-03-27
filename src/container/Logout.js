@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getUser } from '../actions'
+import { logout } from '../actions'
 
 const Button = require('antd/lib/button')
 
@@ -9,16 +10,8 @@ class Logout extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isActive: false,
       isOnce: true,
     }
-  }
-
-  componentWillMount() {
-    /*
-    const user = this.props.user
-    if (user.has_logged_in === false) { this.props.getUser() }
-    */
   }
 
   setIsOnce() {
@@ -34,7 +27,7 @@ class Logout extends Component {
         height: '680px',
         width: '1040px',
         overflow: 'hidden',
-        backgroundImage: 'url("https://t1.daumcdn.net/thumb/R1280x0/?fname=http://t1.daumcdn.net/brunch/service/user/2ksh/image/uW0QiOZgmLRMPf8LFDSI32nJMVQ.jpg")',
+        backgroundImage: "url(/images/logout_background.jpg)",
       }}
       >
         <div
@@ -55,18 +48,18 @@ class Logout extends Component {
           }}
         >
           <div style={{ height: '160px', width: '160px' }}>
-            { !this.state.isOnce
+            { this.state.isOnce
               ? (
                 <img
-                  src="https://pbs.twimg.com/profile_images/692340077951787009/4WMBes3k.png"
-                  alt="츤데레"
+                  src="/images/logout_first.jpg"
+                  alt="세상에서 제일 귀여운 호시이 미키"
                   style={{ width: '100%', overflow: 'hidden' }}
                 />
               )
               : (
                 <img
-                  src="https://pbs.twimg.com/profile_images/433619758450094080/dMpRXgMs_400x400.jpeg"
-                  alt="세상에서 제일 귀여운 호시이 미키"
+                  src="/images/logout_last.png"
+                  alt="츤데레"
                   style={{ width: '100%', overflow: 'hidden' }}
                 />
               )}
@@ -95,15 +88,16 @@ class Logout extends Component {
                   </Button>
                 )
                 : (
-                  <a href="http://kr.battle.net/heroes/ko/">
-                    <Button
-                      type="danger"
-                      size="small"
-                      icon="user"
-                    >
-                      난 떠날 거야
-                    </Button>
-                  </a>
+                  <Button
+                    type="danger"
+                    size="small"
+                    icon="user"
+                    onClick={() => {
+                      this.props.logout()
+                    }}
+                  >
+                    난 떠날 거야
+                  </Button>
                 )}
             </div>
           </div>
@@ -113,11 +107,15 @@ class Logout extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-})
-const mapDispatchToProps = ({
-  getUser,
+Logout.propTypes = {
+  logout: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = () => ({
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Logout)
+const mapDispatchToProps = ({
+  logout,
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(Logout)

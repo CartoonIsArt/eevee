@@ -13,9 +13,11 @@ class Portal extends Component {
     return (
       <Row style={{ width: '1280px', marginTop: '8px' }}>
         <Col span={6}>
-          <aside>
-            <Profile />
-          </aside>
+          <Affix offsetTop={52}>
+            <aside>
+              <Profile />
+            </aside>
+          </Affix>
         </Col>
         <Col span={12}>
           <Timeline />
