@@ -22,13 +22,8 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.12.17",
     "autoprefixer": "6.7.2",
-    "babel-core": "6.22.1",
-    "babel-jest": "18.0.0",
-    "babel-loader": "7.1.4",
-    "babel-preset-react-app": "^2.2.0",
-    "babel-runtime": "^6.20.0",
+    "babel-loader": "^8.2.2",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "chalk": "1.1.3",
     "connect-history-api-fallback": "1.3.0",
@@ -114,11 +109,6 @@
     "moduleNameMapper": {
       "^react-native$": "react-native-web"
     }
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
   },
   "eslintConfig": {
     "extends": "react-app"
