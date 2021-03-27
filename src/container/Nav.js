@@ -32,7 +32,7 @@ class Nav extends Component {
             </div>
             <div style={{ display: 'flex', width: '80%', padding: '7px' }}>
               <Search
-                placeholder="검색(회원 이름, 아이디, 글, 댓글)"
+                placeholder="검색 (회원 이름, 아이디, 글, 댓글)"
                 style={{ width: '50%' }}
               />
             </div>
