@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 class Activity extends Component {
@@ -15,22 +16,31 @@ class Activity extends Component {
       }}
       >
         <div style={{ width: '34%' }}>
-          <div style={{ height: '50%' }}> 글</div>
-          <a className="ant-anchor-link-title" href="#">
+          <div style={{ height: '50%' }}>글</div>
+          <Link
+            className="ant-anchor-link-title"
+            to={`/members/${user.username}`}
+          >
             {user.documentsCount}
-          </a>
+          </Link>
         </div>
         <div style={{ width: '33%' }}>
-          <div style={{ height: '50%' }}> 댓글 </div>
-          <a className="ant-anchor-link-title" href="#">
+          <div style={{ height: '50%' }}>댓글</div>
+          <Link
+            className="ant-anchor-link-title"
+            to={`/members/${user.username}/comments`}
+          >
             {user.commentsCount}
-          </a>
+          </Link>
         </div>
         <div style={{ width: '33%' }}>
-          <div style={{ height: '50%' }}> 좋아요 </div>
-          <a className="ant-anchor-link-title" href="#">
+          <div style={{ height: '50%' }}>좋아요</div>
+          <Link
+            className="ant-anchor-link-title"
+            to={`/members/${user.username}/likes`}
+          >
             {user.likedDocumentsCount}
-          </a>
+          </Link>
         </div>
       </div>
     )
