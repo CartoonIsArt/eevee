@@ -13,7 +13,7 @@ class Portal extends Component {
     return (
       <Row style={{ width: '1280px', marginTop: '8px' }}>
         <Col span={6}>
-          <Affix offsetTop={52}>
+          <Affix offsetTop={56}>
             <aside>
               <Profile />
             </aside>
