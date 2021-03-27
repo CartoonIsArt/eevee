@@ -35,8 +35,7 @@ class Write extends Component {
     })
   }
 
-  updateContent(contentState) {
-    console.log(contentState)
+  updateValue(contentState) {
     this.setState({
       value: contentState
     })
@@ -70,7 +69,7 @@ class Write extends Component {
               multiLines
               placeholder='글을 작성하거나 드래그&드랍으로 이미지를 올릴 수 있습니다.'
               value={this.state.value}
-              onChange={(e) => this.updateContent(e)}
+              onChange={(e) => this.updateValue(e)}
             />
           </div>
         )}
