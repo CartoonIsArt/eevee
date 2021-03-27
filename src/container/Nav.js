@@ -5,18 +5,13 @@ import { Link, withRouter } from 'react-router-dom'
 
 const Affix = require('antd/lib/affix')
 const Button = require('antd/lib/button')
-const Modal = require('antd/lib/modal')
 const Input = require('antd/lib/input')
 
 class Nav extends Component {
-  toggleMode() {
-    const loc = this.props.location
-    const { history } = this.props
-    if (loc.pathname === '/') {
-      history.push('/dashboard')
-    } else {
+  routeToRootPage() {
+    const { location, history } = this.props
+    if (location !== '/')
       history.push('/')
-    }
   }
 
   render() {
@@ -28,13 +23,7 @@ class Nav extends Component {
           <div className="Nav" style={{ display: 'flex', flexDirection: 'row', alignContent: 'left' }}>
             <div style={{ width: '10%' }}>
               <Link className="ant-anchor-link-title" width="10%" to="/">
-                <Button onClick={() => {
-                  Modal.success({
-                    title: 'hello~',
-                    content: 'hi~',
-                    onOk() {},
-                  });
-                }}
+                <Button onClick={() => this.routeToRootPage()}
                 >
                   {/* <img height="44px" width="107px" src="https://cia.kw.ac.kr/media/logo.png" alt="logo" /> */}
                   <img height="44px" width="107px" src="https://avatars.githubusercontent.com/u/26453921?s=200&v=4" alt="logo" />
