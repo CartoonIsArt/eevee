@@ -3,9 +3,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { getMembers } from '../actions'
-
-const Button = require('antd/lib/button')
-const Icon = require('antd/lib/icon')
+import { Button, Icon } from 'antd'
 
 class Userpage extends Component {
   constructor(props) {

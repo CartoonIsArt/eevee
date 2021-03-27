@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Namecard from '../components/Namecard'
-
-const Card = require('antd/lib/card')
-const Popover = require('antd/lib/popover')
+import { Card, Popover } from 'antd'
 
 class Ads extends Component {
   render() {

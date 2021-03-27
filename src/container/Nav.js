@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-
-const Affix = require('antd/lib/affix')
-const Button = require('antd/lib/button')
-const Input = require('antd/lib/input')
+import { Affix, Button, Input } from 'antd'
 
 class Nav extends Component {
   routeToRootPage() {

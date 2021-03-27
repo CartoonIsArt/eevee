@@ -9,9 +9,7 @@ import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
 import { getUser, postDocumentLike, deleteDocumentLike } from '../actions'
-
-const Button = require('antd/lib/button')
-const Popover = require('antd/lib/popover')
+import { Button, Popover } from 'antd'
 
 class Doc extends Component {
   constructor(props) {

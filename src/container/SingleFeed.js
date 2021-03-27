@@ -5,10 +5,7 @@ import Noties from './Noties'
 import Feed from '../components/Feed'
 import { getUser } from '../actions'
 import { getFeed } from '../fetches'
-
-const Affix = require('antd/lib/affix')
-const Row = require('antd/lib/row')
-const Col = require('antd/lib/col')
+import { Affix, Row, Col } from 'antd'
 
 class SingleFeed extends Component {
   constructor(props) {

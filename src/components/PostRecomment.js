@@ -3,11 +3,7 @@ import { connect } from 'react-redux'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
 import { isSpace } from '../lib'
-
-const notification = require('antd/lib/notification')
-const Mention = require('antd/lib/mention')
-const Button = require('antd/lib/button')
-const LocaleProvider = require('antd/lib/locale-provider')
+import { Button, Mention, LocaleProvider, notification } from 'antd'
 
 const { toString, toContentState } = Mention
 

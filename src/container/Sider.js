@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUser } from '../actions'
-
-const Affix = require('antd/lib/affix')
-const Menu = require('antd/lib/menu')
-const Icon = require('antd/lib/icon')
+import { Affix, Menu, Icon } from 'antd'
 
 const { SubMenu } = Menu;
 

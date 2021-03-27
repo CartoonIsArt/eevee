@@ -4,10 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import { patchDocument, postDocument } from '../actions'
 import { isSpace } from '../lib'
 import Dropzone from 'react-dropzone'
-
-const Button = require('antd/lib/button')
-const Mention = require('antd/lib/mention')
-const notification = require('antd/lib/notification')
+import { Button, Mention, notification } from 'antd'
 
 const { toContentState, toString } = Mention
 

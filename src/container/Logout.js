@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { logout } from '../actions'
-
-const Button = require('antd/lib/button')
+import { Button } from 'antd'
 
 class Logout extends Component {
   constructor(props) {

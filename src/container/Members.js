@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getMembers } from '../actions'
 import Namecard from '../components/Namecard'
-
-const Tabs = require('antd/lib/tabs')
-const Input = require('antd/lib/input')
+import { Tabs, Input } from 'antd'
 
 const { TabPane } = Tabs
 const { Search } = Input

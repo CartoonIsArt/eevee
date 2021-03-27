@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import Line from '../components/Line'
 import Noti from '../components/Noti'
 import { getNoties } from '../actions'
-
-const Icon = require('antd/lib/icon')
+import { Icon } from 'antd'
 
 class Noties extends Component {
   componentWillMount() {

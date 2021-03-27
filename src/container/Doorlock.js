@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-
-const Icon = require('antd/lib/icon')
+import { Icon } from 'antd'
 
 class Doorlock extends Component {
   render() {

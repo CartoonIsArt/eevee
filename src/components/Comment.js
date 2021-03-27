@@ -6,9 +6,7 @@ import Recomments from './Recomments'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
 import { postCommentLike, deleteCommentLike } from '../actions'
-
-const Button = require('antd/lib/button')
-const Popover = require('antd/lib/popover')
+import { Button, Popover } from 'antd'
 
 class Comment extends Component {
   constructor(props) {

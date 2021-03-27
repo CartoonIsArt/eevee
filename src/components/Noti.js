@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import Namecard from './Namecard'
 import Line from './Line'
 import { printTime } from '../policy'
-
-const Popover = require('antd/lib/popover')
+import { Popover } from 'antd'
 
 class Noti extends Component {
   render() {
