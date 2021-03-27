@@ -64,7 +64,7 @@ class Userpage extends Component {
                     <li>기수</li>
                     <li>이름</li>
                     <li>학번</li>
-                    <li>학과</li>
+                    <li>전공</li>
                     <li>활동인구</li>
                     <li>정회원</li>
                   </ol>
