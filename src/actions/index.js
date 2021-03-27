@@ -163,7 +163,7 @@ export const getCommentedTimeline = (username, page = 1, keyword = undefined) =>
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
-  axios.get(`/timeline/${username}/commented?${queryString}`)
+  axios.get(`/timeline/${username}/comments?${queryString}`)
     .then((r) => {
       dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
     })
