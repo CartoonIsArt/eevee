@@ -51,7 +51,7 @@ class App extends Component {
     return (
       <div style={{ background: '#dfdfdf' }}>
         {isNavEnabled(this.props.history) && <Nav />}
-        <div className="Container">
+        <div className="Container" style={{ marginTop: '4px' }} >
           {routes.map((route, idx) =>
             // eslint-disable-next-line
             (
