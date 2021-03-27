@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import { patchDocument, postDocument } from '../actions'
 import { isSpace } from '../lib'
 import Dropzone from 'react-dropzone'
-import { Button, Mention, notification } from 'antd'
+import { Button, Mention, notification, Icon } from 'antd'
 
 const { toContentState, toString } = Mention
 
@@ -117,7 +117,8 @@ class Write extends Component {
   }
 
   uploadDocument() {
-    if (isSpace(this.state.content)) {
+    const value = toString(this.state.value)
+    if (isSpace(value)) {
       return notification.warning({
         message: '글을 확인해주세요!',
         description: '업로드하고자 하는 글 내용이 없습니다',
@@ -127,12 +128,15 @@ class Write extends Component {
     else if (this.props.documentId > 0) {
       this.props.patchDocument({
         id: this.props.documentId,
-        content: toString(this.state.contentState)
+        value,
       })
     } else {
-      this.props.postDocument({ content: toString(this.state.contentState) })
+      this.props.postDocument({ value })
     }
-    this.setState({ content: toContentState(''), mode: 'edit' })
+    this.setState({
+      value: toContentState(''),
+      mode: 'edit'
+    })
   }
 
   render() {
@@ -161,7 +165,19 @@ class Write extends Component {
         <div style={{ flexGrow: 1 }}>
           { display }
           <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
-            <Button icon="picture" shape="circle" onClick={() => this.uploadImage()} />
+            <Dropzone
+              accept={['image/jpeg', 'image/png']}
+              noDrag={true}
+              onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
+              onDropRejected={() => this.notifyUnsupportedFile()}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <Button icon="picture" shape="circle" />
+                </div>
+              )}
+            </Dropzone>
             { button }
           </div>
         </div>
