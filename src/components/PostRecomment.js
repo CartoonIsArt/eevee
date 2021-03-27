@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import { postComment } from '../actions'
+import { isSpace } from '../lib'
 
+const notification = require('antd/lib/notification')
 const Mention = require('antd/lib/mention')
 const Button = require('antd/lib/button')
 const LocaleProvider = require('antd/lib/locale-provider')
@@ -19,10 +21,19 @@ class PostRecomment extends Component {
 
   onButtonClicked() {
     const content = toString(this.state.contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
-    this.props.postComment({
-      commentId: this.props.commentId,
-      content,
-    })
+    if (isSpace(content)) {
+      notification.warning({
+        message: '댓글을 확인해주세요!',
+        description: '업로드하고자 하는 댓글 내용이 없습니다',
+        duration: 3,
+      })
+    }
+    else {
+      this.props.postComment({
+        commentId: this.props.commentId,
+        content,
+      })
+    }
     this.setState({ contentState: toContentState('') })
   }
 

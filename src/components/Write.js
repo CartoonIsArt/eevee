@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import { patchDocument, postDocument } from '../actions'
+import { isSpace } from '../lib'
 
 const Button = require('antd/lib/button')
 const Mention = require('antd/lib/mention')
@@ -79,7 +80,14 @@ class Write extends Component {
   }
 
   uploadDocument() {
-    if (this.props.documentId > 0) {
+    if (isSpace(this.state.content)) {
+      return notification.warning({
+        message: '글을 확인해주세요!',
+        description: '업로드하고자 하는 글 내용이 없습니다',
+        duration: 3,
+      })
+    }
+    else if (this.props.documentId > 0) {
       this.props.patchDocument({
         id: this.props.documentId,
         content: this.state.content
