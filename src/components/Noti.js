@@ -47,21 +47,19 @@ class Noti extends Component {
                   placement="leftTop"
                   content={<Namecard content={noti.from} />}
                 >
-                  <a href="#">
-                    {' '}
+                  <a style={{ fontSize: '10pt' }} href="#">
                     {nickname}
                   </a>
                 </Popover>
               </div>
-              <div style={{ color: 'rgba(1,1,1,0.5)' }}>
-                {' '}
+              <div style={{ fontSize: '9pt', color: 'rgba(1,1,1,0.5)' }}>
                 {printTime(noti.createdAt)}
-                {' '}
               </div>
             </div>
             <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
               <a href="#">
                 <div style={{
+                  fontSize: '9pt', 
                   color: 'rgba(0,0,0, 0.8)', wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box',
                 }}
                 >

@@ -4,11 +4,30 @@ import { connect } from 'react-redux'
 import Line from '../components/Line'
 import Noti from '../components/Noti'
 import { getNoties } from '../actions'
-import { Icon } from 'antd'
+import { Icon, Modal } from 'antd'
 
 class Noties extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isModalOn: false,
+    }
+  }
   componentWillMount() {
     this.props.getNoties()
+  }
+
+  confirmDeleteReadNotifications() {
+    this.setState({ isModalOn: true })
+  }
+
+  deleteReadNotifications() {
+    // TODO: implement here
+    this.setState({ isModalOn: false })
+  }
+
+  hideModal() {
+    this.setState({ isModalOn: false })
   }
 
   render() {
@@ -21,11 +40,20 @@ class Noties extends Component {
             height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column',
           }}
           >
-            <div style={{ marginRight: '228px', marginLeft: '12px', fontSize: '12pt' }}>
+            <div style={{ marginRight: '156px', marginLeft: '12px', fontSize: '12pt' }}>
               <Icon type="notification" />
             </div>
             <div style={{ fontSize: '12pt', marginTop: '4px' }}>
-              <a href="#">설정</a>
+              <a onClick={() => this.confirmDeleteReadNotifications()}>
+                읽은 내역 지우기
+              </a>
+              <Modal
+                visible={this.state.isModalOn}
+                onOk={() => this.deleteReadNotifications()}
+                onCancel={() => this.hideModal()}
+              >
+                이미 읽은 공지 내역을 삭제합니다.
+              </Modal>
             </div>
           </div>
           <Line />
