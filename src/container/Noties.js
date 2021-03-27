@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Line from '../components/Line'
 import Noti from '../components/Noti'
 import { getNoties } from '../actions'
-import { Icon, Modal } from 'antd'
+import { Icon, Modal, notification } from 'antd'
 
 class Noties extends Component {
   constructor(props) {
@@ -23,6 +23,10 @@ class Noties extends Component {
 
   deleteReadNotifications() {
     // TODO: implement here
+    notification.success({
+      message: '삭제했습니다',
+      duration: 1,
+    })
     this.setState({ isModalOn: false })
   }
 
