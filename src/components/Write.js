@@ -3,10 +3,13 @@ import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import { patchDocument, postDocument } from '../actions'
 import { isSpace } from '../lib'
+import Dropzone from 'react-dropzone'
 
 const Button = require('antd/lib/button')
 const Mention = require('antd/lib/mention')
 const notification = require('antd/lib/notification')
+
+const { toContentState, toString } = Mention
 
 const openNotificationWithIcon = () => {
   notification.info({
@@ -19,7 +22,7 @@ class Write extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      content: '',
+      value: toContentState(''),
       mode: 'edit',
     }
     notification.config({
@@ -27,23 +30,60 @@ class Write extends Component {
     })
   }
 
-  onEditorChange(contentState) {
-    const { toString } = Mention
-    const content = toString(contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
-    this.setState({ content })
+  notifyUnsupportedFile() {
+    notification.warning({
+      message: '지원되지 않는 파일입니다!',
+      description: '파일 확장자가 jpg/jpeg/png인 경우에만 업로드 가능합니다',
+      duration: 3,
+    })
   }
 
-  getDisplay(mode, content) {
+  updateContent(contentState) {
+    console.log(contentState)
+    this.setState({
+      value: contentState
+    })
+  }
+
+  addImage(acceptedFiles) {
+    const fileNames = acceptedFiles.map(file => `![${file.name}](/images/${file.name})`)
+    let content = toString(this.state.value)
+
+    fileNames.forEach(fileName => {
+      content += `  \n${fileName}  \n`
+    })
+    this.setState({
+      value: toContentState(content)
+    })
+  }
+
+  getDisplay(mode) {
     const editModeDisplay = (
-      <Mention
-        style={{ width: '100%', height: '100px' }}
-        onChange={(contentState) => this.onEditorChange(contentState)}
-        multiLines
-      />
+      <Dropzone
+        accept={['image/jpeg', 'image/png']}
+        noClick={true}
+        onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
+        onDropRejected={() => this.notifyUnsupportedFile()}
+      >
+        {({ getRootProps, getInputProps }) => (
+          <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            <Mention
+              style={{ width: '100%', height: '100px' }}
+              multiLines
+              placeholder='글을 작성하거나 드래그&드랍으로 이미지를 올릴 수 있습니다.'
+              value={this.state.value}
+              onChange={(e) => this.updateContent(e)}
+            />
+          </div>
+        )}
+      </Dropzone>
     )
-    const previewModeDisplay = (content) => (<ReactMarkdown source={content} />)
+    const previewModeDisplay = () => (
+      <ReactMarkdown children={toString(this.state.value)} />
+    )
     if (mode === 'edit') return editModeDisplay
-    if (mode === 'preview') return previewModeDisplay(content)
+    if (mode === 'preview') return previewModeDisplay(this.state.value)
     return <div />
   }
 
@@ -90,20 +130,19 @@ class Write extends Component {
     else if (this.props.documentId > 0) {
       this.props.patchDocument({
         id: this.props.documentId,
-        content: this.state.content
+        content: toString(this.state.contentState)
       })
     } else {
-      this.props.postDocument({ content: this.state.content })
+      this.props.postDocument({ content: toString(this.state.contentState) })
     }
-    this.setState({ content: '', mode: 'edit' })
+    this.setState({ content: toContentState(''), mode: 'edit' })
   }
 
   render() {
-    const { content } = this.state
-    const { mode } = this.state
+    const { value, mode } = this.state
     const { user, isAppend } = this.props
 
-    const display = this.getDisplay(mode, content)
+    const display = this.getDisplay(mode, value)
     const button = this.getButton(mode)
 
     return (
@@ -125,7 +164,7 @@ class Write extends Component {
         <div style={{ flexGrow: 1 }}>
           { display }
           <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
-            <Button icon="picture" shape="circle" />
+            <Button icon="picture" shape="circle" onClick={() => this.uploadImage()} />
             { button }
           </div>
         </div>

@@ -93,7 +93,7 @@ class Doc extends Component {
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
-          <ReactMarkdown source={content.content} />
+          <ReactMarkdown children={content.content} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
         <div style={isAppend ? { display: 'block' } : { display: 'none' }}>
