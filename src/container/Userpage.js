@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { getMembers } from '../actions'
-import { Button, Icon } from 'antd'
+import { getMembers, logout } from '../actions'
+import { Button, Icon, Menu, Modal } from 'antd'
 
 class Userpage extends Component {
   constructor(props) {
     super(props)
     this.props.getMembers()
+    this.state = {
+      visible: false,
+    }
   }
 
   static check(boolean) {
@@ -16,6 +19,18 @@ class Userpage extends Component {
       return <Icon type="check" />
     }
     return <Icon type="close" />
+  }
+
+  showModal() {
+    this.setState({ visible: true });
+  }
+
+  hideModal() {
+    this.setState({ visible: false });
+  }
+
+  onLogout() {
+    this.props.logout();
   }
 
   render() {
@@ -59,29 +74,44 @@ class Userpage extends Component {
                 유저 정보
               </div>
               <div className="my-inform-content">
-                <div className="my-inform-key">
-                  <ol>
-                    <li>기수</li>
-                    <li>이름</li>
-                    <li>학번</li>
-                    <li>학과</li>
-                    <li>활동인구</li>
-                    <li>정회원</li>
-                  </ol>
+                <div className="my-inform-key">                 
+                  <p>기수</p>
+                  <p>이름</p>
+                  <p>학번</p>
+                  <p>학과</p>
+                  <p>활동인구</p>
+                  <p>정회원</p>                  
                 </div>
                 {member.length > 0
                   && (
-                  <div className="my-inform-value">
-                    <ol>
-                      <li>{member[0].nTh}기</li>
-                      <li>{member[0].fullname}</li>
-                      <li>{member[0].studentNumber}</li>
-                      <li>{member[0].major}</li>
-                      <li>{Userpage.check(member[0].isActive)}</li>
-                      <li>{Userpage.check(member[0].isRegular)}</li>
-                    </ol>
+                  <div className="my-inform-value">                  
+                    <p>{member[0].nTh}기</p>
+                    <p>{member[0].fullname}</p>
+                    <p>{member[0].studentNumber}</p>
+                    <p>{member[0].major}</p>
+                    <p>{Userpage.check(member[0].isActive)}</p>
+                    <p>{Userpage.check(member[0].isRegular)}</p>   
                   </div>
                   )}
+              </div>
+            </div>
+            <div style={{ position: "sticky", width: "100%", border:"solid 1px #d3d6db", top:"324px", marginTop :"12px"}}>
+              <div style={{ fontSize: "12pt", backgroundColor: "#f6f7f9", padding: "12px", fontWeight: "bold", borderBottom: "solid 1px #d3d6db" }}>메뉴</div>
+              <div>
+                <Menu mode="inline">
+                    <Menu.Item key="logout" onClick={() => this.showModal()}>
+                      <Icon type="logout" />
+                      <span>로그아웃</span>
+                    </Menu.Item>
+                    <Modal
+                      title="로그아웃"
+                      visible={this.state.visible}
+                      onOk={() => this.onLogout()}
+                      onCancel={() => this.hideModal()}
+                    >
+                      정말 로그아웃 하시겠습니까?
+                    </Modal>
+                </Menu>
               </div>
             </div>
           </div>
@@ -134,6 +164,7 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = ({
   getMembers,
+  logout,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Userpage))
