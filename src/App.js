@@ -57,6 +57,7 @@ class App extends Component {
             (
               <div key={idx} style={{ display: 'flex' }}>
                 <Route
+                  key={idx}
                   path={route.path}
                   exact={route.exact}
                 >
