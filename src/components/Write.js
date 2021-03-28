@@ -127,10 +127,10 @@ class Write extends Component {
     else if (this.props.documentId > 0) {
       this.props.patchDocument({
         id: this.props.documentId,
-        value,
+        content: value,
       })
     } else {
-      this.props.postDocument({ value })
+      this.props.postDocument({ content: value })
     }
     this.setState({
       value: toContentState(''),
