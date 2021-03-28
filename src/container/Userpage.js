@@ -87,17 +87,14 @@ class Userpage extends Component {
                   <p>활동인구</p>
                   <p>정회원</p>                  
                 </div>
-                {member.length > 0
-                  && (
-                  <div className="my-inform-value">                  
-                    <p>{member[0].nTh}기</p>
-                    <p>{member[0].fullname}</p>
-                    <p>{member[0].studentNumber}</p>
-                    <p>{member[0].major}</p>
-                    <p>{Userpage.check(member[0].isActive)}</p>
-                    <p>{Userpage.check(member[0].isRegular)}</p>   
-                  </div>
-                  )}
+                <div className="my-inform-value">                  
+                  <p>{member.nTh}기</p>
+                  <p>{member.fullname}</p>
+                  <p>{member.studentNumber}</p>
+                  <p>{member.major}</p>
+                  <p>{Userpage.check(member.isActive)}</p>
+                  <p>{Userpage.check(member.isRegular)}</p>   
+                </div>
               </div>
             </div>
             <div style={{ position: "sticky", width: "100%", border:"solid 1px #d3d6db", top:"324px", marginTop :"12px"}}>
@@ -138,7 +135,10 @@ class Userpage extends Component {
                     overflow: 'hidden',
                   }}
                   >
-                    <img src="https://i.imgur.com/tAxNVWy.jpg" style={{ maxWidth: '100%', height: 'auto' }} alt="Profile-img" />
+                    {member.profileImage 
+                      ?(<img src={member.profileImage.savedPath} alt={member.profileImage.filename} style={{ maxWidth: '100%', height: 'auto' }} />)
+                      :(<img src="/images/profile_image_default.png" alt="Default-Profile-img" style={{ maxWidth: '100%', height: 'auto' }}/>)
+                    }
                   </div>
                   <div>
                     <p style={{ fontSize: '16pt' }}>19기 심심한 바보</p>
