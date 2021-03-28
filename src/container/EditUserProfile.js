@@ -163,7 +163,7 @@ class EditUserProfile extends Component {
                 />
               </FormItem>
               <FormItem
-                label="학과(학부)"
+                label="전공"
               >
                 <Input
                   onChange={(e) => this.onChangeInput({ major: e.target.value })}
