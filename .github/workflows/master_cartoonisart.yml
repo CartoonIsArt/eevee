@@ -20,12 +20,14 @@ jobs:
       with:
         node-version: '14.x'
 
-    - name: npm install, build, and test
+    - name: yarn build and test
       run: |
         npm install
         npm install yarn
         yarn build
         yarn test
+      env:
+        CI: false
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
