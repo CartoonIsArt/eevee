@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-// const host = 'https://cia.kw.ac.kr/api/'
+const baseURL =  process.env.NODE_ENV === 'production' ? 'https://cartoonisart.azurewebsites.net/api/' : 'https://localhost/api'
 
 export default axios.create({
-  baseURL: 'https://localhost/api',
+  baseURL,
   Headers: {
     withCredentials: true
   }
