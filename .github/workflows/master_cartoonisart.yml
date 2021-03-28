@@ -18,7 +18,7 @@ jobs:
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
-        node-version: '14.x'
+        node-version: '14.x' 
 
     - name: yarn build and test
       run: |
@@ -35,4 +35,4 @@ jobs:
         app-name: 'cartoonisart'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_12c4ea6a3f9b41aebc072f4387778d0f }}
-        package: './build'
+        package: .
