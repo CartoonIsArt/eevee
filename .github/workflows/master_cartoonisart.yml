@@ -36,4 +36,3 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_12c4ea6a3f9b41aebc072f4387778d0f }}
         package: .
-        startup-command: 'yarn global add serve && serve -s build'
