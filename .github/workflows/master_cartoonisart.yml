@@ -20,12 +20,11 @@ jobs:
       with:
         node-version: '14.x' 
 
-    - name: yarn build and test
+    - name: npm install, build, and test
       run: |
         npm install
-        npm install yarn
-        yarn build
-        yarn test
+        npm run build --if-present
+        npm run test --if-present
       env:
         CI: false
 
