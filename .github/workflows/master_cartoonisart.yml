@@ -26,7 +26,6 @@ jobs:
         npm install yarn
         yarn build
         yarn test
-        rm -rf node_modules
       env:
         CI: false
 
