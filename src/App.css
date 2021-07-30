@@ -1,5 +1,5 @@
 @import '~antd/dist/antd.css';
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 /*
 div, nav, article {
   outline: solid red 1px;
@@ -7,7 +7,8 @@ div, nav, article {
 }
 */
 body {
-    font-family: "Nanum Gothic", sans-serif !important;
+  font-family: 'Nanum Gothic', sans-serif !important;
+  font-size: 14px !important;
 }
 .Pad {
   padding:35px;
