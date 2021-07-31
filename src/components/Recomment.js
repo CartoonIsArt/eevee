@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Namecard from './Namecard'
-import { Popover } from 'antd'
+import { Popover, Tag, Icon } from 'antd'
 
 class Recomment extends Component {
+  makeUserBadge(user) {
+    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+    return (<div />)
+  }
+
   render() {
     const { content } = this.props
     const { author } = content
@@ -26,11 +33,7 @@ class Recomment extends Component {
                 content={<Namecard content={author} />}
                 placement="leftTop"
               >
-                <a>
-                  {' '}
-                  {nickname}
-                  {' '}
-                </a>
+                <a><span> {nickname} {this.makeUserBadge(author)} </span></a>
               </Popover>
               {text}
             </p>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { getMembers } from '../actions'
-import { Button, Icon } from 'antd'
+import { Button, Icon, Tag } from 'antd'
 
 class Userpage extends Component {
   constructor(props) {
@@ -16,6 +16,13 @@ class Userpage extends Component {
       return <Icon type="check" />
     }
     return <Icon type="close" />
+  }
+
+  makeUserBadge(user) {
+    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+    return (<div />)
   }
 
   render() {
@@ -78,7 +85,7 @@ class Userpage extends Component {
                       <li>{member[0].studentNumber}</li>
                       <li>{member[0].major}</li>
                       <li>{Userpage.check(member[0].isActive)}</li>
-                      <li>{Userpage.check(member[0].isRegular)}</li>
+                      <li><span>{Userpage.check(member[0].isRegular)} {this.makeUserBadge(member[0])}</span></li>
                     </ol>
                   </div>
                   )}
