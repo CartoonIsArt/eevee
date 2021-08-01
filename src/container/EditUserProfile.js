@@ -13,6 +13,7 @@ import {
   Modal,
   Input
 } from 'antd'
+import moment from 'moment';
 
 const FormItem = Form.Item;
 
@@ -35,15 +36,17 @@ function beforeUpload(file) {
 class EditUserProfile extends Component {
   constructor(props) {
     super(props)
+    this.props.getUser()
+    console.log(this.props.user)
     this.state = {
       visible: false,
       id: '', //patchUser할때 넘겨줘야함
-      email: '',
-      birthdate: '',
-      major: '',
-      phoneNumber: '',
-      favoriteComic: '',
-      favoriteCharacter: '',
+      email: this.props.user.email,
+      birthdate: this.props.user.birthdate,
+      major: this.props.user.major,
+      phoneNumber: this.props.user.phoneNumber,
+      favoriteComic: this.props.user.favoriteComic,
+      favoriteCharacter: this.props.user.favoriteCharacter,
       password: '',
       profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg', // 기존 이미지로 설정해야됨
       previewVisible: false,
@@ -54,6 +57,7 @@ class EditUserProfile extends Component {
         url: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
       }],
     };
+    console.log(this.state.birthdate)
   }
 
   onChangeInput(e) {
@@ -117,7 +121,7 @@ class EditUserProfile extends Component {
   render() {
     const {
       email, major, phoneNumber, favoriteComic, favoriteCharacter, password,
-      previewVisible, profile, fileList,
+      previewVisible, profile, fileList, birthdate
     } = this.state;
     const uploadButton = (
       <div>
@@ -158,6 +162,7 @@ class EditUserProfile extends Component {
                 label="생일"
               >
                 <DatePicker
+                  defaultValue={moment(birthdate, 'YYYY-MM-DD')}
                   onChange={(date, dateString) => this.onDateChange(date, dateString)}
                   placeholder="날짜를 선택해주세요"
                 />
