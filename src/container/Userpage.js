@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Feed from '../components/Feed'
+import axios from '../fetches/axios'
 import { getMembers, logout, getUser, getTimeline } from '../actions'
 import { Button, Icon, Menu, Modal, Form, Input } from 'antd'
 import { isAlmostScrolled } from '../lib'
@@ -13,7 +14,7 @@ class Userpage extends Component {
     this.props.getMembers()
     this.props.getUser()
     this.state = {
-      editVisible: false,
+      eVisible: false,
       visible: false,
       response: '',
       password: '',
@@ -33,24 +34,24 @@ class Userpage extends Component {
   }
 
   showModal() {
-    this.setState({ visible: true, });
+    this.setState({ visible: true })
   }
 
   hideModal() {
-    this.setState({ visible: false, });
+    this.setState({ visible: false })
   }
 
   showProfileModal(){
-    this.setState({ editVisible: true, });
+    this.setState({ eVisible: true })
   }
 
-  hideProfileModal(){
-    console.log("Why? why?")
-    this.setState({ editVisible: false, });
+  async hideProfileModal(){
+    await this.setState({ eVisible: false })
+    console.log(this.state)
   }
 
   onLogout() {
-    this.props.logout();
+    this.props.logout()
   }
 
   componentWillMount() {
@@ -70,7 +71,7 @@ class Userpage extends Component {
     const { page } = this.state
     const timelinelen = this.props.timeline.length
     e.preventDefault()
-    console.log(isAlmostScrolled())
+    //console.log(isAlmostScrolled())
     if (this.mutex && isAlmostScrolled()
       && (this.state.doclen !== timelinelen)) {
       this.mutex = false
@@ -104,37 +105,25 @@ class Userpage extends Component {
     switch(this.state.showType)
     {
       case 0 :
-        if (feed.author.id === user.id)
+        if(feed.author.id === user.id)
           return (<Feed user={user} key={feed.id} content={feed}/>)
         break;
 
       case 1 :
-        feed.comments.map((comment)=>{
-          console.log(comment)
-          if(comment.author.id === user.id) 
-          {
-            console.log("why so serious")
-            console.log(user)
-            console.log(feed.id)
-            console.log(feed)
-            return (<Feed user={user} key={feed.id} content={feed}/>)
-          }
-        })
+        if(feed.comments.some((comment) => comment.author.id === user.id))
+          return (<Feed user={user} key={feed.id} content={feed}/>)
         break;
 
-      case 2:
-        feed.likedUsers.map((liker)=>{
-          if(liker.id === user.id) 
-            return (<Feed user={user} key={feed.id} content={feed}/>)
-        })
+      case 2 :
+        if(feed.likedUsers.some((liker) => liker.id === user.id))
+          return (<Feed user={user} key={feed.id} content={feed}/>)
         break;
     }
+    return <div/>
   }
 
   render() {
-    const { timeline } = this.props
-    const { user } = this.props
-    const { members } = this.props
+    const { timeline, user , members } = this.props
     const { username } = this.props.match.params
     const { password } = this.state
     const member = members.length > 0 ? members.find((m) => m.username === username) : []
@@ -164,31 +153,31 @@ class Userpage extends Component {
                 <Icon type="tool" />
                 {' '}
                 프로필 수정
-                <Modal 
-                  title="프로필 수정"
-                  visible={this.state.editVisible}
-                  onOk={() => this.clickEditProfileBtn()}
-                  onCancel={() => this.hideProfileModal()}
-                >
-                  <Form layout="inline">
-                    <Form.Item
-                      rules={[
-                        { required: true, message: '비밀번호를 입력해주세요!' },
-                      ]}
-                    >
-                      비밀번호 확인
-                      <Input 
-                        type="password"
-                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => this.setState({ password: e.target.value })}
-                      />
-                    </Form.Item>
-                  </Form>
-                </Modal>
               </Button>
             )}
+            <Modal 
+              title="프로필 수정"
+              visible={this.state.eVisible}
+              onOk={() => this.clickEditProfileBtn()}
+              onCancel={() => this.hideProfileModal()}
+            >
+              <Form layout="inline">
+                <Form.Item
+                  rules={[
+                    { required: true, message: '비밀번호를 입력해주세요!' },
+                  ]}
+                >
+                  비밀번호 확인
+                  <Input 
+                    type="password"
+                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => this.setState({ password: e.target.value })}
+                  />
+                </Form.Item>
+              </Form>
+            </Modal>
           </div>
         </div>
         <div className="under-board">
@@ -250,8 +239,6 @@ class Userpage extends Component {
               // :("")
               ))
             }
-            {console.log(timeline)}
-            {console.log(user)}
           </section>
           {/* <div className="my-write-size">
             <div className="my-write-title">
