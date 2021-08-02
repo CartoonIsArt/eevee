@@ -24,6 +24,7 @@ jobs:
 
   push-to-docker-hub:
     name: Push Docker image to Docker Hub
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -50,6 +51,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
   
   build:
+    name: Pull and rerun docker image
+    needs: push-to-docker-hub
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
