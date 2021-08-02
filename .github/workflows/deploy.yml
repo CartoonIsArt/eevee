@@ -1,0 +1,26 @@
+
+name: Deploy a new application
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install SSH key
+      run: mkdir ~/.ssh && echo "$SSH_KEY" > ~/.ssh/id_rsa && chmod 400 ~/.ssh/id_rsa
+      env:
+        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: Adding Known Hosts
+      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+    
+    - name: Pull and rerun docker
+      run: |
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker run ${{ secrets.DOCKER_HUB_REPOSITORY }}"
