@@ -2,6 +2,10 @@
 name: Deploy a new application
 
 on:
+  workflow_run:
+    workflows: ["Publish a Docker image"]
+    types:
+      - completed
   push:
     branches: [ master ]
 
