@@ -10,8 +10,6 @@ on:
     # branches: [ master ]
     branches: [ lhs ]
 
-env:
-
 jobs:
   build:
     runs-on: ubuntu-latest
