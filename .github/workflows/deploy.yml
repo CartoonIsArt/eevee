@@ -72,4 +72,4 @@ jobs:
     
     - name: Pull and rerun docker
       run: |
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker rm -f cia-front && docker run --name cia-front ${{ secrets.DOCKER_HUB_REPOSITORY }}"
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker rm -f cia-front && docker run -d --name cia-front --network cia-net --ip ${{ secrets.DOCKER_CONTAINER_IP }} ${{ secrets.DOCKER_HUB_REPOSITORY }}"
