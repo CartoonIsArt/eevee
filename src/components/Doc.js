@@ -64,7 +64,6 @@ class Doc extends Component {
           <div style={{
             width: '48px',
             height: '48px',
-            background: '#0000FF',
             marginRight: '4px',
             overflow: 'hidden',
           }}

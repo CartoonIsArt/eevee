@@ -16,6 +16,7 @@ const APPEND_COMMENT = 'APPENDCOMMENT'
 const UPDATE_USER = 'UPDATEUSER'
 const LOGOUT = 'LOGOUT'
 const SET_LOGOUT = 'SETLOGOUT'
+const SET_PHOTOS = 'SETPHOTOS'
 // const APPEND = 'APPEND' // future
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
@@ -32,6 +33,7 @@ const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
 const updateUser = (user) => ({ type: UPDATE_USER, user })
 const logoutUser = () => ({ type: LOGOUT })
 const setLogout = () => ({ type: SET_LOGOUT })
+const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
 
 export const notifyLogin = () => (dispatch) => {
   dispatch(setLogin(true))
@@ -97,7 +99,8 @@ export const getNoties = () => (dispatch) => {
 export const getMembers = () => (dispatch) => {
   axios.get('/user')
     .then((r) => {
-      dispatch(setMembers(r.data))
+      const { users } = r.data
+      dispatch(setMembers(users))
     })
     .catch()
 }
@@ -105,7 +108,8 @@ export const getMembers = () => (dispatch) => {
 export const getUser = () => (dispatch) => {
   axios.get('/user/authenticated')
     .then((r) => {
-      dispatch(setUser(r.data))
+      const { user } = r.data
+      dispatch(setUser(user))
     })
     .catch((e) => console.log(e))
 }
@@ -113,7 +117,8 @@ export const getUser = () => (dispatch) => {
 export const patchUser = (user) => (dispatch) => {
   axios.patch(`/user/${user.id}`, user)
     .then((r) => {
-      dispatch(updateUser(r.data))
+      const { user } = r.data
+      dispatch(updateUser(user))
     })
     .catch((e) => console.log(e))
 }
@@ -126,7 +131,8 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
   
   axios.get(`/timeline?${queryString}`)
     .then((r) => {
-      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
+      const { timeline } = r.data
+      dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
     .catch((e) => {
       console.log(e)
@@ -139,7 +145,8 @@ export const getUserTimeline = (username, page = 1, keyword = undefined) => (dis
   
   axios.get(`/timeline/${username}?${queryString}`)
     .then((r) => {
-      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
+      const { timeline } = r.data
+      dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
     .catch((e) => {
       console.log(e)
@@ -152,7 +159,8 @@ export const getLikedTimeline = (username, page = 1, keyword = undefined) => (di
   
   axios.get(`/timeline/${username}/likes?${queryString}`)
     .then((r) => {
-      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
+      const { timeline } = r.data
+      dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
     .catch((e) => {
       console.log(e)
@@ -165,7 +173,8 @@ export const getCommentedTimeline = (username, page = 1, keyword = undefined) =>
   
   axios.get(`/timeline/${username}/comments?${queryString}`)
     .then((r) => {
-      dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
+      const { timeline } = r.data
+      dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
     .catch((e) => {
       console.log(e)
@@ -247,9 +256,26 @@ export const deleteCommentLike = (id) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   axios.get('/logout')
-    .then((r) => {
+    .then(() => {
       dispatch(logoutUser())
       dispatch(setLogout())
+    })
+    .catch((e) => console.log(e))
+}
+
+// File
+// 
+export const postPhotos = (photos) => (dispatch) => {
+  const config = {
+    header: { 'Content-Type': 'multipart/form-data' }
+  }
+  const formData = new FormData()
+  photos.forEach(photo => formData.append('photo', photo))
+
+  axios.post('/files', formData, config)
+    .then((r) => {
+      const { photos } = r.data
+      dispatch(setPhotos(photos))
     })
     .catch((e) => console.log(e))
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import axios from '../fetches/axios'
+import axios, { baseURL } from '../fetches/axios'
 import club_rules from '../terms/club_rules'
 import privacy_policy from '../terms/privacy_policy'
 import {
@@ -145,12 +145,14 @@ class Registration extends Component {
       phoneNumber: '',
       favoriteComic: '',
       favoriteCharacter: '',
-      profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
+      profileImage: {
+        savedPath: 'profile_image_default.png'
+      },
       previewVisible: false,
       fileList: [],
       response: '',
     };
-    let isKeyBackspace = false
+    let isKeyBackspace = false;
   }
 
   onChangeInput(e) {
@@ -205,7 +207,7 @@ class Registration extends Component {
       phoneNumber: this.state.phoneNumber,
       favoriteComic: this.state.favoriteComic,
       favoriteCharacter: this.state.favoriteCharacter,
-      profileImage: this.state.fileList.length < 1 ? 'default' : this.state.fileList[0].name,
+      profileImage: this.state.profileImage,
     }
     axios.post('/public/user', user)
       .then((r) => {
@@ -244,7 +246,9 @@ class Registration extends Component {
 
   handlePreview(file) {
     this.setState({
-      profile: file.url || file.thumbUrl,
+      profileImage: {
+        savedPath: file.url || file.thumbUrl
+      },
       previewVisible: true,
     });
   }
@@ -277,9 +281,9 @@ class Registration extends Component {
 
   render() {
     const {
-      fullname, id, password, passwordCheck, major,
+      fullname, id, password, passwordCheck,
       studentNumber, email, phoneNumber, favoriteComic, favoriteCharacter,
-      fileList, previewVisible, profile,
+      fileList, previewVisible, profileImage,
       agreeLaw, agreeTerms,
     } = this.state;
     const uploadButton = (
@@ -325,7 +329,8 @@ class Registration extends Component {
                     <div style={{ marginTop: '8px' }}>
                       <div>
                         <Upload
-                          action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동하게
+                          name="avatar"
+                          action={`${baseURL}/file`}
                           listType="picture-card"
                           fileList={fileList}
                           onPreview={(e) => this.handlePreview(e)}
@@ -342,7 +347,7 @@ class Registration extends Component {
                           <img
                             alt="프로필 이미지"
                             style={{ width: '100%' }}
-                            src={profile}
+                            src={profileImage.savedPath}
                           />
                         </Modal>
                       </div>

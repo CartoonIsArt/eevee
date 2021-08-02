@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { patchUser, getUser } from '../actions';
+import { baseURL } from '../fetches/axios';
 import {
   Button,
   Upload,
@@ -43,14 +44,11 @@ class EditUserProfile extends Component {
       favoriteComic: '',
       favoriteCharacter: '',
       password: '',
-      profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg', // 기존 이미지로 설정해야됨
+      profileImage: {
+        savedPath: '',
+      },
       previewVisible: false,
-      fileList: [{
-        uid: -1,
-        name: 'defaultImage.jpg',
-        status: 'done',
-        url: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
-      }],
+      fileList: [],
     };
   }
 
@@ -72,7 +70,7 @@ class EditUserProfile extends Component {
       phoneNumber: this.state.phoneNumber,
       favoriteComic: this.state.favoriteComic,
       favoriteCharacter: this.state.favoriteCharacter,
-      profile: this.state.profile,  //백엔드수정
+      profileImage: this.state.profileImage,
       password: this.state.password
     }
     try{
@@ -99,7 +97,9 @@ class EditUserProfile extends Component {
 
   handlePreview(file) {
     this.setState({
-      profile: file.url || file.thumbUrl,
+      profileImage: {
+        savedPath: file.url || file.thumbUrl
+      },
       previewVisible: true,
     });
   }
@@ -115,7 +115,7 @@ class EditUserProfile extends Component {
   render() {
     const {
       email, major, phoneNumber, favoriteComic, favoriteCharacter, password,
-      previewVisible, profile, fileList,
+      previewVisible, profileImage, fileList,
     } = this.state;
     const uploadButton = (
       <div>
@@ -235,7 +235,8 @@ class EditUserProfile extends Component {
               <div style={{ marginTop: '8px' }}>
                 <div>
                   <Upload
-                    action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동할 수 있도록 작성해야 함
+                    name="avatar"
+                    action={`${baseURL}/file`}
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={(e) => this.handlePreview(e)}
@@ -252,7 +253,7 @@ class EditUserProfile extends Component {
                     <img
                       alt="프로필 이미지"
                       style={{ width: '100%' }}
-                      src={profile}
+                      src={profileImage.savedPath}
                     />
                   </Modal>
                 </div>
