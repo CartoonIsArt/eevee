@@ -52,8 +52,7 @@ jobs:
         with:
           context: .
           push: true
-          # tags: ${{ steps.meta.outputs.tags }}
-          tags: latest
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   
   build:
@@ -73,4 +72,4 @@ jobs:
     
     - name: Pull and rerun docker
       run: |
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker run ${{ secrets.DOCKER_HUB_REPOSITORY }}"
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker rm -f cia-front && docker run --name cia-front ${{ secrets.DOCKER_HUB_REPOSITORY }}"
