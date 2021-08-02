@@ -71,5 +71,9 @@ jobs:
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
     
     - name: Pull and rerun docker
-      run: |
-        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker rm -f cia-front && docker run -d --name cia-front --network cia-net --ip ${{ secrets.DOCKER_CONTAINER_IP }} ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker image prune -a"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+            docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }}
+            docker rm -f cia-front
+            docker run -d --name cia-front --network cia-net --ip ${{ secrets.DOCKER_CONTAINER_IP }} ${{ secrets.DOCKER_HUB_REPOSITORY }}
+            docker image prune -a
+            EOF
