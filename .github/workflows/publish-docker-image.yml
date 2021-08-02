@@ -10,8 +10,8 @@ on:
     workflows: ["Test application"]
     types:
       - completed
-  release:
-    types: [published]
+  # release:
+  #   types: [published]
 
 jobs:
   push_to_registry:

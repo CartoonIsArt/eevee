@@ -3,7 +3,8 @@ name: Test application
 
 on:
   push:
-    branches: [ master ]
+    # branches: [ master ]
+    branches: [ lhs ]
 
 jobs:
   build:
