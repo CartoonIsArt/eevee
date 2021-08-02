@@ -3,11 +3,16 @@ name: Deploy a new Docker image
 
 on:
   push:
-    # branches: [ master ]
-    branches: [ lhs ]
+    # branches:
+    # - master
+    branches:
+      -'lhs'
+    tags:
+      - 'v*'
 
 jobs:
   test:
+    name: Test application
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -47,7 +52,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          # tags: ${{ steps.meta.outputs.tags }}
+          tags: latest
           labels: ${{ steps.meta.outputs.labels }}
   
   build:
