@@ -4,15 +4,22 @@ import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Feed from '../components/Feed'
 import axios from '../fetches/axios'
-import { getMembers, logout, getUser, getTimeline } from '../actions'
+import { getMembers, logout, getUser, getUserTimeline, getLikedTimeline, getCommentedTimeline } from '../actions'
 import { Button, Icon, Menu, Modal, Form, Input } from 'antd'
 import { isAlmostScrolled } from '../lib'
+
+const TIMELINE_TYPE = {
+  WRITTEN: 0,
+  COMMENTED: 1,
+  LIKED: 2,
+}
 
 class Userpage extends Component {
   constructor(props) {
     super(props)
     this.props.getMembers()
     this.props.getUser()
+
     this.state = {
       eVisible: false,
       visible: false,
@@ -20,7 +27,7 @@ class Userpage extends Component {
       password: '',
       page: 1,
       doclen: 0,
-      showType: 0,
+      timelineType: TIMELINE_TYPE.WRITTEN,
     }
     this.mutex = true
     this.wrapper = (e) => this.loadMore(e)
@@ -47,15 +54,31 @@ class Userpage extends Component {
 
   async hideProfileModal(){
     await this.setState({ eVisible: false })
-    console.log(this.state)
   }
 
   onLogout() {
     this.props.logout()
   }
 
+  onWrittenClick(){
+    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.WRITTEN,})
+    console.log(this.props.timeline)
+  }
+
+  onCommentedClick(){
+    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.COMMENTED,})
+    console.log(this.props.timeline)
+
+  }
+
+  onLikedClick(){
+    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.LIKED,})
+    console.log(this.props.timeline)
+
+  }
+
   componentWillMount() {
-    this.props.getTimeline()
+    this.getTimeline()(this.props.user.username)
     this.setState({ doclen: this.props.timeline.length })
   }
 
@@ -67,6 +90,16 @@ class Userpage extends Component {
     window.addEventListener('scroll', this.wrapper)
   }
 
+  getTimeline(){
+    switch(this.state.timelineType)
+    {
+      case TIMELINE_TYPE.WRITTEN:   return this.props.getUserTimeline
+      case TIMELINE_TYPE.COMMENTED: return this.props.getCommentedTimeline
+      case TIMELINE_TYPE.LIKED:     return this.props.getLikedTimeline
+      default:                      return null
+    }
+  }
+
   loadMore(e) {
     const { page } = this.state
     const timelinelen = this.props.timeline.length
@@ -75,7 +108,7 @@ class Userpage extends Component {
     if (this.mutex && isAlmostScrolled()
       && (this.state.doclen !== timelinelen)) {
       this.mutex = false
-      this.props.getTimeline(page + 1)
+      this.getTimeline()(this.props.user.username, page + 1)
       this.setState({
         page: page + 1,
         doclen: timelinelen,
@@ -88,13 +121,14 @@ class Userpage extends Component {
     const args = {
       password: this.state.password,
     }
-    axios.post('/public/login', args) // how
+    axios.post('/user/confirmPW', args)
       .then((r) => {
         this.props.history.push('/settings/account')
       })
       .catch((e) => {
         console.log(e)
         this.hideProfileModal()
+        this.setState({ password: '' })
         Modal.warning({ title: '비밀번호가 틀립니다.', content: '비밀번호를 확인해주세요.' })
       })
   }
@@ -102,7 +136,7 @@ class Userpage extends Component {
   showMine(feed)
   {
     const { user } = this.props
-    switch(this.state.showType)
+    switch(this.state.timelineType)
     {
       case 0 :
         if(feed.author.id === user.id)
@@ -137,13 +171,13 @@ class Userpage extends Component {
           </div>
           <div className="menu-bar">
             <div className="menu">
-              <Link to={`/members/${username}`} onClick={() => this.setState({page: 1,doclen: 0,showType: 0,})}>작성한 글</Link>
+              <Link to={`/members/${username}`} onClick={() => this.onWrittenClick()}>작성한 글</Link>
             </div>
             <div className="menu">
-              <Link to={`/members/${username}/comments`} onClick={() => this.setState({page: 1,doclen: 0,showType: 1,})}>작성한 댓글</Link>
+              <Link to={`/members/${username}/comments`} onClick={() => this.onCommentedClick()}>작성한 댓글</Link>
             </div>
             <div className="menu">
-              <Link to={`/members/${username}/likes`} onClick={() => this.setState({page: 1,doclen: 0,showType: 2,})}>좋아요한 글</Link>
+              <Link to={`/members/${username}/likes`} onClick={() => this.onLikedClick()}>좋아요한 글</Link>
             </div>
             <div className="menu last" onClick={() => this.props.history.push('/members')}>회원들</div>
             <div className="blank" />
@@ -192,7 +226,6 @@ class Userpage extends Component {
                 <div className="my-inform-key">                 
                   <p>기수</p>
                   <p>이름</p>
-                  <p>학번</p>
                   <p>학과</p>
                   <p>활동인구</p>
                   <p>정회원</p>                  
@@ -200,7 +233,6 @@ class Userpage extends Component {
                 <div className="my-inform-value">                  
                   <p>{member.nTh}기</p>
                   <p>{member.fullname}</p>
-                  <p>{member.studentNumber}</p>
                   <p>{member.major}</p>
                   <p>{Userpage.check(member.isActive)}</p>
                   <p>{Userpage.check(member.isRegular)}</p>   
@@ -229,14 +261,7 @@ class Userpage extends Component {
           </div>
           <section style={{ padding: '0px 8px' }}>
             {timeline.map((feed) => (
-              this.showMine(feed)
-              // (feed.author.id === user.id)
-              // ?(<Feed
-              //   user={user}
-              //   key={feed.id}
-              //   content={feed}
-              // />)
-              // :("")
+              <Feed user={user} key={feed.id} content={feed}/>
               ))
             }
           </section>
@@ -285,7 +310,9 @@ class Userpage extends Component {
 
 Userpage.propTypes = {
   history: PropTypes.object.isRequired,
-  getTimeline: PropTypes.func.isRequired,
+  getUserTimeline: PropTypes.func.isRequired,
+  getLikedTimeline: PropTypes.func.isRequired,
+  getCommentedTimeline: PropTypes.func.isRequired,
 }
 
 Userpage.defaultProps = {
@@ -298,7 +325,9 @@ const mapStateToProps = (state) => ({
   user: state.user,
 })
 const mapDispatchToProps = ({
-  getTimeline,
+  getUserTimeline,
+  getLikedTimeline,
+  getCommentedTimeline,
   getMembers,
   getUser,
   logout,

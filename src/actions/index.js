@@ -32,6 +32,7 @@ const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
 const updateUser = (user) => ({ type: UPDATE_USER, user })
 const logoutUser = () => ({ type: LOGOUT })
 const setLogout = () => ({ type: SET_LOGOUT })
+const checkPW = () => ({ type: CHECK_PW })
 
 export const notifyLogin = () => (dispatch) => {
   dispatch(setLogin(true))
@@ -118,11 +119,20 @@ export const patchUser = (user) => (dispatch) => {
     .catch((e) => console.log(e))
 }
 
+export const confirmPW = (pw) => (dispatch) => {
+  axios.post('/user/confirmPW', pw) // get은 data를 못넘기냐
+    .then((r) => {
+      dispatch(checkPW())
+    })
+    .catch((e) => console.log(e))
+}
+
 // Timeline
 //
 export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
+  console.log(`/timeline?${queryString}`)
   
   axios.get(`/timeline?${queryString}`)
     .then((r) => {
@@ -136,7 +146,7 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
 export const getUserTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
-  
+  console.log(`/timeline/${username}?${queryString}`)
   axios.get(`/timeline/${username}?${queryString}`)
     .then((r) => {
       dispatch(page == 1 ? setTimeline(r.data) : appendTimeline(r.data))
@@ -149,6 +159,7 @@ export const getUserTimeline = (username, page = 1, keyword = undefined) => (dis
 export const getLikedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
+  console.log(`/timeline/${username}/likes?${queryString}`)
   
   axios.get(`/timeline/${username}/likes?${queryString}`)
     .then((r) => {
@@ -162,6 +173,7 @@ export const getLikedTimeline = (username, page = 1, keyword = undefined) => (di
 export const getCommentedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
+  console.log(`/timeline/${username}/comments?${queryString}`)
   
   axios.get(`/timeline/${username}/comments?${queryString}`)
     .then((r) => {
