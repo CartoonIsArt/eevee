@@ -167,7 +167,7 @@ class Registration extends Component {
     this.setState({ birthdate: dateString });
   }
 
-  onMajorChange(value, selectedOption) {
+  onMajorChange(value) {
     this.setState({ major: value[1] })
   }
 
@@ -413,7 +413,7 @@ class Registration extends Component {
                         style={{ width: '288px', marginBottom: '8px' }}
                         options={majors}
                         size="large"
-                        onChange={(value, option) => this.onMajorChange(value, option)}
+                        onChange={(value) => this.onMajorChange(value)}
                         placeholder="*전공"
                       />
                       <Input
@@ -448,7 +448,7 @@ class Registration extends Component {
                       <div style={{ display: 'flex' }}>
                         <div style={{ width: '288px', display: 'flex', flexDirection: 'column' }}>
                           <Input
-                            addonBefore="만화"
+                            addonBefore="만화 제목"
                             size="large"
                             style={{ width: '288px', marginBottom: '8px' }}
                             onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
@@ -456,7 +456,7 @@ class Registration extends Component {
                             value={favoriteComic}
                           />
                           <Input
-                            addonBefore="캐릭터"
+                            addonBefore="캐릭터 이름"
                             size="large"
                             style={{ width: '288px', marginBottom: '20px' }}
                             onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
