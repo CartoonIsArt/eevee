@@ -3,10 +3,8 @@ name: Deploy a new Docker image
 
 on:
   push:
-    # branches:
-    # - master
     branches:
-      -'lhs'
+    - master
     tags:
       - 'v*'
 
