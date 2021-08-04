@@ -123,6 +123,17 @@ export const patchUser = (user) => (dispatch) => {
     .catch((e) => console.log(e))
 }
 
+export const checkPassword = async (password) => {
+  try{
+    await axios.post('/user/checkPassword', password)
+    return true
+  }
+  catch(e){
+    console.log(e)
+    return false
+  }
+}
+
 // Timeline
 //
 export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
@@ -142,7 +153,7 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
 export const getUserTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
-  
+
   axios.get(`/timeline/${username}?${queryString}`)
     .then((r) => {
       const { timeline } = r.data

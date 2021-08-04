@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import axios, { baseURL } from '../fetches/axios'
-import club_rules from '../terms/club_rules'
-import privacy_policy from '../terms/privacy_policy'
+import club_rules from '../common/club_rules'
+import privacy_policy from '../common/privacy_policy'
+import majors from '../common/majors'
 import {
   Alert,
   Button,
@@ -32,73 +33,6 @@ const default_nTh = (() => {
   return (today.getFullYear() - 1998)
 })()
 const default_birthdate = moment().subtract(19, 'years')
-
-const majors = [{
-  label: '전자정보공과대학',
-  value: '전자정보공과대학',
-  children: [
-    { label: '전자공학과', value: '전자공학과' },
-    { label: '전자통신공학과', value: '전자통신공학과' },
-    { label: '전기공학과', value: '전기공학과' },
-    { label: '전자융합공학과', value: '전자융합공학과' },
-    { label: '전자재료공학과', value: '전자재료공학과' },
-    { label: '로봇학부', value: '로봇학부' },
-  ],
-}, {
-  label: '소프트웨어융합대학',
-  value: '소프트웨어융합대학',
-  children: [
-    { label: '소프트웨어학부', value: '소프트웨어학부' },
-    { label: '컴퓨터정보공학부', value: '컴퓨터정보공학부' },
-    { label: '정보융합학부', value: '정보융합학부' },
-  ],
-}, {
-  label: '공과대학',
-  value: '공과대학',
-  children: [
-    { label: '건축공학과', value: '건축공학과' },
-    { label: '환경공학과', value: '환경공학과' },
-    { label: '화학공학과', value: '화학공학과' },
-    { label: '건축학과', value: '건축학과' },
-  ],
-}, {
-  label: '자연과학대학',
-  value: '자연과학대학',
-  children: [
-    { label: '수학과', value: '수학과' },
-    { label: '화학과', value: '화학과' },
-    { label: '전자바이오물리학과', value: '전자바이오물리학과' },
-    { label: '스포츠융합과학과', value: '스포츠융합과학과' },
-    { label: '정보콘텐츠학과(야)', value: '정보콘텐츠학과(야)' },
-  ],
-}, {
-  label: '인문사회과학대학',
-  value: '인문사회과학대학',
-  children: [
-    { label: '국어국문학과', value: '국어국문학과' },
-    { label: '영어산업학과', value: '영어산업학과' },
-    { label: '미디어커뮤니케이션학부', value: '미디어커뮤니케이션학부' },
-    { label: '산업심리학과', value: '산업심리학과' },
-    { label: '동북아문화산업학부', value: '동북아문화산업학부' },
-  ],
-}, {
-  label: '정책법학대학',
-  value: '정책법학대학',
-  children: [
-    { label: '행정학과', value: '행정학과' },
-    { label: '법학부', value: '법학부' },
-    { label: '국제학부', value: '국제학부' },
-    { label: '자산관리학과(야)', value: '자산관리학과(야)' },
-  ],
-}, {
-  label: '경영대학',
-  value: '경영대학',
-  children: [
-    { label: '경영학부', value: '경영학부' },
-    { label: '국제통상학부', value: '국제통상학부' },
-  ],
-},
-]
 
 function beforeUpload(file) {
   const isImage = file.type === 'image/gif'
@@ -152,22 +86,22 @@ class Registration extends Component {
       fileList: [],
       response: '',
     };
-    let isKeyBackspace = false;
+    let isKeyBackspace = false
   }
 
   onChangeInput(e) {
     this.setState(e);
   }
 
-  onNumberChange(value, selectedOption) {
+  onNumberChange(value) {
     this.setState({ nTh: value[0] });
   }
 
-  onDateChange(date, dateString) {
+  onDateChange(_, dateString) {
     this.setState({ birthdate: dateString });
   }
 
-  onMajorChange(value, selectedOption) {
+  onMajorChange(value) {
     this.setState({ major: value[1] })
   }
 
@@ -329,8 +263,8 @@ class Registration extends Component {
                     <div style={{ marginTop: '8px' }}>
                       <div>
                         <Upload
-                          name="avatar"
-                          action={`${baseURL}/file`}
+                      name="avatar"
+                      action={`${baseURL}/file`}
                           listType="picture-card"
                           fileList={fileList}
                           onPreview={(e) => this.handlePreview(e)}
@@ -414,7 +348,7 @@ class Registration extends Component {
                     style={{ width: '288px', marginBottom: '8px' }}
                     options={majors}
                     size="large"
-                    onChange={(value, option) => this.onMajorChange(value, option)}
+                    onChange={(value) => this.onMajorChange(value)}
                     placeholder="*전공"
                   />
                   <Input
@@ -449,7 +383,7 @@ class Registration extends Component {
                   <div style={{ display: 'flex' }}>
                     <div style={{ width: '288px', display: 'flex', flexDirection: 'column' }}>
                       <Input
-                        addonBefore="만화"
+                        addonBefore="만화 제목"
                         size="large"
                         style={{ width: '288px', marginBottom: '8px' }}
                         onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
@@ -457,7 +391,7 @@ class Registration extends Component {
                         value={favoriteComic}
                       />
                       <Input
-                        addonBefore="캐릭터"
+                        addonBefore="캐릭터 이름"
                         size="large"
                         style={{ width: '288px', marginBottom: '20px' }}
                         onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}

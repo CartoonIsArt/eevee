@@ -14,7 +14,7 @@ $link-color: #365899;
 
     .background-image{
       height: 236px;
-      background-image: url('https://i.imgur.com/RcuU2lm.png');
+      //background-image: url('https://i.imgur.com/RcuU2lm.png');
       background-position: center 30%;
 
       .user-profile{
@@ -130,4 +130,90 @@ $link-color: #365899;
         font-weight: bold; }
     }
   }
+}
+
+///////////////////////////////////////////////// 나중에 수정
+.header {
+  height: 280px;
+  width: 100%;
+  border: 1px solid #d3d6db;
+  margin: 12px;
+  background-color: #fff;
+
+  .background-image{
+    height: 236px;
+
+    .user-banner{
+      width: 1006px !important;
+      height: 236px !important;
+
+      .ant-upload-list-item{
+        padding: 0px;
+        position: absolute;
+        width: 1006px !important;
+        height: 236px !important;
+      }
+      // 같은 코든데 줄일 수 없나..?
+      .ant-upload-list{
+        // height: 236px !important;
+        // width: 1006px !important;
+
+        .ant-upload-select-picture-card {
+          padding: 0px;
+          position: relative;
+          top: 50% !important;
+          left: 50% !important;
+        }
+      }
+    }
+
+    .user-profile{
+      border: solid 4px white;
+      background-color: #fff;
+      width: 208px;
+      height: 208px;
+      border-radius: 50%;
+      position: relative;
+      left: 44px;
+      top: -150px;
+      z-index: 3;
+      overflow: hidden;
+
+      .ant-upload-list-item{
+        padding: 0px;
+        position: absolute;
+        width: 208px !important;
+        max-width: 100% !important;
+        height: auto !important;
+      }
+      // 같은 코든데 줄일 수 없나..?
+      .ant-upload-select-picture-card {
+        padding: 0px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+      }
+    }
+  }
+
+  .menu-bar {
+    display: flex;
+    padding-left: 340px;
+    line-height: 2.4;
+    align-items: center;
+    z-index: 2;
+  }
+}
+
+.input{
+  width: 400px;
+  margin-top: 52px;
+  margin-left: 80px;
+}
+
+.input > *{
+  margin-top: 12px;
 }
