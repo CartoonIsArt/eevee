@@ -233,43 +233,6 @@ class Userpage extends Component {
               ))
             }
           </section>
-          {/* <div className="my-write-size">
-            <div className="my-write-title">
-              <Icon type="edit" />
-              {' '}
-              작성한 글
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', padding: '12px' }}>
-              <div style={{ display: 'block' }}>
-                <div style={{ display: 'flex', marginBottom: '8px' }}>
-                  <div style={{
-                    width: '52px',
-                    height: '52px',
-                    borderRadius: '50%',
-                    position: 'relative',
-                    marginRight: '8px',
-                    overflow: 'hidden',
-                  }}
-                  >
-                    {member.profileImage 
-                      ?(<img src={member.profileImage.savedPath} alt={member.profileImage.filename} style={{ maxWidth: '100%', height: 'auto' }} />)
-                      :(<img src="/images/profile_image_default.png" alt="Default-Profile-img" style={{ maxWidth: '100%', height: 'auto' }}/>)
-                    }
-                  </div>
-                  <div>
-                    <p style={{ fontSize: '16pt' }}>19기 심심한 바보</p>
-                    <p>2017년 10월 4일 오후 11시 22분</p>
-                  </div>
-                </div>
-              </div>
-              <div style={{ fontSize: '12pt' }}>
-                추석 연휴 아니었음 진짜 손도 안댔다...
-                <div style={{ display: 'block' }}>
-                  <img src="https://i.imgur.com/OwKtSaK.jpg" style={{ maxWidth: '100%', height: 'auto' }} alt="HK 416" />
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
     )
