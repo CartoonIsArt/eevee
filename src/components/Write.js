@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
-import { postPhotos, postDocument, patchDocument } from '../actions'
+import { patchDocument, postDocument } from '../actions'
 import { isSpace } from '../lib'
 import Dropzone from 'react-dropzone'
 import { Button, Mention, notification, Icon } from 'antd'
@@ -20,27 +20,11 @@ class Write extends Component {
     super(props)
     this.state = {
       value: toContentState(''),
-      fileList: [],
       mode: 'edit',
     }
     notification.config({
       duration: 0,
     })
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.photos !== prevProps.photos) {
-      const fileNames = this.props.photos.map(fileName => `![${fileName}](/images/${fileName})`)
-      let content = toString(this.state.value)
-  
-      fileNames.forEach(fileName => {
-        content += `  \n${fileName}  \n`
-      })
-      this.setState({
-        value: toContentState(content),
-        fileList: [...this.state.fileList, ...this.props.photos]
-      })
-    }
   }
 
   notifyUnsupportedFile() {
@@ -58,7 +42,15 @@ class Write extends Component {
   }
 
   addImage(acceptedFiles) {
-    this.props.postPhotos(acceptedFiles)
+    const fileNames = acceptedFiles.map(file => `![${file.name}](/images/${file.name})`)
+    let content = toString(this.state.value)
+
+    fileNames.forEach(fileName => {
+      content += `  \n${fileName}  \n`
+    })
+    this.setState({
+      value: toContentState(content)
+    })
   }
 
   getDisplay(mode) {
@@ -132,8 +124,7 @@ class Write extends Component {
         duration: 3,
       })
     }
-
-    if (this.props.documentId > 0) {
+    else if (this.props.documentId > 0) {
       this.props.patchDocument({
         id: this.props.documentId,
         content: value,
@@ -143,8 +134,7 @@ class Write extends Component {
     }
     this.setState({
       value: toContentState(''),
-      fileList: [],
-      mode: 'edit',
+      mode: 'edit'
     })
   }
 
@@ -195,11 +185,9 @@ class Write extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  photos: state.photos
+const mapStateToProps = () => ({
 })
 const mapDispatchToProps = ({
-  postPhotos,
   postDocument,
   patchDocument,
 })

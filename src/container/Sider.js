@@ -122,10 +122,6 @@ class Sider extends Component {
               </SubMenu>
               )
             }
-            <Menu.Item key="/logout">
-              <Icon type="frown" />
-              <span>로그아웃</span>
-            </Menu.Item>
           </Menu>
         </Affix>
       </div>

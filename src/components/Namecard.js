@@ -1,16 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Icon, Tag } from 'antd'
 
 class Namecard extends Component {
-  makeUserBadge(user) {
-    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
-    return (<div />)
-  }
-
   render() {
     let cwidth = '320px' // component width
     const user = this.props.content
@@ -32,7 +24,7 @@ class Namecard extends Component {
           <div style={{ fontSize: '18pt', textAlign: 'left' }}>
             <div style={{ height: '34%', fontWeight: 'bold' }}>
               <Link to={`/members/${user.username}`}>
-                <span>{nickname} {this.makeUserBadge(user)}</span>
+                {nickname}
               </Link>
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>

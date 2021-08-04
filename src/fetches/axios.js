@@ -1,10 +1,9 @@
 import axios from 'axios';
 
-const hostname = require("os").hostname()
-export const baseURL = `https://${hostname}/api`
+// const host = 'https://cia.kw.ac.kr/api/'
 
 export default axios.create({
-  baseURL,
+  baseURL: 'https://localhost/api',
   Headers: {
     withCredentials: true
   }

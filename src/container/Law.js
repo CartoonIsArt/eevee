@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import club_rules from '../terms/club_rules'
+import club_rules from '../common/club_rules'
 
 class Law extends Component {
   render() {

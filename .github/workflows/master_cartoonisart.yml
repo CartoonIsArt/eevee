@@ -1,0 +1,38 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js app to Azure Web App - cartoonisart
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+
+    - name: yarn build and test
+      run: |
+        npm install
+        npm install yarn
+        yarn build
+        yarn test
+      env:
+        CI: false
+
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'cartoonisart'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_12c4ea6a3f9b41aebc072f4387778d0f }}
+        package: .
