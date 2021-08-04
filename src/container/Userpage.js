@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Feed from '../components/Feed'
-import axios from '../fetches/axios'
-import { getMembers, logout, getUser, getUserTimeline, getLikedTimeline, getCommentedTimeline } from '../actions'
+import { getMembers, logout, getUser, getUserTimeline, getLikedTimeline, getCommentedTimeline, checkPassword } from '../actions'
 import { Button, Icon, Menu, Modal, Form, Input } from 'antd'
 import { isAlmostScrolled } from '../lib'
 
@@ -116,44 +115,19 @@ class Userpage extends Component {
     }
   }
 
-  clickEditProfileBtn()
-  {
+  clickEditProfileBtn() {
     const args = {
       password: this.state.password,
     }
-    axios.post('/user/confirmPW', args)
-      .then((r) => {
-        this.props.history.push('/settings/account')
-      })
-      .catch((e) => {
-        console.log(e)
-        this.hideProfileModal()
-        this.setState({ password: '' })
-        Modal.warning({ title: '비밀번호가 틀립니다.', content: '비밀번호를 확인해주세요.' })
-      })
-  }
 
-  showMine(feed)
-  {
-    const { user } = this.props
-    switch(this.state.timelineType)
-    {
-      case 0 :
-        if(feed.author.id === user.id)
-          return (<Feed user={user} key={feed.id} content={feed}/>)
-        break;
-
-      case 1 :
-        if(feed.comments.some((comment) => comment.author.id === user.id))
-          return (<Feed user={user} key={feed.id} content={feed}/>)
-        break;
-
-      case 2 :
-        if(feed.likedUsers.some((liker) => liker.id === user.id))
-          return (<Feed user={user} key={feed.id} content={feed}/>)
-        break;
+    if(checkPassword(args)) {
+      this.props.history.push('/settings/account')
     }
-    return <div/>
+    else {
+      this.hideProfileModal()
+      this.setState({ password: '' })
+      Modal.warning({ title: '비밀번호가 틀립니다.', content: '비밀번호를 확인해주세요.' })
+    }
   }
 
   render() {

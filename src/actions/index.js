@@ -32,7 +32,6 @@ const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
 const updateUser = (user) => ({ type: UPDATE_USER, user })
 const logoutUser = () => ({ type: LOGOUT })
 const setLogout = () => ({ type: SET_LOGOUT })
-const checkPW = () => ({ type: CHECK_PW })
 
 export const notifyLogin = () => (dispatch) => {
   dispatch(setLogin(true))
@@ -119,12 +118,15 @@ export const patchUser = (user) => (dispatch) => {
     .catch((e) => console.log(e))
 }
 
-export const confirmPW = (pw) => (dispatch) => {
-  axios.post('/user/confirmPW', pw) // get은 data를 못넘기냐
-    .then((r) => {
-      dispatch(checkPW())
-    })
-    .catch((e) => console.log(e))
+export const checkPassword = async (password) => {
+  try{
+    await axios.post('/user/checkPassword', password)
+    return true
+  }
+  catch(e){
+    console.log(e)
+    return false
+  }
 }
 
 // Timeline
