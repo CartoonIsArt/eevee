@@ -1,0 +1,72 @@
+
+name: Deploy a new Docker image
+
+on:
+  push:
+    branches:
+    - master
+    tags:
+      - 'v*'
+
+jobs:
+  test:
+    name: Test application
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '15'
+        cache: 'yarn'
+
+    - name: Install yarn
+      run: yarn install
+
+    - name: Test
+      run: yarn run test
+
+  push-to-docker-hub:
+    name: Push Docker image to Docker Hub
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ secrets.DOCKER_HUB_REPOSITORY }}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+  
+  build:
+    name: Pull and rerun docker image
+    needs: push-to-docker-hub
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install SSH key
+      run: mkdir ~/.ssh && echo "$SSH_KEY" > ~/.ssh/id_rsa && chmod 400 ~/.ssh/id_rsa
+      env:
+        SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: Adding Known Hosts
+      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+    
+    - name: Pull and rerun docker
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker pull ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker rm -f cia-front && docker run -d --name cia-front --network cia-net --ip ${{ secrets.DOCKER_CONTAINER_IP }} ${{ secrets.DOCKER_HUB_REPOSITORY }} && docker image prune -a"

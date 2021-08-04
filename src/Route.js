@@ -17,6 +17,7 @@ import Login from './container/Login'
 import SingleFeed from './container/SingleFeed'
 import EditUserProfile from './container/EditUserProfile'
 import Law from './container/Law'
+import Page404 from './container/Page404'
 
 // eslint-disable-next-line
 export const routes = [
@@ -125,5 +126,11 @@ export const routes = [
     has_navigator: true,
     sidebar: <Sider />,
     main: <Law />,
+  },
+  {
+    path: '*',
+    has_navigator: false,
+    sidebar: <div />,
+    main: <Page404 />,
   },
 ]

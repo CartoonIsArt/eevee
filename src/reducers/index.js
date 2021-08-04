@@ -6,6 +6,7 @@ import noties from './noties'
 import sun from './sun'
 import timeline from './timeline'
 import auth from './auth'
+import photos from './photos'
 
 const createRootReducer = (history) => combineReducers({
   router: connectRouter(history),
@@ -15,6 +16,7 @@ const createRootReducer = (history) => combineReducers({
   noties,
   timeline,
   auth,
+  photos,
 })
 
 export default createRootReducer

@@ -9,7 +9,7 @@ import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
 import { getUser, postDocumentLike, deleteDocumentLike } from '../actions'
-import { Button, Popover } from 'antd'
+import { Button, Popover, Tag, Icon } from 'antd'
 
 class Doc extends Component {
   constructor(props) {
@@ -18,6 +18,13 @@ class Doc extends Component {
       isAppend: false,
     }
     this.props.getUser()
+  }
+  
+  makeUserBadge(user) {
+    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+    return (<div />)
   }
 
   onClickLikeIt() {
@@ -57,7 +64,6 @@ class Doc extends Component {
           <div style={{
             width: '48px',
             height: '48px',
-            background: '#0000FF',
             marginRight: '4px',
             overflow: 'hidden',
           }}
@@ -74,9 +80,7 @@ class Doc extends Component {
                       content={<Namecard content={author} />}
                     >
                       <Link to={`/members/${author.username}`}>
-                        {' '}
-                        {nickname}
-                        {' '}
+                        <span> {nickname} {this.makeUserBadge(author)} </span>
                       </Link>
                     </Popover>
                   )
@@ -109,7 +113,7 @@ class Doc extends Component {
                 content.likedUsers.length
                   ? content.likedUsers.map((lover, idx) => (
                     <pre key={idx}>
-                    {`${lover.nTh}기 ${lover.fullname}`}
+                      <span>{`${lover.nTh}기 ${lover.fullname}`} {this.makeUserBadge(lover)}</span>
                     </pre>
                   ))
                   : (

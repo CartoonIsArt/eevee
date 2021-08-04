@@ -4,11 +4,18 @@ import PropTypes from 'prop-types'
 import Namecard from './Namecard'
 import Line from './Line'
 import { printTime } from '../policy'
-import { Popover } from 'antd'
+import { Popover, Tag, Icon } from 'antd'
 
 class Noti extends Component {
   routeToFeed(feedId) {
     this.props.history.push(`/feed/${feedId}`)
+  }
+
+  makeUserBadge(user) {
+    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+    return (<div />)
   }
 
   render() {
@@ -52,7 +59,7 @@ class Noti extends Component {
                   content={<Namecard content={noti.from} />}
                 >
                   <a style={{ fontSize: '10pt' }} href="#">
-                    {nickname}
+                    <span>{nickname} {this.makeUserBadge(noti.from)}</span>
                   </a>
                 </Popover>
               </div>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL =  process.env.NODE_ENV === 'production' ? 'https://cartoonisart.azurewebsites.net/api/' : 'https://localhost/api'
+const hostname = require("os").hostname()
+export const baseURL = `https://${hostname}/api`
 
 export default axios.create({
   baseURL,

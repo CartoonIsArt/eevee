@@ -1,7 +1,6 @@
-import React, { Children, Component } from 'react'
+import React, { Component } from 'react'
 import moment from 'moment'
-import koKR from 'antd/lib/locale-provider/ko_KR'
-import axios from '../fetches/axios'
+import axios, { baseURL } from '../fetches/axios'
 import club_rules from '../terms/club_rules'
 import privacy_policy from '../terms/privacy_policy'
 import {
@@ -9,7 +8,6 @@ import {
   Button,
   Cascader, 
   Checkbox,
-  LocaleProvider,
   Upload,
   message,
   DatePicker,
@@ -147,12 +145,14 @@ class Registration extends Component {
       phoneNumber: '',
       favoriteComic: '',
       favoriteCharacter: '',
-      profile: 'https://pbs.twimg.com/media/DLJeodaVoAAIkUU.jpg',
+      profileImage: {
+        savedPath: 'profile_image_default.png'
+      },
       previewVisible: false,
       fileList: [],
       response: '',
     };
-    let isKeyBackspace = false
+    let isKeyBackspace = false;
   }
 
   onChangeInput(e) {
@@ -207,7 +207,7 @@ class Registration extends Component {
       phoneNumber: this.state.phoneNumber,
       favoriteComic: this.state.favoriteComic,
       favoriteCharacter: this.state.favoriteCharacter,
-      profileImage: this.state.fileList.length < 1 ? 'default' : this.state.fileList[0].name,
+      profileImage: this.state.profileImage,
     }
     axios.post('/public/user', user)
       .then((r) => {
@@ -246,7 +246,9 @@ class Registration extends Component {
 
   handlePreview(file) {
     this.setState({
-      profile: file.url || file.thumbUrl,
+      profileImage: {
+        savedPath: file.url || file.thumbUrl
+      },
       previewVisible: true,
     });
   }
@@ -279,9 +281,9 @@ class Registration extends Component {
 
   render() {
     const {
-      fullname, id, password, passwordCheck, major,
+      fullname, id, password, passwordCheck,
       studentNumber, email, phoneNumber, favoriteComic, favoriteCharacter,
-      fileList, previewVisible, profile,
+      fileList, previewVisible, profileImage,
       agreeLaw, agreeTerms,
     } = this.state;
     const uploadButton = (
@@ -292,270 +294,267 @@ class Registration extends Component {
     );
 
     return (
-      <LocaleProvider locale={koKR}>
-        {
-          this.state.agreeAll
-            ? (
-              <div style={{ width: '1280px' }}>
-                <div style={{ display: 'flex', marginLeft: '220px' }}>
-                  <div style={{ width: '512px', marginRight: '40px' }}>
-                    <div
-                      style={{ display: 'flex', marginBottom: '20px' }}
-                    >
-                      <div style={{
-                        width: '512px',
-                        height: '80px',
-                        padding: '10px',
-                        paddingLeft: '32px',
-                        fontSize: '40px',
-                        fontWeight: 'bold',
-                        textAlign: 'left',
-                        backgroundColor: 'rgba(255,255,255,0.5)',
-                      }}
-                      >
-                        CIA 회원가입
+      this.state.agreeAll
+        ? (
+          <div style={{ width: '1280px' }}>
+            <div style={{ display: 'flex', marginLeft: '220px' }}>
+              <div style={{ width: '512px', marginRight: '40px' }}>
+                <div
+                  style={{ display: 'flex', marginBottom: '20px' }}
+                >
+                  <div style={{
+                    width: '512px',
+                    height: '80px',
+                    padding: '10px',
+                    paddingLeft: '32px',
+                    fontSize: '40px',
+                    fontWeight: 'bold',
+                    textAlign: 'left',
+                    backgroundColor: 'rgba(255,255,255,0.5)',
+                  }}
+                  >
+                    CIA 회원가입
+                  </div>
+                </div>
+                <img
+                  src="/images/registration_left_side.jpg"
+                  alt="가로로 긴 그림"
+                  style={{ width: '512px', overflow: 'hidden' }}
+                />
+              </div>
+              <div style={{ width: '288px', marginTop: '20px' }}>
+                <Alert message="* 부분은 필수 입력사항입니다" type="warning" />
+                <Form style={{ marginTop: '20px' }}>
+                  <FormItem label="프로필 사진">
+                    <div style={{ marginTop: '8px' }}>
+                      <div>
+                        <Upload
+                          name="avatar"
+                          action={`${baseURL}/file`}
+                          listType="picture-card"
+                          fileList={fileList}
+                          onPreview={(e) => this.handlePreview(e)}
+                          onChange={(e) => this.handleChange(e)}
+                          beforeUpload={(e) => beforeUpload(e)}
+                        >
+                          {fileList.length ? null : uploadButton}
+                        </Upload>
+                        <Modal
+                          visible={previewVisible}
+                          footer={null}
+                          onCancel={() => this.handleCancelProfile()}
+                        >
+                          <img
+                            alt="프로필 이미지"
+                            style={{ width: '100%' }}
+                            src={profileImage.savedPath}
+                          />
+                        </Modal>
                       </div>
                     </div>
-                    <img
-                      src="/images/registration_left_side.jpg"
-                      alt="가로로 긴 그림"
-                      style={{ width: '512px', overflow: 'hidden' }}
+                  </FormItem>
+                </Form>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                  <Input
+                    addonBefore="*이름"
+                    size="large"
+                    style={{ width: '288px', marginRight: '20px' }}
+                    onChange={(e) => this.onChangeInput({ fullname: e.target.value })}
+                    value={fullname}
+                  />
+                </div>
+                <div style={{ display: 'flex', marginBottom: '20px' }}>
+                  <div>
+                    <Cascader
+                      style={{ width: '140px', marginRight: '8px' }}
+                      options={nThs}
+                      size="large"
+                      onChange={(value, option) => this.onNumberChange(value, option)}
+                      placeholder="*기수를 선택하세요"
+                      defaultValue={[default_nTh]}
+                      showSearch
+                    />
+                    <DatePicker
+                      style={{ width: '140px' }}
+                      size="large"
+                      onChange={(date, dateString) => this.onDateChange(date, dateString)}
+                      placeholder="*생일을 선택하세요"
+                      defaultValue={default_birthdate}
+                      disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
                     />
                   </div>
-                  <div style={{ width: '288px', marginTop: '20px' }}>
-                    <Alert message="* 부분은 필수 입력사항입니다" type="warning" />
-                    <Form style={{ marginTop: '20px' }}>
-                      <FormItem label="프로필 사진">
-                        <div style={{ marginTop: '8px' }}>
-                          <div>
-                            <Upload
-                              action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동하게
-                              listType="picture-card"
-                              fileList={fileList}
-                              onPreview={(e) => this.handlePreview(e)}
-                              onChange={(e) => this.handleChange(e)}
-                              beforeUpload={(e) => beforeUpload(e)}
-                            >
-                              {fileList.length ? null : uploadButton}
-                            </Upload>
-                            <Modal
-                              visible={previewVisible}
-                              footer={null}
-                              onCancel={() => this.handleCancelProfile()}
-                            >
-                              <img
-                                alt="프로필 이미지"
-                                style={{ width: '100%' }}
-                                src={profile}
-                              />
-                            </Modal>
-                          </div>
-                        </div>
-                      </FormItem>
-                    </Form>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                  <Input
+                    addonBefore="*아이디"
+                    size="large"
+                    style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
+                    onChange={(e) => this.onChangeInput({ id: e.target.value })}
+                    value={id}
+                  />
+                  <Input
+                    addonBefore="*비밀번호"
+                    type="password"
+                    size="large"
+                    style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
+                    onChange={(e) => this.onChangeInput({ password: e.target.value })}
+                    value={password}
+                  />
+                  <Input
+                    addonBefore="*비밀번호 확인"
+                    type="password"
+                    size="large"
+                    style={{ width: '288px' }}
+                    onChange={(e) => this.onChangeInput({ passwordCheck: e.target.value })}
+                    value={passwordCheck}
+                  />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                  <Cascader
+                    style={{ width: '288px', marginBottom: '8px' }}
+                    options={majors}
+                    size="large"
+                    onChange={(value, option) => this.onMajorChange(value, option)}
+                    placeholder="*전공"
+                  />
+                  <Input
+                    addonBefore="*학번"
+                    size="large"
+                    style={{ width: '288px' }}
+                    onChange={(e) => this.onChangeInput({ studentNumber: e.target.value })}
+                    placeholder="ex) 2017000000"
+                    value={studentNumber}
+                  />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                  <Input
+                    addonBefore="*이메일"
+                    size="large"
+                    style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
+                    onChange={(e) => this.onChangeInput({ email: e.target.value })}
+                    placeholder="ex) example@example.com"
+                    value={email}
+                  />
+                  <Input
+                    addonBefore="*전화번호"
+                    size="large"
+                    style={{ width: '288px' }}
+                    onChange={(e) => this.onChangePhoneNumber(e.target.value)}
+                    onKeyDown={(e) => this.onKeyDownBackspace(e)}
+                    placeholder="ex) 010-1234-5678"
+                    value={phoneNumber}
+                  />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ width: '288px', display: 'flex', flexDirection: 'column' }}>
                       <Input
-                        addonBefore="*이름"
+                        addonBefore="만화"
                         size="large"
-                        style={{ width: '288px', marginRight: '20px' }}
-                        onChange={(e) => this.onChangeInput({ fullname: e.target.value })}
-                        value={fullname}
-                      />
-                    </div>
-                    <div style={{ display: 'flex', marginBottom: '20px' }}>
-                      <div>
-                        <Cascader
-                          style={{ width: '140px', marginRight: '8px' }}
-                          options={nThs}
-                          size="large"
-                          onChange={(value, option) => this.onNumberChange(value, option)}
-                          placeholder="*기수를 선택하세요"
-                          defaultValue={[default_nTh]}
-                          showSearch
-                        />
-                        <DatePicker
-                          style={{ width: '140px' }}
-                          size="large"
-                          onChange={(date, dateString) => this.onDateChange(date, dateString)}
-                          placeholder="*생일을 선택하세요"
-                          defaultValue={default_birthdate}
-                          disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
-                        />
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <Input
-                        addonBefore="*아이디"
-                        size="large"
-                        style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                        onChange={(e) => this.onChangeInput({ id: e.target.value })}
-                        value={id}
-                      />
-                      <Input
-                        addonBefore="*비밀번호"
-                        type="password"
-                        size="large"
-                        style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                        onChange={(e) => this.onChangeInput({ password: e.target.value })}
-                        value={password}
-                      />
-                      <Input
-                        addonBefore="*비밀번호 확인"
-                        type="password"
-                        size="large"
-                        style={{ width: '288px' }}
-                        onChange={(e) => this.onChangeInput({ passwordCheck: e.target.value })}
-                        value={passwordCheck}
-                      />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <Cascader
                         style={{ width: '288px', marginBottom: '8px' }}
-                        options={majors}
-                        size="large"
-                        onChange={(value, option) => this.onMajorChange(value, option)}
-                        placeholder="*전공"
+                        onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
+                        placeholder="ex) 하이큐"
+                        value={favoriteComic}
                       />
                       <Input
-                        addonBefore="*학번"
+                        addonBefore="캐릭터"
                         size="large"
-                        style={{ width: '288px' }}
-                        onChange={(e) => this.onChangeInput({ studentNumber: e.target.value })}
-                        placeholder="ex) 2017000000"
-                        value={studentNumber}
+                        style={{ width: '288px', marginBottom: '20px' }}
+                        onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
+                        placeholder="ex) 카게야마 토비오"
+                        value={favoriteCharacter}
                       />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <Input
-                        addonBefore="*이메일"
+                      <Button
                         size="large"
-                        style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                        onChange={(e) => this.onChangeInput({ email: e.target.value })}
-                        placeholder="ex) example@example.com"
-                        value={email}
-                      />
-                      <Input
-                        addonBefore="*전화번호"
-                        size="large"
-                        style={{ width: '288px' }}
-                        onChange={(e) => this.onChangePhoneNumber(e.target.value)}
-                        onKeyDown={(e) => this.onKeyDownBackspace(e)}
-                        placeholder="ex) 010-1234-5678"
-                        value={phoneNumber}
-                      />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                      <div style={{ display: 'flex' }}>
-                        <div style={{ width: '288px', display: 'flex', flexDirection: 'column' }}>
-                          <Input
-                            addonBefore="만화"
-                            size="large"
-                            style={{ width: '288px', marginBottom: '8px' }}
-                            onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
-                            placeholder="ex) 하이큐"
-                            value={favoriteComic}
-                          />
-                          <Input
-                            addonBefore="캐릭터"
-                            size="large"
-                            style={{ width: '288px', marginBottom: '20px' }}
-                            onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
-                            placeholder="ex) 카게야마 토비오"
-                            value={favoriteCharacter}
-                          />
-                          <Button
-                            size="large"
-                            type="primary"
-                            onClick={() => this.onButtonClicked()}
-                          >
-                            환영해요!
-                          </Button>
-                        </div>
-                      </div>
+                        type="primary"
+                        onClick={() => this.onButtonClicked()}
+                      >
+                        환영해요!
+                      </Button>
                     </div>
                   </div>
                 </div>
               </div>
-            )
-            : (
-              <div
-                className="agree"
-                style={{ margin: '8px 0 8px 0', padding: '12px', backgroundColor: '#ffffff' }}
+            </div>
+          </div>
+        )
+        : (
+          <div
+            className="agree"
+            style={{ margin: '8px 0 8px 0', padding: '12px', backgroundColor: '#ffffff' }}
+          >
+            <div
+              className="agree-box"
+              style={{
+                padding: '12px',
+                border: '1.5px solid black',
+                borderRadius: '10px',
+              }}
+            >
+              <Checkbox
+                style={{ fontSize: '20px', fontWeight: 'bold' }}
+                checked={this.state.agreeLaw}
+                onChange={() => this.setState({ agreeLaw: (!agreeLaw) })}
+                className="pt-large"
               >
-                <div
-                  className="agree-box"
-                  style={{
-                    padding: '12px',
-                    border: '1.5px solid black',
-                    borderRadius: '10px',
-                  }}
-                >
-                  <Checkbox
-                    style={{ fontSize: '20px', fontWeight: 'bold' }}
-                    checked={this.state.agreeLaw}
-                    onChange={() => this.setState({ agreeLaw: (!agreeLaw) })}
-                    className="pt-large"
-                  >
-                    C.I.A. 회칙 동의 (필수)
-                  </Checkbox>
-                  <div
-                    className="agree-text"
-                    style={{
-                      wordWrap: 'break-word',
-                      whiteSpace: 'pre-line',
-                      overflowY: 'scroll',
-                      height: '200px',
-                    }}
-                  >
-                    {club_rules}
-                  </div>
-                </div>
-                <div
-                  className="agree-box"
-                  style={{
-                    padding: '12px',
-                    border: '1.5px solid black',
-                    borderRadius: '10px',
-                    marginTop: '20px',
-                  }}
-                >
-                  <Checkbox
-                    style={{ fontSize: '20px', fontWeight: 'bold' }}
-                    checked={this.state.agreeTerms}
-                    onChange={() => this.setState({ agreeTerms: (!agreeTerms) })}
-                    className="pt-large"
-                  >
-                    개인정보 수집 및 이용에 대한 안내 (필수)
-                  </Checkbox>
-                  <div className="agree-text">
-                    <div style={{
-                      wordWrap: 'break-word',
-                      whiteSpace: 'pre-line',
-                      overflowY: 'scroll',
-                      height: '200px',
-                    }}
-                    >
-                      {privacy_policy}
-                    </div>
-                  </div>
-                </div>
-                <Button
-                  type="primary"
-                  className="pt-button pt-intent-success float-right"
-                  style={{ marginTop: '20px' }}
-                  onClick={() => this.state.agreeLaw
-                                 && this.state.agreeTerms
-                                 && this.setState({ agreeAll: true })
-                                && console.log(this.state.agreeAll)}
-                  disabled={!(this.state.agreeLaw && this.state.agreeTerms)}
-                >
-                  동의합니다
-                  <span className="pt-icon-standard pt-icon-arrow-right pt-align-right" />
-                </Button>
+                C.I.A. 회칙 동의 (필수)
+              </Checkbox>
+              <div
+                className="agree-text"
+                style={{
+                  wordWrap: 'break-word',
+                  whiteSpace: 'pre-line',
+                  overflowY: 'scroll',
+                  height: '200px',
+                }}
+              >
+                {club_rules}
               </div>
-            )
-        }
-      </LocaleProvider>
+            </div>
+            <div
+              className="agree-box"
+              style={{
+                padding: '12px',
+                border: '1.5px solid black',
+                borderRadius: '10px',
+                marginTop: '20px',
+              }}
+            >
+              <Checkbox
+                style={{ fontSize: '20px', fontWeight: 'bold' }}
+                checked={this.state.agreeTerms}
+                onChange={() => this.setState({ agreeTerms: (!agreeTerms) })}
+                className="pt-large"
+              >
+                개인정보 수집 및 이용에 대한 안내 (필수)
+              </Checkbox>
+              <div className="agree-text">
+                <div style={{
+                  wordWrap: 'break-word',
+                  whiteSpace: 'pre-line',
+                  overflowY: 'scroll',
+                  height: '200px',
+                }}
+                >
+                  {privacy_policy}
+                </div>
+              </div>
+            </div>
+            <Button
+              type="primary"
+              className="pt-button pt-intent-success float-right"
+              style={{ marginTop: '20px' }}
+              onClick={() => this.state.agreeLaw
+                             && this.state.agreeTerms
+                             && this.setState({ agreeAll: true })
+                            && console.log(this.state.agreeAll)}
+              disabled={!(this.state.agreeLaw && this.state.agreeTerms)}
+            >
+              동의합니다
+              <span className="pt-icon-standard pt-icon-arrow-right pt-align-right" />
+            </Button>
+          </div>
+        )
     )
   }
 }

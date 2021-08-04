@@ -6,7 +6,7 @@ import Recomments from './Recomments'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
 import { postCommentLike, deleteCommentLike } from '../actions'
-import { Button, Popover } from 'antd'
+import { Button, Popover, Tag, Icon } from 'antd'
 
 class Comment extends Component {
   constructor(props) {
@@ -14,6 +14,13 @@ class Comment extends Component {
     this.state = {
       viewRecomment: false,
     }
+  }
+  
+  makeUserBadge(user) {
+    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+    return (<div />)
   }
 
   onClickLikeIt() {
@@ -29,6 +36,13 @@ class Comment extends Component {
 
   toggleRecomment() {
     this.setState({ viewRecomment: !this.state.viewRecomment })
+  }
+
+  makeUserBadge(user) {
+    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /></Tag>)
+    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /></Tag>)
+    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /></Tag>)
+    return (<div />)
   }
 
   render() {
@@ -56,7 +70,7 @@ class Comment extends Component {
                 placement="leftTop"
               >
                 <Link to={`/members/${author.username}`}>
-                  {` ${nickname} `}
+                  <span> {nickname} {this.makeUserBadge(author)} </span>
                 </Link>
               </Popover>
               {comment.content}
@@ -67,7 +81,7 @@ class Comment extends Component {
                   comment.likedUsers.length
                     ? comment.likedUsers.map((lover) => (
                       <pre>
-                        {`${lover.nTh}기 ${lover.fullname}`}
+                        <span>{`${lover.nTh}기 ${lover.fullname}`} {this.makeUserBadge(lover)}</span>
                       </pre>
                     ))
                     : (

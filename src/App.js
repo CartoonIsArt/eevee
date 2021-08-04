@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './App.css';
 import { routes } from './Route'
@@ -25,7 +25,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: { has_logged_in: false }
+      user: this.props.user
     }
   }
 
@@ -51,11 +51,10 @@ class App extends Component {
     return (
       <div style={{ background: '#dfdfdf' }}>
         {isNavEnabled(this.props.history) && <Nav />}
-        <div className="Container" style={{ marginTop: '4px' }} >
-          {routes.map((route, idx) =>
+        <div className="Container" style={{ marginTop: '4px', display: 'flex' }} >
+          <Switch>
+            {routes.map((route, idx) => (
             // eslint-disable-next-line
-            (
-              <div key={idx} style={{ display: 'flex' }}>
                 <Route
                   key={idx}
                   path={route.path}
@@ -68,8 +67,8 @@ class App extends Component {
                     : <Redirect to='/login' />
                   }
                 </Route>
-              </div>
             ))}
+          </Switch>
         </div>
       </div>
     );
