@@ -1,4 +1,4 @@
-export default majors = [{
+const majors = [{
     label: '전자정보공과대학',
     value: '전자정보공과대학',
     children: [
@@ -64,3 +64,5 @@ export default majors = [{
     ],
     },
 ]
+
+export default majors

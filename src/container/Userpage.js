@@ -109,12 +109,12 @@ class Userpage extends Component {
     }
   }
 
-  clickEditProfileBtn() {
+  async clickEditProfileBtn() {
     const args = {
       password: this.state.password,
     }
 
-    if(checkPassword(args)) {
+    if(await checkPassword(args)) {
       this.props.history.push('/settings/account')
     }
     else {
