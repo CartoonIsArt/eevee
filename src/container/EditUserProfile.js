@@ -112,18 +112,17 @@ class EditUserProfile extends Component {
   constructor(props) {
     super(props)
     this.props.getUser()
-    console.log(this.props.user)
     this.state = {
       visible: false,
       bVisible: false,
-      id: '', //patchUser할때 넘겨줘야함
+      id: '', 
       email: this.props.user.email,
       birthdate: this.props.user.birthdate,
       major: this.props.user.major,
       phoneNumber: this.props.user.phoneNumber,
       favoriteComic: this.props.user.favoriteComic,
       favoriteCharacter: this.props.user.favoriteCharacter,
-      profile: this.props.user.profileImage.savedPath, // 기존 이미지로 설정해야됨
+      profile: this.props.user.profileImage.savedPath,
       banner: '/images/profile_banner_default.png',// 수정필요 (user가 bannerPath를 가지게되면)
       previewVisible: false,
       bannerPreviewVisible: false,
@@ -158,7 +157,6 @@ class EditUserProfile extends Component {
   }
 
   handleOk() {
-
     if (this.isEmpty()) {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
@@ -180,6 +178,8 @@ class EditUserProfile extends Component {
       favoriteCharacter: this.state.favoriteCharacter,
       profile: this.state.profile,
     }
+
+    // TO DO : 수정하기 (try catch가 안되는 코드임)
     try{
       this.props.patchUser(user);
     }

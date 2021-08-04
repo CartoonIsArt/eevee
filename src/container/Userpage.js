@@ -61,19 +61,14 @@ class Userpage extends Component {
 
   onWrittenClick(){
     this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.WRITTEN,})
-    console.log(this.props.timeline)
   }
 
   onCommentedClick(){
     this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.COMMENTED,})
-    console.log(this.props.timeline)
-
   }
 
   onLikedClick(){
     this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.LIKED,})
-    console.log(this.props.timeline)
-
   }
 
   componentWillMount() {
@@ -103,7 +98,6 @@ class Userpage extends Component {
     const { page } = this.state
     const timelinelen = this.props.timeline.length
     e.preventDefault()
-    //console.log(isAlmostScrolled())
     if (this.mutex && isAlmostScrolled()
       && (this.state.doclen !== timelinelen)) {
       this.mutex = false
