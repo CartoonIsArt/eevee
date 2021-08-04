@@ -8,7 +8,6 @@ import Cleaning from './container/Cleaning'
 import OldNoties from './container/OldNoties'
 import OldTexts from './container/OldTexts'
 import Deactivate from './container/Deactivate'
-import Logout from './container/Logout'
 import Userpage from './container/Userpage'
 import Doorlock from './container/Doorlock'
 import Registration from './container/Registration'
@@ -108,12 +107,6 @@ export const routes = [
     has_navigator: true,
     sidebar: <Sider />,
     main: <Deactivate />,
-  },
-  {
-    path: '/logout',
-    has_navigator: true,
-    sidebar: <Sider />,
-    main: <Logout />,
   },
   {
     path: '/doorlock',
