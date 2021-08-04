@@ -2,8 +2,8 @@ import React, { Children, Component } from 'react'
 import moment from 'moment'
 import koKR from 'antd/lib/locale-provider/ko_KR'
 import axios from '../fetches/axios'
-import club_rules from '../terms/club_rules'
-import privacy_policy from '../terms/privacy_policy'
+import club_rules from '../common/club_rules'
+import privacy_policy from '../common/privacy_policy'
 import {
   Alert,
   Button,
