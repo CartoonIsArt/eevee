@@ -38,6 +38,19 @@ class Userpage extends Component {
     }
     return <Icon type="close" />
   }
+  
+  componentWillMount() {
+    this.getTimeline()(this.props.user.username, 1)
+    this.setState({ doclen: this.props.timeline.length })
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.wrapper)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.wrapper)
+  }
 
   makeUserBadge(user) {
     if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
@@ -66,29 +79,19 @@ class Userpage extends Component {
     this.props.logout()
   }
 
-  onWrittenClick(){
-    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.WRITTEN,})
+  async onWrittenClick(){
+    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.WRITTEN,})
+    this.getTimeline()(this.props.user.username, 1)
   }
 
-  onCommentedClick(){
-    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.COMMENTED,})
+  async onCommentedClick(){
+    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.COMMENTED,})
+    this.getTimeline()(this.props.user.username, 1)
   }
 
-  onLikedClick(){
-    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.LIKED,})
-  }
-
-  componentWillMount() {
-    this.getTimeline()(this.props.user.username)
-    this.setState({ doclen: this.props.timeline.length })
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.wrapper)
-  }
-
-  componentWillUnmount() {
-    window.addEventListener('scroll', this.wrapper)
+  async onLikedClick(){
+    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.LIKED,})
+    this.getTimeline()(this.props.user.username, 1)
   }
 
   getTimeline(){

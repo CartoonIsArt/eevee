@@ -29,14 +29,13 @@ class Timeline extends Component {
   }
 
   componentWillUnmount() {
-    window.addEventListener('scroll', this.wrapper)
+    window.removeEventListener('scroll', this.wrapper)
   }
 
   loadMore(e) {
     const { page } = this.state
     const timelinelen = this.props.timeline.length
     e.preventDefault()
-    console.log(isAlmostScrolled())
     if (this.mutex && isAlmostScrolled()
       && (this.state.doclen !== timelinelen)) {
       this.mutex = false
