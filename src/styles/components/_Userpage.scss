@@ -146,23 +146,25 @@ $link-color: #365899;
     .user-banner{
       width: 1006px !important;
       height: 236px !important;
-
-      .ant-upload-list-item{
-        padding: 0px;
-        position: absolute;
-        width: 1006px !important;
-        height: 236px !important;
-      }
-      // 같은 코든데 줄일 수 없나..?
-      .ant-upload-list{
-        // height: 236px !important;
-        // width: 1006px !important;
-
-        .ant-upload-select-picture-card {
+      .ant-upload-picture-card-wrapper{
+        height: 100%;
+        .ant-upload-list-item{
+          padding: 0px;
+          position: absolute;
+          width: 1006px !important;
+          height: 236px !important;
+        }
+        // 같은 코든데 줄일 수 없나..?
+        .ant-upload-select{
+          width: 100%;
+          height: 100%;
           padding: 0px;
           position: relative;
           top: 50% !important;
           left: 50% !important;
+          -moz-transform: translateX(-50%) translateY(-50%);
+          -webkit-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
         }
       }
     }
@@ -187,7 +189,9 @@ $link-color: #365899;
         height: auto !important;
       }
       // 같은 코든데 줄일 수 없나..?
-      .ant-upload-select-picture-card {
+      .ant-upload-select{
+        width: 101%;
+        height: 101%;
         padding: 0px;
         position: absolute;
         top: 50%;
