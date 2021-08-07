@@ -243,7 +243,7 @@ class Userpage extends Component {
               </div>
             </div>
           </div>
-          <section style={{ padding: '0px 8px' }}>
+          <section style={{ padding: '0px 8px', width: '100%' }}>
             {timeline.map((feed) => (
               <Feed user={user} key={feed.id} content={feed}/>
               ))
