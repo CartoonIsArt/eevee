@@ -32,7 +32,7 @@ const default_nTh = (() => {
   const today = new Date()
   return (today.getFullYear() - 1998)
 })()
-const default_birthdate = moment().subtract(19, 'years')
+const default_birthdate = moment().subtract(19, 'years').format('YYYY-MM-DD')
 
 function beforeUpload(file) {
   const isImage = file.type === 'image/gif'
