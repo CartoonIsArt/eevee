@@ -40,7 +40,8 @@ class Userpage extends Component {
   }
   
   componentWillMount() {
-    this.getTimeline()(this.props.user.username, 1)
+    const { username } = this.props.match.params
+    this.getTimeline()(username, 1)
     this.setState({ doclen: this.props.timeline.length })
   }
 
@@ -81,17 +82,20 @@ class Userpage extends Component {
 
   async onWrittenClick(){
     await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.WRITTEN,})
-    this.getTimeline()(this.props.user.username, 1)
+    const { username } = this.props.match.params
+    this.getTimeline()(username, 1)
   }
 
   async onCommentedClick(){
     await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.COMMENTED,})
-    this.getTimeline()(this.props.user.username, 1)
+    const { username } = this.props.match.params
+    this.getTimeline()(username, 1)
   }
 
   async onLikedClick(){
     await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.LIKED,})
-    this.getTimeline()(this.props.user.username, 1)
+    const { username } = this.props.match.params
+    this.getTimeline()(username, 1)
   }
 
   getTimeline(){
@@ -106,12 +110,13 @@ class Userpage extends Component {
 
   loadMore(e) {
     const { page } = this.state
+    const { username } = this.props.match.params
     const timelinelen = this.props.timeline.length
     e.preventDefault()
     if (this.mutex && isAlmostScrolled()
       && (this.state.doclen !== timelinelen)) {
       this.mutex = false
-      this.getTimeline()(this.props.user.username, page + 1)
+      this.getTimeline()(username, page + 1)
       this.setState({
         page: page + 1,
         doclen: timelinelen,
