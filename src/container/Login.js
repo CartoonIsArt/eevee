@@ -14,8 +14,10 @@ class Login extends Component {
     super(props)
     this.state = {
       isActive: false,
-      username: '',
-      password: '',
+      formData: {
+        username: '',
+        password: '',
+      },
       responses: [],
     }
   }
@@ -27,12 +29,9 @@ class Login extends Component {
   onClickMethod(ev) {
     ev.preventDefault()
     ev.stopPropagation()
-    const args = {
-      username: this.state.username,
-      password: this.state.password,
-    }
-    axios.post('/public/login', args)
-      .then((r) => {
+
+    axios.post('/public/login', this.state.formData)
+      .then(() => {
         this.props.getUser()
       })
       .catch((e) => {
@@ -42,8 +41,7 @@ class Login extends Component {
   }
 
   render() {
-    const { username } = this.state
-    const { password } = this.state
+    const { username, password } = this.state.formData
     return (
       <div
         style={{
@@ -120,7 +118,7 @@ class Login extends Component {
                   prefix={<Icon type="user" style={{ fontSize: 12 }} />}
                   placeholder="Username"
                   value={username}
-                  onChange={(e) => this.setState({ id: e.target.value })}
+                  onChange={(e) => this.setState({ formData: { username: e.target.value } })}
                 />
               </FormItem>
               <FormItem
@@ -133,7 +131,7 @@ class Login extends Component {
                   type="password"
                   placeholder="Password"
                   value={password}
-                  onChange={(e) => this.setState({ password: e.target.value })}
+                  onChange={(e) => this.setState({ formData: { password: e.target.value } })}
                 />
               </FormItem>
               <FormItem>

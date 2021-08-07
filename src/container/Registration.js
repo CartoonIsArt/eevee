@@ -90,19 +90,19 @@ class Registration extends Component {
   }
 
   onChangeInput(e) {
-    this.setState(e);
+    this.setState({ formData: e })
   }
 
   onNumberChange(value) {
-    this.setState({ nTh: value[0] });
+    this.onChangeInput({ nTh: value[0] })
   }
 
   onDateChange(_, dateString) {
-    this.setState({ birthdate: dateString });
+    this.onChangeInput({ birthdate: dateString })
   }
 
   onMajorChange(value) {
-    this.setState({ major: value[1] })
+    this.onChangeInput({ major: value[1] })
   }
 
   onButtonClicked() {
@@ -192,7 +192,7 @@ class Registration extends Component {
         phoneNumber.slice(phoneNumber.length - 1),
       ].join('-')
     }
-    this.setState({ phoneNumber })
+    this.onChangeInput({ phoneNumber })
   }
 
   onKeyDownBackspace(e) {
@@ -280,7 +280,7 @@ class Registration extends Component {
                     addonBefore="*이름"
                     size="large"
                     style={{ width: '288px', marginRight: '20px' }}
-                    onChange={(e) => this.onChangeInput({ fullname: e.target.value })}
+                    onChange={(e) => this.onChangeInput({ name: e.target.value })}
                     value={name}
                   />
                 </div>
@@ -310,7 +310,7 @@ class Registration extends Component {
                     addonBefore="*아이디"
                     size="large"
                     style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                    onChange={(e) => this.onChangeInput({ id: e.target.value })}
+                    onChange={(e) => this.onChangeInput({ username: e.target.value })}
                     value={username}
                   />
                   <Input
