@@ -5,19 +5,19 @@ import { Popover, Tag, Icon } from 'antd'
 
 class Recomment extends Component {
   makeUserBadge(user) {
-    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+    if (user.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (user.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (user.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
     return (<div />)
   }
 
   render() {
     const { content } = this.props
     const { author } = content
-    const nickname = `${author.nTh}기 ${author.fullname}`
+    const nickname = `${author.student.nTh}기 ${author.student.name}`
     const { text } = content
-    const imgsrc = author.profileImage.savedPath
-    const imgalt = author.profileImage.filename
+    const imgsrc = author.profile.profileImage
+    const imgalt = author.profile.profileImage
     return (
       <div style={{ margin: '2px 0px' }}>
         <div style={{ display: 'flex' }}>

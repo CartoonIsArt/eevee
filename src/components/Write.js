@@ -167,7 +167,7 @@ class Write extends Component {
               marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden',
             }}
             >
-              <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
+              <img src={user.profile.profileImage} alt={user.profile.profileImage} width="100%" />
             </div>
           )
         }

@@ -21,9 +21,9 @@ class Doc extends Component {
   }
   
   makeUserBadge(user) {
-    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+    if (user.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (user.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (user.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
     return (<div />)
   }
 
@@ -31,7 +31,7 @@ class Doc extends Component {
     const { content } = this.props
     const { user } = this.props
 
-    if (content.likedUsers.findIndex((lover) => lover.id === user.id) === -1) {
+    if (content.likedAccounts.findIndex((lover) => lover.id === user.id) === -1) {
       this.props.postDocumentLike(content.id)
     } else {
       this.props.deleteDocumentLike(content.id)
@@ -46,10 +46,10 @@ class Doc extends Component {
     const { isAppend } = this.state
     const { content } = this.props
     const { author } = content
-    const nickname = `${author.nTh}기 ${author.fullname}`
+    const nickname = `${author.student.nTh}기 ${author.student.name}`
     const { createdAt } = content
-    const imgsrc = author.profileImage.savedPath
-    const imgalt = author.profileImage.filename
+    const imgsrc = author.profile.profileImage
+    const imgalt = author.profile.profileImage
     // const images = content.images
     const { user } = this.props
     return (
@@ -73,7 +73,7 @@ class Doc extends Component {
           <div style={{ flexGrow: 2 }}>
             <div style={{ fontSize: '14pt' }}>
               {
-                author.nTh
+                author.student.nTh
                   ? (
                     <Popover
                       placement="leftTop"
@@ -110,10 +110,10 @@ class Doc extends Component {
           <div style={{ marginRight: '12px' }}>
             <Popover
               content={
-                content.likedUsers.length
-                  ? content.likedUsers.map((lover, idx) => (
+                content.likedAccounts.length
+                  ? content.likedAccounts.map((lover, idx) => (
                     <pre key={idx}>
-                      <span>{`${lover.nTh}기 ${lover.fullname}`} {this.makeUserBadge(lover)}</span>
+                      <span>{`${lover.student.nTh}기 ${lover.student.name}`} {this.makeUserBadge(lover)}</span>
                     </pre>
                   ))
                   : (
@@ -132,7 +132,7 @@ class Doc extends Component {
                 onClick={() => this.onClickLikeIt()}
               />
               <a onClick={() => this.onClickLikeIt()}>
-                {`좋아요 ${content.likedUsers.length}`}
+                {`좋아요 ${content.likedAccounts.length}`}
               </a>
             </Popover>
           </div>

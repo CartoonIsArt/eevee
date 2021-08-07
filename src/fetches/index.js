@@ -49,6 +49,6 @@ export const getFeed = id => ({
     },
   ],
   comments: [],
-  likedUsers: [],
+  likedAccounts: [],
 })
 /* eslint-enable */

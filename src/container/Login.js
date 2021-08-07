@@ -14,7 +14,7 @@ class Login extends Component {
     super(props)
     this.state = {
       isActive: false,
-      id: '',
+      username: '',
       password: '',
       responses: [],
     }
@@ -28,7 +28,7 @@ class Login extends Component {
     ev.preventDefault()
     ev.stopPropagation()
     const args = {
-      username: this.state.id,
+      username: this.state.username,
       password: this.state.password,
     }
     axios.post('/public/login', args)
@@ -42,7 +42,7 @@ class Login extends Component {
   }
 
   render() {
-    const { id } = this.state
+    const { username } = this.state
     const { password } = this.state
     return (
       <div
@@ -119,7 +119,7 @@ class Login extends Component {
                 <Input
                   prefix={<Icon type="user" style={{ fontSize: 12 }} />}
                   placeholder="Username"
-                  value={id}
+                  value={username}
                   onChange={(e) => this.setState({ id: e.target.value })}
                 />
               </FormItem>

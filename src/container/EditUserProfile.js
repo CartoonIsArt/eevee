@@ -55,7 +55,7 @@ class EditUserProfile extends Component {
       favoriteComic: this.props.user.favoriteComic,
       favoriteCharacter: this.props.user.favoriteCharacter,
       profileImage: this.props.user.profileImage,
-      banner: '/images/profile_banner_default.png',// 수정필요 (user가 bannerPath를 가지게되면)
+      profileBannerImage: '/images/profile_banner_default.png',// 수정필요 (user가 bannerPath를 가지게되면)
       previewVisible: false,
       bannerPreviewVisible: false,
       fileList: [],
@@ -138,16 +138,14 @@ class EditUserProfile extends Component {
 
   handlePreview(file) {
     this.setState({
-      profileImage: {
-        savedPath: file.url || file.thumbUrl
-      },
+      profileImage: file.url || file.thumbUrl,
       previewVisible: true,
     });
   }
 
   handleBannerPreview(file) {
     this.setState({
-      banner: file.url || file.thumbUrl,
+      profileBannerImage: file.url || file.thumbUrl,
       bannerPreviewVisible: true,
     });
   }
@@ -189,7 +187,7 @@ class EditUserProfile extends Component {
   render() {
     const {
       email, phoneNumber, favoriteComic, favoriteCharacter,
-      previewVisible, bannerPreviewVisible, profile, banner, fileList, bannerFileList, birthdate
+      previewVisible, bannerPreviewVisible, profileImage, profileBannerImage, fileList, bannerFileList, birthdate
     } = this.state;
     const uploadButton = (
       <div>

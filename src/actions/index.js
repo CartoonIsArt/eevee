@@ -51,6 +51,7 @@ export const suntoggle = () => (dispatch) => {
 
 const user1 = {
   id: 1,
+  username: 'kswcia',
   joinDate: '2017-02-05 05:10:13.768196+00:00',
   birthdate: '1999-11-11 03:00:00+00:00',
   major: '전자통신공학과',
@@ -60,19 +61,16 @@ const user1 = {
   isActive: false,
   // isContributer: false,
   hasGraduated: false,
-  isRegular: true,
-  isSuperuser: false,
-  // is_staff: false,
-  nTh: 16,
-  fullname: '와아이',
-  phoneNumber: '010-0000-0000',
-  studentNumber: '2000000000',
-  username: 'kswcia',
-  profileImage: {
-    id: 1,
-    savedPath: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
-    filename: 'kPanic.png',
+  role: "regular",
+  student: {
+    nTh: 16,
+    name: '와아이',
+    phoneNumber: '010-0000-0000',
+    studentNumber: '2000000000',
   },
+  profile: {
+    profileImage: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
+  }
 }
 
 export const getNoties = () => (dispatch) => {
@@ -116,10 +114,10 @@ export const getUser = () => (dispatch) => {
 
 export const patchUser = (user) => (dispatch) => {
   axios.patch(`/user/${user.id}`, user)
-    .then((r) => {
-      const { user } = r.data
-      dispatch(updateUser(user))
-    })
+    // .then((r) => {
+    //   const { user } = r.data
+    //   dispatch(updateUser(user))
+    // })
     .catch((e) => console.log(e))
 }
 
@@ -216,8 +214,8 @@ export const patchDocument = (document) => (dispatch) => {
 export const postDocumentLike = (id) => (dispatch) => {
   axios.post(`/document/${id}/LikeIt`)
     .then((r) => {
-      const { likedUsers, user } = r.data
-      dispatch(updateFeed({ id, likedUsers }))
+      const { likedAccounts, user } = r.data
+      dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setUser(user))
     })
     .catch((e) => console.log(e))
@@ -226,8 +224,8 @@ export const postDocumentLike = (id) => (dispatch) => {
 export const deleteDocumentLike = (id) => (dispatch) => {
   axios.delete(`/document/${id}/LikeIt`)
     .then((r) => {
-      const { likedUsers, user } = r.data
-      dispatch(updateFeed({ id, likedUsers }))
+      const { likedAccounts, user } = r.data
+      dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setUser(user))
     })
     .catch((e) => console.log(e))
@@ -248,8 +246,8 @@ export const postComment = (comment) => (dispatch) => {
 export const postCommentLike = (id) => (dispatch) => {
   axios.post(`/comment/${id}/LikeIt`)
     .then((r) => {
-      const { likedUsers, user } = r.data
-      dispatch(updateFeed({ id, likedUsers }))
+      const { likedAccounts, user } = r.data
+      dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setUser(user))
     })
     .catch((e) => console.log(e))
@@ -258,8 +256,8 @@ export const postCommentLike = (id) => (dispatch) => {
 export const deleteCommentLike = (id) => (dispatch) => {
   axios.delete(`/comment/${id}/LikeIt`)
     .then((r) => {
-      const { likedUsers, user } = r.data
-      dispatch(updateFeed({ id, likedUsers }))
+      const { likedAccounts, user } = r.data
+      dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setUser(user))
     })
     .catch((e) => console.log(e))

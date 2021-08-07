@@ -67,20 +67,20 @@ class Registration extends Component {
       agreeLaw: false,
       agreeTerms: false,
       agreeAll: false,
-      fullname: '',
-      nTh: default_nTh,
-      birthdate: default_birthdate,
-      id: '',
-      password: '',
-      passwordCheck: '',
-      major: '',
-      studentNumber: '',
-      email: '',
-      phoneNumber: '',
-      favoriteComic: '',
-      favoriteCharacter: '',
-      profileImage: {
-        savedPath: 'profile_image_default.png'
+      formData: {
+        username: '',
+        password: '',
+        passwordCheck: '',
+        favoriteComic: '',
+        favoriteCharacter: '',
+        profileImage: '',
+        studentNumber: '',
+        name: '',
+        nTh: default_nTh,
+        birthdate: default_birthdate,
+        major: '',
+        email: '',
+        phoneNumber: '',
       },
       previewVisible: false,
       fileList: [],
@@ -110,40 +110,26 @@ class Registration extends Component {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
     // https://blog.itanoss.kr/ko/한글-유니코드-정리/
-    if (/[^\uac00-\ud7a3]/.test(this.state.fullname)) {
+    if (/[^\uac00-\ud7a3]/.test(this.state.formData.name)) {
       return Modal.warning({ title: '이름을 확인해주세요!', content: '한글 이름만 사용 가능합니다.' })
     }
-    if (this.state.password !== this.state.passwordCheck) {
+    if (this.state.formData.password !== this.state.formData.passwordCheck) {
       return Modal.warning({ title: '비밀번호를 확인해주세요!', content: '비밀번호 확인이 일치하지 않습니다.' });
     }
     // https://stackoverflow.com/questions/4374185/regular-expression-match-to-test-for-a-valid-year
     // https://stackoverflow.com/questions/1538512/how-can-i-invert-a-regular-expression-in-javascript
-    if (/^(?!.*^[12][0-9]{3}\d{6}$)/.test(this.state.studentNumber)) {
+    if (/^(?!.*^[12][0-9]{3}\d{6}$)/.test(this.state.formData.studentNumber)) {
       return Modal.warning({ title: '학번을 확인해주세요!', content: '유효하지 않은 학번입니다.' })
     }
     // https://emailregex.com/
-    if (/^(?!.*^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$).*/.test(this.state.email)) {
+    if (/^(?!.*^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$).*/.test(this.state.formData.email)) {
       return Modal.warning({ title: '이메일을 확인해주세요!', content: '유효하지 않은 이메일 주소입니다.' })
     }
-    if (/^(?!.*^\d{3}[-]+\d{4}[-]+\d{4}$)/.test(this.state.phoneNumber)) {
+    if (/^(?!.*^\d{3}[-]+\d{4}[-]+\d{4}$)/.test(this.state.formData.phoneNumber)) {
       return Modal.warning({ title: '전화번호를 확인해주세요!', content: '유효하지 않은 전화번호입니다.' })
     }
 
-    const user = {
-      fullname: this.state.fullname,
-      nTh: this.state.nTh,
-      birthdate: this.state.birthdate,
-      username: this.state.id,
-      password: this.state.password,
-      major: this.state.major,
-      studentNumber: this.state.studentNumber,
-      email: this.state.email,
-      phoneNumber: this.state.phoneNumber,
-      favoriteComic: this.state.favoriteComic,
-      favoriteCharacter: this.state.favoriteCharacter,
-      profileImage: this.state.profileImage,
-    }
-    axios.post('/public/user', user)
+    axios.post('/public/user', this.state.formData)
       .then((r) => {
         this.setState({
           response: r,
@@ -163,15 +149,15 @@ class Registration extends Component {
   }
 
   isEmpty() {
-    return !(this.state.fullname
-            && this.state.nTh
-            && this.state.birthdate
-            && this.state.id
-            && this.state.password
-            && this.state.major
-            && this.state.studentNumber // 변수이름 바꾸기
-            && this.state.email
-            && this.state.phoneNumber)
+    return !(this.state.formData.username
+            && this.state.formData.password
+            && this.state.formData.studentNumber
+            && this.state.formData.name
+            && this.state.formData.nTh
+            && this.state.formData.birthdate
+            && this.state.formData.major
+            && this.state.formData.email
+            && this.state.formData.phoneNumber)
   }
 
   handleCancelProfile() {
@@ -180,8 +166,8 @@ class Registration extends Component {
 
   handlePreview(file) {
     this.setState({
-      profileImage: {
-        savedPath: file.url || file.thumbUrl
+      formData: {
+        profileImage: file.url || file.thumbUrl,
       },
       previewVisible: true,
     });
@@ -215,10 +201,11 @@ class Registration extends Component {
 
   render() {
     const {
-      fullname, id, password, passwordCheck,
-      studentNumber, email, phoneNumber, favoriteComic, favoriteCharacter,
-      fileList, previewVisible, profileImage,
       agreeLaw, agreeTerms,
+      username, password, passwordCheck,
+      favoriteComic, favoriteCharacter, profileImage,
+      studentNumber, name, email, phoneNumber, 
+      fileList, previewVisible, 
     } = this.state;
     const uploadButton = (
       <div>
@@ -281,7 +268,7 @@ class Registration extends Component {
                           <img
                             alt="프로필 이미지"
                             style={{ width: '100%' }}
-                            src={profileImage.savedPath}
+                            src={profileImage}
                           />
                         </Modal>
                       </div>
@@ -294,7 +281,7 @@ class Registration extends Component {
                     size="large"
                     style={{ width: '288px', marginRight: '20px' }}
                     onChange={(e) => this.onChangeInput({ fullname: e.target.value })}
-                    value={fullname}
+                    value={name}
                   />
                 </div>
                 <div style={{ display: 'flex', marginBottom: '20px' }}>
@@ -324,7 +311,7 @@ class Registration extends Component {
                     size="large"
                     style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
                     onChange={(e) => this.onChangeInput({ id: e.target.value })}
-                    value={id}
+                    value={username}
                   />
                   <Input
                     addonBefore="*비밀번호"

@@ -59,8 +59,8 @@ class Sider extends Component {
           >
             <div style={{ width: '240px', height: '240px', overflow: 'hidden' }}>
               <img
-                src={user.profileImage.savedPath}
-                alt={user.profileImage.filename}
+                src={user.profile.profileImage}
+                alt={user.profile.profileImage}
                 width="100%"
               />
             </div>
@@ -96,7 +96,7 @@ class Sider extends Component {
                 <span>회칙</span>
               </Menu.Item>
               {
-                user.isRegular
+                user.role === "regular"
                 && (
                 <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
                 )
@@ -107,7 +107,7 @@ class Sider extends Component {
               }
             </SubMenu>
             {
-              user.isSuperUser
+              user.role === "superuser"
               && (
               <SubMenu
                 key="sub6"

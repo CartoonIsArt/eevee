@@ -44,7 +44,7 @@ class PostRecomment extends Component {
           marginRight: '4px', width: '32px', height: '32px', background: '#FFF',
         }}
         >
-          <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
+          <img src={user.profile.profileImage} alt={user.profile.profileImage} width="100%" />
         </div>
         <div style={{
           width: '94%',
