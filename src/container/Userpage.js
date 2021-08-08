@@ -38,6 +38,20 @@ class Userpage extends Component {
     }
     return <Icon type="close" />
   }
+  
+  componentWillMount() {
+    const { username } = this.props.match.params
+    this.getTimeline()(username, 1)
+    this.setState({ doclen: this.props.timeline.length })
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.wrapper)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.wrapper)
+  }
 
   makeAccountBadge(account) {
     if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
@@ -66,29 +80,22 @@ class Userpage extends Component {
     this.props.logout()
   }
 
-  onWrittenClick(){
-    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.WRITTEN,})
+  async onWrittenClick(){
+    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.WRITTEN,})
+    const { username } = this.props.match.params
+    this.getTimeline()(username, 1)
   }
 
-  onCommentedClick(){
-    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.COMMENTED,})
+  async onCommentedClick(){
+    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.COMMENTED,})
+    const { username } = this.props.match.params
+    this.getTimeline()(username, 1)
   }
 
-  onLikedClick(){
-    this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.LIKED,})
-  }
-
-  componentWillMount() {
-    this.getTimeline()(this.props.account.username)
-    this.setState({ doclen: this.props.timeline.length })
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.wrapper)
-  }
-
-  componentWillUnmount() {
-    window.addEventListener('scroll', this.wrapper)
+  async onLikedClick(){
+    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.LIKED,})
+    const { username } = this.props.match.params
+    this.getTimeline()(username, 1)
   }
 
   getTimeline(){
@@ -103,12 +110,13 @@ class Userpage extends Component {
 
   loadMore(e) {
     const { page } = this.state
+    const { username } = this.props.match.params
     const timelinelen = this.props.timeline.length
     e.preventDefault()
     if (this.mutex && isAlmostScrolled()
       && (this.state.doclen !== timelinelen)) {
       this.mutex = false
-      this.getTimeline()(this.props.account.username, page + 1)
+      this.getTimeline()(username, page + 1)
       this.setState({
         page: page + 1,
         doclen: timelinelen,
@@ -235,7 +243,7 @@ class Userpage extends Component {
               </div>
             </div>
           </div>
-          <section style={{ padding: '0px 8px' }}>
+          <section style={{ padding: '0px 8px', width: '100%' }}>
             {timeline.map((feed) => (
               <Feed account={account} key={feed.id} content={feed}/>
               ))
