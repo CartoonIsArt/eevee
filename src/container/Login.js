@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import axios from '../fetches/axios'
-import { getUser } from '../actions'
+import { getAccount } from '../actions'
 import { Form, Icon, Input, Button, Modal } from 'antd'
 
 const FormItem = Form.Item;
@@ -14,7 +14,7 @@ class Login extends Component {
     super(props)
     this.state = {
       isActive: false,
-      id: '',
+      username: '',
       password: '',
       responses: [],
     }
@@ -27,13 +27,14 @@ class Login extends Component {
   onClickMethod(ev) {
     ev.preventDefault()
     ev.stopPropagation()
-    const args = {
-      username: this.state.id,
+
+    const formData = {
+      username: this.state.username,
       password: this.state.password,
     }
-    axios.post('/public/login', args)
-      .then((r) => {
-        this.props.getUser()
+    axios.post('/public/login', formData)
+      .then(() => {
+        this.props.getAccount()
       })
       .catch((e) => {
         console.log(e)
@@ -42,8 +43,7 @@ class Login extends Component {
   }
 
   render() {
-    const { id } = this.state
-    const { password } = this.state
+    const { username, password } = this.state
     return (
       <div
         style={{
@@ -119,8 +119,8 @@ class Login extends Component {
                 <Input
                   prefix={<Icon type="user" style={{ fontSize: 12 }} />}
                   placeholder="Username"
-                  value={id}
-                  onChange={(e) => this.setState({ id: e.target.value })}
+                  value={username}
+                  onChange={(e) => this.setState({ username: e.target.value })}
                 />
               </FormItem>
               <FormItem
@@ -164,7 +164,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  getUser: PropTypes.func.isRequired,
+  getAccount: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   auth: PropTypes.bool.isRequired,
 }
@@ -173,7 +173,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 const mapDispatchToProps = ({
-  getUser,
+  getAccount,
 })
 
 const WrappedNormalLoginForm = Form.create()(Login)

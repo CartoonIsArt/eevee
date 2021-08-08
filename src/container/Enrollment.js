@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Regulared from '../components/Regulared'
 import axios from '../fetches/axios'
-import { getUser } from '../actions'
+import { getAccount } from '../actions'
 import { Button, Icon, Modal } from 'antd'
 
 const isEnrollmentPeriod = false;// 나중에 날짜비교하기
@@ -13,20 +13,20 @@ class Enrollment extends Component {
     super(props)
     this.state = {
       responses: [],
-      user: [],
+      account: [],
     }
   }
 
   onClickMethod() {
     // 날짜 비교
     if (isEnrollmentPeriod) {
-      const { user } = this.props
-      if (user.user === undefined) { this.props.getUser() }
+      const { account } = this.props
+      if (account.account === undefined) { this.props.getAccount() }
       const args = { isActive: true }
       // 활동인구 patch를 추가하든가 해야될듯, 기존 patchOne은 passward필요
-      axios.patch(`/user/${user.id}`, args)
+      axios.patch(`/account/${account.id}`, args)
         .then((r) => {
-          this.props.getUser()
+          this.props.getAccount()
           this.setState({
             responses: r,
           })
@@ -45,7 +45,7 @@ class Enrollment extends Component {
   render() {
     return (
       <div>
-        {this.props.user.isActive
+        {this.props.account.isActive
           ? <Regulared />
           : (
             <div style={{
@@ -122,15 +122,15 @@ class Enrollment extends Component {
   }
 }
 Enrollment.propTypes = {
-  user: PropTypes.object.isRequired,
-  getUser: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired,
+  getAccount: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  getUser,
+  getAccount,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Enrollment)

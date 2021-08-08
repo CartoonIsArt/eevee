@@ -6,14 +6,13 @@ const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
 const SET_TIMELINE = 'SETTIMELINE'
 const UPDATE_FEED = 'UPDATEFEED'
-const SET_USER = 'SETUSER'
+const SET_ACCOUNT = 'SETACCOUNT'
 const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
 const SET_LOGIN = 'SETLOGIN'
 const APPEND_FEED = 'APPENDFEED'
 const APPEND_COMMENT = 'APPENDCOMMENT'
-const UPDATE_USER = 'UPDATEUSER'
 const LOGOUT = 'LOGOUT'
 const SET_LOGOUT = 'SETLOGOUT'
 const SET_PHOTOS = 'SETPHOTOS'
@@ -21,7 +20,7 @@ const SET_PHOTOS = 'SETPHOTOS'
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setUser = (value) => ({ type: SET_USER, user: value })
+const setAccount = (value) => ({ type: SET_ACCOUNT, account: value })
 const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
@@ -30,8 +29,7 @@ const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNoties = (noties) => ({ type: SET_NOTIES, noties })
 const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
-const updateUser = (user) => ({ type: UPDATE_USER, user })
-const logoutUser = () => ({ type: LOGOUT })
+const logoutAccount = () => ({ type: LOGOUT })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
 
@@ -49,8 +47,9 @@ export const suntoggle = () => (dispatch) => {
   dispatch(toggleSun())
 }
 
-const user1 = {
+const account1 = {
   id: 1,
+  username: 'kswcia',
   joinDate: '2017-02-05 05:10:13.768196+00:00',
   birthdate: '1999-11-11 03:00:00+00:00',
   major: '전자통신공학과',
@@ -60,19 +59,16 @@ const user1 = {
   isActive: false,
   // isContributer: false,
   hasGraduated: false,
-  isRegular: true,
-  isSuperuser: false,
-  // is_staff: false,
-  nTh: 16,
-  fullname: '와아이',
-  phoneNumber: '010-0000-0000',
-  studentNumber: '2000000000',
-  username: 'kswcia',
-  profileImage: {
-    id: 1,
-    savedPath: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
-    filename: 'kPanic.png',
+  role: "regular",
+  student: {
+    nTh: 16,
+    name: '와아이',
+    phoneNumber: '010-0000-0000',
+    studentNumber: '2000000000',
   },
+  profile: {
+    profileImage: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
+  }
 }
 
 export const getNoties = () => (dispatch) => {
@@ -80,52 +76,49 @@ export const getNoties = () => (dispatch) => {
     {
       id: 1,
       createdAt: '2017-06-23T07:03:20.963737Z',
-      from: user1,
+      from: account1,
       content: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
       had_read: true,
     },
     {
       id: 2,
       createdAt: '2017-06-10T07:03:20.963737Z',
-      from: user1,
+      from: account1,
       content: '공지: 6월 종강총회 회의록',
       had_read: false,
     },
   ]))
 }
 
-// User
+// Account
 //
 export const getMembers = () => (dispatch) => {
-  axios.get('/user')
+  axios.get('/account')
     .then((r) => {
-      const { users } = r.data
-      dispatch(setMembers(users))
+      const { accounts } = r.data
+      dispatch(setMembers(accounts))
     })
     .catch()
 }
 
-export const getUser = () => (dispatch) => {
-  axios.get('/user/authenticated')
+export const getAccount = () => (dispatch) => {
+  axios.get('/account/authenticated')
     .then((r) => {
-      const { user } = r.data
-      dispatch(setUser(user))
+      const { account } = r.data
+      dispatch(setAccount(account))
     })
     .catch((e) => console.log(e))
 }
 
-export const patchUser = (user) => (dispatch) => {
-  axios.patch(`/user/${user.id}`, user)
-    .then((r) => {
-      const { user } = r.data
-      dispatch(updateUser(user))
-    })
+export const patchAccount = (account) => () => {
+  console.log(account)
+  axios.patch(`/account/${account.id}`, account)
     .catch((e) => console.log(e))
 }
 
 export const checkPassword = async (password) => {
   try{
-    await axios.post('/user/checkPassword', password)
+    await axios.post('/account/checkPassword', password)
     return true
   }
   catch(e){
@@ -150,7 +143,7 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
     })
 }
 
-export const getUserTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getAccountTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
 
@@ -199,7 +192,7 @@ export const postDocument = (document) => (dispatch) => {
     .then((r) => {
       const { document } = r.data
       dispatch(appendFeed(document))
-      dispatch(setUser(document.author))
+      dispatch(setAccount(document.author))
     })
     .catch((e) => console.log(e))
 }
@@ -216,9 +209,9 @@ export const patchDocument = (document) => (dispatch) => {
 export const postDocumentLike = (id) => (dispatch) => {
   axios.post(`/document/${id}/LikeIt`)
     .then((r) => {
-      const { likedUsers, user } = r.data
-      dispatch(updateFeed({ id, likedUsers }))
-      dispatch(setUser(user))
+      const { likedAccounts, account } = r.data
+      dispatch(updateFeed({ id, likedAccounts }))
+      dispatch(setAccount(account))
     })
     .catch((e) => console.log(e))
 }
@@ -226,9 +219,9 @@ export const postDocumentLike = (id) => (dispatch) => {
 export const deleteDocumentLike = (id) => (dispatch) => {
   axios.delete(`/document/${id}/LikeIt`)
     .then((r) => {
-      const { likedUsers, user } = r.data
-      dispatch(updateFeed({ id, likedUsers }))
-      dispatch(setUser(user))
+      const { likedAccounts, account } = r.data
+      dispatch(updateFeed({ id, likedAccounts }))
+      dispatch(setAccount(user))
     })
     .catch((e) => console.log(e))
 }
@@ -240,7 +233,7 @@ export const postComment = (comment) => (dispatch) => {
     .then((r) => {
       const { comment } = r.data
       dispatch(appendComment(comment))
-      dispatch(setUser(comment.author))
+      dispatch(setAccount(comment.author))
     })
     .catch((e) => console.log(e))
 }
@@ -248,9 +241,9 @@ export const postComment = (comment) => (dispatch) => {
 export const postCommentLike = (id) => (dispatch) => {
   axios.post(`/comment/${id}/LikeIt`)
     .then((r) => {
-      const { likedUsers, user } = r.data
-      dispatch(updateFeed({ id, likedUsers }))
-      dispatch(setUser(user))
+      const { likedAccounts, account } = r.data
+      dispatch(updateFeed({ id, likedAccounts }))
+      dispatch(setAccount(account))
     })
     .catch((e) => console.log(e))
 }
@@ -258,9 +251,9 @@ export const postCommentLike = (id) => (dispatch) => {
 export const deleteCommentLike = (id) => (dispatch) => {
   axios.delete(`/comment/${id}/LikeIt`)
     .then((r) => {
-      const { likedUsers, user } = r.data
-      dispatch(updateFeed({ id, likedUsers }))
-      dispatch(setUser(user))
+      const { likedAccounts, account } = r.data
+      dispatch(updateFeed({ id, likedAccounts }))
+      dispatch(setAccount(account))
     })
     .catch((e) => console.log(e))
 }
@@ -268,7 +261,7 @@ export const deleteCommentLike = (id) => (dispatch) => {
 export const logout = () => (dispatch) => {
   axios.get('/logout')
     .then(() => {
-      dispatch(logoutUser())
+      dispatch(logoutAccount())
       dispatch(setLogout())
     })
     .catch((e) => console.log(e))

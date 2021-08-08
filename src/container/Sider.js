@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getUser } from '../actions'
+import { getAccount } from '../actions'
 import { Affix, Menu, Icon } from 'antd'
 
 const { SubMenu } = Menu;
@@ -20,7 +20,7 @@ class Sider extends Component {
     this.state = {
       openKeys: [],
     }
-    this.props.getUser()
+    this.props.getAccount()
   }
 
   onOpenChange(openKeys) {
@@ -44,7 +44,7 @@ class Sider extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { account } = this.props
     const { pathname } = this.props.location
     return (
       <div style={{ width: '240px' }}>
@@ -59,8 +59,8 @@ class Sider extends Component {
           >
             <div style={{ width: '240px', height: '240px', overflow: 'hidden' }}>
               <img
-                src={user.profileImage.savedPath}
-                alt={user.profileImage.filename}
+                src={account.profile.profileImage}
+                alt={account.profile.profileImage}
                 width="100%"
               />
             </div>
@@ -96,7 +96,7 @@ class Sider extends Component {
                 <span>회칙</span>
               </Menu.Item>
               {
-                user.isRegular
+                account.role === "regular"
                 && (
                 <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
                 )
@@ -107,7 +107,7 @@ class Sider extends Component {
               }
             </SubMenu>
             {
-              user.isSuperUser
+              account.role === "superuser"
               && (
               <SubMenu
                 key="sub6"
@@ -131,10 +131,10 @@ class Sider extends Component {
 
 const mapStateToProps = (state) => ({
   router: state.router,
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  getUser,
+  getAccount,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sider))

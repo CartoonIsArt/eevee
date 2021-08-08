@@ -8,7 +8,7 @@ import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
-import { getUser, postDocumentLike, deleteDocumentLike } from '../actions'
+import { getAccount, postDocumentLike, deleteDocumentLike } from '../actions'
 import { Button, Popover, Tag, Icon } from 'antd'
 
 class Doc extends Component {
@@ -17,21 +17,21 @@ class Doc extends Component {
     this.state = {
       isAppend: false,
     }
-    this.props.getUser()
+    this.props.getAccount()
   }
   
-  makeUserBadge(user) {
-    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+  makeAccountBadge(account) {
+    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
     return (<div />)
   }
 
   onClickLikeIt() {
     const { content } = this.props
-    const { user } = this.props
+    const { account } = this.props
 
-    if (content.likedUsers.findIndex((lover) => lover.id === user.id) === -1) {
+    if (content.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
       this.props.postDocumentLike(content.id)
     } else {
       this.props.deleteDocumentLike(content.id)
@@ -46,12 +46,12 @@ class Doc extends Component {
     const { isAppend } = this.state
     const { content } = this.props
     const { author } = content
-    const nickname = `${author.nTh}기 ${author.fullname}`
+    const nickname = `${author.student.nTh}기 ${author.student.name}`
     const { createdAt } = content
-    const imgsrc = author.profileImage.savedPath
-    const imgalt = author.profileImage.filename
+    const imgsrc = author.profile.profileImage
+    const imgalt = author.profile.profileImage
     // const images = content.images
-    const { user } = this.props
+    const { account } = this.props
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
         {/* <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
@@ -73,14 +73,14 @@ class Doc extends Component {
           <div style={{ flexGrow: 2 }}>
             <div style={{ fontSize: '14pt' }}>
               {
-                author.nTh
+                author.student.nTh
                   ? (
                     <Popover
                       placement="leftTop"
                       content={<Namecard content={author} />}
                     >
                       <Link to={`/members/${author.username}`}>
-                        <span> {nickname} {this.makeUserBadge(author)} </span>
+                        <span> {nickname} {this.makeAccountBadge(author)} </span>
                       </Link>
                     </Popover>
                   )
@@ -100,7 +100,7 @@ class Doc extends Component {
         { /* <Album content={images} height="320px" /> */ }
         <div style={isAppend ? { display: 'block' } : { display: 'none' }}>
           <Write
-            user={user}
+            account={account}
             documentId={this.props.content.id}
             isAppend
           />
@@ -110,10 +110,10 @@ class Doc extends Component {
           <div style={{ marginRight: '12px' }}>
             <Popover
               content={
-                content.likedUsers.length
-                  ? content.likedUsers.map((lover, idx) => (
+                content.likedAccounts.length
+                  ? content.likedAccounts.map((lover, idx) => (
                     <pre key={idx}>
-                      <span>{`${lover.nTh}기 ${lover.fullname}`} {this.makeUserBadge(lover)}</span>
+                      <span>{`${lover.student.nTh}기 ${lover.student.name}`} {this.makeAccountBadge(lover)}</span>
                     </pre>
                   ))
                   : (
@@ -132,7 +132,7 @@ class Doc extends Component {
                 onClick={() => this.onClickLikeIt()}
               />
               <a onClick={() => this.onClickLikeIt()}>
-                {`좋아요 ${content.likedUsers.length}`}
+                {`좋아요 ${content.likedAccounts.length}`}
               </a>
             </Popover>
           </div>
@@ -148,7 +148,7 @@ class Doc extends Component {
               {`댓글 ${content.comments.length}`}
             </a>
           </div>
-          {content.author.id === this.props.user.id
+          {content.author.id === this.props.account.id
           ? 
           <div>
             <Button
@@ -172,15 +172,15 @@ class Doc extends Component {
 
 Doc.propTypes = {
   content: PropTypes.object.isRequired,
-  getUser: PropTypes.func.isRequired,
+  getAccount: PropTypes.func.isRequired,
   postDocumentLike: PropTypes.func.isRequired,
   deleteDocumentLike: PropTypes.func.isRequired,
 }
 const mapStateToProps = (state) => ({
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  getUser,
+  getAccount,
   postDocumentLike,
   deleteDocumentLike,
 })

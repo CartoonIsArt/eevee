@@ -150,7 +150,7 @@ class Write extends Component {
 
   render() {
     const { value, mode } = this.state
-    const { user, isAppend } = this.props
+    const { account, isAppend } = this.props
 
     const display = this.getDisplay(mode, value)
     const button = this.getButton(mode)
@@ -167,7 +167,7 @@ class Write extends Component {
               marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden',
             }}
             >
-              <img src={user.profileImage.savedPath} alt={user.profileImage.filename} width="100%" />
+              <img src={account.profile.profileImage} alt={account.profile.profileImage} width="100%" />
             </div>
           )
         }

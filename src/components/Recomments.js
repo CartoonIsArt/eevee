@@ -7,7 +7,7 @@ class Recomments extends Component {
   render() {
     const { viewRecomment } = this.props
     const recomments = this.props.content
-    const { user } = this.props
+    const { account } = this.props
     return (
       <div>
         {recomments.map((recomment) => (
@@ -20,7 +20,7 @@ class Recomments extends Component {
           viewRecomment
           && (
           <PostRecomment
-            user={user}
+            account={account}
             commentId={this.props.commentId}
             onClickWriteRecomment={() => this.onClickWriteRecomment()}
           />

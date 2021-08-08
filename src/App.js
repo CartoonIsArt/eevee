@@ -5,7 +5,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './App.css';
 import { routes } from './Route'
-import { getUser, notifyLogin } from './actions'
+import { getAccount, notifyLogin } from './actions'
 import Nav from './container/Nav'
 
 const isNavEnabled = (history) => {
@@ -13,37 +13,37 @@ const isNavEnabled = (history) => {
   return !ignoredRoutes.find(route => route.path == history.location.pathname)
 }
 
-const isAuthenticated = (route, user) => {
-  return (route.is_public || user.has_logged_in)
+const isAuthenticated = (route, account) => {
+  return (route.is_public || account.has_logged_in)
 }
 
-const isPublicOnly = (route, user) => {
-  return (route.is_public && user.has_logged_in)
+const isPublicOnly = (route, account) => {
+  return (route.is_public && account.has_logged_in)
 }
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: this.props.user
+      account: this.props.account
     }
   }
 
   componentDidMount() {
-    this.props.getUser()
-    this.setState({ user: this.props.user })
+    this.props.getAccount()
+    this.setState({ account: this.props.account })
   }
 
   shouldComponentUpdate(nextProps) {
-    if (nextProps.user !== this.props.user) {
-      this.setState({ user: nextProps.user })
+    if (nextProps.account !== this.props.account) {
+      this.setState({ account: nextProps.account })
       return false
     }
     return true
   }
 
   componentDidUpdate() {
-    if (this.state.user.has_logged_in)
+    if (this.state.account.has_logged_in)
       this.props.notifyLogin()
   }
   
@@ -60,8 +60,8 @@ class App extends Component {
                   path={route.path}
                   exact={route.exact}
                 >
-                  {isAuthenticated(route, this.state.user)
-                    ? isPublicOnly(route, this.state.user)
+                  {isAuthenticated(route, this.state.account)
+                    ? isPublicOnly(route, this.state.account)
                       ? <Redirect to='/' />
                       : [route.sidebar, route.main]
                     : <Redirect to='/login' />
@@ -76,17 +76,17 @@ class App extends Component {
 }
 
 App.propTypes = {
-  user: PropTypes.object.isRequired,
-  getUser: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired,
+  getAccount: PropTypes.func.isRequired,
   notifyLogin: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  getUser,
+  getAccount,
   notifyLogin,
 })
 
