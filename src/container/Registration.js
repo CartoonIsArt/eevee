@@ -67,21 +67,19 @@ class Registration extends Component {
       agreeLaw: false,
       agreeTerms: false,
       agreeAll: false,
-      fullname: '',
-      nTh: default_nTh,
-      birthdate: default_birthdate,
-      id: '',
+      username: '',
       password: '',
       passwordCheck: '',
-      major: '',
-      studentNumber: '',
-      email: '',
-      phoneNumber: '',
       favoriteComic: '',
       favoriteCharacter: '',
-      profileImage: {
-        savedPath: 'profile_image_default.png'
-      },
+      profileImage: '',
+      studentNumber: '',
+      name: '',
+      nTh: default_nTh,
+      birthdate: default_birthdate,
+      major: '',
+      email: '',
+      phoneNumber: '',
       previewVisible: false,
       fileList: [],
       response: '',
@@ -90,19 +88,19 @@ class Registration extends Component {
   }
 
   onChangeInput(e) {
-    this.setState(e);
+    this.setState(e)
   }
 
   onNumberChange(value) {
-    this.setState({ nTh: value[0] });
+    this.onChangeInput({ nTh: value[0] })
   }
 
   onDateChange(_, dateString) {
-    this.setState({ birthdate: dateString });
+    this.onChangeInput({ birthdate: dateString })
   }
 
   onMajorChange(value) {
-    this.setState({ major: value[1] })
+    this.onChangeInput({ major: value[1] })
   }
 
   onButtonClicked() {
@@ -110,7 +108,7 @@ class Registration extends Component {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
     // https://blog.itanoss.kr/ko/한글-유니코드-정리/
-    if (/[^\uac00-\ud7a3]/.test(this.state.fullname)) {
+    if (/[^\uac00-\ud7a3]/.test(this.state.name)) {
       return Modal.warning({ title: '이름을 확인해주세요!', content: '한글 이름만 사용 가능합니다.' })
     }
     if (this.state.password !== this.state.passwordCheck) {
@@ -129,21 +127,22 @@ class Registration extends Component {
       return Modal.warning({ title: '전화번호를 확인해주세요!', content: '유효하지 않은 전화번호입니다.' })
     }
 
-    const user = {
-      fullname: this.state.fullname,
-      nTh: this.state.nTh,
-      birthdate: this.state.birthdate,
-      username: this.state.id,
+    const formData = {
+      username: this.state.username,
       password: this.state.password,
-      major: this.state.major,
-      studentNumber: this.state.studentNumber,
-      email: this.state.email,
-      phoneNumber: this.state.phoneNumber,
+      passwordCheck: this.state.passwordCheck,
       favoriteComic: this.state.favoriteComic,
       favoriteCharacter: this.state.favoriteCharacter,
       profileImage: this.state.profileImage,
+      studentNumber: this.state.studentNumber,
+      name: this.state.name,
+      nTh: this.state.nTh,
+      birthdate: moment(this.state.birthdate).format('YYYY-MM-DD'),
+      major: this.state.major,
+      email: this.state.email,
+      phoneNumber: this.state.phoneNumber,
     }
-    axios.post('/public/user', user)
+    axios.post('/public/account', formData)
       .then((r) => {
         this.setState({
           response: r,
@@ -163,13 +162,13 @@ class Registration extends Component {
   }
 
   isEmpty() {
-    return !(this.state.fullname
+    return !(this.state.username
+            && this.state.password
+            && this.state.studentNumber
+            && this.state.name
             && this.state.nTh
             && this.state.birthdate
-            && this.state.id
-            && this.state.password
             && this.state.major
-            && this.state.studentNumber // 변수이름 바꾸기
             && this.state.email
             && this.state.phoneNumber)
   }
@@ -180,9 +179,7 @@ class Registration extends Component {
 
   handlePreview(file) {
     this.setState({
-      profileImage: {
-        savedPath: file.url || file.thumbUrl
-      },
+      profileImage: file.url || file.thumbUrl,
       previewVisible: true,
     });
   }
@@ -206,7 +203,7 @@ class Registration extends Component {
         phoneNumber.slice(phoneNumber.length - 1),
       ].join('-')
     }
-    this.setState({ phoneNumber })
+    this.onChangeInput({ phoneNumber })
   }
 
   onKeyDownBackspace(e) {
@@ -215,10 +212,11 @@ class Registration extends Component {
 
   render() {
     const {
-      fullname, id, password, passwordCheck,
-      studentNumber, email, phoneNumber, favoriteComic, favoriteCharacter,
-      fileList, previewVisible, profileImage,
       agreeLaw, agreeTerms,
+      username, password, passwordCheck,
+      favoriteComic, favoriteCharacter, profileImage,
+      studentNumber, name, email, phoneNumber, 
+      fileList, previewVisible, 
     } = this.state;
     const uploadButton = (
       <div>
@@ -281,7 +279,7 @@ class Registration extends Component {
                           <img
                             alt="프로필 이미지"
                             style={{ width: '100%' }}
-                            src={profileImage.savedPath}
+                            src={profileImage}
                           />
                         </Modal>
                       </div>
@@ -293,8 +291,8 @@ class Registration extends Component {
                     addonBefore="*이름"
                     size="large"
                     style={{ width: '288px', marginRight: '20px' }}
-                    onChange={(e) => this.onChangeInput({ fullname: e.target.value })}
-                    value={fullname}
+                    onChange={(e) => this.onChangeInput({ name: e.target.value })}
+                    value={name}
                   />
                 </div>
                 <div style={{ display: 'flex', marginBottom: '20px' }}>
@@ -323,8 +321,8 @@ class Registration extends Component {
                     addonBefore="*아이디"
                     size="large"
                     style={{ width: '288px', marginRight: '20px', marginBottom: '8px' }}
-                    onChange={(e) => this.onChangeInput({ id: e.target.value })}
-                    value={id}
+                    onChange={(e) => this.onChangeInput({ username: e.target.value })}
+                    value={username}
                   />
                   <Input
                     addonBefore="*비밀번호"

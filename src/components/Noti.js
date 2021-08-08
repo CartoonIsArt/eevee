@@ -11,16 +11,16 @@ class Noti extends Component {
     this.props.history.push(`/feed/${feedId}`)
   }
 
-  makeUserBadge(user) {
-    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+  makeAccountBadge(account) {
+    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
     return (<div />)
   }
 
   render() {
     const noti = this.props.content
-    const nickname = `${noti.from.nTh}기 ${noti.from.fullname}`
+    const nickname = `${noti.from.student.nTh}기 ${noti.from.student.name}`
     return (
       <div key={noti.id}>
         <div
@@ -43,8 +43,8 @@ class Noti extends Component {
             <a href="#">
               <img
                 width="100%"
-                src={noti.from.profileImage.savedPath}
-                alt={noti.from.profileImage.filename}
+                src={noti.from.profile.profileImage}
+                alt={noti.from.profile.profileImage}
               />
             </a>
           </div>
@@ -59,7 +59,7 @@ class Noti extends Component {
                   content={<Namecard content={noti.from} />}
                 >
                   <a style={{ fontSize: '10pt' }} href="#">
-                    <span>{nickname} {this.makeUserBadge(noti.from)}</span>
+                    <span>{nickname} {this.makeAccountBadge(noti.from)}</span>
                   </a>
                 </Popover>
               </div>

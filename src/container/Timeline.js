@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Feed from '../components/Feed'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
 import Write from '../components/Write'
-import { getTimeline, getUser } from '../actions'
+import { getTimeline, getAccount } from '../actions'
 import { isAlmostScrolled } from '../lib'
 
 class Timeline extends Component {
@@ -49,26 +49,26 @@ class Timeline extends Component {
 
   render() {
     const { timeline } = this.props
-    const { user } = this.props
+    const { account } = this.props
     return (
       <section style={{ padding: '0px 8px' }}>
-        {user.has_logged_in
+        {account.has_logged_in
           ? (
             <Write
-              user={user}
+              account={account}
               documentId={-1}
             />
           )
-          : this.props.getUser()}
-        {user.has_logged_in
+          : this.props.getAccount()}
+        {account.has_logged_in
           ? timeline.map((feed) => (
             <Feed
-              user={user}
+              account={account}
               key={feed.id}
               content={feed}
             />
           ))
-          : this.props.getUser()}
+          : this.props.getAccount()}
         { /*
         <Ads />
         <Ads />
@@ -89,10 +89,10 @@ Timeline.defaultProps = {
 
 const mapStateToProps = (state) => ({
   timeline: state.timeline,
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
   getTimeline,
-  getUser,
+  getAccount,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Timeline)

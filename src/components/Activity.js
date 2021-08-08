@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 class Activity extends Component {
   render() {
-    const user = this.props.content
+    const account = this.props.content
     return (
       <div style={{
         height: '98px',
@@ -19,27 +19,27 @@ class Activity extends Component {
           <div style={{ height: '50%' }}>글</div>
           <Link
             className="ant-anchor-link-title"
-            to={`/members/${user.username}`}
+            to={`/members/${account.username}`}
           >
-            {user.documentsCount}
+            {account.documentsCount}
           </Link>
         </div>
         <div style={{ width: '33%' }}>
           <div style={{ height: '50%' }}>댓글</div>
           <Link
             className="ant-anchor-link-title"
-            to={`/members/${user.username}/comments`}
+            to={`/members/${account.username}/comments`}
           >
-            {user.commentsCount}
+            {account.commentsCount}
           </Link>
         </div>
         <div style={{ width: '33%' }}>
           <div style={{ height: '50%' }}>좋아요</div>
           <Link
             className="ant-anchor-link-title"
-            to={`/members/${user.username}/likes`}
+            to={`/members/${account.username}/likes`}
           >
-            {user.likedDocumentsCount}
+            {account.likedDocumentsCount}
           </Link>
         </div>
       </div>

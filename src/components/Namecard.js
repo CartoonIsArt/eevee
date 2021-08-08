@@ -4,22 +4,22 @@ import PropTypes from 'prop-types'
 import { Icon, Tag } from 'antd'
 
 class Namecard extends Component {
-  makeUserBadge(user) {
-    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+  makeAccountBadge(account) {
+    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
     return (<div />)
   }
 
   render() {
     let cwidth = '320px' // component width
-    const user = this.props.content
-    const nickname = `${user.nTh}기 ${user.fullname}`
+    const account = this.props.content
+    const nickname = `${account.student.nTh}기 ${account.student.name}`
     cwidth = this.props.width
     return (
       <div style={{ width: cwidth }}>
         <a className="ant-anchor-link-title" href="#">
-          <img width="100%" src={user.profileImage.savedPath} alt={user.profileImage.filename} />
+          <img width="100%" src={account.profile.profileImage} alt={account.profile.profileImage} />
         </a>
         <div style={{
           height: '98px',
@@ -31,12 +31,12 @@ class Namecard extends Component {
         >
           <div style={{ fontSize: '18pt', textAlign: 'left' }}>
             <div style={{ height: '34%', fontWeight: 'bold' }}>
-              <Link to={`/members/${user.username}`}>
-                <span>{nickname} {this.makeUserBadge(user)}</span>
+              <Link to={`/members/${account.username}`}>
+                <span>{nickname} {this.makeAccountBadge(account)}</span>
               </Link>
             </div>
             <div style={{ height: '33%', fontSize: '14pt' }}>
-              {user.major}
+              {account.student.major}
             </div>
           </div>
         </div>

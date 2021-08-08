@@ -16,18 +16,18 @@ class Comment extends Component {
     }
   }
   
-  makeUserBadge(user) {
-    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+  makeAccountBadge(account) {
+    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /></Tag>)
+    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /></Tag>)
+    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /></Tag>)
     return (<div />)
   }
 
   onClickLikeIt() {
     const comment = this.props.content
-    const { user } = this.props
+    const { account } = this.props
 
-    if (comment.likedUsers.findIndex((lover) => lover.id === user.id) === -1) {
+    if (comment.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
       this.props.postCommentLike(comment.id)
     } else {
       this.props.deleteCommentLike(comment.id)
@@ -38,21 +38,14 @@ class Comment extends Component {
     this.setState({ viewRecomment: !this.state.viewRecomment })
   }
 
-  makeUserBadge(user) {
-    if (user.isSuperuser) return (<Tag color="tomato"><Icon type="user" /></Tag>)
-    if (user.isBoardMember) return (<Tag color="yellowgreen"><Icon type="form" /></Tag>)
-    if (user.isManager) return (<Tag color="goldenrod"><Icon type="dollar" /></Tag>)
-    return (<div />)
-  }
-
   render() {
     const { viewRecomment } = this.state
     const comment = this.props.content
-    const { user } = this.props
+    const { account } = this.props
     const { author } = comment
-    const nickname = `${author.nTh}기 ${author.fullname}`
-    const imgsrc = author.profileImage.savedPath
-    const imgalt = author.profileImage.filename
+    const nickname = `${author.student.nTh}기 ${author.student.name}`
+    const imgsrc = author.profile.profileImage
+    const imgalt = author.profile.profileImage
 
     return (
       <div style={{ margin: '2px 0px' }}>
@@ -69,8 +62,8 @@ class Comment extends Component {
                 content={<Namecard content={author} />}
                 placement="leftTop"
               >
-                <Link to={`/members/${author.username}`}>
-                  <span> {nickname} {this.makeUserBadge(author)} </span>
+                <Link to={`/members/${author.student.username}`}>
+                  <span> {nickname} {this.makeAccountBadge(author)} </span>
                 </Link>
               </Popover>
               {comment.content}
@@ -78,10 +71,10 @@ class Comment extends Component {
             <div style={{ display: 'flex' }}>
               <Popover
                 content={
-                  comment.likedUsers.length
-                    ? comment.likedUsers.map((lover) => (
+                  comment.likedAccounts.length
+                    ? comment.likedAccounts.map((lover) => (
                       <pre>
-                        <span>{`${lover.nTh}기 ${lover.fullname}`} {this.makeUserBadge(lover)}</span>
+                        <span>{`${lover.student.nTh}기 ${lover.student.name}`} {this.makeAccountBadge(lover)}</span>
                       </pre>
                     ))
                     : (
@@ -96,7 +89,7 @@ class Comment extends Component {
                   style={{ marginRight: '8px' }}
                   onClick={() => this.onClickLikeIt()}
                 >
-                  {`좋아요 ${comment.likedUsers.length}`}
+                  {`좋아요 ${comment.likedAccounts.length}`}
                 </a>
               </Popover>
               {
@@ -113,7 +106,7 @@ class Comment extends Component {
             </div>
             <Recomments
               commentId={comment.id}
-              user={user}
+              account={account}
               viewRecomment={viewRecomment}
               content={comment.replies ? comment.replies : []}
             />

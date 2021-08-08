@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Profile from './Profile'
 import Noties from './Noties'
 import Feed from '../components/Feed'
-import { getUser } from '../actions'
+import { getAccount } from '../actions'
 import { getFeed } from '../fetches'
 import { Affix, Row, Col } from 'antd'
 
@@ -21,8 +21,8 @@ class SingleFeed extends Component {
     .then(content => this.setState({content}))
     */
     /*
-    if (this.props.user.has_logged_in === false) {
-      this.props.getUser()
+    if (this.props.account.has_logged_in === false) {
+      this.props.getAccount()
     }
     */
     const content = getFeed(this.props.match.params.id)
@@ -31,7 +31,7 @@ class SingleFeed extends Component {
 
   render() {
     const { content } = this.state
-    const { user } = this.props
+    const { account } = this.props
     return (
       <Row>
         <Col span={6}>
@@ -40,11 +40,11 @@ class SingleFeed extends Component {
           </aside>
         </Col>
         <Col span={12}>
-          {content // user.has_logged_in &&
+          {content // account.has_logged_in &&
           && (
           <section style={{ padding: '0px 8px' }}>
             <Feed
-              user={user}
+              account={account}
               content={content}
             />
           </section>
@@ -63,10 +63,10 @@ class SingleFeed extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  getUser,
+  getAccount,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleFeed)
