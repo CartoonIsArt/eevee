@@ -11,6 +11,8 @@ import {
   Modal,
   Input,
   Cascader,
+  Row, 
+  Col,
 } from 'antd'
 import moment from 'moment';
 import majors from '../common/majors';
@@ -262,63 +264,78 @@ class EditUserProfile extends Component {
           <div className="menu-bar"/>
         </div>
         <div className="input">
-          <Input
-            addonBefore="*이메일"
-            onChange={(e) => this.onChangeInput({ email: e.target.value })}
-            placeholder="ex) example@example.com"
-            value={email}
-          />
-          <DatePicker
-            defaultValue={moment(birthdate, 'YYYY-MM-DD')}
-            onChange={(_, dateString) => this.onDateChange(_, dateString)}
-            placeholder="*생일을 선택하세요"
-            disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
-          />
-          <Cascader
-            //defaultValue={[major]} DB를 수정하고 수정
-            style={{ width: '288px', marginBottom: '8px' }}
-            options={majors}
-            size="large"
-            onChange={(value) => this.onMajorChange(value)}
-            placeholder="*전공"
-          />
-          <Input
-            addonBefore="*전화번호"
-            style={{ width: '100%' }}
-            onChange={(e) => this.onChangePhoneNumber(e.target.value)}
-            onKeyDown={(e) => this.onKeyDownBackspace(e)}
-            placeholder="ex) 010-1234-1234"
-            value={phoneNumber}
-          />
-          <Input
-            addonBefore="만화 제목"
-            style={{ width: '100%' }}
-            onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
-            placeholder="ex) 하이큐"
-            value={favoriteComic}
-          />
-          <Input
-            addonBefore="캐릭터 이름"
-            style={{ marginTop: '8px', width: '100%' }}
-            onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
-            placeholder="ex) 카게야마 토비오"
-            value={favoriteCharacter}
-          />
-          <div style={{
-            marginTop: '80px',
-            marginLeft: '400px',
-            marginBottom: '80px',
-          }}
-          >
-            <Button type="primary" onClick={() => this.showModal()}> 저장 </Button>
-            <Modal
-              visible={this.state.visible}
-              onOk={() => this.handleOk()}
-              onCancel={() => this.handleCancel()}
-            >
-              <h1>정말 수정하시겠습니까?</h1>
-            </Modal>
-          </div>
+          <Row style={{ margin: "0px 5% 0px 5%" }}>
+            <Col span={12}>
+              <Input
+                addonBefore="*이메일"
+                size="large"
+                style={{ width: '90%', marginBottom: '16px' }}
+                onChange={(e) => this.onChangeInput({ email: e.target.value })}
+                placeholder="ex) example@example.com"
+                value={email}
+              />
+              <DatePicker
+                size="large"
+                style={{ width: '90%', marginBottom: '16px' }}
+                defaultValue={moment(birthdate, 'YYYY-MM-DD')}
+                onChange={(_, dateString) => this.onDateChange(_, dateString)}
+                placeholder="*생일을 선택하세요"
+                disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
+              />
+              <Cascader
+                //defaultValue={[major]} DB를 수정하고 수정
+                size="large"
+                style={{ width: '90%', marginBottom: '16px' }}
+                options={majors}
+                size="large"
+                onChange={(value) => this.onMajorChange(value)}
+                placeholder="*전공"
+              />
+            </Col>
+            <Col span={12}>
+              <Input
+                addonBefore="*전화번호"
+                size="large"
+                style={{ width: '90%', marginBottom: '16px', marginLeft: '10%' }}
+                onChange={(e) => this.onChangePhoneNumber(e.target.value)}
+                onKeyDown={(e) => this.onKeyDownBackspace(e)}
+                placeholder="ex) 010-1234-1234"
+                value={phoneNumber}
+              />
+              <Input
+                addonBefore="만화 제목"
+                size="large"
+                style={{ width: '90%', marginBottom: '16px', marginLeft: '10%' }}
+                onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
+                placeholder="ex) 하이큐"
+                value={favoriteComic}
+              />
+              <Input
+                addonBefore="캐릭터 이름"
+                size="large"
+                style={{ width: '90%', marginBottom: '16px', marginLeft: '10%' }}
+                onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
+                placeholder="ex) 카게야마 토비오"
+                value={favoriteCharacter}
+              />
+              <div style={{
+                marginTop: '16px',
+                marginLeft: 'auto',
+                marginRight: '5%',
+                width: '42px',
+              }}
+              >
+                <Button type="primary" onClick={() => this.showModal()}> 저장 </Button>
+                <Modal
+                  visible={this.state.visible}
+                  onOk={() => this.handleOk()}
+                  onCancel={() => this.handleCancel()}
+                >
+                  <h1>정말 수정하시겠습니까?</h1>
+                </Modal>
+              </div>
+            </Col>
+          </Row>
         </div>
       </div>
     );
