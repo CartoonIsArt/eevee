@@ -16,18 +16,18 @@ class Comment extends Component {
     }
   }
   
-  makeUserBadge(user) {
-    if (user.role === "superuser") return (<Tag color="tomato"><Icon type="user" /></Tag>)
-    if (user.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /></Tag>)
-    if (user.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /></Tag>)
+  makeAccountBadge(account) {
+    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /></Tag>)
+    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /></Tag>)
+    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /></Tag>)
     return (<div />)
   }
 
   onClickLikeIt() {
     const comment = this.props.content
-    const { user } = this.props
+    const { account } = this.props
 
-    if (comment.likedAccounts.findIndex((lover) => lover.id === user.id) === -1) {
+    if (comment.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
       this.props.postCommentLike(comment.id)
     } else {
       this.props.deleteCommentLike(comment.id)
@@ -41,7 +41,7 @@ class Comment extends Component {
   render() {
     const { viewRecomment } = this.state
     const comment = this.props.content
-    const { user } = this.props
+    const { account } = this.props
     const { author } = comment
     const nickname = `${author.student.nTh}기 ${author.student.name}`
     const imgsrc = author.profile.profileImage
@@ -63,7 +63,7 @@ class Comment extends Component {
                 placement="leftTop"
               >
                 <Link to={`/members/${author.student.username}`}>
-                  <span> {nickname} {this.makeUserBadge(author)} </span>
+                  <span> {nickname} {this.makeAccountBadge(author)} </span>
                 </Link>
               </Popover>
               {comment.content}
@@ -74,7 +74,7 @@ class Comment extends Component {
                   comment.likedAccounts.length
                     ? comment.likedAccounts.map((lover) => (
                       <pre>
-                        <span>{`${lover.student.nTh}기 ${lover.student.name}`} {this.makeUserBadge(lover)}</span>
+                        <span>{`${lover.student.nTh}기 ${lover.student.name}`} {this.makeAccountBadge(lover)}</span>
                       </pre>
                     ))
                     : (
@@ -106,7 +106,7 @@ class Comment extends Component {
             </div>
             <Recomments
               commentId={comment.id}
-              user={user}
+              account={account}
               viewRecomment={viewRecomment}
               content={comment.replies ? comment.replies : []}
             />

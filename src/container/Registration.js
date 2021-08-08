@@ -32,7 +32,7 @@ const default_nTh = (() => {
   const today = new Date()
   return (today.getFullYear() - 1998)
 })()
-const default_birthdate = moment().subtract(19, 'years').format('YYYY-MM-DD')
+const default_birthdate = moment().subtract(19, 'years')
 
 function beforeUpload(file) {
   const isImage = file.type === 'image/gif'
@@ -137,12 +137,12 @@ class Registration extends Component {
       studentNumber: this.state.studentNumber,
       name: this.state.name,
       nTh: this.state.nTh,
-      birthdate: this.state.birthdate,
+      birthdate: moment(this.state.birthdate).format('YYYY-MM-DD'),
       major: this.state.major,
       email: this.state.email,
       phoneNumber: this.state.phoneNumber,
     }
-    axios.post('/public/user', formData)
+    axios.post('/public/account', formData)
       .then((r) => {
         this.setState({
           response: r,

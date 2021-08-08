@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { patchUser, getUser } from '../actions';
+import { patchAccount, getAccount } from '../actions';
 import { baseURL } from '../fetches/axios';
 import {
   Button,
@@ -43,19 +43,19 @@ function isPermittedBirthdate(date) {
 class EditUserProfile extends Component {
   constructor(props) {
     super(props)
-    this.props.getUser()
+    this.props.getAccount()
     this.state = {
       visible: false,
       bVisible: false,
       id: '', 
-      email: this.props.user.email,
-      birthdate: this.props.user.birthdate,
-      major: this.props.user.major,
-      phoneNumber: this.props.user.phoneNumber,
-      favoriteComic: this.props.user.favoriteComic,
-      favoriteCharacter: this.props.user.favoriteCharacter,
-      profileImage: this.props.user.profileImage,
-      profileBannerImage: '/images/profile_banner_default.png',// 수정필요 (user가 bannerPath를 가지게되면)
+      email: this.props.account.email,
+      birthdate: this.props.account.birthdate,
+      major: this.props.account.major,
+      phoneNumber: this.props.account.phoneNumber,
+      favoriteComic: this.props.account.favoriteComic,
+      favoriteCharacter: this.props.account.favoriteCharacter,
+      profileImage: this.props.account.profileImage,
+      profileBannerImage: '/images/profile_banner_default.png',// 수정필요 (account가 bannerPath를 가지게되면)
       previewVisible: false,
       bannerPreviewVisible: false,
       fileList: [],
@@ -90,8 +90,8 @@ class EditUserProfile extends Component {
       return Modal.warning({ title: '전화번호를 확인해주세요!', content: '유효하지 않은 전화번호입니다.' })
     }
 
-    const user = {
-      id: this.props.user.id,
+    const account = {
+      id: this.props.account.id,
       email: this.state.email,
       birthdate: this.state.birthdate,
       major: this.state.major,
@@ -103,7 +103,7 @@ class EditUserProfile extends Component {
 
     // TO DO : 수정하기 (try catch가 안되는 코드임)
     try{
-      this.props.patchUser(user);
+      this.props.patchAccount(account);
     }
     catch(e){
       console.log(e)
@@ -229,7 +229,7 @@ class EditUserProfile extends Component {
                 <img
                   alt="프로필 이미지"
                   style={{ width: '100%' }}
-                  src={banner}
+                  src={profileBannerImage}
                 />
               </Modal>
             </div>
@@ -252,7 +252,7 @@ class EditUserProfile extends Component {
                 <img
                   alt="프로필 이미지"
                   style={{ width: '100%' }}
-                  src={profile}
+                  src={profileImage}
                 />
               </Modal>
             </div>
@@ -267,7 +267,7 @@ class EditUserProfile extends Component {
             value={email}
           />
           <DatePicker
-            defaultValue={moment(birthdate, 'YYYY-MM-DD')}
+            defaultValue={moment(birthdate)}
             onChange={(_, dateString) => this.onDateChange(_, dateString)}
             placeholder="*생일을 선택하세요"
             disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
@@ -324,11 +324,11 @@ class EditUserProfile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  patchUser,
-  getUser,
+  patchAccount,
+  getAccount,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditUserProfile)

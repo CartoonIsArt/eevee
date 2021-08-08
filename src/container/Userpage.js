@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Feed from '../components/Feed'
-import { getMembers, logout, getUser, getUserTimeline, getLikedTimeline, getCommentedTimeline, checkPassword } from '../actions'
+import { getMembers, logout, getAccount, getAccountTimeline, getLikedTimeline, getCommentedTimeline, checkPassword } from '../actions'
 import { Button, Icon, Menu, Modal, Form, Input, Tag } from 'antd'
 import { isAlmostScrolled } from '../lib'
 
@@ -17,7 +17,7 @@ class Userpage extends Component {
   constructor(props) {
     super(props)
     this.props.getMembers()
-    this.props.getUser()
+    this.props.getAccount()
 
     this.state = {
       eVisible: false,
@@ -39,10 +39,10 @@ class Userpage extends Component {
     return <Icon type="close" />
   }
 
-  makeUserBadge(user) {
-    if (user.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (user.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (user.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
+  makeAccountBadge(account) {
+    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
+    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
+    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
     return (<div />)
   }
 
@@ -79,7 +79,7 @@ class Userpage extends Component {
   }
 
   componentWillMount() {
-    this.getTimeline()(this.props.user.username)
+    this.getTimeline()(this.props.account.username)
     this.setState({ doclen: this.props.timeline.length })
   }
 
@@ -94,7 +94,7 @@ class Userpage extends Component {
   getTimeline(){
     switch(this.state.timelineType)
     {
-      case TIMELINE_TYPE.WRITTEN:   return this.props.getUserTimeline
+      case TIMELINE_TYPE.WRITTEN:   return this.props.getAccountTimeline
       case TIMELINE_TYPE.COMMENTED: return this.props.getCommentedTimeline
       case TIMELINE_TYPE.LIKED:     return this.props.getLikedTimeline
       default:                      return null
@@ -108,7 +108,7 @@ class Userpage extends Component {
     if (this.mutex && isAlmostScrolled()
       && (this.state.doclen !== timelinelen)) {
       this.mutex = false
-      this.getTimeline()(this.props.user.username, page + 1)
+      this.getTimeline()(this.props.account.username, page + 1)
       this.setState({
         page: page + 1,
         doclen: timelinelen,
@@ -132,7 +132,7 @@ class Userpage extends Component {
   }
 
   render() {
-    const { timeline, user , members } = this.props
+    const { timeline, account, members } = this.props
     const { username } = this.props.match.params
     const { password } = this.state
     const member = members.length > 0 ? members.find((m) => m.username === username) : []
@@ -157,7 +157,7 @@ class Userpage extends Component {
             </div>
             <div className="menu last" onClick={() => this.props.history.push('/members')}>회원들</div>
             <div className="blank" />
-            {member.id === user.id 
+            {member.id === account.id 
               &&(
               <Button className="menu-btn" type="dashed" onClick={() => this.showProfileModal()}>
                 <Icon type="tool" />
@@ -211,7 +211,7 @@ class Userpage extends Component {
                   <p>{member.fullname}</p>
                   <p>{member.major}</p>
                   <p>{Userpage.check(member.isActive)}</p>
-                  <p><span>{Userpage.check(member.isRegular)} {this.makeUserBadge(member)}</span></p>   
+                  <p><span>{Userpage.check(member.isRegular)} {this.makeAccountBadge(member)}</span></p>   
                 </div>
               </div>
             </div>
@@ -237,7 +237,7 @@ class Userpage extends Component {
           </div>
           <section style={{ padding: '0px 8px' }}>
             {timeline.map((feed) => (
-              <Feed user={user} key={feed.id} content={feed}/>
+              <Feed account={account} key={feed.id} content={feed}/>
               ))
             }
           </section>
@@ -249,7 +249,7 @@ class Userpage extends Component {
 
 Userpage.propTypes = {
   history: PropTypes.object.isRequired,
-  getUserTimeline: PropTypes.func.isRequired,
+  getAccountTimeline: PropTypes.func.isRequired,
   getLikedTimeline: PropTypes.func.isRequired,
   getCommentedTimeline: PropTypes.func.isRequired,
 }
@@ -261,14 +261,14 @@ Userpage.defaultProps = {
 const mapStateToProps = (state) => ({
   timeline: state.timeline,
   members: state.members,
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  getUserTimeline,
+  getAccountTimeline,
   getLikedTimeline,
   getCommentedTimeline,
   getMembers,
-  getUser,
+  getAccount,
   logout,
 })
 

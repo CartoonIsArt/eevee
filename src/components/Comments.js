@@ -6,7 +6,7 @@ import PostComment from './PostComment'
 class Comments extends Component {
   render() {
     const comments = this.props.content
-    const { user } = this.props
+    const { account } = this.props
     return (
       <div style={{
         background: '#fff', display: 'flex', flexDirection: 'column', padding: '8px', overflow: 'hidden',
@@ -15,13 +15,13 @@ class Comments extends Component {
         {comments.map((comment) => (
           <Comment
             key={comment.id}
-            user={user}
+            account={account}
             content={comment}
           />
         ))}
         <div style={{ height: '4px' }} />
         <PostComment
-          user={user}
+          account={account}
           feedId={this.props.feed.id}
         />
       </div>

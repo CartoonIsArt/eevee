@@ -38,14 +38,14 @@ class PostComment extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { account } = this.props
     return (
       <div style={{ display: 'flex' }}>
         <div style={{
           marginRight: '4px', width: '32px', height: '32px', background: '#FFF',
         }}
         >
-          <img src={user.profile.profileImage} alt={user.profile.profileImage} width="100%" />
+          <img src={account.profile.profileImage} alt={account.profile.profileImage} width="100%" />
         </div>
         <div style={{
           width: '94%',

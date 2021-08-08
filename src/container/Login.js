@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import axios from '../fetches/axios'
-import { getUser } from '../actions'
+import { getAccount } from '../actions'
 import { Form, Icon, Input, Button, Modal } from 'antd'
 
 const FormItem = Form.Item;
@@ -34,7 +34,7 @@ class Login extends Component {
     }
     axios.post('/public/login', formData)
       .then(() => {
-        this.props.getUser()
+        this.props.getAccount()
       })
       .catch((e) => {
         console.log(e)
@@ -164,7 +164,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  getUser: PropTypes.func.isRequired,
+  getAccount: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   auth: PropTypes.bool.isRequired,
 }
@@ -173,7 +173,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 const mapDispatchToProps = ({
-  getUser,
+  getAccount,
 })
 
 const WrappedNormalLoginForm = Form.create()(Login)

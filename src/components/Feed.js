@@ -20,11 +20,11 @@ class Feed extends Component {
   render() {
     const { viewComments } = this.state
     const { content } = this.props
-    const { user } = this.props
+    const { account } = this.props
     return (
       <article style={{ marginBottom: '4px' }}>
         <Doc
-          user={user}
+          account={account}
           content={content}
           onClickComments={() => this.toggleCommentView()}
         />
@@ -32,7 +32,7 @@ class Feed extends Component {
           viewComments
           && (
           <Comments
-            user={content.author}
+            account={content.author}
             content={content.comments}
             feed={content}
           />

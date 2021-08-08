@@ -3,36 +3,36 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Namecard from '../components/Namecard'
 import Activity from '../components/Activity'
-import { getUser } from '../actions'
+import { getAccount } from '../actions'
 
 class Profile extends Component {
   render() {
-    const { user } = this.props
+    const { account } = this.props
     return (
       <div style={{ background: '#FFFFFF' }}>
-        {user.has_logged_in
+        {account.has_logged_in
           ? (
             <div>
-              <Namecard content={user} />
-              <Activity content={user} />
+              <Namecard content={account} />
+              <Activity content={account} />
             </div>
           )
-          : this.props.getUser()}
+          : this.props.getAccount()}
       </div>
     )
   }
 }
 
 Profile.propTypes = {
-  user: PropTypes.object.isRequired,
-  getUser: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired,
+  getAccount: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-  user: state.user,
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  getUser,
+  getAccount,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)
