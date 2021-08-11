@@ -221,7 +221,7 @@ export const deleteDocumentLike = (id) => (dispatch) => {
     .then((r) => {
       const { likedAccounts, account } = r.data
       dispatch(updateFeed({ id, likedAccounts }))
-      dispatch(setAccount(user))
+      dispatch(setAccount(account))
     })
     .catch((e) => console.log(e))
 }

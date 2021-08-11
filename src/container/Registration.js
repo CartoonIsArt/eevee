@@ -82,7 +82,6 @@ class Registration extends Component {
       phoneNumber: '',
       previewVisible: false,
       fileList: [],
-      response: '',
     };
     let isKeyBackspace = false
   }
@@ -107,8 +106,8 @@ class Registration extends Component {
     if (this.isEmpty()) {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
-    // https://blog.itanoss.kr/ko/한글-유니코드-정리/
-    if (/[^\uac00-\ud7a3]/.test(this.state.name)) {
+    // https://develop-im.tistory.com/21
+    if (/[^가-힣\s]/.test(this.state.name)) {
       return Modal.warning({ title: '이름을 확인해주세요!', content: '한글 이름만 사용 가능합니다.' })
     }
     if (this.state.password !== this.state.passwordCheck) {
@@ -144,20 +143,17 @@ class Registration extends Component {
     }
     axios.post('/public/account', formData)
       .then((r) => {
-        this.setState({
-          response: r,
-        })
         Modal.success({
-          favoriteComic: '가입 신청이 완료되었습니다!',
+          title: '가입 신청이 완료되었습니다!',
           content: '오늘 안으로 가입 승인이 완료될 거에요.',
           onOk() { location.href = '/login' },
         })
       })
       .catch((e) => {
-        this.setState({
-          response: e.response,
+        Modal.warning({
+          title: '중복되는 ID입니다.',
+          content: '중복되는 ID입니다.'
         })
-        Modal.warning({ favoriteComic: '중복되는 ID입니다.', content: '중복되는 ID입니다.' })
       })
   }
 
@@ -179,12 +175,15 @@ class Registration extends Component {
 
   handlePreview(file) {
     this.setState({
-      profileImage: file.url || file.thumbUrl,
+      profileImage: file.thumbUrl || file.url,
       previewVisible: true,
     });
   }
 
-  handleChange({ fileList }) {
+  handleChange({ file, fileList }) {
+    if (file.status === 'done') {
+      this.setState({ profileImage: file.response.avatar })
+    }
     this.setState({ fileList })
   }
 
@@ -261,8 +260,8 @@ class Registration extends Component {
                     <div style={{ marginTop: '8px' }}>
                       <div>
                         <Upload
-                      name="avatar"
-                      action={`${baseURL}/file`}
+                          name="avatar"
+                          action={`${baseURL}/public/file`}
                           listType="picture-card"
                           fileList={fileList}
                           onPreview={(e) => this.handlePreview(e)}
