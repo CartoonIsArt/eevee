@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
 import { printTime } from '../policy'
-import { postCommentLike, deleteCommentLike } from '../actions'
+import { postCommentLike, patchCommentLike } from '../actions'
 import { Button, Popover, Tag, Icon } from 'antd'
 
 class Comment extends Component {
@@ -30,7 +30,7 @@ class Comment extends Component {
     if (comment.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
       this.props.postCommentLike(comment.id)
     } else {
-      this.props.deleteCommentLike(comment.id)
+      this.props.patchCommentLike(comment.id)
     }
   }
 
@@ -128,13 +128,13 @@ class Comment extends Component {
 Comment.propTypes = {
   content: PropTypes.object.isRequired,
   postCommentLike: PropTypes.func.isRequired,
-  deleteCommentLike: PropTypes.func.isRequired,
+  patchCommentLike: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = () => ({
 })
 const mapDispatchToProps = ({
   postCommentLike,
-  deleteCommentLike,
+  patchCommentLike,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Comment)

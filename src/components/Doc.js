@@ -8,7 +8,7 @@ import Namecard from './Namecard'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
-import { getAccount, postDocumentLike, deleteDocumentLike } from '../actions'
+import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
 import { Button, Popover, Tag, Icon } from 'antd'
 
 class Doc extends Component {
@@ -34,7 +34,7 @@ class Doc extends Component {
     if (content.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
       this.props.postDocumentLike(content.id)
     } else {
-      this.props.deleteDocumentLike(content.id)
+      this.props.patchDocumentLike(content.id)
     }
   }
 
@@ -174,7 +174,7 @@ Doc.propTypes = {
   content: PropTypes.object.isRequired,
   getAccount: PropTypes.func.isRequired,
   postDocumentLike: PropTypes.func.isRequired,
-  deleteDocumentLike: PropTypes.func.isRequired,
+  patchDocumentLike: PropTypes.func.isRequired,
 }
 const mapStateToProps = (state) => ({
   account: state.account,
@@ -182,6 +182,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = ({
   getAccount,
   postDocumentLike,
-  deleteDocumentLike,
+  patchDocumentLike: patchDocumentLike,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Doc)
