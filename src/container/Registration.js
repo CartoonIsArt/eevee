@@ -142,7 +142,7 @@ class Registration extends Component {
       phoneNumber: this.state.phoneNumber,
     }
     axios.post('/public/account', formData)
-      .then((r) => {
+      .then(() => {
         Modal.success({
           title: '가입 신청이 완료되었습니다!',
           content: '오늘 안으로 가입 승인이 완료될 거에요.',
@@ -150,9 +150,10 @@ class Registration extends Component {
         })
       })
       .catch((e) => {
+        const message = e.response.data
         Modal.warning({
-          title: '중복되는 ID입니다.',
-          content: '중복되는 ID입니다.'
+          title: '입력 데이터를 확인해주세요!',
+          content: `사용할 수 없는 값입니다: ${message.slice(16, message.indexOf("'", 17) + 1)}`
         })
       })
   }
