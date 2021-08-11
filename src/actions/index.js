@@ -111,7 +111,6 @@ export const getAccount = () => (dispatch) => {
 }
 
 export const patchAccount = (account) => () => {
-  console.log(account)
   axios.patch(`/account/${account.id}`, account)
     .catch((e) => console.log(e))
 }
