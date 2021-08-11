@@ -216,8 +216,8 @@ export const postDocumentLike = (id) => (dispatch) => {
     .catch((e) => console.log(e))
 }
 
-export const deleteDocumentLike = (id) => (dispatch) => {
-  axios.delete(`/document/${id}/LikeIt`)
+export const patchDocumentLike = (id) => (dispatch) => {
+  axios.patch(`/document/${id}/LikeIt`)
     .then((r) => {
       const { likedAccounts, account } = r.data
       dispatch(updateFeed({ id, likedAccounts }))
@@ -248,8 +248,8 @@ export const postCommentLike = (id) => (dispatch) => {
     .catch((e) => console.log(e))
 }
 
-export const deleteCommentLike = (id) => (dispatch) => {
-  axios.delete(`/comment/${id}/LikeIt`)
+export const patchCommentLike = (id) => (dispatch) => {
+  axios.patch(`/comment/${id}/LikeIt`)
     .then((r) => {
       const { likedAccounts, account } = r.data
       dispatch(updateFeed({ id, likedAccounts }))
