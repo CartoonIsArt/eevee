@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { patchAccount, getAccount } from '../actions';
-import { baseURL } from '../fetches/axios';
+import { getAccount } from '../actions';
+import axios, { baseURL } from '../fetches/axios';
 import { beforeUpload, isPermittedBirthdate } from '../lib'
 import {
   Button,
@@ -61,7 +61,7 @@ class EditUserProfile extends Component {
             && this.state.phoneNumber)
   }
 
-  async handleOk() {
+  handleOk() {
     if (this.isEmpty()) {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
@@ -74,7 +74,6 @@ class EditUserProfile extends Component {
     }
 
     const formData = {
-      id: this.props.account.id,
       profile: {
         favoriteComic: this.state.favoriteComic,
         favoriteCharacter: this.state.favoriteCharacter,
@@ -89,7 +88,7 @@ class EditUserProfile extends Component {
       }
     }
 
-    this.props.patchAccount(account)
+    axios.patch(`/account/${this.props.account.id}`, formData)
       .then(() => {
         const username = this.props.account.username
         Modal.success({
@@ -98,7 +97,7 @@ class EditUserProfile extends Component {
           onOk() { location.href = `/members/${username}` },
         })
       })
-      .catch((e) => {
+      .catch(() => {
         Modal.warning({
           title: '회원 정보 수정에 실패했습니다.',
           content: '입력 정보를 확인해주세요.'
@@ -345,7 +344,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 })
 const mapDispatchToProps = ({
-  patchAccount,
   getAccount,
 })
 
