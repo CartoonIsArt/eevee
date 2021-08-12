@@ -210,6 +210,7 @@ export const patchCommentLike = (id) => (dispatch) =>
 export const logout = () => (dispatch) => 
   axios.get('/logout')
     .then(() => {
+      location.href = "/login"
       dispatch(logoutAccount())
       dispatch(setLogout())
     })
