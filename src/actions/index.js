@@ -11,6 +11,7 @@ const APPEND_TIMELINE = 'APPENDTIMELINE'
 const SET_LOGIN = 'SETLOGIN'
 const APPEND_FEED = 'APPENDFEED'
 const APPEND_COMMENT = 'APPENDCOMMENT'
+const UPDATE_COMMENT = 'UPDATECOMMENT'
 const LOGOUT = 'LOGOUT'
 const SET_LOGOUT = 'SETLOGOUT'
 const SET_PHOTOS = 'SETPHOTOS'
@@ -23,6 +24,7 @@ const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
+const updateComment = (comment) => ({ type: UPDATE_COMMENT, comment })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNoties = (noties) => ({ type: SET_NOTIES, noties })
 const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
@@ -194,17 +196,15 @@ export const postComment = (comment) => (dispatch) =>
 export const postCommentLike = (id) => (dispatch) => 
   axios.post(`/comment/${id}/LikeIt`)
     .then((r) => {
-      const { likedAccounts, account } = r.data
-      dispatch(updateFeed({ id, likedAccounts }))
-      dispatch(setAccount(account))
+      const { likedAccounts } = r.data
+      dispatch(updateComment({ id, likedAccounts }))
     })
 
 export const patchCommentLike = (id) => (dispatch) =>
   axios.patch(`/comment/${id}/LikeIt`)
     .then((r) => {
-      const { likedAccounts, account } = r.data
-      dispatch(updateFeed({ id, likedAccounts }))
-      dispatch(setAccount(account))
+      const { likedAccounts } = r.data
+      dispatch(updateComment({ id, likedAccounts }))
     })
 
 export const logout = () => (dispatch) => 

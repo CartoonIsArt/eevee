@@ -24,6 +24,15 @@ const timeline = (state = [], action) => {
           feed.comments.push(action.comment)
         return feed
       })
+    case 'UPDATECOMMENT':
+      return state.map((feed) => {
+        feed.comments = feed.comments.map((comment) => {
+          if (comment.id === action.comment.id)
+            return mergeObject(comment, action.comment)
+          return comment
+        })
+        return feed
+      })
     default:
       return state
   }
