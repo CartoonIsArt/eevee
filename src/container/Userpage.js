@@ -124,19 +124,20 @@ class Userpage extends Component {
     }
   }
 
-  async clickEditProfileBtn() {
-    const args = {
+  clickEditProfileBtn() {
+    const formData = {
       password: this.state.password,
     }
 
-    if(await checkPassword(args)) {
-      this.props.history.push('/settings/account')
-    }
-    else {
-      this.hideProfileModal()
-      this.setState({ password: '' })
-      Modal.warning({ title: '비밀번호가 틀립니다.', content: '비밀번호를 확인해주세요.' })
-    }
+    axios.post('/account/checkPassword', formData)
+      .then(() => {
+        this.props.history.push('/settings/account')
+      })
+      .catch(() => {
+        this.hideProfileModal()
+        this.setState({ password: '' })
+        Modal.warning({ title: '비밀번호가 틀립니다.', content: '비밀번호를 확인해주세요.' })
+      })
   }
 
   isRegularMember(account) {
