@@ -124,33 +124,47 @@ class Userpage extends Component {
     }
   }
 
-  async clickEditProfileBtn() {
-    const args = {
+  clickEditProfileBtn() {
+    const formData = {
       password: this.state.password,
     }
 
-    if(await checkPassword(args)) {
-      this.props.history.push('/settings/account')
-    }
-    else {
-      this.hideProfileModal()
-      this.setState({ password: '' })
-      Modal.warning({ title: '비밀번호가 틀립니다.', content: '비밀번호를 확인해주세요.' })
-    }
+    axios.post('/account/checkPassword', formData)
+      .then(() => {
+        this.props.history.push('/settings/account')
+      })
+      .catch(() => {
+        this.hideProfileModal()
+        this.setState({ password: '' })
+        Modal.warning({ title: '비밀번호가 틀립니다.', content: '비밀번호를 확인해주세요.' })
+      })
+  }
+
+  isRegularMember(account) {
+    return !(account.role === "non-regular" || account.role === "leaver")
   }
 
   render() {
     const { timeline, account, members } = this.props
     const { username } = this.props.match.params
     const { password } = this.state
-    const member = members.length > 0 ? members.find((m) => m.username === username) : []
+    const member = (members.length > 0) ? members.find((m) => m.username === username) : {
+      id: null,
+      isActive: null,
+      role: null,
+      student: {
+        nTh: null,
+        name: null,
+        major: null,
+      }
+    } // 임시 방편
 
     return (
       <div className="userpage">
         <div className="header">
-          <div className="background-image" style={{backgroundImage: 'url(/images/profile_banner_default.png)'}}>
+          <div className="background-image" style={{backgroundImage: `url(${account.profile.profileBannerImage})`}}>
             <div className="user-profile">
-              <img className="profile-image-size" src="/images/profile_image_default.png" alt="Profile-img" />
+              <img className="profile-image-size" src={account.profile.profileImage} alt="Profile-img" />
             </div>
           </div>
           <div className="menu-bar">
@@ -214,12 +228,12 @@ class Userpage extends Component {
                   <p>활동인구</p>
                   <p>정회원</p>                  
                 </div>
-                <div className="my-inform-value">                  
-                  <p>{member.nTh}기</p>
-                  <p>{member.fullname}</p>
-                  <p>{member.major}</p>
+                <div className="my-inform-value">
+                  <p>{member.student.nTh}기</p>
+                  <p>{member.student.name}</p>
+                  <p>{member.student.major}</p>
                   <p>{Userpage.check(member.isActive)}</p>
-                  <p><span>{Userpage.check(member.isRegular)} {this.makeAccountBadge(member)}</span></p>   
+                  <p><span>{Userpage.check(this.isRegularMember(member))} {this.makeAccountBadge(member)}</span></p>   
                 </div>
               </div>
             </div>

@@ -1,7 +1,5 @@
 import axios from '../fetches/axios'
 
-// const host = 'https://cia.kw.ac.kr/api/'
-
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
 const SET_TIMELINE = 'SETTIMELINE'
@@ -16,7 +14,6 @@ const APPEND_COMMENT = 'APPENDCOMMENT'
 const LOGOUT = 'LOGOUT'
 const SET_LOGOUT = 'SETLOGOUT'
 const SET_PHOTOS = 'SETPHOTOS'
-// const APPEND = 'APPEND' // future
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
@@ -33,19 +30,17 @@ const logoutAccount = () => ({ type: LOGOUT })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
 
-export const notifyLogin = () => (dispatch) => {
+export const notifyLogin = () => (dispatch) =>
   dispatch(setLogin(true))
-}
 
-export const sunrise = () => (dispatch) => {
+export const sunrise = () => (dispatch) =>
   dispatch(setSun(true))
-}
-export const sundown = () => (dispatch) => {
+
+export const sundown = () => (dispatch) =>
   dispatch(setSun(false))
-}
-export const suntoggle = () => (dispatch) => {
+  
+export const suntoggle = () => (dispatch) =>
   dispatch(toggleSun())
-}
 
 const account1 = {
   id: 1,
@@ -71,7 +66,7 @@ const account1 = {
   }
 }
 
-export const getNoties = () => (dispatch) => {
+export const getNoties = () => (dispatch) =>
   dispatch(setNoties([
     {
       id: 1,
@@ -88,44 +83,25 @@ export const getNoties = () => (dispatch) => {
       had_read: false,
     },
   ]))
-}
 
 // Account
 //
-export const getMembers = () => (dispatch) => {
+export const getMembers = () => (dispatch) =>
   axios.get('/account')
     .then((r) => {
       const { accounts } = r.data
       dispatch(setMembers(accounts))
     })
-    .catch()
-}
 
-export const getAccount = () => (dispatch) => {
+export const getAccount = () => (dispatch) =>
   axios.get('/account/authenticated')
     .then((r) => {
       const { account } = r.data
       dispatch(setAccount(account))
     })
-    .catch((e) => console.log(e))
-}
 
-export const patchAccount = (account) => () => {
-  console.log(account)
+export const patchAccount = (account) =>
   axios.patch(`/account/${account.id}`, account)
-    .catch((e) => console.log(e))
-}
-
-export const checkPassword = async (password) => {
-  try{
-    await axios.post('/account/checkPassword', password)
-    return true
-  }
-  catch(e){
-    console.log(e)
-    return false
-  }
-}
 
 // Timeline
 //
@@ -133,27 +109,20 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
-  axios.get(`/timeline?${queryString}`)
+  return axios.get(`/timeline?${queryString}`)
     .then((r) => {
       const { timeline } = r.data
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
-    .catch((e) => {
-      console.log(e)
-    })
 }
-
 export const getAccountTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
 
-  axios.get(`/timeline/${username}?${queryString}`)
+  return axios.get(`/timeline/${username}?${queryString}`)
     .then((r) => {
       const { timeline } = r.data
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
-    })
-    .catch((e) => {
-      console.log(e)
     })
 }
 
@@ -161,13 +130,10 @@ export const getLikedTimeline = (username, page = 1, keyword = undefined) => (di
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
-  axios.get(`/timeline/${username}/likes?${queryString}`)
+  return axios.get(`/timeline/${username}/likes?${queryString}`)
     .then((r) => {
       const { timeline } = r.data
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
-    })
-    .catch((e) => {
-      console.log(e)
     })
 }
 
@@ -175,97 +141,78 @@ export const getCommentedTimeline = (username, page = 1, keyword = undefined) =>
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
-  axios.get(`/timeline/${username}/comments?${queryString}`)
+  return axios.get(`/timeline/${username}/comments?${queryString}`)
     .then((r) => {
       const { timeline } = r.data
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
-    })
-    .catch((e) => {
-      console.log(e)
     })
 }
 
 // Document
 //
-export const postDocument = (document) => (dispatch) => {
+export const postDocument = (document) => (dispatch) => 
   axios.post('/document', document)
     .then((r) => {
       const { document } = r.data
       dispatch(appendFeed(document))
       dispatch(setAccount(document.author))
     })
-    .catch((e) => console.log(e))
-}
 
-export const patchDocument = (document) => (dispatch) => {
+export const patchDocument = (document) => (dispatch) => 
   axios.patch('/document', document)
     .then((r) => {
       const { document } = r.data
       dispatch(updateFeed(document))
     })
-    .catch((e) => console.log(e))
-}
 
-export const postDocumentLike = (id) => (dispatch) => {
+export const postDocumentLike = (id) => (dispatch) => 
   axios.post(`/document/${id}/LikeIt`)
     .then((r) => {
       const { likedAccounts, account } = r.data
       dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setAccount(account))
     })
-    .catch((e) => console.log(e))
-}
 
-export const patchDocumentLike = (id) => (dispatch) => {
+export const patchDocumentLike = (id) => (dispatch) => 
   axios.patch(`/document/${id}/LikeIt`)
     .then((r) => {
       const { likedAccounts, account } = r.data
       dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setAccount(account))
     })
-    .catch((e) => console.log(e))
-}
 
 // Comment
 //
-export const postComment = (comment) => (dispatch) => {
+export const postComment = (comment) => (dispatch) => 
   axios.post('/comment', comment)
     .then((r) => {
       const { comment } = r.data
       dispatch(appendComment(comment))
       dispatch(setAccount(comment.author))
     })
-    .catch((e) => console.log(e))
-}
 
-export const postCommentLike = (id) => (dispatch) => {
+export const postCommentLike = (id) => (dispatch) => 
   axios.post(`/comment/${id}/LikeIt`)
     .then((r) => {
       const { likedAccounts, account } = r.data
       dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setAccount(account))
     })
-    .catch((e) => console.log(e))
-}
 
-export const patchCommentLike = (id) => (dispatch) => {
+export const patchCommentLike = (id) => (dispatch) =>
   axios.patch(`/comment/${id}/LikeIt`)
     .then((r) => {
       const { likedAccounts, account } = r.data
       dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setAccount(account))
     })
-    .catch((e) => console.log(e))
-}
 
-export const logout = () => (dispatch) => {
+export const logout = () => (dispatch) => 
   axios.get('/logout')
     .then(() => {
       dispatch(logoutAccount())
       dispatch(setLogout())
     })
-    .catch((e) => console.log(e))
-}
 
 // File
 // 
@@ -276,10 +223,9 @@ export const postPhotos = (photos) => (dispatch) => {
   const formData = new FormData()
   photos.forEach(photo => formData.append('photo', photo))
 
-  axios.post('/files', formData, config)
+  return axios.post('/files', formData, config)
     .then((r) => {
       const { photos } = r.data
       dispatch(setPhotos(photos))
     })
-    .catch((e) => console.log(e))
 }
