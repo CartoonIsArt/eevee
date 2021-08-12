@@ -7,6 +7,7 @@ import privacy_policy from '../common/privacy_policy'
 import majors from '../common/majors'
 import {
   beforeUpload,
+  isValidEmail,
   isHyphenPosition,
   isKoreanOnly,
   isPermittedBirthdate,
