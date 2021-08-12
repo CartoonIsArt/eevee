@@ -89,22 +89,21 @@ class EditUserProfile extends Component {
       }
     }
 
-    // TO DO : 수정하기 (try catch가 안되는 코드임)
-    try {
-      await this.props.patchAccount(formData)
-      const username = this.props.account.username
-      Modal.success({
-        title: '회원 정보 수정이 완료되었습니다!',
-        content: '확인 버튼을 누르면 마이 페이지로 돌아갑니다.',
-        onOk() { location.href = `/members/${username}` },
+    this.props.patchAccount(account)
+      .then(() => {
+        const username = this.props.account.username
+        Modal.success({
+          title: '회원 정보 수정이 완료되었습니다!',
+          content: '확인 버튼을 누르면 마이 페이지로 돌아갑니다.',
+          onOk() { location.href = `/members/${username}` },
+        })
       })
-    }
-    catch (e) {
-      Modal.warning({
-        title: '회원 정보 수정에 실패했습니다.',
-        content: '입력 정보를 확인해주세요.'
+      .catch((e) => {
+        Modal.warning({
+          title: '회원 정보 수정에 실패했습니다.',
+          content: '입력 정보를 확인해주세요.'
+        })
       })
-    }
     this.setState({ visible: false });
   }
 
