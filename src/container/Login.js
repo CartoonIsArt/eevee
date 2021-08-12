@@ -85,7 +85,7 @@ class Login extends Component {
             padding: '12px',
             border: '2px solid black',
             borderRadius: '10px',
-            backgroundColor: 'rgba(255,255,255,0.5)',
+            backgroundColor: 'rgba(255,255,255,0.8)',
           }}
         >
           <div>
@@ -94,12 +94,12 @@ class Login extends Component {
                 // src="https://cia.kw.ac.kr/media/logo.png"
                 src="https://avatars.githubusercontent.com/u/26453921?s=200&v=4"
                 alt="CIA 로고"
-                style={{ width: '240px', overflow: 'hidden' }}
+                style={{ width: '240px', marginLeft: '20px', overflow: 'hidden' }}
               />
               <img
-                src=""
+                src="/images/ver2.png"
                 alt="2.0"
-                style={{ width: '80px', overflow: 'hidden' }}
+                style={{ width: '60px', marginLeft: '-10px', marginTop: '130px', overflow: 'hidden' }}
               />
             </div>
             <div>
@@ -147,7 +147,7 @@ class Login extends Component {
                 </Button>
                 아니면
                 {' '}
-                <Link to="/registration"> 지금 회원가입 하세요! </Link>
+                <Link to="/registration"><b>지금 회원가입 하세요!</b></Link>
               </FormItem>
             </Form>
           </div>
