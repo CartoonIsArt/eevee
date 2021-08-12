@@ -21,7 +21,7 @@ class SingleFeed extends Component {
     .then(content => this.setState({content}))
     */
     /*
-    if (this.props.account.has_logged_in === false) {
+    if (this.props.auth === false) {
       this.props.getAccount()
     }
     */
@@ -40,7 +40,7 @@ class SingleFeed extends Component {
           </aside>
         </Col>
         <Col span={12}>
-          {content // account.has_logged_in &&
+          {content // auth &&
           && (
           <section style={{ padding: '0px 8px' }}>
             <Feed

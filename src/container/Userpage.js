@@ -54,11 +54,19 @@ class Userpage extends Component {
     window.removeEventListener('scroll', this.wrapper)
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (!nextProps.auth) {
+      this.props.history.push('/login')
+      return false
+    }
+    return true
+  }
+
   makeAccountBadge(account) {
     if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
     if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
     if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
-    return (<div />)
+    return (<span />)
   }
 
   showModal() {
@@ -271,10 +279,12 @@ class Userpage extends Component {
 }
 
 Userpage.propTypes = {
+  auth: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
   getAccountTimeline: PropTypes.func.isRequired,
   getLikedTimeline: PropTypes.func.isRequired,
   getCommentedTimeline: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
 Userpage.defaultProps = {
@@ -285,6 +295,7 @@ const mapStateToProps = (state) => ({
   timeline: state.timeline,
   members: state.members,
   account: state.account,
+  auth: state.auth,
 })
 const mapDispatchToProps = ({
   getAccountTimeline,

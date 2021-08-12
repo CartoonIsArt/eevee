@@ -48,27 +48,20 @@ class Timeline extends Component {
   }
 
   render() {
-    const { timeline } = this.props
-    const { account } = this.props
+    const { account, timeline } = this.props
     return (
       <section style={{ padding: '0px 8px' }}>
-        {account.has_logged_in
-          ? (
-            <Write
-              account={account}
-              documentId={-1}
-            />
-          )
-          : this.props.getAccount()}
-        {account.has_logged_in
-          ? timeline.map((feed) => (
-            <Feed
-              account={account}
-              key={feed.id}
-              content={feed}
-            />
-          ))
-          : this.props.getAccount()}
+        <Write
+          account={account}
+          documentId={-1}
+        />
+        {timeline.map((feed) => (
+          <Feed
+            account={account}
+            key={feed.id}
+            content={feed}
+          />
+        ))}
         { /*
         <Ads />
         <Ads />

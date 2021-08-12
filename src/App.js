@@ -5,46 +5,46 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import './App.css';
 import { routes } from './Route'
-import { getAccount, notifyLogin } from './actions'
+import { getAccount, clearAccount } from './actions'
 import Nav from './container/Nav'
+
+function isEmptyObject(param) {
+  return Object.keys(param).length === 0 && param.constructor === Object;
+}
 
 const isNavEnabled = (history) => {
   const ignoredRoutes = routes.filter((route) => !route.has_navigator)
   return !ignoredRoutes.find(route => route.path == history.location.pathname)
 }
 
-const isAuthenticated = (route, account) => {
-  return (route.is_public || account.has_logged_in)
+const isAuthenticated = (route, auth) => {
+  return (route.is_public || auth)
 }
 
-const isPublicOnly = (route, account) => {
-  return (route.is_public && account.has_logged_in)
+const isPublicOnly = (route, auth) => {
+  return (route.is_public && auth)
 }
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      account: this.props.account
+      auth: this.props.auth
     }
-  }
-
-  componentDidMount() {
-    this.props.getAccount()
-    this.setState({ account: this.props.account })
   }
 
   shouldComponentUpdate(nextProps) {
-    if (nextProps.account !== this.props.account) {
-      this.setState({ account: nextProps.account })
+    if ((nextProps.auth !== this.props.auth)) {
+      nextProps.auth
+        ? this.props.getAccount()
+        : this.props.clearAccount()
+      return false
+    }
+    if (isEmptyObject(nextProps.account) !== isEmptyObject(this.props.account)) {
+      this.setState({ auth: this.props.auth })
       return false
     }
     return true
-  }
-
-  componentDidUpdate() {
-    if (this.state.account.has_logged_in)
-      this.props.notifyLogin()
   }
   
   render() {
@@ -60,10 +60,10 @@ class App extends Component {
                   path={route.path}
                   exact={route.exact}
                 >
-                  {isAuthenticated(route, this.state.account)
-                    ? isPublicOnly(route, this.state.account)
+                  {isAuthenticated(route, this.state.auth)
+                    ? isPublicOnly(route, this.state.auth)
                       ? <Redirect to='/' />
-                      : [route.sidebar, route.main]
+                      : [route.sidebar, route.main] // TODO: 이거 붙여야 에러 안뜨는데 넣으면 화면 비율 망가짐 .map((component, idx) => <div key={idx}>{(component)}</div>)
                     : <Redirect to='/login' />
                   }
                 </Route>
@@ -76,18 +76,20 @@ class App extends Component {
 }
 
 App.propTypes = {
+  auth: PropTypes.bool.isRequired,
   account: PropTypes.object.isRequired,
   getAccount: PropTypes.func.isRequired,
-  notifyLogin: PropTypes.func.isRequired,
+  clearAccount: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  auth: state.auth,
 })
 const mapDispatchToProps = ({
   getAccount,
-  notifyLogin,
+  clearAccount,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))

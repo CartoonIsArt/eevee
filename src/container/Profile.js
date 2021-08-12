@@ -10,14 +10,8 @@ class Profile extends Component {
     const { account } = this.props
     return (
       <div style={{ background: '#FFFFFF' }}>
-        {account.has_logged_in
-          ? (
-            <div>
-              <Namecard content={account} />
-              <Activity content={account} />
-            </div>
-          )
-          : this.props.getAccount()}
+        <Namecard content={account} />
+        <Activity content={account} />
       </div>
     )
   }

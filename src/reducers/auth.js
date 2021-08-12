@@ -1,7 +1,7 @@
 const auth = (state = false, action) => {
   switch (action.type) {
     case 'SETLOGIN':
-      return action.is_success
+      return true
     case 'SETLOGOUT':
       return false
     default:

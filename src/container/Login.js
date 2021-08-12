@@ -3,8 +3,7 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import axios from '../fetches/axios'
-import { getAccount } from '../actions'
+import { login, getAccount } from '../actions'
 import { Form, Icon, Input, Button, Modal } from 'antd'
 
 const FormItem = Form.Item;
@@ -32,10 +31,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password,
     }
-    axios.post('/public/login', formData)
-      .then(() => {
-        this.props.getAccount()
-      })
+    this.props.login(formData)
       .catch((e) => {
         console.log(e)
         Modal.warning({ title: '로그인에 실패했습니다.', content: '입력한 아이디와 비밀번호를 확인해주세요.' })
@@ -164,6 +160,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  auth: PropTypes.bool.isRequired,
   getAccount: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   auth: PropTypes.bool.isRequired,
@@ -173,6 +170,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 const mapDispatchToProps = ({
+  login,
   getAccount,
 })
 

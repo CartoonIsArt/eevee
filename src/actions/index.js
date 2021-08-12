@@ -8,16 +8,15 @@ const SET_ACCOUNT = 'SETACCOUNT'
 const SET_MEMBERS = 'SETMEMBERS'
 const SET_NOTIES = 'SETNOTIES'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
-const SET_LOGIN = 'SETLOGIN'
 const APPEND_FEED = 'APPENDFEED'
 const APPEND_COMMENT = 'APPENDCOMMENT'
-const LOGOUT = 'LOGOUT'
+const SET_LOGIN = 'SETLOGIN'
 const SET_LOGOUT = 'SETLOGOUT'
 const SET_PHOTOS = 'SETPHOTOS'
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setAccount = (value) => ({ type: SET_ACCOUNT, account: value })
+const setAccount = (account) => ({ type: SET_ACCOUNT, account })
 const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
@@ -25,13 +24,9 @@ const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNoties = (noties) => ({ type: SET_NOTIES, noties })
-const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
-const logoutAccount = () => ({ type: LOGOUT })
+const setLogin = () => ({ type: SET_LOGIN })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
-
-export const notifyLogin = () => (dispatch) =>
-  dispatch(setLogin(true))
 
 export const sunrise = () => (dispatch) =>
   dispatch(setSun(true))
@@ -84,6 +79,23 @@ export const getNoties = () => (dispatch) =>
     },
   ]))
 
+// Auth
+//
+export const login = (account) => (dispatch) =>
+  axios.post('/public/login', account)
+    .then(() => {
+      dispatch(setLogin(true))
+    })
+
+export const logout = () => (dispatch) => 
+  axios.get('/logout')
+    .then(() => {
+      dispatch(setLogout())
+    })
+
+export const clearAccount = () => (dispatch) =>
+  dispatch(setAccount({}))
+
 // Account
 //
 export const getMembers = () => (dispatch) =>
@@ -100,9 +112,6 @@ export const getAccount = () => (dispatch) =>
       dispatch(setAccount(account))
     })
 
-export const patchAccount = (account) =>
-  axios.patch(`/account/${account.id}`, account)
-
 // Timeline
 //
 export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
@@ -115,6 +124,7 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
 }
+
 export const getAccountTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
@@ -205,14 +215,6 @@ export const patchCommentLike = (id) => (dispatch) =>
       const { likedAccounts, account } = r.data
       dispatch(updateFeed({ id, likedAccounts }))
       dispatch(setAccount(account))
-    })
-
-export const logout = () => (dispatch) => 
-  axios.get('/logout')
-    .then(() => {
-      location.href = "/login"
-      dispatch(logoutAccount())
-      dispatch(setLogout())
     })
 
 // File
