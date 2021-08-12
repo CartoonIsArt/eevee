@@ -11,7 +11,8 @@ import {
   isKoreanOnly,
   isPermittedBirthdate,
   isValidPhoneNumber,
-  isValidStudentNumber
+  isValidPhoneNumberOnTyping,
+  isValidStudentNumber,
 } from '../lib'
 import {
   Alert,
@@ -181,7 +182,7 @@ class Registration extends Component {
   }
 
   onChangePhoneNumber(phoneNumber) {
-    if (isValidPhoneNumber(phoneNumber)) {
+    if (isValidPhoneNumberOnTyping(phoneNumber)) {
       return
     }
     if (this.isKeyBackspace && isHyphenPosition(phoneNumber)) {
