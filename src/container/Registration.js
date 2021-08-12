@@ -93,7 +93,7 @@ class Registration extends Component {
     this.onChangeInput({ major: value[1] })
   }
 
-  async onButtonClicked() {
+  onButtonClicked() {
     if (this.isEmpty()) {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
