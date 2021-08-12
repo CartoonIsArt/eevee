@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { patchAccount, getAccount } from '../actions';
 import { baseURL } from '../fetches/axios';
+import { beforeUpload, isPermittedBirthdate } from '../lib'
 import {
   Button,
   Upload,
-  message,
   DatePicker,
   Icon,
   Modal,
@@ -17,29 +17,10 @@ import {
 import moment from 'moment';
 import majors from '../common/majors';
 
-function beforeUpload(file) {
-  const isImage = file.type === 'image/gif'
-                  || file.type === 'image/png'
-                  || file.type === 'image/jpeg'
-                  || file.type === 'image/bmp'
-                  || file.type === 'image/webp';
-  if (!isImage) {
-    message.error('이미지만 업로드 해주세요!');
-  }
-  const isLt10M = file.size / 1024 / 1024 < 10;
-  if (!isLt10M) {
-    message.error('10MB 넘으면 안되요!');
-  }
-  return isImage && isLt10M;
-}
 
-function isPermittedBirthdate(date) {
-  const max_birthdate = moment().subtract(120, 'years')
-  const min_birthdate = moment()
-
-  return date
-    && date.isBefore(max_birthdate)
-    && date.isAfter(min_birthdate)
+function getDepartmentAndMajor(major) {
+  const department = majors.find(department => department.children.find(m => m.value === major) !== undefined)
+  return [department.label, major];
 }
 
 class EditUserProfile extends Component {
@@ -50,18 +31,18 @@ class EditUserProfile extends Component {
       visible: false,
       bVisible: false,
       id: '', 
-      email: this.props.account.email,
-      birthdate: this.props.account.birthdate,
-      major: this.props.account.major,
-      phoneNumber: this.props.account.phoneNumber,
-      favoriteComic: this.props.account.favoriteComic,
-      favoriteCharacter: this.props.account.favoriteCharacter,
-      profileImage: this.props.account.profileImage,
-      profileBannerImage: '/images/profile_banner_default.png',// 수정필요 (account가 bannerPath를 가지게되면)
+      email: this.props.account.student.email,
+      birthdate: this.props.account.student.birthdate,
+      major: this.props.account.student.major,
+      phoneNumber: this.props.account.student.phoneNumber,
+      favoriteComic: this.props.account.profile.favoriteComic,
+      favoriteCharacter: this.props.account.profile.favoriteCharacter,
+      profileImage: this.props.account.profile.profileImage,
+      profileBannerImage: this.props.account.profile.profileBannerImage,
       previewVisible: false,
       bannerPreviewVisible: false,
-      fileList: [],
-      bannerFileList: [],
+      fileList: [{ uid: -1, name: this.props.account.profile.profileImage, status: 'done', url: this.props.account.profile.profileImage }],
+      bannerFileList: [{ uid: -1, name: this.props.account.profile.profileBannerImage, status: 'done', url: this.props.account.profile.profileBannerImage }],
     };
   }
 
@@ -80,7 +61,7 @@ class EditUserProfile extends Component {
             && this.state.phoneNumber)
   }
 
-  handleOk() {
+  async handleOk() {
     if (this.isEmpty()) {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
@@ -92,24 +73,37 @@ class EditUserProfile extends Component {
       return Modal.warning({ title: '전화번호를 확인해주세요!', content: '유효하지 않은 전화번호입니다.' })
     }
 
-    const account = {
+    const formData = {
       id: this.props.account.id,
-      email: this.state.email,
-      birthdate: this.state.birthdate,
-      major: this.state.major,
-      phoneNumber: this.state.phoneNumber,
-      favoriteComic: this.state.favoriteComic,
-      favoriteCharacter: this.state.favoriteCharacter,
-      profileImage: this.state.profileImage,
+      profile: {
+        favoriteComic: this.state.favoriteComic,
+        favoriteCharacter: this.state.favoriteCharacter,
+        profileImage: this.state.profileImage,
+        profileBannerImage: this.state.profileBannerImage,
+      },
+      student: {
+        email: this.state.email,
+        birthdate: this.state.birthdate,
+        major: this.state.major,
+        phoneNumber: this.state.phoneNumber,
+      }
     }
 
     // TO DO : 수정하기 (try catch가 안되는 코드임)
-    try{
-      this.props.patchAccount(account);
+    try {
+      await this.props.patchAccount(formData)
+      const username = this.props.account.username
+      Modal.success({
+        title: '회원 정보 수정이 완료되었습니다!',
+        content: '확인 버튼을 누르면 마이 페이지로 돌아갑니다.',
+        onOk() { location.href = `/members/${username}` },
+      })
     }
-    catch(e){
-      console.log(e)
-      Modal.warning({ title: '회원정보수정에 실패했습니다.', content: '입력 정보를 확인해주세요.' })
+    catch (e) {
+      Modal.warning({
+        title: '회원 정보 수정에 실패했습니다.',
+        content: '입력 정보를 확인해주세요.'
+      })
     }
     this.setState({ visible: false });
   }
@@ -152,11 +146,17 @@ class EditUserProfile extends Component {
     });
   }
 
-  handleChange({ fileList }) {
+  handleChange({ file, fileList }) {
+    if (file.status === 'done') {
+      this.setState({ profileImage: file.response.avatar })
+    }
     this.setState({ fileList })
   }
 
-  handleBannerChange({ fileList }) {
+  handleBannerChange({ file, fileList }) {
+    if (file.status === 'done') {
+      this.setState({ profileBannerImage: file.response.avatar })
+    }
     this.setState({ bannerFileList: fileList })
   }
 
@@ -188,7 +188,7 @@ class EditUserProfile extends Component {
 
   render() {
     const {
-      email, phoneNumber, favoriteComic, favoriteCharacter,
+      email, phoneNumber, favoriteComic, favoriteCharacter, major,
       previewVisible, bannerPreviewVisible, profileImage, profileBannerImage, fileList, bannerFileList, birthdate
     } = this.state;
     const uploadButton = (
@@ -214,7 +214,8 @@ class EditUserProfile extends Component {
           <div className="background-image">
             <div className="user-banner">
               <Upload
-                action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동할 수 있도록 작성해야 함
+                name="avatar"
+                action={`${baseURL}/public/file`}
                 listType="picture-card"
                 fileList={bannerFileList}
                 onPreview={(e) => this.handleBannerPreview(e)}
@@ -237,7 +238,8 @@ class EditUserProfile extends Component {
             </div>
             <div className="user-profile">
               <Upload
-                action="//jsonplaceholder.typicode.com/posts/" // 실제로 작동할 수 있도록 작성해야 함
+                name="avatar"
+                action={`${baseURL}/public/file`}
                 listType="picture-card"
                 fileList={fileList}
                 onPreview={(e) => this.handlePreview(e)}
@@ -285,6 +287,7 @@ class EditUserProfile extends Component {
                 size="large"
                 style={{ width: '90%', marginBottom: '16px' }}
                 options={majors}
+                defaultValue={getDepartmentAndMajor(major)}
                 onChange={(value) => this.onMajorChange(value)}
                 placeholder="*전공"
               />

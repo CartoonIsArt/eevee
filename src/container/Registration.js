@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import axios, { baseURL } from '../fetches/axios'
+import { postAccount } from '../actions'
+import { baseURL } from '../fetches/axios'
 import club_rules from '../common/club_rules'
 import privacy_policy from '../common/privacy_policy'
 import majors from '../common/majors'
+import {
+  beforeUpload,
+  isHyphenPosition,
+  isKoreanOnly,
+  isPermittedBirthdate,
+  isValidPhoneNumber,
+  isValidStudentNumber
+} from '../lib'
 import {
   Alert,
   Button,
   Cascader, 
   Checkbox,
   Upload,
-  message,
   DatePicker,
   Form,
   Icon,
@@ -19,6 +27,7 @@ import {
 } from 'antd'
 
 const FormItem = Form.Item;
+
 const nThs = (() => {
   const max = moment().get('year') - 1998
   let nThs = []
@@ -34,30 +43,12 @@ const default_nTh = (() => {
 })()
 const default_birthdate = moment().subtract(19, 'years')
 
-function beforeUpload(file) {
-  const isImage = file.type === 'image/gif'
-                  || file.type === 'image/png'
-                  || file.type === 'image/jpeg'
-                  || file.type === 'image/bmp'
-                  || file.type === 'image/webp';
-  if (!isImage) {
-    message.error('이미지만 업로드 해주세요!');
-  }
-  const isLt10M = file.size / 1024 / 1024 < 10;
-  if (!isLt10M) {
-    message.error('10MB 넘으면 안되요!');
-  }
-  return isImage && isLt10M;
-}
-
-function isPermittedBirthdate(date) {
-  const max_birthdate = moment().subtract(120, 'years')
-  const min_birthdate = moment()
-
-  return date
-    && date.isBefore(max_birthdate)
-    && date.isAfter(min_birthdate)
-}
+const uploadButton = (
+  <div>
+    <Icon type="plus" />
+    <div><p> 업로드 </p></div>
+  </div>
+);
 
 class Registration extends Component {
   constructor(props) {
@@ -102,12 +93,12 @@ class Registration extends Component {
     this.onChangeInput({ major: value[1] })
   }
 
-  onButtonClicked() {
+  async onButtonClicked() {
     if (this.isEmpty()) {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
     // https://develop-im.tistory.com/21
-    if (/[^가-힣\s]/.test(this.state.name)) {
+    if (isKoreanOnly(this.state.name)) {
       return Modal.warning({ title: '이름을 확인해주세요!', content: '한글 이름만 사용 가능합니다.' })
     }
     if (this.state.password !== this.state.passwordCheck) {
@@ -115,14 +106,14 @@ class Registration extends Component {
     }
     // https://stackoverflow.com/questions/4374185/regular-expression-match-to-test-for-a-valid-year
     // https://stackoverflow.com/questions/1538512/how-can-i-invert-a-regular-expression-in-javascript
-    if (/^(?!.*^[12][0-9]{3}\d{6}$)/.test(this.state.studentNumber)) {
+    if (isValidStudentNumber(this.state.studentNumber)) {
       return Modal.warning({ title: '학번을 확인해주세요!', content: '유효하지 않은 학번입니다.' })
     }
     // https://emailregex.com/
-    if (/^(?!.*^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$).*/.test(this.state.email)) {
+    if (isValidEmail(this.state.email)) {
       return Modal.warning({ title: '이메일을 확인해주세요!', content: '유효하지 않은 이메일 주소입니다.' })
     }
-    if (/^(?!.*^\d{3}[-]+\d{4}[-]+\d{4}$)/.test(this.state.phoneNumber)) {
+    if (isValidPhoneNumber(this.state.phoneNumber)) {
       return Modal.warning({ title: '전화번호를 확인해주세요!', content: '유효하지 않은 전화번호입니다.' })
     }
 
@@ -141,21 +132,22 @@ class Registration extends Component {
       email: this.state.email,
       phoneNumber: this.state.phoneNumber,
     }
-    axios.post('/public/account', formData)
-      .then(() => {
-        Modal.success({
-          title: '가입 신청이 완료되었습니다!',
-          content: '오늘 안으로 가입 승인이 완료될 거에요.',
-          onOk() { location.href = '/login' },
-        })
+
+  axios.post('/public/account', formData)
+    .then(() => {
+      Modal.success({
+        title: '가입 신청이 완료되었습니다!',
+        content: '오늘 안으로 가입 승인이 완료될 거에요.',
+        onOk() { location.href = '/login' },
       })
-      .catch((e) => {
-        const message = e.response.data
-        Modal.warning({
-          title: '입력 데이터를 확인해주세요!',
-          content: `사용할 수 없는 값입니다: ${message.slice(16, message.indexOf("'", 17) + 1)}`
-        })
+    })
+    .catch((e) => {
+      const message = e.response.data
+      Modal.warning({
+        title: '입력 데이터를 확인해주세요!',
+        content: `사용할 수 없는 값입니다: ${message.slice(16, message.indexOf("'", 17) + 1)}`,
       })
+    })
   }
 
   isEmpty() {
@@ -189,15 +181,13 @@ class Registration extends Component {
   }
 
   onChangePhoneNumber(phoneNumber) {
-    if (/(?![0-9-]{0,13}$)/.test(phoneNumber)) {
+    if (isValidPhoneNumber(phoneNumber)) {
       return
     }
-    if (this.isKeyBackspace
-        && (phoneNumber.length == 4 || phoneNumber.length == 9)) {
+    if (this.isKeyBackspace && isHyphenPosition(phoneNumber)) {
       phoneNumber = phoneNumber.slice(0, -1)
     }
-    if (!this.isKeyBackspace
-        && (phoneNumber.length == 4 || phoneNumber.length == 9)) {
+    if (!this.isKeyBackspace && isHyphenPosition(phoneNumber)) {
       phoneNumber = [
         phoneNumber.slice(0, phoneNumber.length - 1),
         phoneNumber.slice(phoneNumber.length - 1),
@@ -218,13 +208,7 @@ class Registration extends Component {
       studentNumber, name, email, phoneNumber, 
       fileList, previewVisible, 
     } = this.state;
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div><p> 업로드 </p></div>
-      </div>
-    );
-
+    
     return (
       this.state.agreeAll
         ? (
@@ -477,8 +461,8 @@ class Registration extends Component {
               className="pt-button pt-intent-success float-right"
               style={{ marginTop: '20px' }}
               onClick={() => this.state.agreeLaw
-                             && this.state.agreeTerms
-                             && this.setState({ agreeAll: true })
+                            && this.state.agreeTerms
+                            && this.setState({ agreeAll: true })
                             && console.log(this.state.agreeAll)}
               disabled={!(this.state.agreeLaw && this.state.agreeTerms)}
             >
