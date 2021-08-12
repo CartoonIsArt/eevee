@@ -8,7 +8,7 @@ class Recomment extends Component {
     if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
     if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
     if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
-    return (<div />)
+    return (<span />)
   }
 
   render() {
