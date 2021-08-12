@@ -3,7 +3,14 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Feed from '../components/Feed'
-import { getMembers, logout, getAccount, getAccountTimeline, getLikedTimeline, getCommentedTimeline, checkPassword } from '../actions'
+import {
+  getMembers,
+  logout,
+  getAccount,
+  getAccountTimeline,
+  getLikedTimeline,
+  getCommentedTimeline
+} from '../actions'
 import { Button, Icon, Menu, Modal, Form, Input, Tag } from 'antd'
 import { isAlmostScrolled } from '../lib'
 

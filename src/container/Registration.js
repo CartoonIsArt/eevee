@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { postAccount } from '../actions'
 import { baseURL } from '../fetches/axios'
 import club_rules from '../common/club_rules'
 import privacy_policy from '../common/privacy_policy'
