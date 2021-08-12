@@ -5,7 +5,5 @@ export const baseURL = `https://${hostname}/api`
 
 export default axios.create({
   baseURL,
-  Headers: {
-    withCredentials: true
-  }
+  withCredentials: true,
 })
