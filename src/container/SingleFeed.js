@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import Profile from './Profile'
 import Noties from './Noties'
 import Feed from '../components/Feed'
@@ -62,6 +64,10 @@ class SingleFeed extends Component {
   }
 }
 
+SingleFeed.propTypes = {
+  history: PropTypes.object.isRequired,
+}
+
 const mapStateToProps = (state) => ({
   account: state.account,
 })
@@ -69,4 +75,4 @@ const mapDispatchToProps = ({
   getAccount,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleFeed)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleFeed))
