@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Regulared from '../components/Regulared'
 import axios from '../fetches/axios'
@@ -98,10 +99,9 @@ class Enrollment extends Component {
                     </div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    {/* <a href="https://cia.kw.ac.kr/wiki/index.php?title=%ED%9A%8C%EC%B9%99#.EC.A0.9C3.EC.A0.88_.EC.A0.95.ED.9A.8C.EC.9B.90"> */}
-                    <a href="https://cafe.naver.com/ciapg523/62">
+                    <Link to="/law">
                       <div style={{ fontSize: '14pt', fontWeight: 'bold' }}>회칙 보기</div>
-                    </a>
+                    </Link>
                     <Button
                       onClick={() => this.onClickMethod()}
                       size="large"
