@@ -44,14 +44,12 @@ class Doc extends Component {
 
   render() {
     const { isAppend } = this.state
-    const { content } = this.props
-    const { author } = content
+    const { account, content } = this.props
+    const { author, createdAt } = content
     const nickname = `${author.student.nTh}기 ${author.student.name}`
-    const { createdAt } = content
     const imgsrc = author.profile.profileImage
     const imgalt = author.profile.profileImage
     // const images = content.images
-    const { account } = this.props
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
         {/* <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
@@ -101,8 +99,9 @@ class Doc extends Component {
         <div style={isAppend ? { display: 'block' } : { display: 'none' }}>
           <Write
             account={account}
-            documentId={this.props.content.id}
+            documentId={content.id}
             isAppend
+            isNotification={Boolean(content.isNotification)}
           />
         </div>
         <Line />
@@ -116,12 +115,8 @@ class Doc extends Component {
                       <span>{`${lover.student.nTh}기 ${lover.student.name}`} {this.makeAccountBadge(lover)}</span>
                     </pre>
                   ))
-                  : (
-                    <pre>
-                      당신이 이 글의 첫 번째 좋아요를 눌러주세요!
-                    </pre>
-                  )
-              }
+                  : (<pre>당신이 이 글의 첫 번째 좋아요를 눌러주세요!</pre>)
+                }
               placement="rightTop"
             >
               <Button
@@ -148,22 +143,21 @@ class Doc extends Component {
               {`댓글 ${content.comments.length}`}
             </a>
           </div>
-          {content.author.id === this.props.account.id
-          ? 
-          <div>
-            <Button
-              style={{ marginRight: '4px' }}
-              shape="circle"
-              icon="plus"
-              size="small"
-              onClick={() => this.toggleAppending()}
-            />
-            <a onClick={() => this.toggleAppending()}>
-              이어쓰기
-            </a>
-          </div>
-          : <div />
-          }
+          {content.author.id === account.id
+            && (
+              <div>
+                <Button
+                  style={{ marginRight: '4px' }}
+                  shape="circle"
+                  icon="plus"
+                  size="small"
+                  onClick={() => this.toggleAppending()}
+                />
+                <a onClick={() => this.toggleAppending()}>
+                  이어쓰기
+                </a>
+              </div>
+              )}
         </div>
       </div>
     )
