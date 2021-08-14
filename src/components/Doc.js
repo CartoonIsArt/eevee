@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Line from './Line'
 import Namecard from './Namecard'
+import NameTag from './NameTag'
 import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
@@ -20,13 +20,6 @@ class Doc extends Component {
     this.props.getAccount()
   }
   
-  makeAccountBadge(account) {
-    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
-    return (<span />)
-  }
-
   onClickLikeIt() {
     const { content } = this.props
     const { account } = this.props
@@ -46,10 +39,10 @@ class Doc extends Component {
     const { isAppend } = this.state
     const { account, content } = this.props
     const { author, createdAt } = content
-    const nickname = `${author.student.nTh}기 ${author.student.name}`
     const imgsrc = author.profile.profileImage
     const imgalt = author.profile.profileImage
     // const images = content.images
+    
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
         {/* <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
@@ -75,11 +68,9 @@ class Doc extends Component {
                   ? (
                     <Popover
                       placement="leftTop"
-                      content={<Namecard content={author} />}
+                      content={<Namecard account={author} />}
                     >
-                      <Link to={`/members/${author.username}`}>
-                        <span> {nickname} {this.makeAccountBadge(author)} </span>
-                      </Link>
+                      <NameTag account={author} />
                     </Popover>
                   )
                   : <div> 탈퇴한 회원 </div>
@@ -112,7 +103,7 @@ class Doc extends Component {
                 content.likedAccounts.length
                   ? content.likedAccounts.map((lover, idx) => (
                     <pre key={idx}>
-                      <span>{`${lover.student.nTh}기 ${lover.student.name}`} {this.makeAccountBadge(lover)}</span>
+                      <NameTag account={lover} nameOnly={true} />
                     </pre>
                   ))
                   : (<pre>당신이 이 글의 첫 번째 좋아요를 눌러주세요!</pre>)

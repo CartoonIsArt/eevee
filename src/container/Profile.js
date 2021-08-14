@@ -10,7 +10,7 @@ class Profile extends Component {
     const { account } = this.props
     return (
       <div style={{ background: '#FFFFFF' }}>
-        <Namecard content={account} />
+        <Namecard account={account} />
         <Activity content={account} />
       </div>
     )

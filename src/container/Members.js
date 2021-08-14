@@ -58,7 +58,7 @@ class Members extends Component {
                         margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px',
                       }}
                     >
-                      <Namecard content={member} width="240px" />
+                      <Namecard account={member} width="240px" />
                     </div>
                   ))}
               </div>
@@ -75,7 +75,7 @@ class Members extends Component {
                         margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px',
                       }}
                     >
-                      <Namecard content={member} width="240px" />
+                      <Namecard account={member} width="240px" />
                     </div>
                   ))}
               </div>
