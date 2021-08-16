@@ -33,8 +33,10 @@ class Login extends Component {
     }
     this.props.login(formData)
       .catch((e) => {
-        console.log(e)
-        Modal.warning({ title: '로그인에 실패했습니다.', content: '입력한 아이디와 비밀번호를 확인해주세요.' })
+        Modal.warning({
+          title: '로그인에 실패했습니다.',
+          content: e.response.data
+        })
       })
   }
 
