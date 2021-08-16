@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Feed from '../components/Feed'
-import { getMembers, logout, getAccount, getAccountTimeline, getLikedTimeline, getCommentedTimeline, checkPassword } from '../actions'
+import axios from '../fetches/axios'
+import { getMembers, logout, getAccount, getAccountTimeline, getLikedTimeline, getCommentedTimeline } from '../actions'
 import { Button, Icon, Menu, Modal, Form, Input, Tag } from 'antd'
 import { isAlmostScrolled } from '../lib'
 
@@ -53,11 +54,12 @@ class Userpage extends Component {
     window.removeEventListener('scroll', this.wrapper)
   }
 
-  makeAccountBadge(account) {
-    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /> 관리자</Tag>)
-    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /> 임원진</Tag>)
-    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /> 총무</Tag>)
-    return (<div />)
+  shouldComponentUpdate(nextProps) {
+    if (!nextProps.auth) {
+      this.props.history.push('/login')
+      return false
+    }
+    return true
   }
 
   showModal() {
@@ -233,7 +235,7 @@ class Userpage extends Component {
                   <p>{member.student.name}</p>
                   <p>{member.student.major}</p>
                   <p>{Userpage.check(member.isActive)}</p>
-                  <p><span>{Userpage.check(this.isRegularMember(member))} {this.makeAccountBadge(member)}</span></p>   
+                  <p><span>{Userpage.check(this.isRegularMember(member))}</span></p>   
                 </div>
               </div>
             </div>
@@ -270,10 +272,12 @@ class Userpage extends Component {
 }
 
 Userpage.propTypes = {
+  auth: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
   getAccountTimeline: PropTypes.func.isRequired,
   getLikedTimeline: PropTypes.func.isRequired,
   getCommentedTimeline: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
 Userpage.defaultProps = {
@@ -284,6 +288,7 @@ const mapStateToProps = (state) => ({
   timeline: state.timeline,
   members: state.members,
   account: state.account,
+  auth: state.auth,
 })
 const mapDispatchToProps = ({
   getAccountTimeline,

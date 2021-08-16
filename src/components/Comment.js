@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
+import NameTag from './NameTag'
 import { printTime } from '../policy'
 import { postCommentLike, patchCommentLike } from '../actions'
-import { Button, Popover, Tag, Icon } from 'antd'
+import { Button, Popover } from 'antd'
 
 class Comment extends Component {
   constructor(props) {
@@ -14,13 +14,6 @@ class Comment extends Component {
     this.state = {
       viewRecomment: false,
     }
-  }
-  
-  makeAccountBadge(account) {
-    if (account.role === "superuser") return (<Tag color="tomato"><Icon type="user" /></Tag>)
-    if (account.role === "board manager") return (<Tag color="yellowgreen"><Icon type="form" /></Tag>)
-    if (account.role === "manager") return (<Tag color="goldenrod"><Icon type="dollar" /></Tag>)
-    return (<div />)
   }
 
   onClickLikeIt() {
@@ -43,7 +36,6 @@ class Comment extends Component {
     const comment = this.props.content
     const { account } = this.props
     const { author } = comment
-    const nickname = `${author.student.nTh}기 ${author.student.name}`
     const imgsrc = author.profile.profileImage
     const imgalt = author.profile.profileImage
 
@@ -59,12 +51,10 @@ class Comment extends Component {
           <div style={{ width: '91%' }}>
             <p>
               <Popover
-                content={<Namecard content={author} />}
+                content={<Namecard account={author} />}
                 placement="leftTop"
               >
-                <Link to={`/members/${author.student.username}`}>
-                  <span> {nickname} {this.makeAccountBadge(author)} </span>
-                </Link>
+                <NameTag account={author} minimizeIcon={true} />
               </Popover>
               {comment.content}
             </p>
@@ -72,9 +62,9 @@ class Comment extends Component {
               <Popover
                 content={
                   comment.likedAccounts.length
-                    ? comment.likedAccounts.map((lover) => (
-                      <pre>
-                        <span>{`${lover.student.nTh}기 ${lover.student.name}`} {this.makeAccountBadge(lover)}</span>
+                    ? comment.likedAccounts.map((lover, idx) => (
+                      <pre key={idx}>
+                        <NameTag account={lover} nameOnly={true} />
                       </pre>
                     ))
                     : (

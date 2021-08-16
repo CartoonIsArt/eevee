@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import { postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
 import Dropzone from 'react-dropzone'
-import { Button, Mention, notification, Icon } from 'antd'
+import { Button, Mention, notification, Checkbox, Row, Col } from 'antd'
 
 const { toContentState, toString } = Mention
 
@@ -15,11 +15,19 @@ const openNotificationWithIcon = () => {
   })
 }
 
+function isManager(account) {
+  if (account.role === "superuser")     return true
+  if (account.role === "board manager") return true
+  if (account.role === "manager")       return true
+  return false
+}
+
 class Write extends Component {
   constructor(props) {
     super(props)
     this.state = {
       value: toContentState(''),
+      isNotification: this.props.isNotification || false,
       fileList: [],
       mode: 'edit',
     }
@@ -65,7 +73,7 @@ class Write extends Component {
     const editModeDisplay = (
       <Dropzone
         accept={['image/jpeg', 'image/png']}
-        noClick={true}
+        onClick={true}
         onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
         onDropRejected={() => this.notifyUnsupportedFile()}
       >
@@ -97,22 +105,26 @@ class Write extends Component {
 
   getButton(mode) {
     const editModeButton = (
-      <div style={{ display: 'flex' }}>
-        <Button icon="question-circle" onClick={() => openNotificationWithIcon()}>
-          문법
+      <div style={{ display: 'flex', float: 'right' }}>
+        <Button
+          style={{ marginRight: '4px' }}
+          icon="question-circle"
+          onClick={() => openNotificationWithIcon()}>
+            문법
         </Button>
-        <div style={{ width: '4px' }} />
         <Button icon="edit" onClick={() => this.changeMode('preview')}>
           글쓸거임?
         </Button>
       </div>
     )
     const previewModeButton = (
-      <div style={{ display: 'flex' }}>
-        <Button icon="reload" onClick={() => this.changeMode('edit')}>
-          수정
+      <div style={{ display: 'flex', float: 'right' }}>
+        <Button
+          style={{ marginRight: '4px' }}
+          icon="reload"
+          onClick={() => this.changeMode('edit')}>
+            수정
         </Button>
-        <div style={{ width: '4px' }} />
         <Button icon="cloud-upload" type="primary" onClick={() => this.uploadDocument()}>
           완료
         </Button>
@@ -124,8 +136,8 @@ class Write extends Component {
   }
 
   uploadDocument() {
-    const value = toString(this.state.value)
-    if (isSpace(value)) {
+    const content = toString(this.state.value)
+    if (isSpace(content) && (this.props.isNotification === this.state.isNotification)) {
       return notification.warning({
         message: '글을 확인해주세요!',
         description: '업로드하고자 하는 글 내용이 없습니다',
@@ -133,18 +145,28 @@ class Write extends Component {
       })
     }
 
+    const formData = {
+      id: this.props.documentId,
+      content,
+      isNotification: this.state.isNotification,
+    }
+
     if (this.props.documentId > 0) {
-      this.props.patchDocument({
-        id: this.props.documentId,
-        content: value,
-      })
-    } else {
-      this.props.postDocument({ content: value })
+      this.props.patchDocument(formData)
+    }
+    else {
+      this.props.postDocument(formData)
     }
     this.setState({
       value: toContentState(''),
       fileList: [],
       mode: 'edit',
+    })
+  }
+
+  toggleSetNotification(e) {
+    this.setState({
+      isNotification: e.target.checked
     })
   }
 
@@ -173,22 +195,35 @@ class Write extends Component {
         }
         <div style={{ flexGrow: 1 }}>
           { display }
-          <div style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
-            <Dropzone
-              accept={['image/jpeg', 'image/png']}
-              noDrag={true}
-              onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
-              onDropRejected={() => this.notifyUnsupportedFile()}
-            >
-              {({ getRootProps, getInputProps }) => (
-                <div {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  <Button icon="picture" shape="circle" />
-                </div>
-              )}
-            </Dropzone>
+          <Row style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
+            <Col span={2}>
+              <Dropzone
+                accept={['image/jpeg', 'image/png']}
+                onDrag={true}
+                onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
+                onDropRejected={() => this.notifyUnsupportedFile()}
+              >
+                {({ getRootProps, getInputProps }) => (
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <Button icon="picture" shape="circle" />
+                  </div>
+                )}
+              </Dropzone>
+            </Col>
+            <Col span={13}>
+            { isManager(account)
+              && (<Checkbox
+                    style={{ marginTop: '4px' }}
+                    checked={this.state.isNotification}
+                    onChange={(e) => this.toggleSetNotification(e)}>
+                      공지사항으로 설정
+                  </Checkbox>) }
+            </Col>
+            <Col span={8}>
             { button }
-          </div>
+            </Col>
+          </Row>
         </div>
       </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 import Sider from './container/Sider'
 import Enrollment from './container/Enrollment'
-import Noties from './container/Noties'
+import Notifications from './container/Notifications'
 import Members from './container/Members'
 import Accounting from './container/Accounting'
 import Cleaning from './container/Cleaning'
@@ -54,10 +54,10 @@ export const routes = [
     main: <Enrollment />,
   },
   {
-    path: '/noties',
+    path: '/notifications',
     has_navigator: true,
     sidebar: <Sider />,
-    main: <Noties />,
+    main: <Notifications />,
   },
   {
     path: '/accounting',

@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { postAccount } from '../actions'
-import { baseURL } from '../fetches/axios'
+import axios, { baseURL } from '../fetches/axios'
 import club_rules from '../common/club_rules'
 import privacy_policy from '../common/privacy_policy'
 import majors from '../common/majors'
 import {
   beforeUpload,
+  isValidEmail,
   isHyphenPosition,
   isKoreanOnly,
   isPermittedBirthdate,
   isValidPhoneNumber,
-  isValidStudentNumber
+  isValidPhoneNumberOnTyping,
+  isValidStudentNumber,
 } from '../lib'
 import {
   Alert,
@@ -181,7 +182,7 @@ class Registration extends Component {
   }
 
   onChangePhoneNumber(phoneNumber) {
-    if (isValidPhoneNumber(phoneNumber)) {
+    if (isValidPhoneNumberOnTyping(phoneNumber)) {
       return
     }
     if (this.isKeyBackspace && isHyphenPosition(phoneNumber)) {

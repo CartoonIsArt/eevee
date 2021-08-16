@@ -11,7 +11,7 @@ const history = createBrowserHistory()
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['account']
+  whitelist: ['account', 'auth']
 }
 const persistedReducer = persistReducer(persistConfig, createRootReducer(history))
 
