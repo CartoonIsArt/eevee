@@ -241,11 +241,11 @@ class Registration extends Component {
               </div>
               <div style={{ width: '288px', marginTop: '20px' }}>
                 <Alert message="* 부분은 필수 입력사항입니다" type="warning" />
-                <Form style={{ marginTop: '20px' }}>
+                <Form className="form-profile-upload">
                   <FormItem label="프로필 사진">
                     <div style={{ marginTop: '8px' }}>
                       <div>
-                        <Upload
+                        <Upload className="registration-profile-upload"
                           name="avatar"
                           action={`${baseURL}/public/file`}
                           listType="picture-card"

@@ -32,6 +32,7 @@ class Feed extends Component {
           viewComments
           && (
           <Comments
+            session={account}
             account={content.author}
             content={content.comments}
             feed={content}

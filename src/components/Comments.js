@@ -21,7 +21,7 @@ class Comments extends Component {
         ))}
         <div style={{ height: '4px' }} />
         <PostComment
-          account={account}
+          account={this.props.session} // 변수명 변경 (Comment 컴포넌트와 함께 해야함)
           feedId={this.props.feed.id}
         />
       </div>

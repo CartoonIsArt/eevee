@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import Feed from '../components/Feed'
 import axios from '../fetches/axios'
 import { getMembers, logout, getAccount, getAccountTimeline, getLikedTimeline, getCommentedTimeline } from '../actions'
-import { Button, Icon, Menu, Modal, Form, Input, Tag } from 'antd'
+import { Button, Icon, Menu, Modal, Form, Input } from 'antd'
 import { isAlmostScrolled } from '../lib'
 
 const TIMELINE_TYPE = {
@@ -158,15 +158,19 @@ class Userpage extends Component {
         nTh: null,
         name: null,
         major: null,
+      },
+      profile: {
+        profileBannerImage: null,
+        profileImage: null,
       }
     } // 임시 방편
 
     return (
       <div className="userpage">
         <div className="header">
-          <div className="background-image" style={{backgroundImage: `url(${account.profile.profileBannerImage})`}}>
+          <div className="background-image" style={{backgroundImage: `url(${member.profile.profileBannerImage})`}}>
             <div className="user-profile">
-              <img className="profile-image-size" src={account.profile.profileImage} alt="Profile-img" />
+              <img className="profile-image-size" src={member.profile.profileImage} alt="Profile-img" />
             </div>
           </div>
           <div className="menu-bar">
