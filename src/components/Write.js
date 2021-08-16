@@ -74,6 +74,13 @@ class Write extends Component {
 
   addImage(acceptedFiles) {
     this.props.postPhotos(acceptedFiles)
+      .catch((e) => {
+        notification.warning({
+          message: e.message,
+          description: e.unsafes.join('\n'),
+          duration: 5,
+        })
+      })
   }
 
   getDisplay(mode) {

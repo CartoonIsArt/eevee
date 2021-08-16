@@ -199,7 +199,14 @@ export const patchCommentLike = (id) => (dispatch) =>
     })
 
 // File
-// 
+//
+class UnsafeImageError extends Error {
+  constructor(message, unsafes) {
+    super(message)
+    this.unsafes = unsafes
+  }
+}
+
 export const postPhotos = (photos) => (dispatch) => {
   const config = {
     header: { 'Content-Type': 'multipart/form-data' }
@@ -209,7 +216,9 @@ export const postPhotos = (photos) => (dispatch) => {
 
   return axios.post('/files', formData, config)
     .then((r) => {
-      const { photos } = r.data
+      const { photos, warning, unsafes } = r.data
       dispatch(setPhotos(photos))
+      if (warning)
+        throw new UnsafeImageError(warning, unsafes)
     })
 }
