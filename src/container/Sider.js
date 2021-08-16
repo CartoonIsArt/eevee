@@ -10,7 +10,7 @@ class Sider extends Component {
   static getAncestorKeys(key) {
     const map = {
       sub1: ['/enrollment'],
-      sub2: ['/noties'],
+      sub2: ['/notifications'],
     };
     return map[key] || [];
   }
@@ -74,7 +74,7 @@ class Sider extends Component {
               title={
                 <span><Icon type="notification" /><span>공지사항</span></span>}
             >
-              <Menu.Item key="/noties">공지사항</Menu.Item>
+              <Menu.Item key="/notifications">공지사항</Menu.Item>
               <Menu.Item key="/accounting">회비미납자</Menu.Item>
               <Menu.Item key="/cleaning">청소조</Menu.Item>
             </SubMenu>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import Profile from './Profile'
-import Noties from './Noties'
+import Notifications from './Notifications'
 import Feed from '../components/Feed'
-import { getAccount } from '../actions'
-import { getFeed } from '../fetches'
+import { getAccount, getFeed } from '../actions'
 import { Affix, Row, Col } from 'antd'
 
 class SingleFeed extends Component {
@@ -16,22 +17,22 @@ class SingleFeed extends Component {
   }
 
   componentWillMount() {
-    /* future
-    this.props.getFeed(this.props.params.id)
-    .then(content => this.setState({content}))
-    */
     /*
-    if (this.props.account.has_logged_in === false) {
+    if (this.props.auth === false) {
       this.props.getAccount()
     }
     */
-    const content = getFeed(this.props.match.params.id)
-    this.setState({ content })
+    this.props.getFeed(this.props.match.params.id)
+      // .then(content => this.setState({ content }))
   }
 
   render() {
-    const { content } = this.state
+    const content = this.props.feed
     const { account } = this.props
+
+    if (content && Object.keys(content).length === 0 && content.constructor === Object)
+      return (<div />);
+
     return (
       <Row>
         <Col span={6}>
@@ -40,7 +41,7 @@ class SingleFeed extends Component {
           </aside>
         </Col>
         <Col span={12}>
-          {content // account.has_logged_in &&
+          {content // auth &&
           && (
           <section style={{ padding: '0px 8px' }}>
             <Feed
@@ -53,7 +54,7 @@ class SingleFeed extends Component {
         <Col span={6}>
           <Affix offsetTop={44}>
             <aside>
-              <Noties />
+              <Notifications />
             </aside>
           </Affix>
         </Col>
@@ -62,11 +63,19 @@ class SingleFeed extends Component {
   }
 }
 
+SingleFeed.propTypes = {
+  history: PropTypes.object.isRequired,
+  getAccount: PropTypes.func.isRequired,
+  getFeed: PropTypes.func.isRequired,
+}
+
 const mapStateToProps = (state) => ({
   account: state.account,
+  feed: state.feed,
 })
 const mapDispatchToProps = ({
   getAccount,
+  getFeed,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleFeed)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleFeed))

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Profile from './Profile'
-import Noties from './Noties'
+import Notifications from './Notifications'
 import Timeline from './Timeline'
 import { Affix, Row, Col, Card } from 'antd'
 
@@ -21,7 +21,7 @@ class Portal extends Component {
         <Col span={6}>
           <Affix offsetTop={56}>
             <aside>
-              <Noties />
+              <Notifications />
               <Card title="외부링크">
                 <p>
                   {/* <a href="https://cia.kw.ac.kr/wiki/index.php"> 동아리 위키 </a> */}

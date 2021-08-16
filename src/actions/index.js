@@ -3,37 +3,34 @@ import axios from '../fetches/axios'
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
 const SET_TIMELINE = 'SETTIMELINE'
+const SET_FEED = 'SETFEED'
 const UPDATE_FEED = 'UPDATEFEED'
 const SET_ACCOUNT = 'SETACCOUNT'
 const SET_MEMBERS = 'SETMEMBERS'
-const SET_NOTIES = 'SETNOTIES'
+const SET_NOTIFICATIONS = 'SETNOTIFICATIONS'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
-const SET_LOGIN = 'SETLOGIN'
 const APPEND_FEED = 'APPENDFEED'
 const APPEND_COMMENT = 'APPENDCOMMENT'
 const UPDATE_COMMENT = 'UPDATECOMMENT'
-const LOGOUT = 'LOGOUT'
+const SET_LOGIN = 'SETLOGIN'
 const SET_LOGOUT = 'SETLOGOUT'
 const SET_PHOTOS = 'SETPHOTOS'
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
-const setAccount = (value) => ({ type: SET_ACCOUNT, account: value })
+const setAccount = (account) => ({ type: SET_ACCOUNT, account })
 const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
+const setFeed = (feed) => ({ type: SET_FEED, feed })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
 const updateComment = (comment) => ({ type: UPDATE_COMMENT, comment })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
-const setNoties = (noties) => ({ type: SET_NOTIES, noties })
-const setLogin = (is_success) => ({ type: SET_LOGIN, is_success })
-const logoutAccount = () => ({ type: LOGOUT })
+const setNotifications = (notifications) => ({ type: SET_NOTIFICATIONS, notifications })
+const setLogin = () => ({ type: SET_LOGIN })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
-
-export const notifyLogin = () => (dispatch) =>
-  dispatch(setLogin(true))
 
 export const sunrise = () => (dispatch) =>
   dispatch(setSun(true))
@@ -44,47 +41,22 @@ export const sundown = () => (dispatch) =>
 export const suntoggle = () => (dispatch) =>
   dispatch(toggleSun())
 
-const account1 = {
-  id: 1,
-  username: 'kswcia',
-  joinDate: '2017-02-05 05:10:13.768196+00:00',
-  birthdate: '1999-11-11 03:00:00+00:00',
-  major: '전자통신공학과',
-  documentsCount: 3,
-  commentsCount: 5,
-  likedDocumentsCount: 4,
-  isActive: false,
-  // isContributer: false,
-  hasGraduated: false,
-  role: "regular",
-  student: {
-    nTh: 16,
-    name: '와아이',
-    phoneNumber: '010-0000-0000',
-    studentNumber: '2000000000',
-  },
-  profile: {
-    profileImage: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
-  }
-}
+// Auth
+//
+export const login = (account) => (dispatch) =>
+  axios.post('/public/login', account)
+    .then(() => {
+      dispatch(setLogin(true))
+    })
 
-export const getNoties = () => (dispatch) =>
-  dispatch(setNoties([
-    {
-      id: 1,
-      createdAt: '2017-06-23T07:03:20.963737Z',
-      from: account1,
-      content: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
-      had_read: true,
-    },
-    {
-      id: 2,
-      createdAt: '2017-06-10T07:03:20.963737Z',
-      from: account1,
-      content: '공지: 6월 종강총회 회의록',
-      had_read: false,
-    },
-  ]))
+export const logout = () => (dispatch) => 
+  axios.get('/logout')
+    .then(() => {
+      dispatch(setLogout())
+    })
+
+export const clearAccount = () => (dispatch) =>
+  dispatch(setAccount({}))
 
 // Account
 //
@@ -102,9 +74,6 @@ export const getAccount = () => (dispatch) =>
       dispatch(setAccount(account))
     })
 
-export const patchAccount = (account) =>
-  axios.patch(`/account/${account.id}`, account)
-
 // Timeline
 //
 export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
@@ -117,6 +86,7 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
 }
+
 export const getAccountTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
@@ -149,6 +119,27 @@ export const getCommentedTimeline = (username, page = 1, keyword = undefined) =>
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
 }
+
+// Notification
+export const getNotifications = (from) => (dispatch) => {
+  const parameter = { from }
+  const queryString = new URLSearchParams(parameter).toString()
+
+  return axios.get(`/notification?${queryString}`)
+    .then((r) => {
+      const { notifications } = r.data
+      dispatch(setNotifications(notifications))
+    })
+}
+
+// Feed
+//
+export const getFeed = (id) => (dispatch) =>
+  axios.get(`/document/${id}`)
+    .then((r) => {
+      const { document } = r.data
+      dispatch(setFeed(document))
+    })
 
 // Document
 //
@@ -205,13 +196,6 @@ export const patchCommentLike = (id) => (dispatch) =>
     .then((r) => {
       const { likedAccounts } = r.data
       dispatch(updateComment({ id, likedAccounts }))
-    })
-
-export const logout = () => (dispatch) => 
-  axios.get('/logout')
-    .then(() => {
-      dispatch(logoutAccount())
-      dispatch(setLogout())
     })
 
 // File

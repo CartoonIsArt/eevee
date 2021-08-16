@@ -19,8 +19,8 @@ class Feed extends Component {
 
   render() {
     const { viewComments } = this.state
-    const { content } = this.props
-    const { account } = this.props
+    const { account, content } = this.props
+
     return (
       <article style={{ marginBottom: '4px' }}>
         <Doc
@@ -32,6 +32,7 @@ class Feed extends Component {
           viewComments
           && (
           <Comments
+            session={account}
             account={content.author}
             content={content.comments}
             feed={content}

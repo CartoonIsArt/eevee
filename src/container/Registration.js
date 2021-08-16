@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import { baseURL } from '../fetches/axios'
+import axios, { baseURL } from '../fetches/axios'
 import club_rules from '../common/club_rules'
 import privacy_policy from '../common/privacy_policy'
 import majors from '../common/majors'
 import {
   beforeUpload,
+  isValidEmail,
   isHyphenPosition,
   isKoreanOnly,
   isPermittedBirthdate,
   isValidPhoneNumber,
-  isValidStudentNumber
+  isValidPhoneNumberOnTyping,
+  isValidStudentNumber,
 } from '../lib'
 import {
   Alert,
@@ -180,7 +182,7 @@ class Registration extends Component {
   }
 
   onChangePhoneNumber(phoneNumber) {
-    if (isValidPhoneNumber(phoneNumber)) {
+    if (isValidPhoneNumberOnTyping(phoneNumber)) {
       return
     }
     if (this.isKeyBackspace && isHyphenPosition(phoneNumber)) {
@@ -239,11 +241,11 @@ class Registration extends Component {
               </div>
               <div style={{ width: '288px', marginTop: '20px' }}>
                 <Alert message="* 부분은 필수 입력사항입니다" type="warning" />
-                <Form style={{ marginTop: '20px' }}>
+                <Form className="form-profile-upload">
                   <FormItem label="프로필 사진">
                     <div style={{ marginTop: '8px' }}>
                       <div>
-                        <Upload
+                        <Upload className="registration-profile-upload"
                           name="avatar"
                           action={`${baseURL}/public/file`}
                           listType="picture-card"
