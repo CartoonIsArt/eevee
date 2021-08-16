@@ -8,6 +8,13 @@ import { Button, Mention, notification, Checkbox, Row, Col } from 'antd'
 
 const { toContentState, toString } = Mention
 
+const getColor = (props) => {
+  if (props.isDragAccept) return '#00e676'
+  if (props.isDragReject) return '#ff1744'
+  if (props.isDragActive) return '#2196f3'
+  return '#eeeeee'
+}
+
 const openNotificationWithIcon = () => {
   notification.info({
     message: '마크다운 간단문법',
@@ -73,15 +80,17 @@ class Write extends Component {
     const editModeDisplay = (
       <Dropzone
         accept={['image/jpeg', 'image/png']}
-        onClick={true}
+        noClick={true}
         onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
         onDropRejected={() => this.notifyUnsupportedFile()}
       >
-        {({ getRootProps, getInputProps }) => (
-          <div {...getRootProps()}>
+        {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => (
+          <div
+            {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
+          >
             <input {...getInputProps()} />
             <Mention
-              style={{ width: '100%', height: '100px' }}
+              style={{ width: '100%', height: '100px', borderColor: getColor({ isDragActive, isDragAccept, isDragReject }) }}
               multiLines
               placeholder='글을 작성하거나 드래그&드랍으로 이미지를 올릴 수 있습니다.'
               value={this.state.value}
@@ -199,7 +208,7 @@ class Write extends Component {
             <Col span={2}>
               <Dropzone
                 accept={['image/jpeg', 'image/png']}
-                onDrag={true}
+                noDrag={true}
                 onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
                 onDropRejected={() => this.notifyUnsupportedFile()}
               >
