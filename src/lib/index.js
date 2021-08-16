@@ -83,3 +83,5 @@ export const isValidPhoneNumber = (phoneNumber) => /^(?!.*^\d{3}[-]+\d{4}[-]+\d{
 export const isValidPhoneNumberOnTyping = (phoneNumber) => /(?![0-9-]{0,13}$)/.test(phoneNumber)
 
 export const isHyphenPosition = (phoneNumber) => (phoneNumber.length == 4 || phoneNumber.length == 9)
+
+export const getDate2WeeksAgo = () => moment().subtract(2, 'weeks').format('YYYY-MM-DD')

@@ -21,13 +21,7 @@ class Noti extends Component {
           className="noti"
           // eslint-disable-next-line
           onClick={() => this.routeToFeed(noti.id)}
-          style={
-            noti.had_read
-              ? { height: '56px', display: 'flex', alignItems: 'stretch' }
-              : {
-                background: '#bbdefb', height: '56px', display: 'flex', alignItems: 'stretch',
-              }
-}
+          style={{ height: '56px', display: 'flex', alignItems: 'stretch' }}
         >
           <div
             style={{
@@ -37,8 +31,8 @@ class Noti extends Component {
             <a href="#">
               <img
                 width="100%"
-                src={noti.from.profile.profileImage}
-                alt={noti.from.profile.profileImage}
+                src={noti.author.profile.profileImage}
+                alt={noti.author.profile.profileImage}
               />
             </a>
           </div>
@@ -50,10 +44,10 @@ class Noti extends Component {
               <div style={{ marginRight: '24px', marginLeft: '12px' }}>
                 <Popover
                   placement="leftTop"
-                  content={<Namecard account={noti.from} />}
+                  content={<Namecard account={noti.author} />}
                 >
                   <div style={{ fontSize: '10pt' }}>
-                    <NameTag account={noti.from} minimizeIcon={true} />
+                    <NameTag account={noti.author} minimizeIcon={true} />
                   </div>
                 </Popover>
               </div>
