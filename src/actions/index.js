@@ -3,10 +3,11 @@ import axios from '../fetches/axios'
 const SET_SUN = 'SETSUN'
 const TOGGLE_SUN = 'TOGGLESUN'
 const SET_TIMELINE = 'SETTIMELINE'
+const SET_FEED = 'SETFEED'
 const UPDATE_FEED = 'UPDATEFEED'
 const SET_ACCOUNT = 'SETACCOUNT'
 const SET_MEMBERS = 'SETMEMBERS'
-const SET_NOTIES = 'SETNOTIES'
+const SET_NOTIFICATIONS = 'SETNOTIFICATIONS'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
 const APPEND_FEED = 'APPENDFEED'
 const APPEND_COMMENT = 'APPENDCOMMENT'
@@ -19,11 +20,12 @@ const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
 const setAccount = (account) => ({ type: SET_ACCOUNT, account })
 const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
+const setFeed = (feed) => ({ type: SET_FEED, feed })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
-const setNoties = (noties) => ({ type: SET_NOTIES, noties })
+const setNotifications = (notifications) => ({ type: SET_NOTIFICATIONS, notifications })
 const setLogin = () => ({ type: SET_LOGIN })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
@@ -36,48 +38,6 @@ export const sundown = () => (dispatch) =>
   
 export const suntoggle = () => (dispatch) =>
   dispatch(toggleSun())
-
-const account1 = {
-  id: 1,
-  username: 'kswcia',
-  joinDate: '2017-02-05 05:10:13.768196+00:00',
-  birthdate: '1999-11-11 03:00:00+00:00',
-  major: '전자통신공학과',
-  documentsCount: 3,
-  commentsCount: 5,
-  likedDocumentsCount: 4,
-  isActive: false,
-  // isContributer: false,
-  hasGraduated: false,
-  role: "regular",
-  student: {
-    nTh: 16,
-    name: '와아이',
-    phoneNumber: '010-0000-0000',
-    studentNumber: '2000000000',
-  },
-  profile: {
-    profileImage: 'https://avatars.githubusercontent.com/u/8765507?s=400&u=56caf9f6b2255647317e8896972b7e7004b59579&v=4',
-  }
-}
-
-export const getNoties = () => (dispatch) =>
-  dispatch(setNoties([
-    {
-      id: 1,
-      createdAt: '2017-06-23T07:03:20.963737Z',
-      from: account1,
-      content: '님의 댓글: 전 시간 좀 지나니까 적용되던데 다시 시도해보고 기다려보는건 어떤가욤 ㅇㅅㅇ??',
-      had_read: true,
-    },
-    {
-      id: 2,
-      createdAt: '2017-06-10T07:03:20.963737Z',
-      from: account1,
-      content: '공지: 6월 종강총회 회의록',
-      had_read: false,
-    },
-  ]))
 
 // Auth
 //
@@ -157,6 +117,27 @@ export const getCommentedTimeline = (username, page = 1, keyword = undefined) =>
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
 }
+
+// Notification
+export const getNotifications = (from) => (dispatch) => {
+  const parameter = { from }
+  const queryString = new URLSearchParams(parameter).toString()
+
+  return axios.get(`/notification?${queryString}`)
+    .then((r) => {
+      const { notifications } = r.data
+      dispatch(setNotifications(notifications))
+    })
+}
+
+// Feed
+//
+export const getFeed = (id) => (dispatch) =>
+  axios.get(`/document/${id}`)
+    .then((r) => {
+      const { document } = r.data
+      dispatch(setFeed(document))
+    })
 
 // Document
 //

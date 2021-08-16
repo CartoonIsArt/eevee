@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Line from '../components/Line'
 import Noti from '../components/Noti'
-import { getNoties } from '../actions'
+import { getNotifications } from '../actions'
 import { Icon, Modal, notification } from 'antd'
+import { getDate2WeeksAgo } from '../lib'
 
-class Noties extends Component {
+class Notifications extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -14,7 +15,7 @@ class Noties extends Component {
     }
   }
   componentWillMount() {
-    this.props.getNoties()
+    this.props.getNotifications(getDate2WeeksAgo())
   }
 
   hideModal() {
@@ -22,8 +23,8 @@ class Noties extends Component {
   }
 
   render() {
-    const { noties } = this.props
-    console.log(noties)
+    const { notifications } = this.props
+
     return (
       <div>
         <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
@@ -38,7 +39,7 @@ class Noties extends Component {
           </div>
           <Line />
           <div style={{ height: '156px', overflowY: 'scroll' }}>
-            {noties.map((noti) => <Noti content={noti} key={noti.id} />)}
+            {notifications.map((noti) => <Noti content={noti} key={noti.id} />)}
           </div>
         </div>
       </div>
@@ -46,20 +47,20 @@ class Noties extends Component {
   }
 }
 
-Noties.propTypes = {
-  noties: PropTypes.array,
-  getNoties: PropTypes.func.isRequired,
+Notifications.propTypes = {
+  notifications: PropTypes.array,
+  getNotifications: PropTypes.func.isRequired,
 }
 
-Noties.defaultProps = {
-  noties: [],
+Notifications.defaultProps = {
+  notifications: [],
 }
 
 const mapStateToProps = (state) => ({
-  noties: state.noties,
+  notifications: state.notifications,
 })
 const mapDispatchToProps = ({
-  getNoties,
+  getNotifications,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Noties)
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications)
