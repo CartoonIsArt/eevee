@@ -77,7 +77,7 @@ class Write extends Component {
       .catch((e) => {
         notification.warning({
           message: e.message,
-          description: e.unsafes.join('\n'),
+          description: e.unsafes && e.unsafes.join('\n'),
           duration: 5,
         })
       })
