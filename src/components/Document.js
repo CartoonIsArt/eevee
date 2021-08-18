@@ -21,8 +21,7 @@ class Document extends Component {
   }
   
   onClickLikeIt() {
-    const { feed } = this.props
-    const { account } = this.props
+    const { feed, account } = this.props
 
     if (feed.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
       this.props.postDocumentLike(feed.id)
