@@ -17,8 +17,7 @@ class Comment extends Component {
   }
 
   onClickLikeIt() {
-    const { comment } = this.props
-    const { commentAuthor } = this.props
+    const { comment, commentAuthor } = this.props
 
     if (comment.likedAccounts.findIndex((lover) => lover.id === commentAuthor.id) === -1) {
       this.props.postCommentLike(comment.id)
