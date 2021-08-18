@@ -17,10 +17,9 @@ class Comment extends Component {
   }
 
   onClickLikeIt() {
-    const comment = this.props.content
-    const { account } = this.props
+    const { comment, commentAuthor } = this.props
 
-    if (comment.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
+    if (comment.likedAccounts.findIndex((lover) => lover.id === commentAuthor.id) === -1) {
       this.props.postCommentLike(comment.id)
     } else {
       this.props.patchCommentLike(comment.id)
@@ -33,11 +32,9 @@ class Comment extends Component {
 
   render() {
     const { viewRecomment } = this.state
-    const comment = this.props.content
-    const { account } = this.props
-    const { author } = comment
-    const imgsrc = author.profile.profileImage
-    const imgalt = author.profile.profileImage
+    const { comment, commentAuthor } = this.props
+    const imgsrc = commentAuthor.profile.profileImage
+    const imgalt = commentAuthor.profile.profileImage
 
     return (
       <div style={{ margin: '2px 0px' }}>
@@ -51,10 +48,10 @@ class Comment extends Component {
           <div style={{ width: '91%' }}>
             <p>
               <Popover
-                content={<Namecard account={author} />}
+                content={<Namecard account={commentAuthor} />}
                 placement="leftTop"
               >
-                <NameTag account={author} minimizeIcon={true} />
+                <NameTag account={commentAuthor} minimizeIcon={true} />
               </Popover>
               {comment.content}
             </p>
@@ -96,9 +93,8 @@ class Comment extends Component {
             </div>
             <Recomments
               commentId={comment.id}
-              account={account}
               viewRecomment={viewRecomment}
-              content={comment.replies ? comment.replies : []}
+              recomments={comment.replies ? comment.replies : []}
             />
           </div>
           <div>
@@ -116,7 +112,7 @@ class Comment extends Component {
 }
 
 Comment.propTypes = {
-  content: PropTypes.object.isRequired,
+  comment: PropTypes.object.isRequired,
   postCommentLike: PropTypes.func.isRequired,
   patchCommentLike: PropTypes.func.isRequired,
 }

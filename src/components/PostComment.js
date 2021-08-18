@@ -72,9 +72,11 @@ class PostComment extends Component {
 
 PostComment.propTypes = {
   postComment: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
+  account: state.account,
 })
 const mapDispatchToProps = ({
   postComment,
