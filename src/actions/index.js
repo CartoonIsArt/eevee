@@ -11,6 +11,7 @@ const SET_NOTIFICATIONS = 'SETNOTIFICATIONS'
 const APPEND_TIMELINE = 'APPENDTIMELINE'
 const APPEND_FEED = 'APPENDFEED'
 const APPEND_COMMENT = 'APPENDCOMMENT'
+const UPDATE_COMMENT = 'UPDATECOMMENT'
 const SET_LOGIN = 'SETLOGIN'
 const SET_LOGOUT = 'SETLOGOUT'
 const SET_PHOTOS = 'SETPHOTOS'
@@ -24,6 +25,7 @@ const setFeed = (feed) => ({ type: SET_FEED, feed })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
+const updateComment = (comment) => ({ type: UPDATE_COMMENT, comment })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const setNotifications = (notifications) => ({ type: SET_NOTIFICATIONS, notifications })
 const setLogin = () => ({ type: SET_LOGIN })
@@ -185,21 +187,26 @@ export const postComment = (comment) => (dispatch) =>
 export const postCommentLike = (id) => (dispatch) => 
   axios.post(`/comment/${id}/LikeIt`)
     .then((r) => {
-      const { likedAccounts, account } = r.data
-      dispatch(updateFeed({ id, likedAccounts }))
-      dispatch(setAccount(account))
+      const { likedAccounts } = r.data
+      dispatch(updateComment({ id, likedAccounts }))
     })
 
 export const patchCommentLike = (id) => (dispatch) =>
   axios.patch(`/comment/${id}/LikeIt`)
     .then((r) => {
-      const { likedAccounts, account } = r.data
-      dispatch(updateFeed({ id, likedAccounts }))
-      dispatch(setAccount(account))
+      const { likedAccounts } = r.data
+      dispatch(updateComment({ id, likedAccounts }))
     })
 
 // File
-// 
+//
+class UnsafeImageError extends Error {
+  constructor(message, unsafes) {
+    super(message)
+    this.unsafes = unsafes
+  }
+}
+
 export const postPhotos = (photos) => (dispatch) => {
   const config = {
     header: { 'Content-Type': 'multipart/form-data' }
@@ -209,7 +216,9 @@ export const postPhotos = (photos) => (dispatch) => {
 
   return axios.post('/files', formData, config)
     .then((r) => {
-      const { photos } = r.data
+      const { photos, warning, unsafes } = r.data
       dispatch(setPhotos(photos))
+      if (warning)
+        throw new UnsafeImageError(warning, unsafes)
     })
 }
