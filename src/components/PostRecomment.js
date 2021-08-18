@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { postComment } from '../actions'
 import { isSpace } from '../lib'
@@ -69,7 +70,12 @@ class PostRecomment extends Component {
   }
 }
 
-const mapStateToProps = () => ({
+PostRecomment.propTypes = {
+  account: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+  account: state.account
 })
 const mapDispatchToProps = ({
   postComment,

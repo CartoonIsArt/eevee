@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Comments from './Comments'
-import Doc from './Doc'
+import Document from './Document'
 
 class Feed extends Component {
   constructor(props) {
@@ -19,23 +19,20 @@ class Feed extends Component {
 
   render() {
     const { viewComments } = this.state
-    const { account, content } = this.props
-
+    const { feed } = this.props
+    
     return (
       <article style={{ marginBottom: '4px' }}>
-        <Doc
-          account={account}
-          content={content}
+        <Document
+          feed={feed}
           onClickComments={() => this.toggleCommentView()}
         />
         {
           viewComments
           && (
           <Comments
-            session={account}
-            account={content.author}
-            content={content.comments}
-            feed={content}
+            comments={feed.comments}
+            feed={feed}
           />
           )
         }
@@ -45,7 +42,7 @@ class Feed extends Component {
 }
 
 Feed.propTypes = {
-  content: PropTypes.object.isRequired,
+  feed: PropTypes.object.isRequired,
 }
 
 export default Feed

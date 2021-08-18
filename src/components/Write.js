@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import ReactMarkdown from 'react-markdown'
 import { postPhotos, postDocument, patchDocument } from '../actions'
@@ -246,8 +247,13 @@ class Write extends Component {
   }
 }
 
+Write.propTypes = {
+  account: PropTypes.object.isRequired,
+}
+
 const mapStateToProps = (state) => ({
-  photos: state.photos
+  photos: state.photos,
+  account: state.account,
 })
 const mapDispatchToProps = ({
   postPhotos,

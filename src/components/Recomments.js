@@ -5,22 +5,19 @@ import PostRecomment from './PostRecomment'
 
 class Recomments extends Component {
   render() {
-    const { viewRecomment } = this.props
-    const recomments = this.props.content
-    const { account } = this.props
+    const { viewRecomment, recomments } = this.props
     return (
       <div>
         {recomments.map((recomment) => (
           <Recomment
             key={recomment.id}
-            content={recomment}
+            recomment={recomment}
           />
         ))}
         {
           viewRecomment
           && (
           <PostRecomment
-            account={account}
             commentId={this.props.commentId}
             onClickWriteRecomment={() => this.onClickWriteRecomment()}
           />
@@ -32,7 +29,7 @@ class Recomments extends Component {
 }
 
 Recomments.propTypes = {
-  content: PropTypes.array.isRequired,
+  recomments: PropTypes.array.isRequired,
 }
 
 export default Recomments
