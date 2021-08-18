@@ -6,8 +6,8 @@ import { Popover } from 'antd'
 
 class Recomment extends Component {
   render() {
-    const { content } = this.props
-    const { author, text } = content
+    const { recomment } = this.props
+    const { author, text } = recomment
     const imgsrc = author.profile.profileImage
     const imgalt = author.profile.profileImage
     
@@ -43,7 +43,7 @@ class Recomment extends Component {
 }
 
 Recomment.propTypes = {
-  content: PropTypes.object.isRequired,
+  recomment: PropTypes.object.isRequired,
 }
 
 export default Recomment

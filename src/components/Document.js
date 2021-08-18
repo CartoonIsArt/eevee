@@ -9,9 +9,9 @@ import { printTime } from '../policy'
 // import Album from './Album'
 import Write from './Write'
 import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
-import { Button, Popover, Tag, Icon } from 'antd'
+import { Button, Popover } from 'antd'
 
-class Doc extends Component {
+class Document extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -21,13 +21,13 @@ class Doc extends Component {
   }
   
   onClickLikeIt() {
-    const { content } = this.props
+    const { feed } = this.props
     const { account } = this.props
 
-    if (content.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
-      this.props.postDocumentLike(content.id)
+    if (feed.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
+      this.props.postDocumentLike(feed.id)
     } else {
-      this.props.patchDocumentLike(content.id)
+      this.props.patchDocumentLike(feed.id)
     }
   }
 
@@ -37,11 +37,10 @@ class Doc extends Component {
 
   render() {
     const { isAppend } = this.state
-    const { account, content } = this.props
-    const { author, createdAt } = content
+    const { account, feed } = this.props
+    const { author, createdAt } = feed
     const imgsrc = author.profile.profileImage
     const imgalt = author.profile.profileImage
-    // const images = content.images
     
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
@@ -84,15 +83,14 @@ class Doc extends Component {
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
-          <ReactMarkdown children={content.content} />
+          <ReactMarkdown children={feed.content} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
         <div style={isAppend ? { display: 'block' } : { display: 'none' }}>
           <Write
-            account={account}
-            documentId={content.id}
+            documentId={feed.id}
             isAppend
-            isNotification={Boolean(content.isNotification)}
+            isNotification={Boolean(feed.isNotification)}
           />
         </div>
         <Line />
@@ -100,8 +98,8 @@ class Doc extends Component {
           <div style={{ marginRight: '12px' }}>
             <Popover
               content={
-                content.likedAccounts.length
-                  ? content.likedAccounts.map((lover, idx) => (
+                feed.likedAccounts.length
+                  ? feed.likedAccounts.map((lover, idx) => (
                     <pre key={idx}>
                       <NameTag account={lover} nameOnly={true} />
                     </pre>
@@ -118,7 +116,7 @@ class Doc extends Component {
                 onClick={() => this.onClickLikeIt()}
               />
               <a onClick={() => this.onClickLikeIt()}>
-                {`좋아요 ${content.likedAccounts.length}`}
+                {`좋아요 ${feed.likedAccounts.length}`}
               </a>
             </Popover>
           </div>
@@ -131,10 +129,10 @@ class Doc extends Component {
               onClick={() => this.props.onClickComments()}
             />
             <a onClick={() => this.props.onClickComments()}>
-              {`댓글 ${content.comments.length}`}
+              {`댓글 ${feed.comments.length}`}
             </a>
           </div>
-          {content.author.id === account.id
+          {feed.author.id === account.id
             && (
               <div>
                 <Button
@@ -155,8 +153,8 @@ class Doc extends Component {
   }
 }
 
-Doc.propTypes = {
-  content: PropTypes.object.isRequired,
+Document.propTypes = {
+  feed: PropTypes.object.isRequired,
   getAccount: PropTypes.func.isRequired,
   postDocumentLike: PropTypes.func.isRequired,
   patchDocumentLike: PropTypes.func.isRequired,
@@ -169,4 +167,4 @@ const mapDispatchToProps = ({
   postDocumentLike,
   patchDocumentLike: patchDocumentLike,
 })
-export default connect(mapStateToProps, mapDispatchToProps)(Doc)
+export default connect(mapStateToProps, mapDispatchToProps)(Document)
