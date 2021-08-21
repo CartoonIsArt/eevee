@@ -21,8 +21,6 @@ class Feed extends Component {
   render() {
     const { viewComments } = this.state
     const { feed } = this.props
-
-    console.log(feed)
     
     return (
       <article style={{ marginBottom: '4px' }}>
