@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getNotifications } from '../actions'
 import Line from '../components/Line'
-import Noti from '../components/Noti'
+import Notification from '../components/Notification'
 import { getDate2WeeksAgo } from '../lib'
 
 
@@ -40,7 +40,7 @@ class Notifications extends Component {
           </div>
           <Line />
           <div style={{ height: '156px', overflowY: 'scroll' }}>
-            {notifications.map((noti) => <Noti content={noti} key={noti.id} />)}
+            {notifications.map((noti) => <Notification notification={noti} key={noti.id} />)}
           </div>
         </div>
       </div>
@@ -49,12 +49,8 @@ class Notifications extends Component {
 }
 
 Notifications.propTypes = {
-  notifications: PropTypes.array,
+  notifications: PropTypes.array.isRequired,
   getNotifications: PropTypes.func.isRequired,
-}
-
-Notifications.defaultProps = {
-  notifications: [],
 }
 
 const mapStateToProps = (state) => ({

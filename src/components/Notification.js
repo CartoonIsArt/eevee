@@ -8,20 +8,20 @@ import NameTag from './NameTag'
 import { printTime } from '../lib'
 
 
-class Noti extends Component {
+class Notification extends Component {
   routeToFeed(feedId) {
     this.props.history.push(`/feed/${feedId}`)
   }
 
   render() {
-    const noti = this.props.content
+    const { notification } = this.props
     
     return (
-      <div key={noti.id}>
+      <div key={notification.id}>
         <div
           className="noti"
           // eslint-disable-next-line
-          onClick={() => this.routeToFeed(noti.id)}
+          onClick={() => this.routeToFeed(notification.id)}
           style={{ height: '56px', display: 'flex', alignItems: 'stretch' }}
         >
           <div
@@ -32,8 +32,8 @@ class Noti extends Component {
             <a href="#">
               <img
                 width="100%"
-                src={noti.author.profile.profileImage}
-                alt={noti.author.profile.profileImage}
+                src={notification.author.profile.profileImage}
+                alt={notification.author.profile.profileImage}
               />
             </a>
           </div>
@@ -45,15 +45,15 @@ class Noti extends Component {
               <div style={{ marginRight: '8px', marginLeft: '12px' }}>
                 <Popover
                   placement="leftTop"
-                  content={<Namecard account={noti.author} />}
+                  content={<Namecard account={notification.author} />}
                 >
                   <div style={{ fontSize: '10pt' }}>
-                    <NameTag account={noti.author} minimizeIcon={true} />
+                    <NameTag account={notification.author} minimizeIcon={true} />
                   </div>
                 </Popover>
               </div>
               <div style={{ fontSize: '9pt', color: 'rgba(1,1,1,0.5)' }}>
-                {printTime(noti.createdAt)}
+                {printTime(notification.createdAt)}
               </div>
             </div>
             <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
@@ -63,7 +63,7 @@ class Noti extends Component {
                   color: 'rgba(0,0,0, 0.8)', wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box',
                 }}
                 >
-                  { noti.content }
+                  { notification.content }
                 </div>
               </a>
             </div>
@@ -75,9 +75,9 @@ class Noti extends Component {
   }
 }
 
-Noti.propTypes = {
-  content: PropTypes.object.isRequired,
+Notification.propTypes = {
+  notification: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 }
 
-export default withRouter(Noti)
+export default withRouter(Notification)
