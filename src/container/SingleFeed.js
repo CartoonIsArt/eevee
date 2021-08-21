@@ -13,7 +13,7 @@ class SingleFeed extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      feed: false,
+      feed: {},
     }
   }
 
@@ -24,7 +24,6 @@ class SingleFeed extends Component {
     }
     */
     this.props.getFeed(this.props.match.params.id)
-      // .then(feed => this.setState({ feed }))
   }
 
   render() {
@@ -34,7 +33,7 @@ class SingleFeed extends Component {
       return (<div />);
 
     return (
-      <Row>
+      <Row style={{ width: '1280px', marginTop: '8px' }}>
         <Col span={6}>
           <aside>
             <Profile />

@@ -1,15 +1,18 @@
 import { Popover } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import Line from './Line'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
+import { getFeed } from '../actions'
 import { printTime } from '../lib'
 
 
 class Notification extends Component {
   routeToFeed(feedId) {
+    this.props.getFeed(feedId)
     this.props.history.push(`/feed/${feedId}`)
   }
 
@@ -20,7 +23,6 @@ class Notification extends Component {
       <div key={notification.id}>
         <div
           className="noti"
-          // eslint-disable-next-line
           onClick={() => this.routeToFeed(notification.id)}
           style={{ height: '56px', display: 'flex', alignItems: 'stretch' }}
         >
@@ -29,13 +31,11 @@ class Notification extends Component {
               width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden', backgroundSize: 'cover',
             }}
           >
-            <a href="#">
-              <img
-                width="100%"
-                src={notification.author.profile.profileImage}
-                alt={notification.author.profile.profileImage}
-              />
-            </a>
+            <img
+              width="100%"
+              src={notification.author.profile.profileImage}
+              alt={notification.author.profile.profileImage}
+            />
           </div>
           <div style={{
             flexGrow: '2', display: 'flex', alignItems: 'stretch', flexDirection: 'column',
@@ -57,15 +57,13 @@ class Notification extends Component {
               </div>
             </div>
             <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
-              <a href="#">
-                <div style={{
-                  fontSize: '9pt', 
-                  color: 'rgba(0,0,0, 0.8)', wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box',
-                }}
-                >
-                  { notification.content }
-                </div>
-              </a>
+              <div style={{
+                fontSize: '9pt', 
+                color: 'rgba(0,0,0, 0.8)', wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box',
+              }}
+              >
+                { notification.content }
+              </div>
             </div>
           </div>
         </div>
@@ -77,7 +75,13 @@ class Notification extends Component {
 
 Notification.propTypes = {
   notification: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
+  getFeed: PropTypes.func.isRequired,
 }
 
-export default withRouter(Notification)
+const mapStateToProps = () => ({
+})
+const mapDispatchToProps = ({
+  getFeed,
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Notification))
