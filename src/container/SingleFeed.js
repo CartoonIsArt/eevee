@@ -12,7 +12,7 @@ class SingleFeed extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      content: false,
+      feed: false,
     }
   }
 
@@ -23,13 +23,13 @@ class SingleFeed extends Component {
     }
     */
     this.props.getFeed(this.props.match.params.id)
-      // .then(content => this.setState({ content }))
+      // .then(feed => this.setState({ feed }))
   }
 
   render() {
-    const content = this.props.feed
+    const { feed } = this.props
 
-    if (content && Object.keys(content).length === 0 && content.constructor === Object)
+    if (feed && Object.keys(feed).length === 0 && feed.constructor === Object)
       return (<div />);
 
     return (
@@ -40,12 +40,10 @@ class SingleFeed extends Component {
           </aside>
         </Col>
         <Col span={12}>
-          {content // auth &&
+          {feed // auth &&
           && (
           <section style={{ padding: '0px 8px' }}>
-            <Feed
-              content={content}
-            />
+            <Feed feed={feed} />
           </section>
           )}
         </Col>
