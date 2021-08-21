@@ -41,7 +41,7 @@ class Noti extends Component {
           }}
           >
             <div style={{ display: 'flex' }}>
-              <div style={{ marginRight: '24px', marginLeft: '12px' }}>
+              <div style={{ marginRight: '8px', marginLeft: '12px' }}>
                 <Popover
                   placement="leftTop"
                   content={<Namecard account={noti.author} />}
