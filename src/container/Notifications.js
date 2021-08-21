@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import { Icon } from 'antd'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { getNotifications } from '../actions'
 import Line from '../components/Line'
 import Noti from '../components/Noti'
-import { getNotifications } from '../actions'
-import { Icon, Modal, notification } from 'antd'
 import { getDate2WeeksAgo } from '../lib'
+
 
 class Notifications extends Component {
   constructor(props) {

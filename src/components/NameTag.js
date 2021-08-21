@@ -1,7 +1,8 @@
+import { Icon, Tag } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { Icon, Tag } from 'antd'
+
 
 function makeAccountBadge(account, minimizeIcon) {
   if (account.role === "superuser")     return (<Tag color="tomato"><Icon type="user" />{minimizeIcon || " 관리자"}</Tag>)

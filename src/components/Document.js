@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import ReactMarkdown from 'react-markdown'
+import { Button, Popover } from 'antd'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import ReactMarkdown from 'react-markdown'
+import { connect } from 'react-redux'
 import Line from './Line'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
-import { printTime } from '../lib'
-// import Album from './Album'
 import Write from './Write'
 import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
-import { Button, Popover } from 'antd'
+import { printTime } from '../lib'
+
 
 class Document extends Component {
   constructor(props) {

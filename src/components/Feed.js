@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import Comments from './Comments'
 import Document from './Document'
+
 
 class Feed extends Component {
   constructor(props) {

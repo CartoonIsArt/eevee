@@ -1,12 +1,13 @@
+import { Affix, Col, Row } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import Profile from './Profile'
 import Notifications from './Notifications'
-import Feed from '../components/Feed'
+import Profile from './Profile'
 import { getFeed } from '../actions'
-import { Affix, Row, Col } from 'antd'
+import Feed from '../components/Feed'
+
 
 class SingleFeed extends Component {
   constructor(props) {

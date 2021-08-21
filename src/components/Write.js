@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import { Button, Checkbox, Col, Mention, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { Component } from 'react'
+import Dropzone from 'react-dropzone'
 import ReactMarkdown from 'react-markdown'
+import { connect } from 'react-redux'
 import { postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
-import Dropzone from 'react-dropzone'
-import { Button, Mention, notification, Checkbox, Row, Col } from 'antd'
+
 
 const { toContentState, toString } = Mention
 

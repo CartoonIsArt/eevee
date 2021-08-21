@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+
 class Wiki extends Component {
   render() {
     const iter = [1, 2, 3]

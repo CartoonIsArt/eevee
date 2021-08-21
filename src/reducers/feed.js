@@ -1,5 +1,6 @@
 import { mergeObject } from '../lib'
 
+
 const feed = (state = {}, action) => {
   switch (action.type) {
     case 'SETFEED':

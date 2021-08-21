@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
-import React, { Component } from 'react'
 import { Button, Icon } from 'antd'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+
 
 class Regulared extends Component {
   render() {

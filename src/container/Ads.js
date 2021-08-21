@@ -1,6 +1,7 @@
+import { Card, Popover } from 'antd'
 import React, { Component } from 'react'
 import Namecard from '../components/Namecard'
-import { Card, Popover } from 'antd'
+
 
 class Ads extends Component {
   render() {

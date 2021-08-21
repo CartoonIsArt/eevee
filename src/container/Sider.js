@@ -1,10 +1,11 @@
+import { Affix, Icon, Menu } from 'antd'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getAccount } from '../actions'
-import { Affix, Menu, Icon } from 'antd'
 
-const { SubMenu } = Menu;
+
+const { SubMenu } = Menu
 
 class Sider extends Component {
   static getAncestorKeys(key) {

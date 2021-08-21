@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
 import { Button, Icon, Modal } from 'antd'
+import React, { Component } from 'react'
+
 
 class Deactivate extends Component {
   constructor(props) {

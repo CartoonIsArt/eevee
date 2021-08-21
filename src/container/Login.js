@@ -1,12 +1,13 @@
+import { Button, Form, Icon, Input, Modal } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { login, getAccount } from '../actions'
-import { Form, Icon, Input, Button, Modal } from 'antd'
+import { getAccount, login } from '../actions'
 
-const FormItem = Form.Item;
+
+const FormItem = Form.Item
 
 class Login extends Component {
   constructor(props) {

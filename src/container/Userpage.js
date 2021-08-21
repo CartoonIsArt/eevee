@@ -1,19 +1,20 @@
+import { Button, Form, Icon, Input, Menu, Modal } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import Feed from '../components/Feed'
 import {
-  getMembers,
-  logout,
   getAccount,
   getAccountTimeline,
+  getCommentedTimeline,
   getLikedTimeline,
-  getCommentedTimeline
+  getMembers,
+  logout,
 } from '../actions'
+import Feed from '../components/Feed'
 import axios from '../fetches/axios'
-import { Button, Icon, Menu, Modal, Form, Input } from 'antd'
 import { isAlmostScrolled } from '../lib'
+
 
 const TIMELINE_TYPE = {
   WRITTEN: 0,

@@ -1,11 +1,12 @@
+import { Popover } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import PropTypes from 'prop-types'
+import Line from './Line'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
-import Line from './Line'
 import { printTime } from '../lib'
-import { Popover } from 'antd'
+
 
 class Noti extends Component {
   routeToFeed(feedId) {

@@ -1,33 +1,34 @@
-import React, { Component } from 'react'
-import moment from 'moment'
-import axios, { baseURL } from '../fetches/axios'
-import club_rules from '../common/club_rules'
-import privacy_policy from '../common/privacy_policy'
-import majors from '../common/majors'
-import {
-  beforeUpload,
-  isValidEmail,
-  isHyphenPosition,
-  isKoreanOnly,
-  isPermittedBirthdate,
-  isValidPhoneNumber,
-  isValidPhoneNumberOnTyping,
-  isValidStudentNumber,
-} from '../lib'
 import {
   Alert,
   Button,
   Cascader, 
   Checkbox,
-  Upload,
   DatePicker,
   Form,
   Icon,
+  Input,
   Modal,
-  Input
+  Upload,
 } from 'antd'
+import moment from 'moment'
+import React, { Component } from 'react'
+import club_rules from '../common/club_rules'
+import majors from '../common/majors'
+import privacy_policy from '../common/privacy_policy'
+import axios, { baseURL } from '../fetches/axios'
+import {
+  beforeUpload,
+  isHyphenPosition,
+  isKoreanOnly,
+  isPermittedBirthdate,
+  isValidEmail,
+  isValidPhoneNumber,
+  isValidPhoneNumberOnTyping,
+  isValidStudentNumber,
+} from '../lib'
 
-const FormItem = Form.Item;
+
+const FormItem = Form.Item
 
 const nThs = (() => {
   const max = moment().get('year') - 1998

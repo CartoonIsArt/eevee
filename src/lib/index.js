@@ -73,9 +73,9 @@ export const isPermittedBirthdate = (date) => {
     && date.isAfter(min_birthdate)
 }
 
-export const isKoreanOnly = (name) => /[^가-힣\s]/.test(name)
+export const isHyphenPosition = (phoneNumber) => (phoneNumber.length == 4 || phoneNumber.length == 9)
 
-export const isValidStudentNumber = (studentNumber) => /^(?!.*^[12][0-9]{3}\d{6}$)/.test(studentNumber)
+export const isKoreanOnly = (name) => /[^가-힣\s]/.test(name)
 
 export const isValidEmail = (email) => /^(?!.*^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$).*/.test(email)
 
@@ -83,7 +83,7 @@ export const isValidPhoneNumber = (phoneNumber) => /^(?!.*^\d{3}[-]+\d{4}[-]+\d{
 
 export const isValidPhoneNumberOnTyping = (phoneNumber) => /(?![0-9-]{0,13}$)/.test(phoneNumber)
 
-export const isHyphenPosition = (phoneNumber) => (phoneNumber.length == 4 || phoneNumber.length == 9)
+export const isValidStudentNumber = (studentNumber) => /^(?!.*^[12][0-9]{3}\d{6}$)/.test(studentNumber)
 
 export const getDate2WeeksAgo = () => moment().subtract(2, 'weeks').format('YYYY-MM-DD')
 

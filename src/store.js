@@ -1,10 +1,11 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 import { routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
+import { applyMiddleware, createStore, compose } from 'redux'
+import { persistReducer, persistStore } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import thunk from 'redux-thunk'
 import createRootReducer from './reducers'
+
 
 const history = createBrowserHistory()
 
