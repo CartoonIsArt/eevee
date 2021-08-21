@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
 import Line from './Line'
-import { printTime } from '../policy'
+import { printTime } from '../lib'
 import { Popover } from 'antd'
 
 class Noti extends Component {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Recomments from './Recomments'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
-import { printTime } from '../policy'
+import { printTime } from '../lib'
 import { postCommentLike, patchCommentLike } from '../actions'
 import { Button, Popover } from 'antd'
 

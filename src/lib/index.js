@@ -1,4 +1,5 @@
 import moment from 'moment'
+import 'moment/locale/ko'
 
 const getWinHeight = () => (
   window.innerHeight
@@ -85,3 +86,18 @@ export const isValidPhoneNumberOnTyping = (phoneNumber) => /(?![0-9-]{0,13}$)/.t
 export const isHyphenPosition = (phoneNumber) => (phoneNumber.length == 4 || phoneNumber.length == 9)
 
 export const getDate2WeeksAgo = () => moment().subtract(2, 'weeks').format('YYYY-MM-DD')
+
+const day3 = 3 * 24 * 60 * 60 * 1000
+const year1 = 365 * 24 * 60 * 60 * 1000
+
+export const printTime = (time) => {
+  const now = moment()
+  const past = moment(time)
+
+  if (now - past < day3) { // 최근 3일
+    return past.locale('ko').fromNow()
+  } if (now - past < year1) { // 최근1년
+    return past.locale('ko').format('MMMM DD일 a h시 mm분')
+  }
+  return past.locale('ko').format('MMMM DD일 a h시 mm분')
+}
