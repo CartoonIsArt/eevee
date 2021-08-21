@@ -82,7 +82,7 @@ class Document extends Component {
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
-          <ReactMarkdown children={feed.content} />
+          <ReactMarkdown className="reactMarkDown" children={feed.content} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
         <div style={isAppend ? { display: 'block' } : { display: 'none' }}>

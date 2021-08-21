@@ -110,7 +110,7 @@ class Write extends Component {
       </Dropzone>
     )
     const previewModeDisplay = () => (
-      <ReactMarkdown children={toString(this.state.value)} />
+      <ReactMarkdown className="reactMarkDown" children={toString(this.state.value)} />
     )
     if (mode === 'edit') return editModeDisplay
     if (mode === 'preview') return previewModeDisplay(this.state.value)
