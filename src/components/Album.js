@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import { PropTypes } from 'prop-types'
 import { Modal } from 'antd'
+import { PropTypes } from 'prop-types'
+import React, { Component } from 'react'
+
 
 class Album extends Component {
   constructor(props) {

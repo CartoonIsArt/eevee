@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Recomment from './Recomment'
+import React, { Component } from 'react'
 import PostRecomment from './PostRecomment'
+import Recomment from './Recomment'
+
 
 class Recomments extends Component {
   render() {

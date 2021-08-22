@@ -1,5 +1,6 @@
 import { mergeObject } from '../lib'
 
+
 const timeline = (state = [], action) => {
   switch (action.type) {
     case 'SETTIMELINE':

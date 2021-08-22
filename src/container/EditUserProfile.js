@@ -1,21 +1,21 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { getAccount } from '../actions';
-import axios, { baseURL } from '../fetches/axios';
-import { beforeUpload, isPermittedBirthdate } from '../lib'
 import {
   Button,
-  Upload,
+  Cascader,
+  Col,
   DatePicker,
   Icon,
-  Modal,
   Input,
-  Cascader,
-  Row, 
-  Col,
+  Modal,
+  Row,
+  Upload,
 } from 'antd'
-import moment from 'moment';
-import majors from '../common/majors';
+import moment from 'moment'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getAccount } from '../actions'
+import majors from '../common/majors'
+import axios, { baseURL } from '../fetches/axios'
+import { beforeUpload, isPermittedBirthdate } from '../lib'
 
 
 function getDepartmentAndMajor(major) {

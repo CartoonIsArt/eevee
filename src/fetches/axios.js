@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from 'axios'
+
 
 const hostname = require("os").hostname()
 export const baseURL = `https://${hostname}/api`

@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import { Icon } from 'antd'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Line from '../components/Line'
-import Noti from '../components/Noti'
 import { getNotifications } from '../actions'
-import { Icon, Modal, notification } from 'antd'
+import Line from '../components/Line'
+import Notification from '../components/Notification'
 import { getDate2WeeksAgo } from '../lib'
+
 
 class Notifications extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class Notifications extends Component {
           </div>
           <Line />
           <div style={{ height: '156px', overflowY: 'scroll' }}>
-            {notifications.map((noti) => <Noti content={noti} key={noti.id} />)}
+            {notifications.map((noti) => <Notification notification={noti} key={noti.id} />)}
           </div>
         </div>
       </div>
@@ -48,12 +49,8 @@ class Notifications extends Component {
 }
 
 Notifications.propTypes = {
-  notifications: PropTypes.array,
+  notifications: PropTypes.array.isRequired,
   getNotifications: PropTypes.func.isRequired,
-}
-
-Notifications.defaultProps = {
-  notifications: [],
 }
 
 const mapStateToProps = (state) => ({

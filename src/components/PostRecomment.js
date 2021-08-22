@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import { Button, Mention, notification } from 'antd'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { postComment } from '../actions'
 import { isSpace } from '../lib'
-import { Button, Mention, notification } from 'antd'
+
 
 const { toString, toContentState } = Mention
 

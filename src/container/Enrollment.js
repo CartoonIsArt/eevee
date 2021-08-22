@@ -1,13 +1,14 @@
+import { Button, Icon, Modal } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { getAccount } from '../actions'
 import Regulared from '../components/Regulared'
 import axios from '../fetches/axios'
-import { getAccount } from '../actions'
-import { Button, Icon, Modal } from 'antd'
 
-const isEnrollmentPeriod = false;// 나중에 날짜비교하기
+
+const isEnrollmentPeriod = false  // 나중에 날짜비교하기
 
 class Enrollment extends Component {
   constructor(props) {

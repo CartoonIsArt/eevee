@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import { Button, Checkbox, Col, Mention, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { Component } from 'react'
+import Dropzone from 'react-dropzone'
 import ReactMarkdown from 'react-markdown'
+import { connect } from 'react-redux'
 import { postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
-import Dropzone from 'react-dropzone'
-import { Button, Mention, notification, Checkbox, Row, Col } from 'antd'
+
 
 const { toContentState, toString } = Mention
 
@@ -78,7 +79,7 @@ class Write extends Component {
       .catch((e) => {
         notification.warning({
           message: e.message,
-          description: e.unsafes.join('\n'),
+          description: e.unsafes && e.unsafes.join('\n'),
           duration: 5,
         })
       })
@@ -109,7 +110,7 @@ class Write extends Component {
       </Dropzone>
     )
     const previewModeDisplay = () => (
-      <ReactMarkdown children={toString(this.state.value)} />
+      <ReactMarkdown className="reactMarkDown" children={toString(this.state.value)} />
     )
     if (mode === 'edit') return editModeDisplay
     if (mode === 'preview') return previewModeDisplay(this.state.value)

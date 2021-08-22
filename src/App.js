@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import './App.css';
-import { routes } from './Route'
-import { getAccount, clearAccount } from './actions'
+import { clearAccount, getAccount } from './actions'
 import Nav from './container/Nav'
+import { routes } from './Route'
+import './App.css'
+
 
 function isEmptyObject(param) {
   return Object.keys(param).length === 0 && param.constructor === Object;

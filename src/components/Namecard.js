@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import { Col, Row } from 'antd'
 import PropTypes from 'prop-types'
-import { Row, Col } from 'antd'
+import React, { Component } from 'react'
 import NameTag from './NameTag'
 
-class Namecard extends Component {
 
+class Namecard extends Component {
   render() {
     const { account, width } = this.props
     

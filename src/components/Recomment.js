@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import { Popover } from 'antd'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
-import { Popover } from 'antd'
+
 
 class Recomment extends Component {
   render() {

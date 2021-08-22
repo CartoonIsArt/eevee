@@ -1,12 +1,13 @@
+import { Button, Popover } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import Recomments from './Recomments'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
-import { printTime } from '../policy'
+import Recomments from './Recomments'
 import { postCommentLike, patchCommentLike } from '../actions'
-import { Button, Popover } from 'antd'
+import { printTime } from '../lib'
+
 
 class Comment extends Component {
   constructor(props) {

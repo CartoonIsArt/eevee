@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import ReactMarkdown from 'react-markdown'
+import { Button, Popover } from 'antd'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import ReactMarkdown from 'react-markdown'
+import { connect } from 'react-redux'
 import Line from './Line'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
-import { printTime } from '../policy'
-// import Album from './Album'
 import Write from './Write'
 import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
-import { Button, Popover } from 'antd'
+import { printTime } from '../lib'
+
 
 class Document extends Component {
   constructor(props) {
@@ -82,7 +82,7 @@ class Document extends Component {
           </div>
         </div>
         <div style={{ margin: '4px 0px' }}>
-          <ReactMarkdown children={feed.content} />
+          <ReactMarkdown className="reactMarkDown" children={feed.content} />
         </div>
         { /* <Album content={images} height="320px" /> */ }
         <div style={isAppend ? { display: 'block' } : { display: 'none' }}>

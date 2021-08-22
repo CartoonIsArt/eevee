@@ -1,4 +1,5 @@
 import moment from 'moment'
+import 'moment/locale/ko'
 
 const getWinHeight = () => (
   window.innerHeight
@@ -72,9 +73,9 @@ export const isPermittedBirthdate = (date) => {
     && date.isAfter(min_birthdate)
 }
 
-export const isKoreanOnly = (name) => /[^가-힣\s]/.test(name)
+export const isHyphenPosition = (phoneNumber) => (phoneNumber.length == 4 || phoneNumber.length == 9)
 
-export const isValidStudentNumber = (studentNumber) => /^(?!.*^[12][0-9]{3}\d{6}$)/.test(studentNumber)
+export const isKoreanOnly = (name) => /[^가-힣\s]/.test(name)
 
 export const isValidEmail = (email) => /^(?!.*^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$).*/.test(email)
 
@@ -82,6 +83,21 @@ export const isValidPhoneNumber = (phoneNumber) => /^(?!.*^\d{3}[-]+\d{4}[-]+\d{
 
 export const isValidPhoneNumberOnTyping = (phoneNumber) => /(?![0-9-]{0,13}$)/.test(phoneNumber)
 
-export const isHyphenPosition = (phoneNumber) => (phoneNumber.length == 4 || phoneNumber.length == 9)
+export const isValidStudentNumber = (studentNumber) => /^(?!.*^[12][0-9]{3}\d{6}$)/.test(studentNumber)
 
 export const getDate2WeeksAgo = () => moment().subtract(2, 'weeks').format('YYYY-MM-DD')
+
+const day3 = 3 * 24 * 60 * 60 * 1000
+const year1 = 365 * 24 * 60 * 60 * 1000
+
+export const printTime = (time) => {
+  const now = moment()
+  const past = moment(time)
+
+  if (now - past < day3) { // 최근 3일
+    return past.locale('ko').fromNow()
+  } if (now - past < year1) { // 최근1년
+    return past.locale('ko').format('MMMM DD일 a h시 mm분')
+  }
+  return past.locale('ko').format('MMMM DD일 a h시 mm분')
+}
