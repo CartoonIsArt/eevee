@@ -94,9 +94,7 @@ class Write extends Component {
         onDropRejected={() => this.notifyUnsupportedFile()}
       >
         {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => (
-          <div
-            {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
-          >
+          <div {...getRootProps()}>
             <input {...getInputProps()} />
             <Mention
               style={{ width: '100%', height: '100px', borderColor: getColor({ isDragActive, isDragAccept, isDragReject }) }}
