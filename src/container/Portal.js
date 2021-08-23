@@ -1,8 +1,8 @@
 import { Affix, Card, Col, Row } from 'antd'
 import React, { Component } from 'react'
 import Notifications from './Notifications'
-import Profile from './Profile'
-import Timeline from './Timeline'
+import Profile from '../components/Profile'
+import Timeline from '../components/Timeline'
 
 
 class Portal extends Component {

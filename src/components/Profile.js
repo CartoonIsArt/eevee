@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getAccount } from '../actions'
-import Activity from '../components/Activity'
-import Namecard from '../components/Namecard'
+import Activity from './Activity'
+import Namecard from './Namecard'
 
 
 class Profile extends Component {
