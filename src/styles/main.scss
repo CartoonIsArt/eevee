@@ -27,3 +27,14 @@
     min-height: 2rem;
   }
 }
+
+#sider {
+  width: 0;
+}
+
+@media (min-width: 768px) {
+  #sider {
+    width: 240px;
+    background: white;
+  }
+}

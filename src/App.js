@@ -1,3 +1,4 @@
+import { Layout } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -7,10 +8,9 @@ import { clearAccount, getAccount } from './actions'
 import Navigation from './container/Navigation'
 import { routes } from './Route'
 import './App.scss'
-import { Layout } from 'antd'
 
-const { Header, Footer, Sider, Content } = Layout
 
+const { Footer, Content } = Layout
 
 function isEmptyObject(param) {
   return Object.keys(param).length === 0 && param.constructor === Object;
