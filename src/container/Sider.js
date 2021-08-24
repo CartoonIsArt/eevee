@@ -48,27 +48,20 @@ class Sider extends Component {
     const { account } = this.props
     const { pathname } = this.props.location
     return (
-      <div style={{ width: '240px' }}>
-        <Affix offsetTop={56}>
+      <div style={{ width: '240px', background: 'white' }}>
+        <Affix offsetTop={49}>
           <Menu
             mode="inline"
             openKeys={this.state.openKeys}
             selectedKeys={[pathname]}
-            style={{ width: '240px', minHeight: '720px', maxHeight: '750px' }}
+            style={{ width: '240px' }}
             onOpenChange={(openKeys) => this.onOpenChange(openKeys)}
             onClick={(e) => this.handleClick(e)}
           >
-            <div style={{ width: '240px', height: '240px', overflow: 'hidden' }}>
-              <img
-                src={account.profile.profileImage}
-                alt={account.profile.profileImage}
-                width="100%"
-              />
-            </div>
-              <Menu.Item key="/enrollment">
-                <Icon type="appstore" />
-                <span>활동인구 등록</span>
-              </Menu.Item>
+            <Menu.Item key="/enrollment">
+              <Icon type="appstore" />
+              <span>활동인구 등록</span>
+            </Menu.Item>
             {/* 배포후 패치해도 되는 내용
             <SubMenu
               key="sub2"
