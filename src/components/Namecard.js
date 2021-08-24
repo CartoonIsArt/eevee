@@ -6,12 +6,12 @@ import NameTag from './NameTag'
 
 class Namecard extends Component {
   render() {
-    const { account, width } = this.props
+    const { account, size } = this.props
     
     return (
-      <div style={{ width }}>
-        <a className="ant-anchor-link-title" href="#">
-          <img width="100%" src={account.profile.profileImage} alt={account.profile.profileImage} />
+      <div style={{ width: size }}>
+        <a className="ant-anchor-link-title" style={{ height: size }} href="#">
+          <img id="img-namecard" width="100%" src={account.profile.profileImage} alt={account.profile.profileImage} />
         </a>
         <Row
          type="flex" align="middle"
@@ -43,11 +43,11 @@ class Namecard extends Component {
 
 Namecard.propTypes = {
   account: PropTypes.object.isRequired,
-  width: PropTypes.string,
+  size: PropTypes.string,
 }
 
 Namecard.defaultProps = {
-  width: '320px',
+  size: '320px',
 }
 
 export default Namecard
