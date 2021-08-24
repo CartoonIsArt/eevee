@@ -52,7 +52,8 @@ class Login extends Component {
           height: '100%',
           fontSize: '20px',
           textAlign: 'left',
-          backgroundSize: '100% 100%',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           backgroundImage: 'url(/images/login_background.jpg)',
           overflow: 'hidden',
         }}
@@ -60,15 +61,15 @@ class Login extends Component {
         <div
           // 상단 바
           style={{
-            height: '232px',
+            height: '20vh',
           }}
         >
           <div style={{
-            height: '80px',
+            height: '60px',
             padding: '10px',
-            fontSize: '40px',
+            fontSize: '1.6rem',
             fontWeight: 'bold',
-            textAlign: 'left',
+            textAlign: 'center',
             backgroundColor: 'rgba(255,255,255,0.5)',
           }}
           >
