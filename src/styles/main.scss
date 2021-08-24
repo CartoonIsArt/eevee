@@ -1,6 +1,9 @@
 @import "components/Userpage";
 @import "components/Registration";
 @import "components/ReactMarkdown";
+@import "components/Notifications";
+@import "components/Timeline";
+@import "containers/Portal";
 
 #Navigation-wrapper {
   background: #fff;
@@ -16,7 +19,7 @@
   }
   
   #Logo {
-    height: 5vh;
+    height: 46px;
     min-height: 2rem;
   }
 }

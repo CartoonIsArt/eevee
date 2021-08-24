@@ -10,7 +10,6 @@ class Doorlock extends Component {
         flexDirection: 'column',
         flex: '1',
         width: '100%',
-        margin: '0px 8px',
         textAlign: 'center',
         backgroundColor: 'white',
       }}

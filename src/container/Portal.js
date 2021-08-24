@@ -1,42 +1,36 @@
-import { Affix, Card, Col, Row } from 'antd'
+import { Affix, Col, Row } from 'antd'
 import React, { Component } from 'react'
 import Notifications from './Notifications'
 import Profile from '../components/Profile'
 import Timeline from '../components/Timeline'
+import ExternalLinks from '../components/ExternalLinks'
 
 
 class Portal extends Component {
   render() {
     return (
-      <Row style={{ width: '1280px', marginTop: '8px' }}>
-        <Col span={6}>
+      <Row id="Portal" type="flex" style={{ maxWidth: '1280px', marginTop: '8px' }}>
+        <Col className="item-col" xs={{ span: 0 }} xl={{ order: 1, span: 6 }}>
           <Affix offsetTop={56}>
-            <aside>
-              <Profile />
-            </aside>
+            <Profile />
           </Affix>
         </Col>
-        <Col span={12}>
+        <Col className="item-col" xs={{ order: 2, span: 24 }} xl={{ order: 2, span: 12 }}>
           <Timeline />
         </Col>
-        <Col span={6}>
+        <Col className="item-col" xs={{ span: 0 }} xl={{ order: 3, span: 6 }}>
           <Affix offsetTop={56}>
-            <aside>
-              <Notifications />
-              <Card title="외부링크">
-                <p>
-                  {/* <a href="https://cia.kw.ac.kr/wiki/index.php"> 동아리 위키 </a> */}
-                  <a href="https://cafe.naver.com/ciapg523"> 동아리 카페 </a>
-                </p>
-                <p>
-                  <a href="https://github.com/CartoonIsArt/"> 인사부 열정페이팀 </a>
-                </p>
-              </Card>
+            <Row gutter={[0, 8]}>
+              <Col xs={24}><Notifications /></Col>
+              <Col xs={0} xl={24}><ExternalLinks /></Col>
               {/* future feature
               <div style={{ height: '516px' }} > chat </div>
               */ }
-            </aside>
+            </Row>
           </Affix>
+        </Col>
+        <Col className="item-col" xs={{ order: 1, span: 24 }} xl={{ span: 0 }}>
+          <Notifications />
         </Col>
       </Row>
     )

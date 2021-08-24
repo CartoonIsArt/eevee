@@ -49,7 +49,7 @@ class Sider extends Component {
     const { pathname } = this.props.location
     return (
       <div style={{ width: '240px' }}>
-        <Affix offsetTop={52}>
+        <Affix offsetTop={56}>
           <Menu
             mode="inline"
             openKeys={this.state.openKeys}

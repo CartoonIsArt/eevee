@@ -11,7 +11,7 @@ class Profile extends Component {
     const { account } = this.props
     return (
       <div style={{ background: '#FFFFFF' }}>
-        <Namecard account={account} />
+        <Namecard account={account} width="100%" />
         <Activity content={account} />
       </div>
     )

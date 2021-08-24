@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
+import { matchPath, withRouter } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { clearAccount, getAccount } from './actions'
 import Navigation from './container/Navigation'
@@ -19,7 +19,11 @@ function isEmptyObject(param) {
 const isNavEnabled = (history) => {
   return Boolean(routes
     .filter((route) => route.has_navigation)
-    .find((route) => route.path === history.location.pathname))
+    .find((route) => matchPath(history.location.pathname, {
+      path: route.path,
+      exact: true,
+      strict: false,
+    })))
 }
 
 const isAuthenticated = (route, auth) => {
@@ -54,9 +58,9 @@ class App extends Component {
   
   render() {
     return (
-      <Layout id="App">
-        <Header id="Header"><Navigation visible={isNavEnabled(this.props.history)} /></Header>
-        <Content id="Content">
+      <Layout id="app">
+        <Navigation visible={isNavEnabled(this.props.history)} />
+        <Content id="content">
           <Switch>
             {routes.map((route, idx) => (
               <Route
@@ -69,8 +73,10 @@ class App extends Component {
                     ? <Redirect to='/' />
                     : (
                       <Layout>
-                        <Sider id="Sider" collapsed={true} collapsedWidth={0}>{route.sidebar}</Sider>
-                        <Content id="Container">{route.main}</Content>
+                        <Content id="container">
+                          {route.sidebar}
+                          {route.main}
+                        </Content>
                       </Layout>
                     )
                   : <Redirect to='/login' />

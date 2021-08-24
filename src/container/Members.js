@@ -33,7 +33,6 @@ class Members extends Component {
         display: 'flex',
         flexDirection: 'column',
         flex: '1',
-        margin: '0px 8px',
         padding: '0px 20px',
         background: '#FFFFFF',
       }}

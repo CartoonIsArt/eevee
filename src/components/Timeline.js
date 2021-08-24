@@ -51,7 +51,7 @@ class Timeline extends Component {
   render() {
     const { timeline } = this.props
     return (
-      <section style={{ padding: '0px 8px' }}>
+      <section className="timeline">
         <Write
           documentId={-1}
         />
@@ -61,10 +61,7 @@ class Timeline extends Component {
             feed={feed}
           />
         ))}
-        { /*
-        <Ads />
-        <Ads />
-        */ }
+        {/* <Ads /> */}
       </section>
     )
   }

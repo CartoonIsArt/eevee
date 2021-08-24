@@ -46,7 +46,7 @@ class Enrollment extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ width: '100%', height: '100%' }}>
         {this.props.account.isActive
           ? <Regulared />
           : (
@@ -55,7 +55,7 @@ class Enrollment extends Component {
               flexDirection: 'column',
               flex: '1',
               backgroundColor: 'white',
-              margin: '0px 8px',
+              margin: '8px',
               padding: '0px 20px',
             }}
             >

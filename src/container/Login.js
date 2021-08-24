@@ -48,11 +48,11 @@ class Login extends Component {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100%',
           width: '100%',
+          height: '100%',
           fontSize: '20px',
-          margin: '0px 8px',
           textAlign: 'left',
+          backgroundSize: '100% 100%',
           backgroundImage: 'url(/images/login_background.jpg)',
           overflow: 'hidden',
         }}

@@ -7,7 +7,7 @@ class Regulared extends Component {
   render() {
     return (
       <div style={{
-        display: 'flex', flexDirection: 'column', textAlign: 'center', width: '1040px', backgroundColor: 'white', margin: '0px 8px', padding: '0px 20px',
+        display: 'flex', flexDirection: 'column', textAlign: 'center', width: '1040px', backgroundColor: 'white', padding: '0px 20px',
       }}
       >
         <div style={{

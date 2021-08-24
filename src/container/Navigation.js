@@ -8,7 +8,6 @@ import { Link, withRouter } from 'react-router-dom'
 class Navigation extends Component {
   render() {
     const { Search } = Input;
-    const { pathname } = this.props.location
     const { visible } = this.props
 
     if (!visible)
@@ -28,9 +27,9 @@ class Navigation extends Component {
                 placeholder="검색 (회원 이름, 아이디, 글, 댓글)"
               />
             </Col>
-            <Col xs={{ span: 5 }} sm={{ span: 5, push: 1 }} lg={{ span: 6, push: 3 }} xl={{ span: 6, push: 4 }}>
-              <Link to={pathname === '/' ? '/enrollment' : '/'}>
-                <Button icon="smile-o">활동인구</Button>
+            <Col xs={{ span: 5 }} sm={{ span: 4, offset: 1 }} lg={{ span: 3, offset: 3 }} xl={{ span: 2, offset: 4 }}>
+              <Link to='/enrollment'>
+                <Button style={{padding: '0 4px'}} icon="smile-o">활동인구</Button>
               </Link>
             </Col>
           </Row>
@@ -42,7 +41,6 @@ class Navigation extends Component {
 
 Navigation.propTypes = {
   history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   visible: PropTypes.bool.isRequired,
 }
 

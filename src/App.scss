@@ -10,37 +10,24 @@ body {
   font-family: 'Nanum Gothic', sans-serif !important;
   font-size: 14px !important;
 }
+
 .Pad {
-  padding:35px;
-  background-image:linear-gradient(to bottom, rgba(240, 255, 40, 1) 0%, rgba(240, 255, 40, 1) 100%), linear-gradient(to bottom, rgba(240, 40, 40, 1) 0%, rgba(240, 40, 40, 1) 100%);
+  padding: 35px;
+  background-image: linear-gradient(to bottom, rgba(240, 255, 40, 1) 0%, rgba(240, 255, 40, 1) 100%), linear-gradient(to bottom, rgba(240, 40, 40, 1) 0%, rgba(240, 40, 40, 1) 100%);
   background-clip: content-box, padding-box;
 }
 
-#App {
+#app {
   background: #dfdfdf;
-
-  #Header {
-    height: 5vh;
-    min-height: 2rem;
-  }
-  .ant-layout-header {
-    padding: 0%;
-    line-height: normal;
-  }
-
-  #Content {
-    width: 1280px;
+  
+  #container {
+    background: #aa0000;
+    width: 100vw;
+    min-width: 375px;
+    max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
-  }
-
-  #Sider {
-    background: #abcdef;
-  }
-
-  #Container {
-    background: #aa0000;
   }
 }
 
