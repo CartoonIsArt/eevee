@@ -1,0 +1,24 @@
+.enrollment {
+  width: 100%;
+  min-width: 450px;
+  margin: 12px;
+  
+  .button-enroll {
+    font-size: 14pt;
+    background-color: #1976D2;
+    color: white;
+  }
+
+  .button-law {
+    font-size: 14pt;
+  }
+
+  .row-advantage {
+    font-size: 20px;
+    font-weight: bold;
+
+    .icon-advantage {
+      margin-right: 8px;
+    }
+  }
+}
