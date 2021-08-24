@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 class EnrollmentRegular extends Component {
   render() {
     return (
-      <Card className="enrollment">
+      <Card className="page-card">
         <Result
           status="success"
           title="활동인구 등록이 완료되었습니다!"

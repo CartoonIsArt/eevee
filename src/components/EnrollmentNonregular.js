@@ -22,7 +22,7 @@ class EnrollmentNonregular extends Component {
 
   render() {
     return (
-      <Card className="enrollment">
+      <Card className="page-card">
         <Result
           title="지금 활동인구에 등록해 보세요!"
           extra={[

@@ -13,7 +13,7 @@ function cancel() {
 class Deactivate extends Component {
   render() {
     return (
-      <Card className="enrollment">
+      <Card className="page-card">
         <Result
           status="warning"
           title="주의!"
