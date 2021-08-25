@@ -1,0 +1,21 @@
+#term-agreement-card {
+  border: 0.2em solid black;
+  border-radius: 1em;
+
+  #term-agreement-name {
+    margin-bottom: 1rem;
+    
+    .ant-checkbox-wrapper {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+
+  #term-agreement-text {
+    height: 240px;
+    font-size: 1.4rem;
+    word-wrap: break-word;
+    white-space: pre-line;
+    overflow-y: scroll;
+  }
+}
