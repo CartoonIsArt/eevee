@@ -1,4 +1,5 @@
 import { Affix, Col, Icon, Menu, Row } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -53,12 +54,13 @@ class Sider extends Component {
   }
 
   render() {
-    const { account } = this.props
+    const { account, isNavigationMenu } = this.props
     const { pathname } = this.props.location
+    const xsSpan = isNavigationMenu ? 24 : 0
 
     return (
       <Row id="sider">
-        <Col xs={0} md={24}>
+        <Col xs={xsSpan} md={24}>
           <Affix offsetTop={49}>
             <Menu
               mode="inline"
@@ -130,6 +132,14 @@ class Sider extends Component {
       </Row>
     );
   }
+}
+
+Sider.PropTypes = {
+  isNavigationMenu: PropTypes.bool,
+}
+
+Sider.defaultProps = {
+  isNavigationMenu: false,
 }
 
 const mapStateToProps = (state) => ({
