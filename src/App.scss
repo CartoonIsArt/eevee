@@ -6,9 +6,10 @@ div, nav, article {
   background-color: rgba(0, 0, 0, 0.1);
 }
 */
-body {
+html, body {
+  height: 100%;
   font-family: 'Nanum Gothic', sans-serif !important;
-  font-size: 14px !important;
+  font-size: 62.5% !important;  // default 10px, 사용자 브라우저 설정 반영
 }
 
 .Pad {
@@ -23,7 +24,7 @@ body {
   #container {
     background: #aa0000;
     width: 100vw;
-    min-width: 375px;
+    min-width: 320px;
     max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
