@@ -98,7 +98,7 @@ export const routes = [
   {
     path: '/settings/account',
     has_navigation: true,
-    sidebar: <Sider />,
+    sidebar: <div />,
     main: <EditUserProfile />,
   },
   {
