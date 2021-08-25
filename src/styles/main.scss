@@ -1,6 +1,8 @@
-@import "components/Userpage";
-@import "components/Registration";
+@import "container/Userpage";
+@import "container/Registration";
+@import "container/EditUserProfile";
 @import "components/ReactMarkdown";
+@import "components/Comment";
 
 body {
   margin: 0;
