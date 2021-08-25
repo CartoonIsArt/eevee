@@ -10,7 +10,7 @@ function cancel() {
   message.info('취소했습니다.')
 }
 
-class Deactivate extends Component {
+class ResetActiveMembers extends Component {
   render() {
     return (
       <Card className="page-card">
@@ -42,4 +42,4 @@ class Deactivate extends Component {
   }
 }
 
-export default Deactivate
+export default ResetActiveMembers

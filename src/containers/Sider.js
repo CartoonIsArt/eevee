@@ -122,7 +122,7 @@ class Sider extends Component {
                     </span>
                   )}
                 >
-                  <Menu.Item key="/deactivate">활동인구 초기화</Menu.Item>
+                  <Menu.Item key="/reset-active-members">활동인구 초기화</Menu.Item>
                 </SubMenu>
                 )
               }
