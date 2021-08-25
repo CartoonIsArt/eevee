@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { matchPath, withRouter } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { clearAccount, getAccount } from './actions'
-import Navigation from './container/Navigation'
+import Navigation from './containers/Navigation'
 import { routes } from './Route'
 import './App.scss'
 

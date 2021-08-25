@@ -1,13 +1,16 @@
+@import "components/Comment";
 @import "components/Enrollment";
+@import "components/Namecard";
 @import "components/Notifications";
 @import "components/ReactMarkdown";
-@import "components/Registration";
 @import "components/Timeline";
-@import "components/Userpage";
 
+@import "containers/EditUserProfile";
 @import "containers/Law";
 @import "containers/Members";
 @import "containers/PageCard";
+@import "containers/Registration";
+@import "containers/Userpage";
 
 #Navigation-wrapper {
   background: #fff;

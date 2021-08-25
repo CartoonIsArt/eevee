@@ -1,4 +1,4 @@
-import { Button, Popover } from 'antd'
+import { Avatar, Button, Card, Col, Popover, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -40,61 +40,43 @@ class Document extends Component {
     const { author, createdAt } = feed
     const imgsrc = author.profile.profileImage
     const imgalt = author.profile.profileImage
+
+    const { Meta } = Card;
     
     return (
       <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
-        {/* <div style={{ display: 'flex', lineHeight: '16pt', marginBottom: '4px' }}>
-          <h2>{content.title}</h2>
-          <div style={{ flexGrow: 2 }} />
-          <Button shape="circle" icon="down" size="small" />
-        </div>
-        <Line /> */}
-        <div style={{ display: 'flex', marginTop: '4px' }}>
-          <div style={{
-            width: '48px',
-            height: '48px',
-            marginRight: '4px',
-            overflow: 'hidden',
-          }}
-          >
-            <img src={imgsrc} alt={imgalt} style={{ width: '100%' }} />
-          </div>
-          <div style={{ flexGrow: 2 }}>
-            <div style={{ fontSize: '14pt' }}>
-              {
-                author.student.nTh
-                  ? (
-                    <Popover
-                      placement="leftTop"
-                      content={<Namecard account={author} />}
-                    >
-                      <NameTag account={author} />
-                    </Popover>
-                  )
-                  : <div> 탈퇴한 회원 </div>
-              }
-            </div>
-            <div>
-              {' '}
-              {printTime(createdAt)}
-              {' '}
-            </div>
-          </div>
-        </div>
-        <div style={{ margin: '4px 0px' }}>
+        <Row style={{ marginTop: '4px' }}>
+          <Meta
+            avatar={<Avatar style={{ width: '48px', height: '48px', }} src={imgsrc} alt={imgalt}/>}
+            title={
+              author.student.nTh
+                ? (
+                  <Popover
+                    placement="leftTop"
+                    content={<Namecard account={author} />}
+                  >
+                    <NameTag account={author} />
+                  </Popover>
+                )
+                : <div> 탈퇴한 회원 </div>
+            }
+            description={printTime(createdAt)}
+          />
+        </Row>
+        <Row style={{ margin: '4px 0px' }}>
           <ReactMarkdown className="reactMarkDown" children={feed.content} />
-        </div>
+        </Row>
         { /* <Album content={images} height="320px" /> */ }
-        <div style={isAppend ? { display: 'block' } : { display: 'none' }}>
+        <Row style={isAppend ? { display: 'block' } : { display: 'none' }}>
           <Write
             documentId={feed.id}
             isAppend
             isNotification={Boolean(feed.isNotification)}
           />
-        </div>
+        </Row>
         <Line />
-        <div style={{ marginTop: '4px', display: 'flex' }}>
-          <div style={{ marginRight: '12px' }}>
+        <Row style={{ marginTop: '4px', display: 'flex' }}>
+          <Col style={{ marginRight: '12px' }}>
             <Popover
               content={
                 feed.likedAccounts.length
@@ -118,8 +100,8 @@ class Document extends Component {
                 {`좋아요 ${feed.likedAccounts.length}`}
               </a>
             </Popover>
-          </div>
-          <div style={{ marginRight: '12px' }}>
+          </Col>
+          <Col style={{ marginRight: '12px' }}>
             <Button
               style={{ marginRight: '4px' }}
               shape="circle"
@@ -130,10 +112,10 @@ class Document extends Component {
             <a onClick={() => this.props.onClickComments()}>
               {`댓글 ${feed.comments.length}`}
             </a>
-          </div>
+          </Col>
           {feed.author.id === account.id
             && (
-              <div>
+              <Col>
                 <Button
                   style={{ marginRight: '4px' }}
                   shape="circle"
@@ -144,9 +126,9 @@ class Document extends Component {
                 <a onClick={() => this.toggleAppending()}>
                   이어쓰기
                 </a>
-              </div>
+              </Col>
               )}
-        </div>
+        </Row>
       </div>
     )
   }
