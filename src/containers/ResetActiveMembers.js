@@ -17,7 +17,7 @@ class ResetActiveMembers extends Component {
         <Result
           status="warning"
           title="주의!"
-          subTitle="이 버튼을 잘못 누르면 모두가 개고생을 하게 됩니다."
+          subTitle="잘못 누른 버튼에 모두가 고생할 수 있습니다."
           extra={
             <Popconfirm
               title="정말정말 초기화하시겠습니까?"
