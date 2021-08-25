@@ -101,3 +101,11 @@ export const printTime = (time) => {
   }
   return past.locale('ko').format('MMMM DD일 a h시 mm분')
 }
+
+export function isRegularMember(account) {
+  if (account.role === 'superuser')     return true
+  if (account.role === 'manager')       return true
+  if (account.role === 'board manager') return true
+  if (account.role === 'regular')       return true
+  return false
+}

@@ -4,17 +4,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getAccount } from '../actions'
+import { isRegularMember } from '../lib'
 
 
 const { SubMenu } = Menu
-
-function isRegular(account) {
-  if (account.role === 'superuser')     return true
-  if (account.role === 'manager')       return true
-  if (account.role === 'board manager') return true
-  if (account.role === 'regular')       return true
-  return false
-}
 
 class Sider extends Component {
   static getAncestorKeys(key) {
@@ -101,9 +94,7 @@ class Sider extends Component {
                 <Menu.Item key="/law">
                   <span>회칙</span>
                 </Menu.Item>
-                {
-                  isRegular(account)
-                    && <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
+                { isRegularMember(account) && <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
                   /* 배포 후 패치
                   <Menu.Item key="/old/noties">(구) 공지</Menu.Item>
                   <Menu.Item key="/old/texts"> (구) 자유</Menu.Item>
