@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Notifications from './Notifications'
-import Profile from './Profile'
+import Profile from '../components/Profile'
 import { getFeed } from '../actions'
 import Feed from '../components/Feed'
 

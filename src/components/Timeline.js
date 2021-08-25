@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 // import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
 import { getAccount, getTimeline } from '../actions'
-import Feed from '../components/Feed'
-import Write from '../components/Write'
+import Feed from './Feed'
+import Write from './Write'
 import { isAlmostScrolled } from '../lib'
 
 
@@ -51,7 +51,7 @@ class Timeline extends Component {
   render() {
     const { timeline } = this.props
     return (
-      <section style={{ padding: '0px 8px' }}>
+      <section className="timeline">
         <Write
           documentId={-1}
         />
@@ -61,10 +61,7 @@ class Timeline extends Component {
             feed={feed}
           />
         ))}
-        { /*
-        <Ads />
-        <Ads />
-        */ }
+        {/* <Ads /> */}
       </section>
     )
   }

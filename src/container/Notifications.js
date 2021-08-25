@@ -1,4 +1,4 @@
-import { Icon } from 'antd'
+import { Card, Icon, List } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -6,6 +6,8 @@ import { getNotifications } from '../actions'
 import Line from '../components/Line'
 import Notification from '../components/Notification'
 import { getDate2WeeksAgo } from '../lib'
+
+const { Meta } = Card
 
 
 class Notifications extends Component {
@@ -27,23 +29,22 @@ class Notifications extends Component {
     const { notifications } = this.props
 
     return (
-      <div>
-        <div style={{ height: '192px', backgroundColor: 'white', padding: '4px' }}>
-          <div style={{
-            height: '28px', fontSize: '12pt', textAlign: 'left', display: 'flex', flexDrection: 'column',
-          }}
-          >
-            <div style={{ marginRight: '156px', marginLeft: '12px', fontSize: '12pt' }}>
-              <Icon type="notification" />
-              <span style={{ marginLeft: "12px" }}>공지사항</span>
-            </div>
-          </div>
+      <section className="notifications">
+        <Card className="notifications-card" size="small">
+          <Meta
+            avatar={<Icon type="notification" />}
+            title="공지사항"
+          />
           <Line />
-          <div style={{ height: '156px', overflowY: 'scroll' }}>
-            {notifications.map((noti) => <Notification notification={noti} key={noti.id} />)}
-          </div>
-        </div>
-      </div>
+          <List
+            className="notifications-list"
+            size="small"
+            dataSource={notifications}
+            renderItem={(noti) => (<List.Item><Notification notification={noti} key={noti.id} /></List.Item>)}
+          />
+          <Line />
+        </Card>
+      </section>
     )
   }
 }

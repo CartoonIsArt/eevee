@@ -1,4 +1,4 @@
-import { Input, Tabs } from 'antd'
+import { Card, Col, Input, Row, Tabs } from 'antd'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getMembers } from '../actions'
@@ -19,71 +19,48 @@ class Members extends Component {
 
   componentWillMount() {
     this.props.getMembers()
-    // .then(() => this.setState({ onLoad: true}))
-    this.setState({ onLoad: true })
+      .then(() => this.setState({ onLoad: true }))
+  }
+
+  setFilter(e) {
+    this.setState({ filter: e.target.value })
   }
 
   render() {
-    const {
-      filter,
-      onLoad,
-    } = this.state
+    const { filter, onLoad } = this.state
+
     return (
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        flex: '1',
-        margin: '0px 8px',
-        padding: '0px 20px',
-        background: '#FFFFFF',
-      }}
-      >
-        <div style={{ height: '5%' }} onClick={() => this.setState({ onLoad: true })}>
-          <h1> 회원목록 </h1>
-        </div>
+      <Card id="members" title="회원목록">
         {onLoad
           && (
-          <Tabs
-            tabBarExtraContent={
-              <Search onChange={(e) => this.setState({ filter: e.target.value })} />
-            }
-          >
-            <TabPane tab="모든회원" key="all">
-              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {this.props.members
-                  .filter((member) => `${member.nTh}기 ${member.fullname}`.includes(filter))
-                  .map((member) => (
-                    <div
-                      key={member.id}
-                      style={{
-                        margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px',
-                      }}
-                    >
-                      <Namecard account={member} width="240px" />
-                    </div>
-                  ))}
-              </div>
-            </TabPane>
-            <TabPane tab="활동인구" key="act">
-              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {this.props.members
-                  .filter((member) => member.isActive
-                      && `${member.nTh}기 ${member.fullname}`.includes(filter))
-                  .map((member) => (
-                    <div
-                      key={member.id}
-                      style={{
-                        margin: '8px', padding: '8px', border: 'solid 1px #76c2ff', borderRadius: '4px',
-                      }}
-                    >
-                      <Namecard account={member} width="240px" />
-                    </div>
-                  ))}
-              </div>
-            </TabPane>
-          </Tabs>
+            <Tabs
+              tabBarExtraContent={<Search onChange={(e) => this.setFilter(e)} />}
+            >
+              <TabPane tab="모든회원" key="all">
+                <Row className="row-members" type="flex" justify="center">
+                  {this.props.members
+                    .filter((member) => `${member.nTh}기 ${member.fullname}`.includes(filter))
+                    .map((member) => (
+                      <Col className="col-members" key={member.id}>
+                        <Namecard account={member} size="240px" />
+                      </Col>
+                    ))}
+                </Row>
+              </TabPane>
+              <TabPane tab="활동인구" key="act">
+                <Row className="row-members" type="flex" justify="center">
+                  {this.props.members
+                    .filter((member) => member.isActive && `${member.nTh}기 ${member.fullname}`.includes(filter))
+                    .map((member) => (
+                      <Col className="col-members" key={member.id}>
+                        <Namecard account={member} size="240px" />
+                      </Col>
+                    ))}
+                </Row>
+              </TabPane>
+            </Tabs>
           )}
-      </div>
+      </Card>
     )
   }
 }

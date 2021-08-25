@@ -1,0 +1,33 @@
+@media (min-width: 1200px) {
+  .notifications {
+    padding: 0 !important;
+  }
+}
+
+.notifications {
+  padding: 0 8px 8px 8px;
+
+  .notifications-card {
+    width: 100%;
+    max-width: 100vw;
+    padding: 0;
+  
+    .ant-card-meta {
+      min-height: 36px;
+      padding: 8px 12px;
+  
+      .ant-card-meta-title {
+        font-size: 14px;
+      }
+    }
+  
+    .ant-card-body {
+      padding: 0 0 8px 0;
+    }
+  
+    .notifications-list {
+      height: 23vh;
+      overflow-y: scroll;
+    }
+  }
+}

@@ -94,9 +94,7 @@ class Write extends Component {
         onDropRejected={() => this.notifyUnsupportedFile()}
       >
         {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => (
-          <div
-            {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
-          >
+          <div {...getRootProps()}>
             <input {...getInputProps()} />
             <Mention
               style={{ width: '100%', height: '100px', borderColor: getColor({ isDragActive, isDragAccept, isDragReject }) }}
@@ -214,7 +212,7 @@ class Write extends Component {
         <div style={{ flexGrow: 1 }}>
           { display }
           <Row style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
-            <Col span={2}>
+            <Col span={3}>
               <Dropzone
                 accept={['image/jpeg', 'image/png']}
                 noDrag={true}
@@ -229,7 +227,16 @@ class Write extends Component {
                 )}
               </Dropzone>
             </Col>
-            <Col span={13}>
+            <Col xs={13} sm={0}>
+            { isManager(account)
+              && (<Checkbox
+                    style={{ marginTop: '4px' }}
+                    checked={this.state.isNotification}
+                    onChange={(e) => this.toggleSetNotification(e)}>
+                      공지
+                  </Checkbox>) }
+            </Col>
+            <Col xs={0} sm={13}>
             { isManager(account)
               && (<Checkbox
                     style={{ marginTop: '4px' }}
