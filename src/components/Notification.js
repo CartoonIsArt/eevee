@@ -1,4 +1,4 @@
-import { Popover } from 'antd'
+import { Col, Popover, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -20,13 +20,13 @@ class Notification extends Component {
     const { notification } = this.props
     
     return (
-      <div key={notification.id}>
-        <div
+      <Row key={notification.id}>
+        <Row
           className="noti"
           onClick={() => this.routeToFeed(notification.id)}
           style={{ height: '56px', display: 'flex', alignItems: 'stretch' }}
         >
-          <div
+          <Col
             style={{
               width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden', backgroundSize: 'cover',
             }}
@@ -36,39 +36,31 @@ class Notification extends Component {
               src={notification.author.profile.profileImage}
               alt={notification.author.profile.profileImage}
             />
-          </div>
-          <div style={{
-            flexGrow: '2', display: 'flex', alignItems: 'stretch', flexDirection: 'column',
-          }}
-          >
-            <div style={{ display: 'flex' }}>
-              <div style={{ marginRight: '8px', marginLeft: '12px' }}>
+          </Col>
+          <Col>
+            <Row>
+              <Col span={12} style={{ marginRight: '8px', marginLeft: '12px' }}>
                 <Popover
                   placement="leftTop"
                   content={<Namecard account={notification.author} />}
                 >
-                  <div style={{ fontSize: '10pt' }}>
-                    <NameTag account={notification.author} minimizeIcon={true} />
-                  </div>
+                  <NameTag account={notification.author} minimizeIcon={true} />
                 </Popover>
-              </div>
-              <div style={{ fontSize: '9pt', color: 'rgba(1,1,1,0.5)' }}>
+              </Col>
+              <Col span={10} style={{ fontSize: '9pt', color: 'rgba(1,1,1,0.5)' }}>
                 {printTime(notification.createdAt)}
-              </div>
-            </div>
-            <div style={{ flexGrow: '1', display: 'flex', marginLeft: '12px' }}>
-              <div style={{
-                fontSize: '9pt', 
-                color: 'rgba(0,0,0, 0.8)', wordWrap: 'break-word', WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', textOverflow: 'ellipsis', overflow: 'hidden', display: '-webkit-box',
-              }}
-              >
-                { notification.content }
-              </div>
-            </div>
-          </div>
-        </div>
+              </Col>
+            </Row>
+            <Row style={{ marginLeft: '12px', fontSize: '9pt', 
+              WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', overflow: 'hidden', display: '-webkit-box',
+            }}
+            >
+              { notification.content }
+            </Row>
+          </Col>
+        </Row>
         <Line />
-      </div>
+      </Row>
     )
   }
 }

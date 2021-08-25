@@ -1,3 +1,4 @@
+import { Col, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
@@ -7,43 +8,41 @@ class Activity extends Component {
   render() {
     const account = this.props.content
     return (
-      <div style={{
-        height: '98px',
-        display: 'flex',
-        flexDirection: 'row',
+      <Row style={{
+        height: '10vh',
         fontSize: '16pt',
         padding: '12px',
         textAlign: 'center',
       }}
       >
-        <div style={{ width: '34%' }}>
-          <div style={{ height: '50%' }}>글</div>
+        <Col span={8}>
+          글
           <Link
             className="ant-anchor-link-title"
             to={`/members/${account.username}`}
           >
             {account.documentsCount}
           </Link>
-        </div>
-        <div style={{ width: '33%' }}>
-          <div style={{ height: '50%' }}>댓글</div>
+        </Col>
+        <Col span={8}>
+          댓글
           <Link
             className="ant-anchor-link-title"
             to={`/members/${account.username}/comments`}
           >
             {account.commentsCount}
           </Link>
-        </div>
-        <div style={{ width: '33%' }}>
-          <div style={{ height: '50%' }}>좋아요</div>
+        </Col>
+        <Col span={8}>
+          좋아요
           <Link
             className="ant-anchor-link-title"
             to={`/members/${account.username}/likes`}
           >
             {account.likedDocumentsCount}
           </Link>
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
   }
 }

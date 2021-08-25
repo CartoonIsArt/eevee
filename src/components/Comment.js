@@ -1,4 +1,4 @@
-import { Button, Popover } from 'antd'
+import { Avatar, Button, Col, Comment as CommentAntd, Icon, Popover, Row, Tooltip  } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -37,77 +37,76 @@ class Comment extends Component {
     const imgsrc = commentAuthor.profile.profileImage
     const imgalt = commentAuthor.profile.profileImage
 
+    const actions = [
+      <span>
+        <Tooltip 
+          title={
+            comment.likedAccounts.length
+              ? comment.likedAccounts.map((lover, idx) => (
+                <pre key={idx}>
+                  <NameTag account={lover} nameOnly={true} />
+                </pre>
+              ))
+              : (
+                <pre>
+                  당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
+                </pre>
+              )
+          }>
+            <Icon
+              type="like"
+              onClick={() => this.onClickLikeIt()}
+            />
+            <a
+              style={{ marginRight: '8px' }}
+              onClick={() => this.onClickLikeIt()}
+            >
+              {`좋아요 ${comment.likedAccounts.length}`}
+            </a>
+        </Tooltip>
+      </span>
+    ]
+
     return (
-      <div style={{ margin: '2px 0px' }}>
-        <div style={{ display: 'flex' }}>
-          <div style={{
-            width: '32px', marginRight: '4px', height: '32px', background: '#fefefe',
-          }}
-          >
-            <img src={imgsrc} alt={imgalt} style={{ width: '100%' }} />
-          </div>
-          <div style={{ width: '91%' }}>
-            <p>
+      <Row style={{ margin: '4px 0px' }}>
+        <Col span={21}>
+          {/* <Row> */}
+          <CommentAntd
+            className='comment'
+            actions={actions}
+            author={
               <Popover
                 content={<Namecard account={commentAuthor} />}
                 placement="leftTop"
               >
-                <NameTag account={commentAuthor} minimizeIcon={true} />
+                <NameTag style={{ fontSize:"12pt", color: "#4492ff" }} account={commentAuthor} minimizeIcon={true} />
               </Popover>
-              {comment.content}
-            </p>
-            <div style={{ display: 'flex' }}>
-              <Popover
-                content={
-                  comment.likedAccounts.length
-                    ? comment.likedAccounts.map((lover, idx) => (
-                      <pre key={idx}>
-                        <NameTag account={lover} nameOnly={true} />
-                      </pre>
-                    ))
-                    : (
-                      <pre>
-                        당신이 이 댓글의 첫 번째 좋아요를 눌러주세요!
-                      </pre>
-                    )
-                }
-                placement="rightTop"
-              >
-                <a
-                  style={{ marginRight: '8px' }}
-                  onClick={() => this.onClickLikeIt()}
-                >
-                  {`좋아요 ${comment.likedAccounts.length}`}
-                </a>
-              </Popover>
-              {
-                comment.replies
-                && (
-                <pre>
-                  {`대댓글 ${comment.replies.length}`}
-                </pre>
-                )
-              }
-              <div style={{ color: '#0a0a0' }}>
-                {printTime(comment.createdAt)}
-              </div>
-            </div>
-            <Recomments
-              commentId={comment.id}
-              viewRecomment={viewRecomment}
-              recomments={comment.replies ? comment.replies : []}
-            />
-          </div>
-          <div>
-            <Button
-              icon="down"
-              shape="circle"
-              size="small"
-              onClick={() => this.toggleRecomment()}
-            />
-          </div>
-        </div>
-      </div>
+            }
+            avatar={
+              <Avatar
+                src={imgsrc}
+                alt={imgalt}
+              />
+            }
+            content={comment.content}
+            datetime={printTime(comment.createdAt)}
+          />
+          {/* </Row> */}
+          <Recomments
+            commentId={comment.id}
+            viewRecomment={viewRecomment}
+            recomments={comment.replies ? comment.replies : []}
+          />
+        </Col>
+        <Col span={1}>
+          <Button
+            icon="down"
+            shape="circle"
+            size="small"
+            onClick={() => this.toggleRecomment()}
+          />
+        </Col>
+      </Row>
     )
   }
 }
