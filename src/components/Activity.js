@@ -9,9 +9,9 @@ class Activity extends Component {
     const account = this.props.content
     return (
       <Row style={{
-        height: '10vh',
-        fontSize: '16pt',
-        padding: '12px',
+        height: '4em',
+        fontSize: '2rem',
+        padding: '0.4em',
         textAlign: 'center',
       }}
       >
