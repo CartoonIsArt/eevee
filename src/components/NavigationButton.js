@@ -6,8 +6,12 @@ import { routes } from '../Route'
 import Sider from '../containers/Sider'
 
 
-function hasSidebar(pathname) {
-  return routes.find(route => route.path === pathname).sidebar.type !== 'div'
+// TODO: url parameter나 query 있는 경우에도 적용할 수 있게
+function hasNoSidebar(pathname) {
+  const route = routes.find(route => route.path === pathname)
+  if (route === undefined)
+    return false
+  return routes.find(route => route.path === pathname).sidebar.type === 'div'
 }
 
 class NavigationButton extends Component {
@@ -29,8 +33,13 @@ class NavigationButton extends Component {
   render() {
     const { pathname } = this.props
 
-    return hasSidebar(pathname)
+    return hasNoSidebar(pathname)
       ? (
+        <Link to='/enrollment'>
+          <Button id="active-members-button" icon="smile-o">활동인구</Button>
+        </Link>
+      )
+      : (
         <Row>
           <Col xs={24} md={0}>
             <Button id="side-menu-button" icon="menu" onClick={this.showMenu}>메뉴</Button>
@@ -46,11 +55,6 @@ class NavigationButton extends Component {
             </Drawer>
           </Col>
         </Row>
-      )
-      : (
-        <Link to='/enrollment'>
-          <Button id="active-members-button" icon="smile-o">활동인구</Button>
-        </Link>
       )
   }
 }
