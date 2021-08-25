@@ -1,11 +1,43 @@
-@import "container/Userpage";
-@import "container/Registration";
-@import "container/EditUserProfile";
-@import "components/ReactMarkdown";
 @import "components/Comment";
+@import "components/Enrollment";
+@import "components/Namecard";
+@import "components/Notifications";
+@import "components/ReactMarkdown";
+@import "components/Timeline";
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+@import "containers/EditUserProfile";
+@import "containers/Law";
+@import "containers/Members";
+@import "containers/PageCard";
+@import "containers/Registration";
+@import "containers/Userpage";
+
+#Navigation-wrapper {
+  background: #fff;
+  box-shadow: 0 1px 2px 0px #929292;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1px;
+
+  #Navigation {
+    max-width: 1280px;
+    margin: 0% auto;
+    padding: 0 1rem;
+  }
+  
+  #Logo {
+    height: 46px;
+    min-height: 2rem;
+  }
+}
+
+#sider {
+  width: 0;
+}
+
+@media (min-width: 768px) {
+  #sider {
+    width: 240px;
+    background: white;
+  }
 }

@@ -1,21 +1,29 @@
+import { Layout } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
+import { matchPath, withRouter } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { clearAccount, getAccount } from './actions'
-import Nav from './container/Nav'
+import Navigation from './container/Navigation'
 import { routes } from './Route'
-import './App.css'
+import './App.scss'
 
+
+const { Footer, Content } = Layout
 
 function isEmptyObject(param) {
   return Object.keys(param).length === 0 && param.constructor === Object;
 }
 
 const isNavEnabled = (history) => {
-  const ignoredRoutes = routes.filter((route) => !route.has_navigator)
-  return !ignoredRoutes.find(route => route.path == history.location.pathname)
+  return Boolean(routes
+    .filter((route) => route.has_navigation)
+    .find((route) => matchPath(history.location.pathname, {
+      path: route.path,
+      exact: true,
+      strict: false,
+    })))
 }
 
 const isAuthenticated = (route, auth) => {
@@ -50,28 +58,35 @@ class App extends Component {
   
   render() {
     return (
-      <div style={{ background: '#dfdfdf' }}>
-        {isNavEnabled(this.props.history) && <Nav />}
-        <div className="Container" style={{ marginTop: '4px', display: 'flex' }} >
+      <Layout id="app">
+        <Navigation visible={isNavEnabled(this.props.history)} />
+        <Content id="content">
           <Switch>
             {routes.map((route, idx) => (
-            // eslint-disable-next-line
-                <Route
-                  key={idx}
-                  path={route.path}
-                  exact={route.exact}
-                >
-                  {isAuthenticated(route, this.state.auth)
-                    ? isPublicOnly(route, this.state.auth)
-                      ? <Redirect to='/' />
-                      : [route.sidebar, route.main] // TODO: 이거 붙여야 에러 안뜨는데 넣으면 화면 비율 망가짐 .map((component, idx) => <div key={idx}>{(component)}</div>)
-                    : <Redirect to='/login' />
-                  }
-                </Route>
+              <Route
+                key={idx}
+                path={route.path}
+                exact={route.exact}
+              >
+                {isAuthenticated(route, this.state.auth)
+                  ? isPublicOnly(route, this.state.auth)
+                    ? <Redirect to='/' />
+                    : (
+                      <Layout>
+                        <Content id="container">
+                          {route.sidebar}
+                          {route.main}
+                        </Content>
+                      </Layout>
+                    )
+                  : <Redirect to='/login' />
+                }
+              </Route>
             ))}
           </Switch>
-        </div>
-      </div>
+        </Content>
+        <Footer>Footer</Footer>
+      </Layout>
     );
   }
 }

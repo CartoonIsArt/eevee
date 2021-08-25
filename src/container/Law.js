@@ -1,3 +1,4 @@
+import { Card } from 'antd'
 import React, { Component } from 'react'
 import club_rules from '../common/club_rules'
 
@@ -5,19 +6,9 @@ import club_rules from '../common/club_rules'
 class Law extends Component {
   render() {
     return (
-      <div
-        style={{
-          backgroundColor: 'white',
-          borderRadius: '20px',
-          margin: '10px',
-          padding: '10px',
-          wordWrap: 'break-word',
-          whiteSpace: 'pre-line',
-          overflowY: 'auto',
-          height: '100%',
-        }}>
+      <Card id="law">
         {club_rules}
-      </div>
+      </Card>
     )
   }
 }

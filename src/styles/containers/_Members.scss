@@ -1,0 +1,21 @@
+#members {
+  margin: 12px;
+  
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0px 20px;
+  background: white;
+
+  .row-members {
+    display: flex;
+    flex-wrap: wrap;
+
+    .col-members {
+      margin: 8px;
+      padding: 8px;
+      border: solid 1px #76c2ff;
+      border-radius: 4px;
+    }
+  }
+}

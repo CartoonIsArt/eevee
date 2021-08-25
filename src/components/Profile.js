@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getAccount } from '../actions'
-import Activity from '../components/Activity'
-import Namecard from '../components/Namecard'
+import Activity from './Activity'
+import Namecard from './Namecard'
 
 
 class Profile extends Component {
@@ -11,7 +11,7 @@ class Profile extends Component {
     const { account } = this.props
     return (
       <div style={{ background: '#FFFFFF' }}>
-        <Namecard account={account} />
+        <Namecard account={account} size="100%" />
         <Activity content={account} />
       </div>
     )
