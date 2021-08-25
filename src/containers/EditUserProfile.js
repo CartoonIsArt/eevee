@@ -39,7 +39,6 @@ class EditUserProfile extends Component {
     this.state = {
       hasPasswordChecked: false,
       checkPassword: '',
-      visible: false,
       id: '', 
       email,
       birthdate,
@@ -111,14 +110,6 @@ class EditUserProfile extends Component {
         message.error(`회원 정보 수정에 실패했습니다: ${e.message}`)
       })
     this.setState({ visible: false });
-  }
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  }
-
-  showModal = () => {
-    this.setState({ visible: true });
   }
 
   handleChange({ file, fileList }) {
@@ -263,7 +254,6 @@ class EditUserProfile extends Component {
               <Col span={18}>
                 <Cascader
                   className="input-cascader-picker"
-                  //defaultValue={[major]} DB를 수정하고 수정
                   size="large"
                   options={majors}
                   defaultValue={getDepartmentAndMajor(major)}
@@ -306,18 +296,16 @@ class EditUserProfile extends Component {
                   value={favoriteCharacter}
                 />
               </Col>
-              <Col span={24}>
+              <Col span={18}>
                 <Row type="flex" justify="end">
-                  <Col span={6}>
-                    
+                  <Col span={5}>
                     <Popconfirm
                       title="정말 수정하시겠습니까?"
                       onConfirm={this.editProfile}
-                      onCancel={this.handleCancel}
                       okText="수정하기"
                       cancelText="취소"
                     >
-                      <Button type="primary" onClick={this.showModal}>저장</Button>
+                      <Button type="primary">수정하기</Button>
                     </Popconfirm>
                   </Col>
                 </Row>
