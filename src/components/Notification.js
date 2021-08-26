@@ -1,4 +1,4 @@
-import { Col, Popover, Row } from 'antd'
+import { Avatar, Card, Popover } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -8,6 +8,7 @@ import NameTag from './NameTag'
 import { getFeed } from '../actions'
 import { printTime } from '../lib'
 
+const { Meta } = Card
 
 class Notification extends Component {
   routeToFeed(feedId) {
@@ -17,41 +18,27 @@ class Notification extends Component {
 
   render() {
     const { notification } = this.props
-    
+    const imgsrc = notification.author.profile.profileImage
+
     return (
-      <Row
-        key={notification.id}
+      <Meta
         className="notification-container"
+        key={notification.id}
         onClick={() => this.routeToFeed(notification.id)}
-      >
-        <Col className="notification-profile-contianer">
-          <img
-            src={notification.author.profile.profileImage}
-            alt={notification.author.profile.profileImage}
-          />
-        </Col>
-        <Col>
-          <Row>
-            <Col span={12} style={{ marginRight: '8px', marginLeft: '12px' }}>
-              <Popover
-                placement="leftTop"
-                content={<Namecard account={notification.author} />}
-              >
-                <NameTag account={notification.author} minimizeIcon={true} />
-              </Popover>
-            </Col>
-            <Col span={10} style={{ fontSize: '9pt', color: 'rgba(1,1,1,0.5)' }}>
-              {printTime(notification.createdAt)}
-            </Col>
-          </Row>
-          <Row style={{ marginLeft: '12px', fontSize: '9pt', 
-            WebkitBoxOrient: 'vertical', WebkitLineClamp: '2', width: '232px', overflow: 'hidden', display: '-webkit-box',
-          }}
-          >
-            { notification.content }
-          </Row>
-        </Col>
-      </Row>
+        avatar={<Avatar className="notification-profile-contianer" src={imgsrc} alt={imgsrc}/>}
+        title={
+          <div>
+            <Popover
+              placement="leftTop"
+              content={<Namecard account={notification.author} />}
+            >
+              <NameTag account={notification.author} minimizeIcon={true} />
+            </Popover>
+            <span className="notification-author-time">{printTime(notification.createdAt)}</span>
+          </div>
+        }
+        description={ notification.content }
+      />
     )
   }
 }
