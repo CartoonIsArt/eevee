@@ -20,7 +20,7 @@ class Namecard extends Component {
             display: 'flex',
             flexDirection: 'row',
             padding: '16px',
-            lineHeight: '1rem',
+            lineHeight: '1.6rem',
           }}
         >
           <div style={{ fontSize: '18pt', textAlign: 'left' }}>
@@ -29,7 +29,7 @@ class Namecard extends Component {
                 <NameTag account={account} />
               </Col>
             </Row>
-            <Row style={{ marginTop: '1rem', fontSize: '14pt' }}>
+            <Row style={{ marginTop: '1.6rem', fontSize: '14pt' }}>
               <Col>
                 <span>{account.student.major}</span>
               </Col>

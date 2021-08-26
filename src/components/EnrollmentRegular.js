@@ -9,8 +9,8 @@ class EnrollmentRegular extends Component {
       <Card className="page-card">
         <Result
           status="success"
-          title="활동인구 등록이 완료되었습니다!"
-          subTitle="활동인구 혜택을 맘껏 누리세요. 활동인구 유효기간은 개강총회부터 종강총회까지 입니다."
+          title={<span className="enrollment-title">이미 활동인구입니다!</span>}
+          subTitle={<span>활동인구 혜택을 맘껏 누리세요.<br />기간은 개강총회부터 종강총회까지입니다.</span>}
           extra={
             <Button className="button-enroll" size="large">
               <Link to="/">
