@@ -104,22 +104,20 @@
   }
 }
   
-  .edit-cascader-picker, .ant-cascader-picker {
+.edit-cascader-picker, .ant-cascader-picker {
+  font-size: 1.6rem;
+  width: 100%;
+
+  .ant-input {
     font-size: 1.6rem;
-    width: 100%;
-
-    .ant-input {
-      font-size: 1.6rem;
-    }
   }
+}
 
-  .edit-calendar-picker, .ant-calendar-picker {
+.edit-calendar-picker, .ant-calendar-picker {
+  font-size: 1.6rem;
+  width: 100%;
+
+  .ant-input {
     font-size: 1.6rem;
-    width: 100%;
-
-    .ant-input {
-      font-size: 1.6rem;
-    }
   }
-
 }
