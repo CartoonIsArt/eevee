@@ -1,4 +1,4 @@
-import { Button, Form, Icon, Input, Modal } from 'antd'
+import { Button, Card, Col, Form, Icon, Input, Modal, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
@@ -24,7 +24,7 @@ class Login extends Component {
     if (this.props.auth) this.props.history.push('/')
   }
 
-  onClickMethod(ev) {
+  submit(ev) {
     ev.preventDefault()
     ev.stopPropagation()
 
@@ -44,121 +44,72 @@ class Login extends Component {
   render() {
     const { username, password } = this.state
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          height: '100%',
-          fontSize: '20px',
-          textAlign: 'left',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundImage: 'url(/images/login_background.jpg)',
-          overflow: 'hidden',
-        }}
+      <Card
+        id="login-card"
+        style={{ backgroundImage: "url(/images/login_background.jpg)" }}  // css에 두면 파일 서버에서 안찾음
+        title={
+          <Card>
+            <Row id="login-card-title">
+              <span>CIA 광운대학교 중앙 만화 동아리</span>
+            </Row>
+          </Card>
+        }
       >
-        <div
-          // 상단 바
-          style={{
-            height: '20vh',
-          }}
-        >
-          <div style={{
-            height: '60px',
-            padding: '10px',
-            fontSize: '1.6rem',
-            fontWeight: 'bold',
-            textAlign: 'center',
-            backgroundColor: 'rgba(255,255,255,0.5)',
-          }}
-          >
-            CIA 광운대학교 중앙 만화 동아리
-          </div>
-        </div>
-        <div
-          // 로그인 사각형
-          style={{
-            textAlign: 'center',
-            justifyContent: 'space-between',
-            margin: '0 auto',
-            padding: '12px',
-            border: '2px solid black',
-            borderRadius: '10px',
-            backgroundColor: 'rgba(255,255,255,0.8)',
-          }}
-        >
-          <div>
-            <div style={{ textAlign: 'left' }}>
-              <img
-                // src="https://cia.kw.ac.kr/media/logo.png"
-                src="https://avatars.githubusercontent.com/u/26453921?s=200&v=4"
-                alt="CIA 로고"
-                style={{ width: '240px', marginLeft: '20px', overflow: 'hidden' }}
-              />
-              <img
-                src="/images/ver2.png"
-                alt="2.0"
-                style={{ width: '60px', marginLeft: '-10px', marginTop: '130px', overflow: 'hidden' }}
-              />
-            </div>
-            <div>
-              <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '20px' }}> 당신의 욕망을 이곳에서 ♥ </p>
-            </div>
-          </div>
-          <div>
-            <Form
-              className="login-form"
-              onSubmit={(e) => this.onClickMethod(e)}
-            >
-              <FormItem
-                rules={[
-                  { required: true, message: '아이디를 입력해주세요!' },
-                ]}
-              >
-                <Input
-                  prefix={<Icon type="user" style={{ fontSize: 12 }} />}
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => this.setState({ username: e.target.value })}
-                />
-              </FormItem>
-              <FormItem
-                rules={[
-                  { required: true, message: '비밀번호를 입력해주세요!' },
-                ]}
-              >
-                <Input
-                  prefix={<Icon type="lock" style={{ fontSize: 12 }} />}
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => this.setState({ password: e.target.value })}
-                />
-              </FormItem>
-              <FormItem>
-                <Button
-                  style={{ width: '100%' }}
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                >
-                  로그인
-                </Button>
-                아니면
-                {' '}
-                <Link to="/registration"><b>지금 회원가입 하세요!</b></Link>
-              </FormItem>
-            </Form>
-          </div>
-        </div>
-        <div style={{ height: '144px', marginLeft: '12px' }}>
-          <div style={{ fontSize: '12px', marginTop: '80px', color: 'white' }}> 으으 오타쿠 극혐 </div>
-          <a href="https://www.battle.net/download/getInstallerForGame?gameProgram=HEROES_OF_THE_STORM">
-            <Button type="danger" size="large" icon="rollback"> 도망가기 </Button>
-          </a>
-        </div>
-      </div>
+        <Row id="login-card-body" type="flex" align="middle" justify="center">
+          <Col>
+            <Card id="login-inner-card">
+              <Row type="flex" align="middle" justify="center">
+                <Col span={24}>
+                  <img
+                    src="/images/logo.png"
+                    alt="CIA 로고"
+                    style={{ width: '240px' }}
+                  />
+                </Col>
+                <Col span={24}>
+                  <span style={{ fontSize: '1.6rem', fontWeight: 'bold' }}>
+                    당신의 욕망을 이곳에서 ♥
+                  </span>
+                </Col>
+              </Row>
+              <Row>
+                <Form className="login-form" onSubmit={(e) => this.submit(e)}>
+                  <FormItem rules={[{ required: true, message: '아이디를 입력해주세요!' }]}>
+                    <Input
+                      prefix={<Icon type="user" />}
+                      placeholder="Username"
+                      value={username}
+                      onChange={(e) => this.setState({ username: e.target.value })}
+                    />
+                  </FormItem>
+                  <FormItem rules={[{ required: true, message: '비밀번호를 입력해주세요!' }]}>
+                    <Input
+                      prefix={<Icon type="lock" />}
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => this.setState({ password: e.target.value })}
+                    />
+                  </FormItem>
+                  <FormItem>
+                    <Button
+                      className="login-form-button"
+                      type="primary"
+                      htmlType="submit"
+                    >
+                      로그인
+                    </Button>
+                    아니면
+                    <Link to="/registration">
+                      <b> 지금 회원가입 하세요!</b>
+                    </Link>
+                  </FormItem>
+                </Form>
+              </Row>
+            </Card>
+          </Col>
+        </Row>
+      </Card>
     )
   }
 }

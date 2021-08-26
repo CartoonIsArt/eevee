@@ -1,8 +1,9 @@
-import { Affix, Button, Col, Input, Row } from 'antd'
+import { Affix, Col, Input, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
+import NavigationButton from '../components/NavigationButton'
 
 
 class Navigation extends Component {
@@ -12,7 +13,7 @@ class Navigation extends Component {
 
     if (!visible)
       return <div />
-      
+
     return (
       <Affix>
         <div id="Navigation-wrapper">
@@ -28,9 +29,7 @@ class Navigation extends Component {
               />
             </Col>
             <Col xs={{ span: 5 }} sm={{ span: 4, offset: 1 }} lg={{ span: 3, offset: 3 }} xl={{ span: 2, offset: 4 }}>
-              <Link to='/enrollment'>
-                <Button style={{padding: '0 4px'}} icon="smile-o">활동인구</Button>
-              </Link>
+              <NavigationButton pathname={this.props.history.location.pathname} />
             </Col>
           </Row>
         </div>

@@ -24,7 +24,7 @@ class EnrollmentNonregular extends Component {
     return (
       <Card className="page-card">
         <Result
-          title="지금 활동인구에 등록해 보세요!"
+          title={<span className="enrollment-title">지금 활동인구에 등록해 보세요!</span>}
           extra={[
             <Button size="large">
               <Link to="/law"><span className="button-law">회칙 보러가기</span></Link>

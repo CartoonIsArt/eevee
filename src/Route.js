@@ -1,7 +1,7 @@
 import React from 'react'
 import Accounting from './containers/Accounting'
 import Cleaning from './containers/Cleaning'
-import Deactivate from './containers/Deactivate'
+import ResetActiveMembers from './containers/ResetActiveMembers'
 import Doorlock from './containers/Doorlock'
 import EditUserProfile from './containers/EditUserProfile'
 import Enrollment from './containers/Enrollment'
@@ -98,14 +98,14 @@ export const routes = [
   {
     path: '/settings/account',
     has_navigation: true,
-    sidebar: <Sider />,
+    sidebar: <div />,
     main: <EditUserProfile />,
   },
   {
-    path: '/deactivate',
+    path: '/reset-active-members',
     has_navigation: true,
     sidebar: <Sider />,
-    main: <Deactivate />,
+    main: <ResetActiveMembers />,
   },
   {
     path: '/doorlock',

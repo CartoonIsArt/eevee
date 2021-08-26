@@ -1,10 +1,12 @@
 $link-color: #365899;
 
-.userpage {
-  height: 1040px;
+#userpage-card {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  background-color: turquoise;
+
+  .header-row {
+    margin-bottom: 24px;
+  }
 
   .ant-card-meta-title{
     margin-bottom: 0px !important;
@@ -12,42 +14,41 @@ $link-color: #365899;
 
   .header {
     height: 280px;
-    border: 1px solid #d3d6db;
-    margin: 12px;
-    background-color: #fff;
+    margin: 0;
+
+    .ant-card-body {
+      padding: 0;
+    }
 
     .background-image{
       height: 236px;
-      //background-image: url('https://i.imgur.com/RcuU2lm.png');
       background-position: center 30%;
 
-      .user-profile{
+      .profile-image-wrapper {
         border: solid 4px white;
-        width: 208px;
-        height: 208px;
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
         position: relative;
-        left: 44px;
-        top: 76px;
-        z-index: 2;
+        left: 60px;
+        top: 78px;
         overflow: hidden;
 
-        .profile-image-size{
-          max-width: 100%;
-          height: auto;
+        .profile-image {
+          width: 100%;
         }
       }
     }
 
     .menu-bar {
       display: flex;
-      padding-left: 340px;
+      padding-left: 34rem;
       line-height: 2.4;
       align-items: center;
 
       .menu {
-        padding: 0px 16px;
-        font-size: 12pt;
+        padding: 0 1.6rem;
+        font-size: 1.6rem;
         font-weight: bold;
         text-align: center;
         border-left: 1px solid #e9eaed;
@@ -61,77 +62,14 @@ $link-color: #365899;
         }
       }
 
-      .blank{
+      .blank {
         flex: 1;
       }
 
-      .menu-btn{
-        font-size: 12pt;
+      .menu-btn {
+        font-size: 1.6rem;
         margin-right: 4px;
       }
-    }
-  }
-
-  .under-board{
-    display: flex;
-    margin: 12px;
-    font-size: 10pt;
-
-    .my-inform-size{
-      display: block;
-      width: 20%;
-
-      .my-inform-board{
-        position: sticky;
-        top: 52px;
-        display: flex;
-        flex-direction: column;
-        background-color: #fff;
-        border: solid 1px #d3d6db;
-
-        .my-inform-title{
-          font-size: 12pt;
-          background-color: #f6f7f9;
-          padding: 12px;
-          font-weight: bold;
-          border-bottom: solid 1px #d3d6db;
-        }
-
-        .my-inform-content{
-          display: flex;
-          padding: 8px;
-
-          li{
-            margin: 8px 0px;
-          }
-
-          .my-inform-key{
-            width: 36%;
-            text-align: center;
-            margin-right: 24px;
-          }
-          .my-inform-value{
-            width: 64%;
-          }
-        }
-      }
-    }
-
-    .my-write-size{
-      display: flex;
-      flex-direction: column;
-      width: 80%;
-      height: 100%;
-      border: solid 1px #d3d6db;
-      margin-left: 12px;
-      background-color: #fff;
-
-      .my-write-title{
-        padding: 12px;
-        border-bottom: solid 1px #d3d6db;
-        background-color: #f6f7f9;
-        font-size: 12pt;
-        font-weight: bold; }
     }
   }
 }

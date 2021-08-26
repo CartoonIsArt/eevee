@@ -19,7 +19,7 @@ class Namecard extends Component {
               <NameTag account={account} />
             </Col>
           </Row>
-          <Row className="namecard-marjor-container">
+          <Row className="namecard-major-container">
             <Col>
               <span>{account.student.major}</span>
             </Col>

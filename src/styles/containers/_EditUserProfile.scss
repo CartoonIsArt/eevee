@@ -4,23 +4,25 @@
   border: 1px solid #d3d6db;
   margin: 12px;
   background-color: #fff;
-
-  .background-image{
+  
+  .background-image {
     height: 236px;
 
-    .user-banner{
+    .user-banner {
       width: 1006px !important;
       height: 236px !important;
-      .ant-upload-picture-card-wrapper{
+
+      .ant-upload-picture-card-wrapper {
         height: 100%;
-        .ant-upload-list-item{
+
+        .ant-upload-list-item {
           padding: 0px;
           position: absolute;
           width: 1006px !important;
           height: 236px !important;
         }
         // 같은 코든데 줄일 수 없나..?
-        .ant-upload-select{
+        .ant-upload-select {
           width: 100%;
           height: 100%;
           padding: 0px;
@@ -33,8 +35,8 @@
         }
       }
     }
-
-    .user-profile{
+  
+    .user-profile {
       border: solid 4px white;
       background-color: #fff;
       width: 208px;
@@ -46,7 +48,7 @@
       z-index: 3;
       overflow: hidden;
 
-      .ant-upload-list-item{
+      .ant-upload-list-item {
         padding: 0px;
         position: absolute;
         width: 208px !important;
@@ -54,7 +56,7 @@
         height: auto !important;
       }
       // 같은 코든데 줄일 수 없나..?
-      .ant-upload-select{
+      .ant-upload-select {
         width: 100%;
         height: 100%;
         border-radius: 50%;
@@ -82,7 +84,42 @@
   width: 100%;
   margin-top: 52px;
 }
-
+  
 .input > *{
   margin-top: 12px;
+}
+
+#edit-row-group {
+  font-size: 1.6rem;
+
+  .edit-input {
+    .ant-input-group-addon {
+      font-size: 1.6rem;
+      width: 8em;
+      text-align: left;
+    }
+    .ant-input {
+      font-size: 1.6rem;
+    }
+  }
+}
+  
+  .edit-cascader-picker, .ant-cascader-picker {
+    font-size: 1.6rem;
+    width: 100%;
+
+    .ant-input {
+      font-size: 1.6rem;
+    }
+  }
+
+  .edit-calendar-picker, .ant-calendar-picker {
+    font-size: 1.6rem;
+    width: 100%;
+
+    .ant-input {
+      font-size: 1.6rem;
+    }
+  }
+
 }

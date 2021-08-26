@@ -1,19 +1,13 @@
 import { Affix, Col, Icon, Menu, Row } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getAccount } from '../actions'
+import { isRegularMember } from '../lib'
 
 
 const { SubMenu } = Menu
-
-function isRegular(account) {
-  if (account.role === 'superuser')     return true
-  if (account.role === 'manager')       return true
-  if (account.role === 'board manager') return true
-  if (account.role === 'regular')       return true
-  return false
-}
 
 class Sider extends Component {
   static getAncestorKeys(key) {
@@ -53,12 +47,13 @@ class Sider extends Component {
   }
 
   render() {
-    const { account } = this.props
+    const { account, isNavigationMenu } = this.props
     const { pathname } = this.props.location
+    const xsSpan = isNavigationMenu ? 24 : 0
 
     return (
       <Row id="sider">
-        <Col xs={0} md={24}>
+        <Col xs={xsSpan} md={24}>
           <Affix offsetTop={49}>
             <Menu
               mode="inline"
@@ -99,9 +94,7 @@ class Sider extends Component {
                 <Menu.Item key="/law">
                   <span>회칙</span>
                 </Menu.Item>
-                {
-                  isRegular(account)
-                    && <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
+                { isRegularMember(account) && <Menu.Item key="/doorlock">동방 비밀번호</Menu.Item>
                   /* 배포 후 패치
                   <Menu.Item key="/old/noties">(구) 공지</Menu.Item>
                   <Menu.Item key="/old/texts"> (구) 자유</Menu.Item>
@@ -120,7 +113,7 @@ class Sider extends Component {
                     </span>
                   )}
                 >
-                  <Menu.Item key="/deactivate">활동인구 초기화</Menu.Item>
+                  <Menu.Item key="/reset-active-members">활동인구 초기화</Menu.Item>
                 </SubMenu>
                 )
               }
@@ -130,6 +123,14 @@ class Sider extends Component {
       </Row>
     );
   }
+}
+
+Sider.PropTypes = {
+  isNavigationMenu: PropTypes.bool,
+}
+
+Sider.defaultProps = {
+  isNavigationMenu: false,
 }
 
 const mapStateToProps = (state) => ({
