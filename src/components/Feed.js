@@ -1,3 +1,4 @@
+import { Card } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Comments from './Comments'
@@ -23,7 +24,7 @@ class Feed extends Component {
     const { feed } = this.props
     
     return (
-      <article style={{ marginBottom: '4px' }}>
+      <Card size="small" className="feed-container">
         <Document
           feed={feed}
           onClickComments={() => this.toggleCommentView()}
@@ -37,7 +38,7 @@ class Feed extends Component {
           />
           )
         }
-      </article>
+      </Card>
     )
   }
 }

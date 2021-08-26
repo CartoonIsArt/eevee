@@ -24,12 +24,12 @@ class NameTag extends Component {
     const tag = nameOnly
       ? (
         <div {...rest}>
-          <span style={{ verticalAlign: 'middle' }}>{nickname} </span>
+          <span className="nametag-span">{nickname} </span>
         </div>
       )
       : (
         <Link to={`/members/${account.username}`} {...rest}>
-          <span style={{ verticalAlign: 'middle' }}>{nickname} </span>{makeAccountBadge(account, minimizeIcon)}
+          <span className="nametag-span">{nickname} </span>{makeAccountBadge(account, minimizeIcon)}
         </Link>
       )
     return tag

@@ -21,17 +21,11 @@ class Notification extends Component {
     return (
       <Row
         key={notification.id}
-        className="noti"
+        className="notification-container"
         onClick={() => this.routeToFeed(notification.id)}
-        style={{ height: '56px', display: 'flex', alignItems: 'stretch' }}
       >
-        <Col
-          style={{
-            width: '48px', height: '48px', borderRadius: '24px', overflow: 'hidden', backgroundSize: 'cover',
-          }}
-        >
+        <Col className="notification-profile-contianer">
           <img
-            width="100%"
             src={notification.author.profile.profileImage}
             alt={notification.author.profile.profileImage}
           />

@@ -1,6 +1,21 @@
-.comment{
-    .ant-comment-inner{
-        padding-top: 0px;
-        padding-bottom: 0px;
+.comment-container{
+  margin: 4px 0px;
+
+  .comment-nametag{
+    font-size: 12pt;
+    color: #4492ff;
+  }
+
+  .ant-comment-inner{
+    padding-top: 0px;
+    padding-bottom: 0px;
+
+    .ant-comment-actions{
+      margin-top: 0px;
+      margin-bottom: 4px;
     }
+  }
+}
+.comment-like-button{
+  margin-right: 4px;
 }

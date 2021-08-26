@@ -6,6 +6,10 @@ $link-color: #365899;
   display: flex;
   flex-direction: column;
 
+  .ant-card-meta-title{
+    margin-bottom: 0px !important;
+  }
+
   .header {
     height: 280px;
     border: 1px solid #d3d6db;

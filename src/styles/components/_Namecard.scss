@@ -2,3 +2,21 @@
   object-fit: cover;
   object-position: center top;
 }
+
+.namecard-content-container{
+  height: 98px;
+  padding: 16px;
+  line-height: 1rem;
+  font-size: 18pt;
+  text-align: left;
+
+  .namecard-nametag-container
+  {
+    font-weight: bold;
+  }
+
+  .namecard-marjor-container{
+    margin-top: 1rem;
+    font-size: 14pt;
+  }
+}

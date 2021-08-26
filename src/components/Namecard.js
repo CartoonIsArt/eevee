@@ -13,28 +13,17 @@ class Namecard extends Component {
         <a className="ant-anchor-link-title" style={{ height: size }} href="#">
           <img id="img-namecard" width="100%" src={account.profile.profileImage} alt={account.profile.profileImage} />
         </a>
-        <Row
-         type="flex" align="middle"
-          style={{
-            height: '98px',
-            display: 'flex',
-            flexDirection: 'row',
-            padding: '16px',
-            lineHeight: '1rem',
-          }}
-        >
-          <div style={{ fontSize: '18pt', textAlign: 'left' }}>
-            <Row type="flex" align="middle" style={{ fontWeight: 'bold' }}>
-              <Col>
-                <NameTag account={account} />
-              </Col>
-            </Row>
-            <Row style={{ marginTop: '1rem', fontSize: '14pt' }}>
-              <Col>
-                <span>{account.student.major}</span>
-              </Col>
-            </Row>
-          </div>
+        <Row type="flex" align="middle" className="namecard-content-container">
+          <Row type="flex" align="middle" className="namecard-nametag-container">
+            <Col>
+              <NameTag account={account} />
+            </Col>
+          </Row>
+          <Row className="namecard-marjor-container">
+            <Col>
+              <span>{account.student.major}</span>
+            </Col>
+          </Row>
         </Row>
       </div>
     )

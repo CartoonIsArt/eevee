@@ -1,11 +1,11 @@
 .form-profile-upload{
-    margin-top: 20px;
-    .ant-form-item{
-        margin-bottom: 0px;
+  margin-top: 20px;
+  .ant-form-item{
+    margin-bottom: 0px;
+  }
+  .registration-profile-upload{
+    .ant-upload-list-picture-card-container{
+      height: 100% !important;
     }
-    .registration-profile-upload{
-        .ant-upload-list-picture-card-container{
-            height: 100% !important;
-        }
-    }
+  }
 }

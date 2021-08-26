@@ -1,13 +1,18 @@
+@import "components/Activity";
 @import "components/Comment";
+@import "components/Document";
 @import "components/Enrollment";
+@import "components/Feed";
 @import "components/Namecard";
-@import "components/Notifications";
+@import "components/NameTag";
+@import "components/Notification";
 @import "components/ReactMarkdown";
 @import "components/Timeline";
 
 @import "containers/EditUserProfile";
 @import "containers/Law";
 @import "containers/Members";
+@import "containers/Notifications";
 @import "containers/PageCard";
 @import "containers/Registration";
 @import "containers/Userpage";

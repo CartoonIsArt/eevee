@@ -44,10 +44,10 @@ class Document extends Component {
     const { Meta } = Card;
     
     return (
-      <div style={{ background: '#fff', padding: '8px', marginBottom: '1px' }}>
-        <Row style={{ marginTop: '4px' }}>
+      <div className="document-container">
+        <Row className="document-card-container">
           <Meta
-            avatar={<Avatar style={{ width: '48px', height: '48px', }} src={imgsrc} alt={imgalt}/>}
+            avatar={<Avatar className="document-profile-img" src={imgsrc} alt={imgalt}/>}
             title={
               author.student.nTh
                 ? (
@@ -63,7 +63,7 @@ class Document extends Component {
             description={printTime(createdAt)}
           />
         </Row>
-        <Row style={{ margin: '4px 0px' }}>
+        <Row className="document-content-container">
           <ReactMarkdown className="reactMarkDown" children={feed.content} />
         </Row>
         { /* <Album content={images} height="320px" /> */ }
@@ -75,8 +75,8 @@ class Document extends Component {
           />
         </Row>
         <Line />
-        <Row style={{ marginTop: '4px', display: 'flex' }}>
-          <Col style={{ marginRight: '12px' }}>
+        <Row type="flex" className="document-actions-container">
+          <Col>
             <Popover
               content={
                 feed.likedAccounts.length
@@ -90,7 +90,6 @@ class Document extends Component {
               placement="rightTop"
             >
               <Button
-                style={{ marginRight: '4px' }}
                 shape="circle"
                 icon="like"
                 size="small"
@@ -101,9 +100,8 @@ class Document extends Component {
               </a>
             </Popover>
           </Col>
-          <Col style={{ marginRight: '12px' }}>
+          <Col>
             <Button
-              style={{ marginRight: '4px' }}
               shape="circle"
               icon="edit"
               size="small"
@@ -117,7 +115,6 @@ class Document extends Component {
             && (
               <Col>
                 <Button
-                  style={{ marginRight: '4px' }}
                   shape="circle"
                   icon="plus"
                   size="small"
