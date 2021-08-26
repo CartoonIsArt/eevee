@@ -1,8 +1,12 @@
+@import "components/Activity";
 @import "components/Comment";
+@import "components/Document";
 @import "components/Enrollment";
+@import "components/Feed";
 @import "components/Namecard";
+@import "components/NameTag";
+@import "components/Notification";
 @import "components/NavigationButton";
-@import "components/Notifications";
 @import "components/ReactMarkdown";
 @import "components/SingleImageUploader";
 @import "components/TermAgreement";
@@ -12,6 +16,7 @@
 @import "containers/Law";
 @import "containers/Login";
 @import "containers/Members";
+@import "containers/Notifications";
 @import "containers/PageCard";
 @import "containers/Registration";
 @import "containers/Userpage";

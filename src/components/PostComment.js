@@ -1,4 +1,4 @@
-import { Button, Mention, notification, Row, Col } from 'antd'
+import { Button, Col, Mention, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -6,6 +6,11 @@ import { postComment } from '../actions'
 import { isSpace } from '../lib'
 
 const { toString, toContentState } = Mention
+
+const PARENT_TYPE = {
+  DOCUMENT: "Document",
+  COMMENT: "Comment",
+}
 
 class PostComment extends Component {
   constructor(props) {
@@ -17,19 +22,29 @@ class PostComment extends Component {
 
   onButtonClicked() {
     const content = toString(this.state.contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
+
     if (isSpace(content)) {
-      notification.warning({
+      return notification.warning({
         message: '댓글을 확인해주세요!',
         description: '업로드하고자 하는 댓글 내용이 없습니다',
         duration: 3,
       })
     }
-    else {
-      this.props.postComment({
-        documentId: this.props.feedId,
-        content,
-      })
+   
+    switch(this.props.parentType)
+    {
+      case PARENT_TYPE.DOCUMENT:
+        this.props.postComment({
+          documentId: this.props.feedId,
+          content,
+        }); break;
+      case PARENT_TYPE.COMMENT:
+        this.props.postComment({
+          commentId: this.props.feedId,
+          content,
+        }); break;
     }
+    
     this.setState({ contentState: toContentState('') })
   }
 
@@ -39,6 +54,7 @@ class PostComment extends Component {
 
   render() {
     const { account } = this.props
+
     return (
       <Row style={{  margin: '4px 0px'}}>
         <Col span={2}>
@@ -66,7 +82,6 @@ class PostComment extends Component {
 }
 
 PostComment.propTypes = {
-  postComment: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
 }
 

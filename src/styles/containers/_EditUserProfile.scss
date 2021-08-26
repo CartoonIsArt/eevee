@@ -47,7 +47,7 @@
       top: -150px;
       z-index: 3;
       overflow: hidden;
-  
+
       .ant-upload-list-item {
         padding: 0px;
         position: absolute;
@@ -55,7 +55,6 @@
         max-width: 100% !important;
         height: auto !important;
       }
-
       // 같은 코든데 줄일 수 없나..?
       .ant-upload-select {
         width: 100%;
@@ -103,23 +102,22 @@
       font-size: 1.6rem;
     }
   }
+}
   
-  .edit-cascader-picker, .ant-cascader-picker {
+.edit-cascader-picker, .ant-cascader-picker {
+  font-size: 1.6rem;
+  width: 100%;
+
+  .ant-input {
     font-size: 1.6rem;
-    width: 100%;
-
-    .ant-input {
-      font-size: 1.6rem;
-    }
   }
+}
 
-  .edit-calendar-picker, .ant-calendar-picker {
+.edit-calendar-picker, .ant-calendar-picker {
+  font-size: 1.6rem;
+  width: 100%;
+
+  .ant-input {
     font-size: 1.6rem;
-    width: 100%;
-
-    .ant-input {
-      font-size: 1.6rem;
-    }
   }
-
 }
