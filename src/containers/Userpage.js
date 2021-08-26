@@ -27,7 +27,7 @@ function canEditProfile(member, account) {
 
 function check(boolean) {
   if (boolean) return <Icon type="check" style={{ color: 'green' }} />
-  return <Icon type="close" style={{ color: 'close' }} />
+  return <Icon type="close" style={{ color: 'red' }} />
 }
 
 class Userpage extends Component {
