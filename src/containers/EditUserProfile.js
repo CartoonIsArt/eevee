@@ -318,7 +318,7 @@ class EditUserProfile extends Component {
   }
 }
 
-EditUserProfile.PropTypes = {
+EditUserProfile.propTypes = {
   history: PropTypes.object.isRequired,
 }
 
