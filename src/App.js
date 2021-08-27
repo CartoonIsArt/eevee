@@ -21,7 +21,7 @@ const isNavEnabled = (history) => {
     .filter((route) => route.has_navigation)
     .find((route) => matchPath(history.location.pathname, {
       path: route.path,
-      exact: true,
+      exact: route.exact,
       strict: false,
     })))
 }
