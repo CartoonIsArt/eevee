@@ -1,7 +1,6 @@
 import { Card, Descriptions, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { isRegularMember } from '../lib'
 
 
@@ -32,10 +31,4 @@ UserInfo.propTypes = {
   account: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state) => ({
-  account: state.account,
-})
-const mapDispatchToProps = ({
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserInfo)
+export default UserInfo

@@ -144,7 +144,7 @@ class Userpage extends Component {
             <Affix offsetTop={52}>
               <Row gutter={[0, 8]}>
                 <Col span={24}>
-                  <UserInfo />
+                  <UserInfo account={member} />
                 </Col>
                 <Col span={24}>
                   <UserMenu canEdit={canEditProfile(member, account)} />
