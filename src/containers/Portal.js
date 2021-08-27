@@ -9,10 +9,10 @@ import ExternalLinks from '../components/ExternalLinks'
 class Portal extends Component {
   render() {
     return (
-      <Card style={{backgroundColor: 'red', marginTop: '4px'}}>
-        <Row type="flex" style={{ maxWidth: '1280px', marginTop: '8px' }}>
+      <Card style={{backgroundColor: 'red' }}>
+        <Row type="flex" style={{ maxWidth: '1280px' }}>
           <Col xs={{ span: 0 }} xl={{ order: 1, span: 6 }}>
-            <Affix offsetTop={56}>
+            <Affix offsetTop={71}>
               <Profile />
             </Affix>
           </Col>
@@ -20,7 +20,7 @@ class Portal extends Component {
             <Timeline />
           </Col>
           <Col xs={{ span: 0 }} xl={{ order: 3, span: 6 }}>
-            <Affix offsetTop={56}>
+            <Affix offsetTop={71}>
               <Row gutter={[0, 8]}>
                 <Col xs={24}><Notifications /></Col>
                 <Col xl={24}><ExternalLinks /></Col>
