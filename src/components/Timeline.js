@@ -17,7 +17,6 @@ class Timeline extends Component {
       doclen: 0,
     }
     this.mutex = true
-    this.wrapper = (e) => this.loadMore(e)
   }
 
   componentWillMount() {
@@ -26,11 +25,11 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.wrapper)
+    window.addEventListener('scroll', (e) => this.loadMore(e))
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.wrapper)
+    window.removeEventListener('scroll', (e) => this.loadMore(e))
   }
 
   loadMore(e) {

@@ -4,9 +4,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Notifications from './Notifications'
-import Profile from '../components/Profile'
 import { getFeed } from '../actions'
+import ExternalLinks from '../components/ExternalLinks'
 import Feed from '../components/Feed'
+import Profile from '../components/Profile'
 
 
 class SingleFeed extends Component {
@@ -33,26 +34,32 @@ class SingleFeed extends Component {
       return (<div />);
 
     return (
-      <Row style={{ width: '1280px', marginTop: '8px' }}>
-        <Col span={6}>
-          <aside>
+      <Row type="flex" style={{ width: '1280px', marginTop: '8px' }}>
+        <Col xs={{ span: 0 }} xl={{ order: 1, span: 6 }}>
+          <Affix offsetTop={56}>
             <Profile />
-          </aside>
+          </Affix>
         </Col>
-        <Col span={12}>
-          {feed // auth &&
-          && (
-          <section style={{ padding: '0px 8px' }}>
-            <Feed feed={feed} />
-          </section>
+        <Col xs={{ order: 2, span: 24 }} xl={{ order: 2, span: 12 }}>
+          {feed && ( // auth &&
+            <section style={{ padding: '0px 8px' }}>
+              <Feed feed={feed} />
+            </section>
           )}
         </Col>
-        <Col span={6}>
-          <Affix offsetTop={44}>
-            <aside>
-              <Notifications />
-            </aside>
+        <Col xs={{ span: 0 }} xl={{ order: 3, span: 6 }}>
+          <Affix offsetTop={56}>
+            <Row gutter={[0, 8]}>
+              <Col xs={24}><Notifications /></Col>
+              <Col xl={24}><ExternalLinks /></Col>
+              {/* future feature
+              <div style={{ height: '516px' }} > chat </div>
+              */ }
+            </Row>
           </Affix>
+        </Col>
+        <Col xs={{ order: 1, span: 24 }} xl={{ span: 0 }}>
+          <Notifications />
         </Col>
       </Row>
     )

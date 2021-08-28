@@ -1,0 +1,34 @@
+$link-color: #365899;
+
+#profile-images-header {
+  height: 280px;
+  margin: 0;
+
+  .ant-card-body {
+    padding: 0;
+  }
+
+  .profile-banner-image{
+    height: 236px;
+    background-position: center 30%;
+  }
+
+  .profile-image-wrapper {
+    border: solid 4px white;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+    left: 2vh;
+    top: 78px;
+    overflow: hidden;
+
+    .profile-image {
+      width: 100%;
+    }
+  }
+
+  .footer {
+    margin-left: 24vh;
+  }
+}

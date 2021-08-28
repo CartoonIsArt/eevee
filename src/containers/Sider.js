@@ -125,7 +125,7 @@ class Sider extends Component {
   }
 }
 
-Sider.PropTypes = {
+Sider.propTypes = {
   isNavigationMenu: PropTypes.bool,
 }
 

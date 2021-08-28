@@ -102,22 +102,22 @@ export const getAccountTimeline = (username, page = 1, keyword = undefined) => (
     })
 }
 
-export const getLikedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getCommentedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
-  return axios.get(`/timeline/${username}/likes?${queryString}`)
+  return axios.get(`/timeline/${username}/comments?${queryString}`)
     .then((r) => {
       const { timeline } = r.data
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))
     })
 }
 
-export const getCommentedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getLikedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
-  return axios.get(`/timeline/${username}/comments?${queryString}`)
+  return axios.get(`/timeline/${username}/likes?${queryString}`)
     .then((r) => {
       const { timeline } = r.data
       dispatch(page == 1 ? setTimeline(timeline) : appendTimeline(timeline))

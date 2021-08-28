@@ -223,14 +223,14 @@ class Registration extends Component {
       return (
       <Card id="registration-card" title="CIA 회원가입">
         <Row type="flex" align="top" justify="center">
-          <Col xs={{ span: 0 }} xl={{ span: 12 }}>
+          <Col xs={0} lg={12}>
             <img
               id="registration-img"
               src="/images/registration_left_side.jpg"
               alt="회원가입 이미지"
             />
           </Col>
-          <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+          <Col xs={24} lg={12}>
             <Row className="registration-row-group" type="flex" justify="center" gutter={[0, 20]}>
               <Col span={16} style={{ textAlign: 'center' }}>
                 <Alert message="* 부분은 필수 입력사항입니다" type="warning" />
