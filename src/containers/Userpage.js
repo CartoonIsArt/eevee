@@ -140,9 +140,9 @@ class Userpage extends Component {
           />
         </Row>
         <Row>
-          <Col xs={24} lg={6}>
+          <Col xs={0} lg={6}>
             <Affix offsetTop={52}>
-              <Row gutter={[0, 8]}>
+              <Row type="flex" gutter={[0, 8]}>
                 <Col span={24}>
                   <UserInfo account={member} />
                 </Col>
@@ -151,6 +151,18 @@ class Userpage extends Component {
                 </Col>
               </Row>
             </Affix>
+          </Col>
+          <Col xs={24} lg={0}>
+            <Row type="flex" gutter={[0, 8]}>
+              <Col span={24}>
+                <Affix offsetTop={52}>
+                  <UserMenu canEdit={canEditProfile(member, account)} />
+                </Affix>
+              </Col>
+              <Col span={24} style={{ marginBottom: '8px' }}>
+                <UserInfo account={member} />
+              </Col>
+            </Row>
           </Col>
           <Col xs={24} lg={12}>
             <section style={{ padding: '0px 8px', width: '100%' }}>
