@@ -1,9 +1,9 @@
 import { Affix, Col, Row } from 'antd'
 import React, { Component } from 'react'
 import Notifications from './Notifications'
+import ExternalLinks from '../components/ExternalLinks'
 import Profile from '../components/Profile'
 import Timeline from '../components/Timeline'
-import ExternalLinks from '../components/ExternalLinks'
 
 
 class Portal extends Component {
