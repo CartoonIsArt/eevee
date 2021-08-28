@@ -125,7 +125,7 @@ class Userpage extends Component {
       } // 임시 방편
 
     return (
-      <Card id="userpage-card">
+      <Card className="card-no-border">
         <Row className="header-row">
           <ProfileImages
             profile={member.profile}
