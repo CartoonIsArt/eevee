@@ -229,7 +229,7 @@ class EditUserProfile extends Component {
           </Col>
         </Row>
         <Row id="edit-row-group" type="flex" justify="center">
-          <Col span={12}>
+          <Col className="edit-col-group" xs={{ span: 24 }} xl={{ span: 12 }}>
             <Row type="flex" justify="center" gutter={[12, 8]}>
               <Col span={18}>
                 <Input
@@ -263,7 +263,7 @@ class EditUserProfile extends Component {
               </Col>
             </Row>
           </Col>
-          <Col span={12}>
+          <Col className="edit-col-group" xs={{ span: 24 }} xl={{ span: 12 }}>
             <Row type="flex" justify="center" gutter={[12, 8]}>
               <Col span={18}>
                 <Input
