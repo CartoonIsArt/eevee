@@ -22,6 +22,7 @@ import majors from '../common/majors'
 import axios from '../fetches/axios'
 import { isPermittedBirthdate } from '../lib'
 import SingleImageUploader from '../components/SingleImageUploader'
+import ProfileImages from '../components/ProfileImages'
 
 
 function getDepartmentAndMajor(major) {
@@ -203,6 +204,7 @@ class EditUserProfile extends Component {
         </Modal>
         <Row>
           <Col>
+            <ProfileImages profile={this.props.account.profile} />
             <div className="header">
               <div className="background-image">
                 <Col span={12}>
@@ -228,8 +230,8 @@ class EditUserProfile extends Component {
             </div>
           </Col>
         </Row>
-        <Row id="edit-row-group" type="flex" justify="center">
-          <Col span={12}>
+        <Row id="edit-row-group" type="flex" justify="center" gutter={[12, 8]}>
+          <Col xs={24} lg={12}>
             <Row type="flex" justify="center" gutter={[12, 8]}>
               <Col span={18}>
                 <Input
@@ -263,7 +265,7 @@ class EditUserProfile extends Component {
               </Col>
             </Row>
           </Col>
-          <Col span={12}>
+          <Col xs={24} lg={12}>
             <Row type="flex" justify="center" gutter={[12, 8]}>
               <Col span={18}>
                 <Input
@@ -318,7 +320,7 @@ class EditUserProfile extends Component {
   }
 }
 
-EditUserProfile.PropTypes = {
+EditUserProfile.propTypes = {
   history: PropTypes.object.isRequired,
 }
 

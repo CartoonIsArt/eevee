@@ -1,33 +1,26 @@
-import { Affix, Button, Card, Col, Descriptions, Icon, Popconfirm, Row } from 'antd'
+import { Affix, Card, Col, Row, Tabs } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { matchPath, withRouter } from 'react-router-dom'
 import {
   getAccount,
   getAccountTimeline,
   getCommentedTimeline,
   getLikedTimeline,
   getMembers,
-  logout,
 } from '../actions'
 import Feed from '../components/Feed'
-import { isAlmostScrolled, isRegularMember } from '../lib'
+import ProfileImages from '../components/ProfileImages'
+import UserInfo from '../components/UserInfo'
+import UserMenu from '../components/UserMenu'
+import { isAlmostScrolled } from '../lib'
 
 
-const TIMELINE_TYPE = {
-  WRITTEN: 0,
-  COMMENTED: 1,
-  LIKED: 2,
-}
+const { TabPane } = Tabs
 
 function canEditProfile(member, account) {
   return (member.id === account.id)
-}
-
-function check(boolean) {
-  if (boolean) return <Icon type="check" style={{ color: 'green' }} />
-  return <Icon type="close" style={{ color: 'red' }} />
 }
 
 class Userpage extends Component {
@@ -39,24 +32,19 @@ class Userpage extends Component {
     this.state = {
       page: 1,
       doclen: 0,
-      timelineType: TIMELINE_TYPE.WRITTEN,
+      currentTab: '',
+      getTimeline: null,
     }
+    this.setTimeline(this.props.location.pathname, () => {})
     this.mutex = true
-    this.wrapper = (e) => this.loadMore(e)
-  }
-
-  componentWillMount() {
-    const { username } = this.props.match.params
-    this.getTimeline()(username, 1)
-    this.setState({ doclen: this.props.timeline.length })
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.wrapper)
+    window.addEventListener('scroll', (e) => this.loadMore(e))
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.wrapper)
+    window.removeEventListener('scroll', (e) => this.loadMore(e))
   }
 
   shouldComponentUpdate(nextProps) {
@@ -67,47 +55,48 @@ class Userpage extends Component {
     return true
   }
 
-  onLogout = () => {
-    this.props.logout()
+  setTimeline = (url, next = this.props.history.push) => {
+    const match = matchPath(url, {
+      path: "/members/:username/:type",
+      exact: true,
+      strict: false
+    });
+
+    if (match)
+      switch (match.params.type)
+      {
+        case 'comments':
+          this.changeTimeline(this.props.getCommentedTimeline, match.params.username, url)
+          break
+        case 'likes':
+          this.changeTimeline(this.props.getLikedTimeline, match.params.username, url)
+          break
+      }
+    else if (url !== '/members')
+      this.changeTimeline(this.props.getAccountTimeline, this.props.match.params.username, url)
+
+    next(url)
   }
 
-  onWrittenClick = async () => {
-    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.WRITTEN,})
-    const { username } = this.props.match.params
-    this.getTimeline()(username, 1)
-  }
-
-  onCommentedClick = async () => {
-    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.COMMENTED,})
-    const { username } = this.props.match.params
-    this.getTimeline()(username, 1)
-  }
-
-  onLikedClick = async () => {
-    await this.setState({page: 1,doclen: 0,timelineType: TIMELINE_TYPE.LIKED,})
-    const { username } = this.props.match.params
-    this.getTimeline()(username, 1)
-  }
-
-  getTimeline = () => {
-    switch(this.state.timelineType)
-    {
-      case TIMELINE_TYPE.WRITTEN:   return this.props.getAccountTimeline
-      case TIMELINE_TYPE.COMMENTED: return this.props.getCommentedTimeline
-      case TIMELINE_TYPE.LIKED:     return this.props.getLikedTimeline
-      default:                      return null
-    }
+  changeTimeline = (getTimeline, username, currentTab) => {
+    getTimeline(username, 1)
+      .then(() => this.setState({
+        page: 1,
+        doclen: this.props.timeline.length,
+        currentTab,
+        getTimeline,
+      }))
   }
 
   loadMore = (e) => {
     const { page } = this.state
     const { username } = this.props.match.params
     const timelinelen = this.props.timeline.length
+
     e.preventDefault()
-    if (this.mutex && isAlmostScrolled()
-      && (this.state.doclen !== timelinelen)) {
+    if (this.mutex && isAlmostScrolled() && (this.state.doclen !== timelinelen)) {
       this.mutex = false
-      this.getTimeline()(username, page + 1)
+      this.state.getTimeline(username, page + 1)
       this.setState({
         page: page + 1,
         doclen: timelinelen,
@@ -138,75 +127,48 @@ class Userpage extends Component {
     return (
       <Card id="userpage-card">
         <Row className="header-row">
-          <Card className="header">
-            <div
-              className="background-image"
-              style={{backgroundImage: `url(${member.profile.profileBannerImage})`}}
-            >
-              <div className="profile-image-wrapper">
-                <img className="profile-image" src={member.profile.profileImage} alt="프로필 이미지" />
-              </div>
-            </div>
-            <div className="menu-bar">
-              <div className="menu">
-                <Link to={`/members/${username}`} onClick={() => this.onWrittenClick()}>작성한 글</Link>
-              </div>
-              <div className="menu">
-                <Link to={`/members/${username}/comments`} onClick={() => this.onCommentedClick()}>작성한 댓글</Link>
-              </div>
-              <div className="menu">
-                <Link to={`/members/${username}/likes`} onClick={() => this.onLikedClick()}>좋아요한 글</Link>
-              </div>
-              <div className="menu last" onClick={() => this.props.history.push('/members')}>회원들</div>
-              <div className="blank" />
-              {canEditProfile(member, account) && (
-                <Link to="/settings/account">
-                  <Button className="menu-btn" icon="tool" type="dashed">
-                    <span>프로필 수정</span>
-                  </Button>
-                </Link>
-              )}
-            </div>
-          </Card>
+          <ProfileImages
+            profile={member.profile}
+            footer={
+              <Tabs activeKey={this.state.currentTab} onChange={this.setTimeline}>
+                <TabPane className="menu" tab="작성글" key={`/members/${username}`} />
+                <TabPane className="menu" tab="작성댓글" key={`/members/${username}/comments`} />
+                <TabPane className="menu" tab="좋아한 글" key={`/members/${username}/likes`} />
+                <TabPane className="menu last" tab="회원들" key="/members" />
+              </Tabs>
+            }
+          />
         </Row>
         <Row>
-          <Col span={6}>                
+          <Col xs={0} lg={6}>
             <Affix offsetTop={52}>
-              <Row gutter={[0, 8]}>
+              <Row type="flex" gutter={[0, 8]}>
                 <Col span={24}>
-                  <Card title="유저 정보" size="small">
-                    <Descriptions column={1} size="small">
-                      <Descriptions.Item label="기수">{member.student.nTh}기</Descriptions.Item>
-                      <Descriptions.Item label="이름">{member.student.name}</Descriptions.Item>
-                      <Descriptions.Item label="학과">{member.student.major}</Descriptions.Item>
-                      <Descriptions.Item label="활동인구">{check(member.isActive)}</Descriptions.Item>
-                      <Descriptions.Item label="정회원">{check(isRegularMember(member))}</Descriptions.Item>
-                    </Descriptions>
-                  </Card>
+                  <UserInfo account={member} />
                 </Col>
                 <Col span={24}>
-                  <Card title="메뉴" size="small">
-                    <Popconfirm
-                      title="정말 로그아웃 하시겠습니까?"
-                      onConfirm={this.onLogout}
-                      okText="로그아웃"
-                      cancelText="취소"
-                    >
-                      <Button icon="logout">로그아웃</Button>
-                    </Popconfirm>
-                  </Card>
+                  <UserMenu canEdit={canEditProfile(member, account)} />
                 </Col>
               </Row>
-              </Affix>
-            </Col>
-            <Col span={12}>
-              <section style={{ padding: '0px 8px', width: '100%' }}>
-                {timeline.map((feed) => (
-                  <Feed account={account} key={feed.id} feed={feed}/>
-                  ))
-                }
-              </section>
-            </Col>
+            </Affix>
+          </Col>
+          <Col xs={24} lg={0}>
+            <Row type="flex" gutter={[0, 8]}>
+              <Col span={24}>
+                <Affix offsetTop={52}>
+                  <UserMenu canEdit={canEditProfile(member, account)} />
+                </Affix>
+              </Col>
+              <Col span={24} style={{ marginBottom: '8px' }}>
+                <UserInfo account={member} />
+              </Col>
+            </Row>
+          </Col>
+          <Col xs={24} lg={12}>
+            <section style={{ padding: '0px 8px', width: '100%' }}>
+              {timeline.map((feed) => <Feed account={account} key={feed.id} feed={feed}/>)}
+            </section>
+          </Col>
         </Row>
       </Card>
     )
@@ -219,7 +181,6 @@ Userpage.propTypes = {
   getAccountTimeline: PropTypes.func.isRequired,
   getLikedTimeline: PropTypes.func.isRequired,
   getCommentedTimeline: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
 }
 
 Userpage.defaultProps = {
@@ -238,7 +199,6 @@ const mapDispatchToProps = ({
   getCommentedTimeline,
   getMembers,
   getAccount,
-  logout,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Userpage))

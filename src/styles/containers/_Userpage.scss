@@ -1,75 +1,8 @@
-$link-color: #365899;
-
 #userpage-card {
   width: 100%;
   background-color: turquoise;
 
   .header-row {
     margin-bottom: 24px;
-  }
-
-  .ant-card-meta-title{
-    margin-bottom: 0px !important;
-  }
-
-  .header {
-    height: 280px;
-    margin: 0;
-
-    .ant-card-body {
-      padding: 0;
-    }
-
-    .background-image{
-      height: 236px;
-      background-position: center 30%;
-
-      .profile-image-wrapper {
-        border: solid 4px white;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        position: relative;
-        left: 60px;
-        top: 78px;
-        overflow: hidden;
-
-        .profile-image {
-          width: 100%;
-        }
-      }
-    }
-
-    .menu-bar {
-      display: flex;
-      padding-left: 34rem;
-      line-height: 2.4;
-      align-items: center;
-
-      .menu {
-        padding: 0 1.6rem;
-        font-size: 1.6rem;
-        font-weight: bold;
-        text-align: center;
-        border-left: 1px solid #e9eaed;
-
-        &.last {
-          border-right: 1px solid #e9eaed;
-        }
-
-        a {
-          color: $link-color;
-        }
-      }
-
-      .blank {
-        flex: 1;
-      }
-
-      .menu-btn {
-        font-size: 1.6rem;
-        margin-right: 4px;
-      }
-    }
   }
 }
