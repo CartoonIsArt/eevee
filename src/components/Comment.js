@@ -1,10 +1,10 @@
-import { Avatar, Button, Col, Comment as CommentAntd, Icon, Popover, Row, Tooltip  } from 'antd'
+import { Avatar, Button, Col, Comment as CommentAntd, Popover, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
-import Recomments from './Recomments'
+import PostComment from './PostComment'
 import { postCommentLike, patchCommentLike } from '../actions'
 import { printTime } from '../lib'
 
@@ -39,8 +39,8 @@ class Comment extends Component {
 
     const actions = [
       <span>
-        <Tooltip 
-          title={
+        <Popover
+          content={
             comment.likedAccounts.length
               ? comment.likedAccounts.map((lover, idx) => (
                 <pre key={idx}>
@@ -53,50 +53,57 @@ class Comment extends Component {
                 </pre>
               )
           }>
-            <Icon
-              type="like"
+            <Button
+              className="comment-like-button"
+              shape="circle"
+              icon="like"
+              size="small"
               onClick={() => this.onClickLikeIt()}
             />
             <a
-              style={{ marginRight: '8px' }}
               onClick={() => this.onClickLikeIt()}
             >
               {`좋아요 ${comment.likedAccounts.length}`}
             </a>
-        </Tooltip>
+        </Popover>
       </span>
     ]
 
     return (
-      <Row style={{ margin: '4px 0px' }}>
+      <Row className="comment-container">
         <Col span={21}>
-          {/* <Row> */}
-          <CommentAntd
-            className='comment'
-            actions={actions}
-            author={
-              <Popover
-                content={<Namecard account={commentAuthor} />}
-                placement="leftTop"
-              >
-                <NameTag style={{ fontSize:"12pt", color: "#4492ff" }} account={commentAuthor} minimizeIcon={true} />
-              </Popover>
-            }
-            avatar={
-              <Avatar
-                src={imgsrc}
-                alt={imgalt}
+          <Row>
+            <CommentAntd
+              actions={actions}
+              author={
+                <Popover
+                  content={<Namecard account={commentAuthor} />}
+                  placement="leftTop"
+                >
+                  <NameTag className="comment-nametag" account={commentAuthor} minimizeIcon={true} />
+                </Popover>
+              }
+              avatar={
+                <Avatar
+                  src={imgsrc}
+                  alt={imgalt}
+                />
+              }
+              content={comment.content}
+              datetime={printTime(comment.createdAt)}
+            />
+          </Row>
+          <Row>
+            {
+              viewRecomment
+              && (
+              <PostComment
+                feedId={comment.id}
+                parentType={"Comment"}
               />
-            }
-            content={comment.content}
-            datetime={printTime(comment.createdAt)}
-          />
-          {/* </Row> */}
-          <Recomments
-            commentId={comment.id}
-            viewRecomment={viewRecomment}
-            recomments={comment.replies ? comment.replies : []}
-          />
+              )
+             }
+          </Row>
         </Col>
         <Col span={1}>
           <Button

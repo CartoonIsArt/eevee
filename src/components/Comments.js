@@ -1,4 +1,3 @@
-import { Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Comment from './Comment'
@@ -10,7 +9,7 @@ class Comments extends Component {
     const { feed, comments } = this.props
     
     return (
-      <Row style={{
+      <div style={{
         background: '#fff', padding: '8px', overflow: 'hidden',
       }}
       >
@@ -23,8 +22,9 @@ class Comments extends Component {
         ))}
         <PostComment
           feedId={feed.id}
+          parentType={"Document"}
         />
-      </Row>
+      </div>
     )
   }
 }

@@ -1,0 +1,21 @@
+.notification-container:hover{
+  background: #42A5F5 !important;
+}
+
+.notification-container{
+  height: 56px;
+  display: flex;
+  align-items: stretch;
+
+  .notification-profile-contianer{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-size: cover;
+
+    img {
+      width: 100%;
+    }
+  }
+}

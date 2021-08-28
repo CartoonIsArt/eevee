@@ -1,3 +1,4 @@
+import { Card } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -10,10 +11,10 @@ class Profile extends Component {
   render() {
     const { account } = this.props
     return (
-      <div style={{ background: '#FFFFFF' }}>
+      <Card size="small">
         <Namecard account={account} size="100%" />
         <Activity content={account} />
-      </div>
+      </Card>
     )
   }
 }

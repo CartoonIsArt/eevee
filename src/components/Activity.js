@@ -8,13 +8,7 @@ class Activity extends Component {
   render() {
     const account = this.props.content
     return (
-      <Row style={{
-        height: '4em',
-        fontSize: '2rem',
-        padding: '0.4em',
-        textAlign: 'center',
-      }}
-      >
+      <Row className="activity-container">
         <Col span={8}>
           글
           <Link
