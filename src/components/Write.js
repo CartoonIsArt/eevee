@@ -231,7 +231,7 @@ class Write extends Component {
                       공지사항으로 설정
                   </Checkbox>) }
             </Col>
-            <Col span={9}>
+            <Col xs={9} sm={8}>
             { button }
             </Col>
           </Row>
