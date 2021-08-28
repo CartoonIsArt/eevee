@@ -22,6 +22,7 @@ import majors from '../common/majors'
 import axios from '../fetches/axios'
 import { isPermittedBirthdate } from '../lib'
 import SingleImageUploader from '../components/SingleImageUploader'
+import ProfileImages from '../components/ProfileImages'
 
 
 function getDepartmentAndMajor(major) {
@@ -203,6 +204,7 @@ class EditUserProfile extends Component {
         </Modal>
         <Row>
           <Col>
+            <ProfileImages profile={this.props.account.profile} />
             <div className="header">
               <div className="background-image">
                 <Col span={12}>
