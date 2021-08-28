@@ -237,6 +237,7 @@ class Registration extends Component {
               </Col>
               <Col span={16}>
                 <SingleImageUploader
+                  className="registration-uploader"
                   fileList={fileList}
                   profileImage={profileImage}
                   handlePreview={(e) => this.handlePreview(e)}

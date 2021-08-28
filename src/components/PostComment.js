@@ -56,17 +56,16 @@ class PostComment extends Component {
     const { account } = this.props
 
     return (
-      <Row style={{  margin: '4px 0px'}}>
+      <Row className="postcomment-container">
         <Col span={2}>
           <img 
             src={account.profile.profileImage} 
             alt={account.profile.profileImage} 
-            style={{ width:"32px", height:"32px", borderRadius:'50%' }}  
           />
         </Col>
         <Col span={20}>
           <Mention
-            style={{ width: '100%', height: '30px' }}
+            className="postcomment-mention"
             onChange={(contentState) => this.onChangeInput(contentState)}
             placeholder="Write Comment"
             value={this.state.contentState}

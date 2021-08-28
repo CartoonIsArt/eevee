@@ -92,16 +92,20 @@
 #edit-row-group {
   font-size: 1.6rem;
 
-  .edit-input {
-    .ant-input-group-addon {
-      font-size: 1.6rem;
-      width: 8em;
-      text-align: left;
+  .edit-col-group{
+    margin-bottom: 8px;
+
+    .edit-input {
+      .ant-input-group-addon {
+        font-size: 1.6rem;
+        width: 8em;
+        text-align: left;
+      }
+      .ant-input {
+        font-size: 1.6rem;
+      }
     }
-    .ant-input {
-      font-size: 1.6rem;
-    }
-  }
+}
 }
   
 .edit-cascader-picker, .ant-cascader-picker {

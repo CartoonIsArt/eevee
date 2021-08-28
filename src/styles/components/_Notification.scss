@@ -1,13 +1,32 @@
-.notification-container:hover{
+.notification-container:hover {
   background: #42A5F5 !important;
 }
 
-.notification-container{
+.notification-container {
   height: 56px;
+  width: 100%;
   display: flex;
   align-items: stretch;
 
-  .notification-profile-contianer{
+  .ant-card-meta-title{
+    margin-bottom: 0px !important;
+  }
+
+  .ant-card-meta-description {
+    font-size: 9pt;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+  }
+
+  .notification-author-time{
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  .notification-profile-contianer {
     width: 48px;
     height: 48px;
     border-radius: 50%;

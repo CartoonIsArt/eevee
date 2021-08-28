@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Mention, notification, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Mention, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
@@ -121,12 +121,9 @@ class Write extends Component {
 
   getButton(mode) {
     const editModeButton = (
-      <div style={{ display: 'flex', float: 'right' }}>
-        <Button
-          style={{ marginRight: '4px' }}
-          icon="question-circle"
-          onClick={() => openNotificationWithIcon()}>
-            문법
+      <div className="write-button-container">
+        <Button icon="question-circle" onClick={() => openNotificationWithIcon()}>
+          문법
         </Button>
         <Button icon="edit" onClick={() => this.changeMode('preview')}>
           글쓸거임?
@@ -134,12 +131,9 @@ class Write extends Component {
       </div>
     )
     const previewModeButton = (
-      <div style={{ display: 'flex', float: 'right' }}>
-        <Button
-          style={{ marginRight: '4px' }}
-          icon="reload"
-          onClick={() => this.changeMode('edit')}>
-            수정
+      <div className="write-button-container">
+        <Button icon="reload" onClick={() => this.changeMode('edit')}>
+          수정
         </Button>
         <Button icon="cloud-upload" type="primary" onClick={() => this.uploadDocument()}>
           완료
@@ -194,24 +188,18 @@ class Write extends Component {
     const button = this.getButton(mode)
 
     return (
-      <div style={{
-        marginBottom: '4px', padding: '4px', display: 'flex', background: '#FFF',
-      }}
-      >
+      <Card size="small" className="write-container">
         {
           isAppend
           || (
-            <div style={{
-              marginRight: '4px', width: '48px', height: '48px', background: '#FFF', overflow: 'hidden',
-            }}
-            >
+            <div className="write-profile-img-container">
               <img src={account.profile.profileImage} alt={account.profile.profileImage} width="100%" />
             </div>
           )
         }
-        <div style={{ flexGrow: 1 }}>
+        <div className="write-content-container">
           { display }
-          <Row style={{ justifyContent: 'space-between', display: 'flex', margin: '4px 0px' }}>
+          <Row className="write-actions-container">
             <Col span={3}>
               <Dropzone
                 accept={['image/jpeg', 'image/png']}
@@ -227,10 +215,9 @@ class Write extends Component {
                 )}
               </Dropzone>
             </Col>
-            <Col xs={13} sm={0}>
+            <Col xs={12} sm={0}>
             { isManager(account)
               && (<Checkbox
-                    style={{ marginTop: '4px' }}
                     checked={this.state.isNotification}
                     onChange={(e) => this.toggleSetNotification(e)}>
                       공지
@@ -239,18 +226,17 @@ class Write extends Component {
             <Col xs={0} sm={13}>
             { isManager(account)
               && (<Checkbox
-                    style={{ marginTop: '4px' }}
                     checked={this.state.isNotification}
                     onChange={(e) => this.toggleSetNotification(e)}>
                       공지사항으로 설정
                   </Checkbox>) }
             </Col>
-            <Col span={8}>
+            <Col xs={9} sm={8}>
             { button }
             </Col>
           </Row>
         </div>
-      </div>
+      </Card>
     )
   }
 }

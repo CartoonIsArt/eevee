@@ -1,6 +1,10 @@
 .comment-container{
   margin: 4px 0px;
 
+  .ant-comment-content-author-time{
+    color: rgba(0,0,0,0.5);
+  }
+
   .comment-nametag{
     font-size: 12pt;
     color: #4492ff;

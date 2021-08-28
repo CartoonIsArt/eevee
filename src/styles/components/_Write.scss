@@ -1,0 +1,36 @@
+.write-button-container {
+  display: flex;
+  float: right;
+
+  Button {
+    margin-right: 4px !important;
+  }
+}
+
+.write-container {
+  margin-bottom: 4px;
+
+  .ant-card-body{
+    display: flex;
+  }
+
+  .write-profile-img-container {
+    margin-right: 4px;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+  }
+
+  .write-content-container {
+    flex-grow: 1;
+
+    .write-actions-container {
+      display: flex; 
+      margin: 4px 0px;
+
+      .ant-checkbox-wrapper {
+        margin-top: 4px;
+      }
+    }
+  }
+}

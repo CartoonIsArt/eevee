@@ -265,7 +265,7 @@ class EditUserProfile extends Component {
               </Col>
             </Row>
           </Col>
-          <Col xs={24} lg={12}>
+          <Col className="edit-col-group" xs={24} lg={12}>
             <Row type="flex" justify="center" gutter={[12, 8]}>
               <Col span={18}>
                 <Input
