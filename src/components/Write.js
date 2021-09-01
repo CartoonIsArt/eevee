@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
+import rehypeRaw from 'rehype-raw'
 import { postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
 
@@ -97,7 +98,7 @@ class Write extends Component {
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             <Mention
-              style={{ width: '100%', height: '100px', borderColor: getColor({ isDragActive, isDragAccept, isDragReject }) }}
+              style={{ height: '100px', borderColor: getColor({ isDragActive, isDragAccept, isDragReject }) }}
               multiLines
               placeholder='글을 작성하거나 드래그&드랍으로 이미지를 올릴 수 있습니다.'
               value={this.state.value}
@@ -108,7 +109,11 @@ class Write extends Component {
       </Dropzone>
     )
     const previewModeDisplay = () => (
-      <ReactMarkdown className="reactMarkDown" children={toString(this.state.value)} />
+      <ReactMarkdown
+        className="reactMarkDown"
+        children={toString(this.state.value)}
+        rehypePlugins={[rehypeRaw]}
+      />
     )
     if (mode === 'edit') return editModeDisplay
     if (mode === 'preview') return previewModeDisplay(this.state.value)
@@ -190,8 +195,7 @@ class Write extends Component {
     return (
       <Card size="small" className="write-container">
         {
-          isAppend
-          || (
+          isAppend || (
             <div className="write-profile-img-container">
               <img src={account.profile.profileImage} alt={account.profile.profileImage} width="100%" />
             </div>

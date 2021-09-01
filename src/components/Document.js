@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
+import rehypeRaw from 'rehype-raw'
 import Line from './Line'
 import Namecard from './Namecard'
 import NameTag from './NameTag'
@@ -64,7 +65,11 @@ class Document extends Component {
           />
         </Row>
         <Row className="document-content-container">
-          <ReactMarkdown className="reactMarkDown" children={feed.content} />
+          <ReactMarkdown
+            className="reactMarkDown"
+            children={feed.content}
+            rehypePlugins={[rehypeRaw]}
+          />
         </Row>
         { /* <Album content={images} height="320px" /> */ }
         <Row style={isAppend ? { display: 'block' } : { display: 'none' }}>

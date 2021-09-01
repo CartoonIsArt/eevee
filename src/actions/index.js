@@ -153,7 +153,7 @@ export const postDocument = (document) => (dispatch) =>
       const { document } = r.data
       dispatch(appendFeed(document))
       dispatch(setAccount(document.author))
-      console.log(document.isNotification)
+      
       if (document.isNotification)
         dispatch(insertNotifications(document))
     })
