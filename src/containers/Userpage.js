@@ -10,6 +10,7 @@ import {
   getLikedTimeline,
   getMembers,
 } from '../actions'
+import Page404 from './Page404'
 import Feed from '../components/Feed'
 import ProfileImages from '../components/ProfileImages'
 import UserInfo from '../components/UserInfo'
@@ -107,22 +108,10 @@ class Userpage extends Component {
   render() {
     const { timeline, account, members } = this.props
     const { username } = this.props.match.params
-    const member = (members.length > 0)
-      ? members.find((m) => m.username === username)
-      : {
-        id: null,
-        isActive: null,
-        role: null,
-        student: {
-          nTh: null,
-          name: null,
-          major: null,
-        },
-        profile: {
-          profileBannerImage: null,
-          profileImage: null,
-        }
-      } // 임시 방편
+    const member = members.find((m) => m.username === username)
+
+    if (!member)
+      return <Page404 />
 
     return (
       <Card id="userpage-card">

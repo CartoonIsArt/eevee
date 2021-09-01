@@ -109,3 +109,7 @@ export function isRegularMember(account) {
   if (account.role === 'regular')       return true
   return false
 }
+
+export function isEmptyObject(param) {
+  return Object.keys(param).length === 0 && param.constructor === Object;
+}
