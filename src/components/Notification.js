@@ -28,12 +28,7 @@ class Notification extends Component {
         avatar={<Avatar className="notification-profile-contianer" src={imgsrc} alt={imgsrc}/>}
         title={
           <div>
-            <Popover
-              placement="leftTop"
-              content={<Namecard account={notification.author} />}
-            >
-              <NameTag account={notification.author} minimizeIcon={true} />
-            </Popover>
+            <NameTag account={notification.author} minimizeIcon hasPopover />
             <span className="notification-author-time">{printTime(notification.createdAt)}</span>
           </div>
         }

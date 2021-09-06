@@ -5,7 +5,6 @@ import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
 import rehypeRaw from 'rehype-raw'
 import Line from './Line'
-import Namecard from './Namecard'
 import NameTag from './NameTag'
 import Write from './Write'
 import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
@@ -49,17 +48,9 @@ class Document extends Component {
         <Row className="document-card-container">
           <Meta
             avatar={<Avatar className="document-profile-img" src={imgsrc} alt={imgalt}/>}
-            title={
-              author.student.nTh
-                ? (
-                  <Popover
-                    placement="leftTop"
-                    content={<Namecard account={author} />}
-                  >
-                    <NameTag account={author} />
-                  </Popover>
-                )
-                : <div> 탈퇴한 회원 </div>
+            title={author.student.nTh
+              ? <NameTag hasPopover account={author} />
+              : <div> 탈퇴한 회원 </div>
             }
             description={printTime(createdAt)}
           />
