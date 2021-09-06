@@ -6,6 +6,7 @@ div, nav, article {
   background-color: rgba(0, 0, 0, 0.1);
 }
 */
+
 html, body {
   height: 100%;
   font-family: 'Nanum Gothic', sans-serif !important;
@@ -23,7 +24,7 @@ html, body {
   
   #container {
     background: #f0f2f5;
-    width: 100vw;
+    width: 100%;
     min-width: 320px;
     max-width: 1280px;
     margin-left: auto;
