@@ -10,7 +10,7 @@ import ExternalLinks from '../components/ExternalLinks'
 import Feed from '../components/Feed'
 import Profile from '../components/Profile'
 import { isEmptyObject } from '../lib'
-import DelayComponent from '../components/DelayComponent'
+import Loading from '../components/Loading'
 
 
 class SingleFeed extends Component {
@@ -37,7 +37,7 @@ class SingleFeed extends Component {
     const { feed } = this.props
     
     return (
-      <DelayComponent loading={this.state.loading}>
+      <Loading loading={this.state.loading}>
         {feed && isEmptyObject(feed)
           ? <Page404 />
           :
@@ -70,7 +70,7 @@ class SingleFeed extends Component {
             </Col>
           </Row>
         }
-      </DelayComponent>
+      </Loading>
     )
   }
 }
