@@ -13,13 +13,7 @@ class Comments extends Component {
         background: '#fff', padding: '8px', overflow: 'hidden',
       }}
       >
-        {comments.map((comment) => (
-          <Comment
-            key={comment.id}
-            commentAuthor={comment.author}
-            comment={comment}
-          />
-        ))}
+        {comments.map(comment => <Comment key={comment.id}>{comment}</Comment>)}
         <PostComment
           feedId={feed.id}
           parentType={"Document"}
