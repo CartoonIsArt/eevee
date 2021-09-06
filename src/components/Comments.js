@@ -9,13 +9,10 @@ class Comments extends Component {
     const { feed, comments } = this.props
     
     return (
-      <div style={{
-        background: '#fff', padding: '8px', overflow: 'hidden',
-      }}
-      >
+      <div style={{ background: '#fff', padding: '8px', overflow: 'hidden' }}>
         {comments.map(comment => <Comment key={comment.id}>{comment}</Comment>)}
         <PostComment
-          feedId={feed.id}
+          rootId={feed.id}
           parentType={"Document"}
         />
       </div>

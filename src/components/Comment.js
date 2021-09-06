@@ -1,13 +1,25 @@
-import { Avatar, Comment as AntdComment } from 'antd'
+import { Avatar, Comment as AntdComment, Divider } from 'antd'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ContentFooter from './ContentFooter'
 import NameTag from './NameTag'
+import PostComment from './PostComment'
+import { postCommentLike, patchCommentLike } from '../actions'
 import { printTime } from '../lib'
 
 
 class Comment extends Component {
+  state = {
+    visibleRecomments: false,
+  }
+
+  toggleRecomment = () => {
+    this.setState({ visibleRecomments: !this.state.visibleRecomments })
+  }
+
   render() {
     const comment = this.props.children
+    comment.comments = comment.comments || []
 
     return (
       <AntdComment
@@ -27,16 +39,39 @@ class Comment extends Component {
           />
         }
         datetime={printTime(comment.createdAt)}
-        content={comment.content}
+        content={
+          <div>
+            {comment.content}
+            <Divider className="line" />
+          </div>
+        }
         actions={[
           <ContentFooter
             key={comment.id}
             content={comment}
+            toggleComment={this.toggleRecomment}
+            postLike={this.props.postCommentLike}
+            cancelLike={this.props.patchCommentLike}
           />
         ]}
-      />
+      >
+        {this.state.visibleRecomments && [
+          comment.comments.map(recomment => <Comment key={comment.id}>{recomment}</Comment>),
+          <PostComment
+            key={comment.id}
+            rootId={comment.id}
+            parentType="Comment"
+          />
+        ]}
+      </AntdComment>
     )
   }
 }
 
-export default Comment
+const mapStateToProps = () => ({
+})
+const mapDispatchToProps = ({
+  postCommentLike,
+  patchCommentLike,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Comment)

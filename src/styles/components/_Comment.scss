@@ -11,8 +11,9 @@
   }
 
   .ant-comment-inner{
-    padding-top: 0px;
-    padding-bottom: 0px;
+    border: solid 1px #e8e8e8;
+    border-radius: 2px;
+    padding: 8px;
 
     .ant-comment-actions{
       margin-top: 0px;
@@ -20,6 +21,4 @@
     }
   }
 }
-.comment-like-button{
-  margin-right: 4px;
-}
+

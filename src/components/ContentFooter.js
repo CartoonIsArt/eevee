@@ -1,10 +1,8 @@
-import { Button, Col, Popover, Row } from 'antd'
+import { Button, Popover, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import NameTag from './NameTag'
-import PostComment from './PostComment'
-import { postCommentLike, patchCommentLike } from '../actions'
 
 
 function showLikedAccounts(likedAccounts) {
@@ -17,7 +15,6 @@ const FooterButton = ({ icon, text, onClick }) => {
   return [
     <Button
       key="icon"
-      className="comment-like-button"
       shape="circle"
       icon={icon}
       size="small"
@@ -26,60 +23,44 @@ const FooterButton = ({ icon, text, onClick }) => {
     <Button key="text" type="link" size="small" onClick={onClick}>
       {text}
     </Button>
+    
   ]
 }
 
 class ContentFooter extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      viewRecomment: false,
-    }
-  }
-
   onClickLikeIt = () => {
-    const { comment, commentAuthor } = this.props
+    const { account, content } = this.props
 
-    if (comment.likedAccounts.findIndex((lover) => lover.id === commentAuthor.id) === -1) {
-      this.props.postCommentLike(comment.id)
-    } else {
-      this.props.patchCommentLike(comment.id)
-    }
-  }
-
-  toggleRecomment = () => {
-    this.setState({ viewRecomment: !this.state.viewRecomment })
+    if (content.likedAccounts.findIndex((lover) => lover.id === account.id) === -1)
+      this.props.postLike(content.id)
+    else
+      this.props.cancelLike(content.id)
   }
 
   render() {
-    const { viewRecomment } = this.state
-    const { content } = this.props
+    const { content, toggleComment, visibleAppend, toggleAppend } = this.props
 
     return (
       <Row>
-        <Col span={24}>
-          <Popover content={showLikedAccounts(content.likedAccounts)}>
-            <FooterButton
-              icon="like"
-              text={`좋아요 ${content.likedAccounts.length}`}
-              onClick={this.onClickLikeIt}
-            />
-          </Popover>
+        <Popover content={showLikedAccounts(content.likedAccounts)}>
           <FooterButton
-            icon="edit"
-            text={`댓글 ${content.comments.length}`}
-            onClick={this.toggleRecomment}
+            icon="like"
+            text={`좋아요 ${content.likedAccounts.length}`}
+            onClick={this.onClickLikeIt}
           />
-        </Col>
-        <Col span={24}>
-          {viewRecomment && (
-            <PostComment
-              feedId={content.id}
-              parentType={"Comment"}
-            />
-            )
-          }
-        </Col>
+        </Popover>
+        <FooterButton
+          icon="edit"
+          text={`댓글 ${content.comments.length}`}
+          onClick={toggleComment}
+        />
+        {visibleAppend && (
+          <FooterButton
+            icon="plus"
+            text="이어쓰기"
+            onClick={toggleAppend}
+          />
+        )}
       </Row>
     )
   }
@@ -87,14 +68,20 @@ class ContentFooter extends Component {
 
 ContentFooter.propTypes = {
   content: PropTypes.object.isRequired,
-  postCommentLike: PropTypes.func.isRequired,
-  patchCommentLike: PropTypes.func.isRequired,
+  toggleComment: PropTypes.func.isRequired,
+  visibleAppend: PropTypes.bool,
+  toggleAppend: PropTypes.func,
+  postLike: PropTypes.func.isRequired,
+  cancelLike: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = () => ({
+ContentFooter.defaultProps = {
+  visibleAppend: false,
+}
+
+const mapStateToProps = (state) => ({
+  account: state.account,
 })
 const mapDispatchToProps = ({
-  postCommentLike,
-  patchCommentLike,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ContentFooter)
