@@ -14,7 +14,7 @@ function makeAccountBadge(account, minimizeIcon) {
 
 class NameTag extends Component {
   render() {
-    const { account, minimizeIcon, nameOnly, ...rest } = this.props
+    const { account, minimizeIcon, nameOnly, hasPopover, ...rest } = this.props
     const nickname = `${account.student.nTh}기 ${account.student.name}`
     
     // Popover를 위해서 {...rest} 전달 필요
@@ -29,7 +29,7 @@ class NameTag extends Component {
           <span className="nametag-span">{nickname} </span>{makeAccountBadge(account, minimizeIcon)}
         </Link>
       )
-    return this.props.hasPopover
+    return hasPopover
       ? (
         <Popover
           placement="leftTop"
