@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Comment as CommentAntd, Popover, Row } from 'antd'
+import { Avatar, Button, Col, Comment as AntdComment, Popover, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -18,11 +18,13 @@ class Comment extends Component {
   }
 
   onClickLikeIt() {
-    const { comment, commentAuthor } = this.props
+    const { comment, account } = this.props
 
-    if (comment.likedAccounts.findIndex((lover) => lover.id === commentAuthor.id) === -1) {
+    if (comment.likedAccounts.findIndex((lover) => lover.id === account.id) === -1) {
+      console.log("like")
       this.props.postCommentLike(comment.id)
     } else {
+      console.log("dislike")
       this.props.patchCommentLike(comment.id)
     }
   }
@@ -73,7 +75,7 @@ class Comment extends Component {
       <Row className="comment-container">
         <Col span={21}>
           <Row>
-            <CommentAntd
+            <AntdComment
               actions={actions}
               author={
                 <Popover
@@ -124,7 +126,8 @@ Comment.propTypes = {
   patchCommentLike: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
+  account: state.account,
 })
 const mapDispatchToProps = ({
   postCommentLike,
