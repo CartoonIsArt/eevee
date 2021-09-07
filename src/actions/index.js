@@ -6,6 +6,7 @@ const SET_LOGIN             = 'SETLOGIN'
 const SET_LOGOUT            = 'SETLOGOUT'
 const SET_ACCOUNT           = 'SETACCOUNT'
 const SET_MEMBERS           = 'SETMEMBERS'
+const UPDATE_MEMBERS        = 'UPDATEMEMBERS'
 const SET_TIMELINE          = 'SETTIMELINE'
 const APPEND_TIMELINE       = 'APPENDTIMELINE'
 const SET_NOTIFICATIONS     = 'SETNOTIFICATIONS'
@@ -24,6 +25,7 @@ const setLogin = () => ({ type: SET_LOGIN })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setAccount = (account) => ({ type: SET_ACCOUNT, account })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
+const updateMembers = (actives, inactives) => ({ type: UPDATE_MEMBERS, members: { actives, inactives } })
 const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
 const setNotifications = (notifications) => ({ type: SET_NOTIFICATIONS, notifications })
@@ -64,6 +66,13 @@ export const clearAccount = () => (dispatch) =>
 
 // Account
 //
+export const getAccount = () => (dispatch) =>
+axios.get('/account/authenticated')
+  .then((r) => {
+    const { account } = r.data
+    dispatch(setAccount(account))
+  })
+
 export const getMembers = () => (dispatch) =>
   axios.get('/account')
     .then((r) => {
@@ -71,11 +80,11 @@ export const getMembers = () => (dispatch) =>
       dispatch(setMembers(accounts))
     })
 
-export const getAccount = () => (dispatch) =>
-  axios.get('/account/authenticated')
+export const patchMembers = (members) => (dispatch) =>
+  axios.patch('/account', members)
     .then((r) => {
-      const { account } = r.data
-      dispatch(setAccount(account))
+      const { actives, inactives } = r.data
+      dispatch(updateMembers(actives, inactives))
     })
 
 // Timeline

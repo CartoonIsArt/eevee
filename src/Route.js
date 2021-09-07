@@ -17,6 +17,7 @@ import Registration from './containers/Registration'
 import Sider from './containers/Sider'
 import SingleFeed from './containers/SingleFeed'
 import Userpage from './containers/Userpage'
+import EnrollmentList from './containers/EnrollmentList'
 
 
 // eslint-disable-next-line
@@ -100,6 +101,12 @@ export const routes = [
     has_navigation: true,
     sidebar: <div />,
     main: <EditUserProfile />,
+  },
+  {
+    path: '/enrollment-list',
+    has_navigation: true,
+    sidebar: <Sider />,
+    main: <EnrollmentList />
   },
   {
     path: '/reset-active-members',
