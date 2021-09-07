@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
-import rehypeRaw from 'rehype-raw'
 import ContentFooter from './ContentFooter'
 import NameTag from './NameTag'
 import Write from './Write'
 import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
 import { printTime } from '../lib'
+import remarkYoutubeEmbed from '../lib/remark-youtube-embed'
 
 
 const { Meta } = Card
@@ -53,7 +53,7 @@ class Document extends Component {
           <ReactMarkdown
             className="reactMarkDown"
             children={feed.content}
-            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[remarkYoutubeEmbed]}
           />
         </Row>
         <Row style={isAppend ? { display: 'block' } : { display: 'none' }}>

@@ -1,12 +1,11 @@
 import { Button, Card, Checkbox, Col, Mentions, notification, Row } from 'antd'
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
-import rehypeRaw from 'rehype-raw'
 import { postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
+import remarkYoutubeEmbed from '../lib/remark-youtube-embed'
 
 
 const getColor = (props) => {
@@ -106,7 +105,7 @@ class Write extends Component {
       <ReactMarkdown
         className="reactMarkDown"
         children={value}
-        rehypePlugins={[rehypeRaw]}
+        remarkPlugins={[remarkYoutubeEmbed]}
       />
     )
     if (mode === 'edit') return editModeDisplay
@@ -236,9 +235,6 @@ class Write extends Component {
       </Card>
     )
   }
-}
-
-Write.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
