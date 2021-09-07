@@ -8,20 +8,17 @@
   display: flex;
   align-items: stretch;
 
-  .ant-card-meta-title{
+  .ant-card-meta-title {
     margin-bottom: 0px !important;
   }
 
   .ant-card-meta-description {
     font-size: 9pt;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
     width: 100%;
     overflow: hidden;
-    display: -webkit-box;
   }
 
-  .notification-author-time{
+  .notification-author-time {
     font-size: 12px;
     color: rgba(0, 0, 0, 0.5);
   }

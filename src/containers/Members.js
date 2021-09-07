@@ -13,7 +13,7 @@ function searchResult(members, filter) {
     .filter((member) => `${member.student.nTh}기 ${member.student.name}`.includes(filter))
     .map((member) => (
       <Col className="col-members" key={member.id} flex={1}>
-      <Namecard account={member} size="24rem" />
+        <Namecard account={member} size="24rem" />
       </Col>
     ))
 }
