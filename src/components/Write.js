@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, Mentions, notification, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Descriptions, Mentions, notification, Row } from 'antd'
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import ReactMarkdown from 'react-markdown'
@@ -17,8 +17,16 @@ const getColor = (props) => {
 
 const openNotificationWithIcon = () => {
   notification.info({
-    message: '마크다운 간단문법',
-    description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
+    message: '마크다운 간단 문법',
+    description: (
+      <Descriptions column={1} bordered size="small" layout="horizontal">
+        <Descriptions.Item label="제목"><span>## 제목</span></Descriptions.Item>
+        <Descriptions.Item label="이탤릭"><span>*이탤릭*</span></Descriptions.Item>
+        <Descriptions.Item label="볼드"><span>**볼드**</span></Descriptions.Item>
+        <Descriptions.Item label="줄바꿈"><span>엔터 2번</span></Descriptions.Item>
+        <Descriptions.Item label="유튜브 영상"><span>!(유튜브 링크)</span></Descriptions.Item>
+      </Descriptions>
+    ),
   })
 }
 
