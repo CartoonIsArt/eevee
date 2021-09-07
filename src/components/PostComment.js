@@ -58,7 +58,6 @@ class PostComment extends Component {
             placeholder="예쁜 댓글을 작성해보세요!"
             onChange={this.onChangeInput}
             value={this.state.value}
-            multiLines
           />
         </Col>
         <Col span={2}>
