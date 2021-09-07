@@ -1,4 +1,4 @@
-import { Button, Card, Icon, Result } from 'antd'
+import { Button, Card, Result } from 'antd'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
