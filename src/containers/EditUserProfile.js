@@ -51,6 +51,8 @@ class EditUserProfile extends Component {
       profileBannerImage,
       fileList: [{ uid: -1, name: profileImage, status: 'done', url: profileImage }],
       bannerFileList: [{ uid: -1, name: profileBannerImage, status: 'done', url: profileBannerImage }],
+      previewVisible: false,
+      previewBannerVisible: false,
     };
   }
 
@@ -120,6 +122,12 @@ class EditUserProfile extends Component {
     });
   }
 
+  handleCancelPreview = () => {
+    this.setState({
+      previewVisible: false,
+    });
+  }
+
   handleChange = ({ file, fileList }) => {
     if (file.status === 'done') {
       fileList[fileList.length-1].thumbUrl =  "/images/" + file.response.avatar
@@ -134,6 +142,13 @@ class EditUserProfile extends Component {
       previewBannerVisible: true,
     });
   }
+
+  handleCancelBannerPreview = () => {
+    this.setState({
+      previewBannerVisible: false,
+    });
+  }
+  
 
   handleBannerChange = ({ file, fileList }) => {
     if (file.status === 'done') {
@@ -191,9 +206,8 @@ class EditUserProfile extends Component {
   render() {
     const {
       email, phoneNumber, favoriteComic, favoriteCharacter, major,
-      profileImage, profileBannerImage, fileList, bannerFileList, birthdate
+      profileImage, profileBannerImage, fileList, bannerFileList, birthdate, previewVisible, previewBannerVisible
     } = this.state;
-    const { profile, footer } = this.props
 
     return (
       <Card className="page-card" title="프로필 수정">
@@ -223,11 +237,15 @@ class EditUserProfile extends Component {
           <EditProfile
             fileList={fileList}
             profileImage={profileImage}
+            previewVisible={previewVisible}
             handlePreview={this.handlePreview}
+            handleCancelPreview={this.handleCancelPreview}
             handleChange={this.handleChange}
             bannerFileList={bannerFileList}
             profileBannerImage={profileBannerImage}
+            previewBannerVisible={previewBannerVisible}
             handleBannerPreview={this.handleBannerPreview}
+            handleCancelBannerPreview={this.handleCancelBannerPreview}
             handleBannerChange={this.handleBannerChange}
           />
         </Row>
