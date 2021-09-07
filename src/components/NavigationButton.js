@@ -42,7 +42,7 @@ class NavigationButton extends Component {
               <Button id="active-members-button" icon="smile-o">활동인구</Button>
             </Link>
             <Link to={`/members/${account.username}`}>
-              <Button id="active-members-button"><Icon type="user"/>마이페이지</Button>
+              <Button id="active-members-button" icon="user">마이페이지</Button>
             </Link>
           </Col>
           <Col xs={{ span: 24 }} sm={{ span: 24, offset: 10 }} lg={{ span: 0 }}>
