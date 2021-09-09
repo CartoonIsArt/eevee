@@ -3,10 +3,7 @@ import 'moment/locale/ko'
 
 const getWinHeight = () => (
   window.innerHeight
-  || window.innerHeight
-  || (document.documentElement
-    || document.body)
-    .clientHeight
+  || (document.documentElement || document.body).clientHeight
 )
 
 const getDocHeight = () => {
@@ -27,13 +24,13 @@ const getScrollTop = () => (
 )
 
 export const isAlmostScrolled = () => {
-  const winheight = getWinHeight()
-  const docheight = getDocHeight()
+  const winHeight = getWinHeight()
+  const docHeight = getDocHeight()
   const scrollTop = getScrollTop()
-  const trackLength = docheight - winheight
+  const trackLength = docHeight - winHeight
   const pctScrolled = Math.floor((scrollTop / trackLength) * 100)
 
-  return pctScrolled > 60
+  return pctScrolled > 80
 }
 
 /* 중복되는 인자는 b쪽에 맞춰짐 */

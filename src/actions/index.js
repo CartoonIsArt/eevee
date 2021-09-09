@@ -89,7 +89,7 @@ export const patchMembers = (members) => (dispatch) =>
 
 // Timeline
 //
-export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
+export const getTimeline = ({ page, keyword }) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
@@ -100,7 +100,7 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
     })
 }
 
-export const getAccountTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getAccountTimeline = ({ username, page, keyword }) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
 
@@ -111,7 +111,7 @@ export const getAccountTimeline = (username, page = 1, keyword = undefined) => (
     })
 }
 
-export const getCommentedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getCommentedTimeline = ({ username, page, keyword }) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
@@ -122,7 +122,7 @@ export const getCommentedTimeline = (username, page = 1, keyword = undefined) =>
     })
 }
 
-export const getLikedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getLikedTimeline = ({ username, page, keyword }) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   

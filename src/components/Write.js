@@ -1,4 +1,5 @@
 import { Button, Card, Checkbox, Col, Descriptions, Mentions, notification, Row } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import ReactMarkdown from 'react-markdown'
@@ -42,7 +43,7 @@ class Write extends Component {
     super(props)
     this.state = {
       value: '',
-      isNotification: this.props.isNotification || false,
+      isNotification: this.props.isNotification,
       fileList: [],
       mode: 'edit',
     }
@@ -243,6 +244,16 @@ class Write extends Component {
       </Card>
     )
   }
+}
+
+Write.propTypes = {
+  documentId: PropTypes.number,
+  isNotification: PropTypes.bool,
+}
+
+Write.defaultProps = {
+  documentId: -1,
+  isNotification: false,
 }
 
 const mapStateToProps = (state) => ({
