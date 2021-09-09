@@ -37,20 +37,22 @@ class NavigationButton extends Component {
     return hasNoSidebar(pathname)
       ? (
         <Row>
-          <Col offset={5} xs={{ span: 0 }} sm={{ span: 0 }} lg={{ span: 24 }} xl={{ span: 24 }}>
-            <Link to='/enrollment'>
-              <Button id="active-members-button" icon="smile-o">활동인구</Button>
-            </Link>
+          <Col offset={4} xs={{ span: 0 }} sm={{ span: 0 }} lg={{ span: 10 }} xl={{ span: 0 }}>
             <Link to={`/members/${account.username}`}>
               <Button id="active-members-button" icon="user">마이페이지</Button>
             </Link>
           </Col>
-          <Col xs={{ span: 24 }} sm={{ span: 24, offset: 10 }} lg={{ span: 0 }}>
+          <Col xs={{ span: 0 }} sm={{ span: 0 }} lg={{ span: 10 }} xl={{ span: 9, offset: 15 }}>
             <Link to='/enrollment'>
-              <Button id="active-members-button" icon="smile-o"/>
+              <Button id="active-members-button" icon="smile-o">활동인구</Button>
             </Link>
+          </Col>
+          <Col xs={{ span: 24 }} sm={{ span: 24, offset: 10 }} lg={{ span: 0 }}>
             <Link to={`/members/${account.username}`}>
               <Button id="active-members-button" icon="user"/>
+            </Link>
+            <Link to='/enrollment'>
+              <Button id="active-members-button" icon="smile-o"/>
             </Link>
           </Col>
         </Row>
