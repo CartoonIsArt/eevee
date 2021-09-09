@@ -10,7 +10,7 @@ import {
   message,
   Modal,
   Popconfirm,
-  Row
+  Row,
 } from 'antd'
 import moment from 'moment'
 import PropTypes from 'prop-types'
@@ -19,13 +19,13 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getAccount } from '../actions'
 import majors from '../common/majors'
+import EditProfile from '../components/EditProfile'
 import axios from '../fetches/axios'
 import { isPermittedBirthdate } from '../lib'
-import SingleImageUploader from '../components/SingleImageUploader'
-import ProfileImages from '../components/ProfileImages'
 
 
 function getDepartmentAndMajor(major) {
+  if (!major) return []
   const department = majors.find(department => department.children.find(m => m.value === major) !== undefined)
   return [department.label, major];
 }
@@ -51,6 +51,8 @@ class EditUserProfile extends Component {
       profileBannerImage,
       fileList: [{ uid: -1, name: profileImage, status: 'done', url: profileImage }],
       bannerFileList: [{ uid: -1, name: profileBannerImage, status: 'done', url: profileBannerImage }],
+      previewVisible: false,
+      previewBannerVisible: false,
     };
   }
 
@@ -113,15 +115,44 @@ class EditUserProfile extends Component {
     this.setState({ visible: false });
   }
 
-  handleChange({ file, fileList }) {
+  handlePreview = (file) => {
+    this.setState({
+      profileImage: file.thumbUrl || file.url,
+      previewVisible: true,
+    });
+  }
+
+  handleCancelPreview = () => {
+    this.setState({
+      previewVisible: false,
+    });
+  }
+
+  handleChange = ({ file, fileList }) => {
     if (file.status === 'done') {
+      fileList[fileList.length-1].thumbUrl =  "/images/" + file.response.avatar
       this.setState({ profileImage: file.response.avatar })
     }
     this.setState({ fileList })
   }
 
-  handleBannerChange({ file, fileList }) {
+  handleBannerPreview = (file) => {
+    this.setState({
+      profileImage: file.thumbUrl || file.url,
+      previewBannerVisible: true,
+    });
+  }
+
+  handleCancelBannerPreview = () => {
+    this.setState({
+      previewBannerVisible: false,
+    });
+  }
+  
+
+  handleBannerChange = ({ file, fileList }) => {
     if (file.status === 'done') {
+      fileList[fileList.length-1].thumbUrl =  "/images/" + file.response.avatar
       this.setState({ profileBannerImage: file.response.avatar })
     }
     this.setState({ bannerFileList: fileList })
@@ -175,7 +206,7 @@ class EditUserProfile extends Component {
   render() {
     const {
       email, phoneNumber, favoriteComic, favoriteCharacter, major,
-      profileImage, profileBannerImage, fileList, bannerFileList, birthdate
+      profileImage, profileBannerImage, fileList, bannerFileList, birthdate, previewVisible, previewBannerVisible
     } = this.state;
 
     return (
@@ -202,33 +233,21 @@ class EditUserProfile extends Component {
             </Form.Item>
           </Form>
         </Modal>
-        <Row>
-          <Col>
-            <ProfileImages profile={this.props.account.profile} />
-            <div className="header">
-              <div className="background-image">
-                <Col span={12}>
-                  <SingleImageUploader
-                    className="user-banner"
-                    fileList={bannerFileList}
-                    profileImage={profileBannerImage}
-                    handlePreview={(e) => this.handleBannerPreview(e)}
-                    handleChange={(e) => this.handleBannerChange(e)}
-                  />
-                </Col>
-                <Col span={12}>
-                  <SingleImageUploader
-                    className="user-profile"
-                    fileList={fileList}
-                    profileImage={profileImage}
-                    handlePreview={(e) => this.handlePreview(e)}
-                    handleChange={(e) => this.handleChange(e)}
-                  />
-                </Col>
-              </div>
-              <div className="menu-bar"/>
-            </div>
-          </Col>
+        <Row className="edit-profile-row">
+          <EditProfile
+            fileList={fileList}
+            profileImage={profileImage}
+            previewVisible={previewVisible}
+            handlePreview={this.handlePreview}
+            handleCancelPreview={this.handleCancelPreview}
+            handleChange={this.handleChange}
+            bannerFileList={bannerFileList}
+            profileBannerImage={profileBannerImage}
+            previewBannerVisible={previewBannerVisible}
+            handleBannerPreview={this.handleBannerPreview}
+            handleCancelBannerPreview={this.handleCancelBannerPreview}
+            handleBannerChange={this.handleBannerChange}
+          />
         </Row>
         <Row id="edit-row-group" type="flex" justify="center" gutter={[12, 8]}>
           <Col xs={24} lg={12}>
@@ -322,6 +341,7 @@ class EditUserProfile extends Component {
 
 EditUserProfile.propTypes = {
   history: PropTypes.object.isRequired,
+  footer: PropTypes.element,
 }
 
 const mapStateToProps = (state) => ({

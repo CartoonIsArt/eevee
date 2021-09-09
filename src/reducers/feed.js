@@ -8,11 +8,13 @@ const feed = (state = {}, action) => {
     case 'UPDATEFEED':
       return mergeObject(state, action.feed)
     case 'UPDATECOMMENT':
-      state.comments = state.comments.map((comment) => {
-        if (comment.id === action.comment.id)
-          return mergeObject(comment, action.comment)
-        return comment
-      })
+      if (state.comments) {
+        state.comments = state.comments.map((comment) => {
+          if (comment.id === action.comment.id)
+            return mergeObject(comment, action.comment)
+          return comment
+        })
+      }
       return mergeObject({}, state)
     default:
       return state

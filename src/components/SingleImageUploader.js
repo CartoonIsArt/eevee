@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import { baseURL } from '../fetches/axios'
 import { beforeUpload } from '../lib'
 
-
 const uploadButton = (
   <div>
     <Icon type="plus" />
@@ -15,13 +14,6 @@ const uploadButton = (
 class SingleImageUploader extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      previewVisible: false,
-    }
-  }
-
-  handleCancelProfile() {
-    this.setState({ previewVisible: false })
   }
 
   render() {
@@ -42,9 +34,9 @@ class SingleImageUploader extends Component {
               {this.props.fileList.length ? null : uploadButton}
             </Upload>
             <Modal
-              visible={this.state.previewVisible}
+              visible={this.props.previewVisible}
               footer={null}
-              onCancel={this.handleCancelProfile}
+              onCancel={this.props.handleCancelProfilePreview}
             >
               <img
                 alt="프로필 이미지"
@@ -63,6 +55,7 @@ SingleImageUploader.propTypes = {
   fileList: PropTypes.array.isRequired,
   profileImage: PropTypes.string.isRequired,
   handlePreview: PropTypes.func.isRequired,
+  handleCancelProfilePreview: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
 }
 

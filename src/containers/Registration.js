@@ -55,6 +55,7 @@ class Registration extends Component {
       email: '',
       phoneNumber: '',
       fileList: [],
+      previewVisible: false,
     };
     let isKeyBackspace = false
   }
@@ -66,8 +67,15 @@ class Registration extends Component {
     });
   }
 
+  handleCancelProfilePreview() {
+    this.setState({
+      previewVisible: false,
+    });
+  }
+
   handleChange({ file, fileList }) {
     if (file.status === 'done') {
+      fileList[fileList.length-1].thumbUrl = "/images/" + file.response.avatar
       this.setState({ profileImage: file.response.avatar })
     }
     this.setState({ fileList })
@@ -240,7 +248,9 @@ class Registration extends Component {
                   className="registration-uploader"
                   fileList={fileList}
                   profileImage={profileImage}
+                  previewVisible={this.state.previewVisible}
                   handlePreview={(e) => this.handlePreview(e)}
+                  handleCancelProfilePreview={() => this.handleCancelProfilePreview()}
                   handleChange={(e) => this.handleChange(e)}
                 />
               </Col>

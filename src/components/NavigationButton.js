@@ -1,6 +1,7 @@
 import { Button, Col, Drawer, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { routes } from '../Route'
 import Sider from '../containers/Sider'
@@ -29,15 +30,32 @@ class NavigationButton extends Component {
   hideMenu = () => {
     this.setState({ visible: false })
   }
-  
+
   render() {
-    const { pathname } = this.props
+    const { account, pathname } = this.props
 
     return hasNoSidebar(pathname)
       ? (
-        <Link to='/enrollment'>
-          <Button id="active-members-button" icon="smile-o">활동인구</Button>
-        </Link>
+        <Row>
+          <Col offset={4} xs={{ span: 0 }} sm={{ span: 0 }} lg={{ span: 10 }} xl={{ span: 0 }}>
+            <Link to={`/members/${account.username}`}>
+              <Button id="active-members-button" icon="user">마이페이지</Button>
+            </Link>
+          </Col>
+          <Col xs={{ span: 0 }} sm={{ span: 0 }} lg={{ span: 10 }} xl={{ span: 9, offset: 15 }}>
+            <Link to='/enrollment'>
+              <Button id="active-members-button" icon="smile-o">활동인구</Button>
+            </Link>
+          </Col>
+          <Col xs={{ span: 24 }} sm={{ span: 24, offset: 10 }} lg={{ span: 0 }}>
+            <Link to={`/members/${account.username}`}>
+              <Button id="active-members-button" icon="user"/>
+            </Link>
+            <Link to='/enrollment'>
+              <Button id="active-members-button" icon="smile-o"/>
+            </Link>
+          </Col>
+        </Row>
       )
       : (
         <Row>
@@ -63,4 +81,10 @@ NavigationButton.propTypes = {
   pathname: PropTypes.string.isRequired,
 }
 
-export default NavigationButton
+const mapStateToProps = (state) => ({
+  account: state.account,
+})
+const mapDispatchToProps = ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationButton)

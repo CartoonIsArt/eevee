@@ -125,7 +125,7 @@ class Userpage extends Component {
       } // 임시 방편
 
     return (
-      <Card id="userpage-card">
+      <Card className="card-no-border">
         <Row className="header-row">
           <ProfileImages
             profile={member.profile}
@@ -142,7 +142,7 @@ class Userpage extends Component {
         <Row>
           <Col xs={0} lg={6}>
             <Affix offsetTop={52}>
-              <Row type="flex" gutter={[0, 8]}>
+              <Row gutter={[0, 8]}>
                 <Col span={24}>
                   <UserInfo account={member} />
                 </Col>
