@@ -18,7 +18,6 @@ class SingleFeed extends Component {
     super(props)
     this.state = {
       loading: false,
-      feed: {},
     }
   }
 

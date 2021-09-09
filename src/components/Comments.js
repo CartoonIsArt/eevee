@@ -13,7 +13,7 @@ class Comments extends Component {
         {comments.map(comment => <Comment key={comment.id}>{comment}</Comment>)}
         <PostComment
           rootId={feed.id}
-          parentType={"Document"}
+          parentType="Document"
         />
       </div>
     )
