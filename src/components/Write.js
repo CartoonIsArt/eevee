@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
 import { postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
-import remarkYoutubeEmbed from '../lib/remark-youtube-embed'
+import remarkEmbed from '../lib/remark-embed'
 
 
 const getColor = (props) => {
@@ -114,7 +114,7 @@ class Write extends Component {
       <ReactMarkdown
         className="reactMarkDown"
         children={value}
-        remarkPlugins={[remarkYoutubeEmbed]}
+        remarkPlugins={[remarkEmbed]}
       />
     )
     if (mode === 'edit') return editModeDisplay

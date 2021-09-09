@@ -8,7 +8,7 @@ import NameTag from './NameTag'
 import Write from './Write'
 import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
 import { printTime } from '../lib'
-import remarkYoutubeEmbed from '../lib/remark-youtube-embed'
+import remarkEmbed from '../lib/remark-embed'
 
 
 const { Meta } = Card
@@ -53,7 +53,7 @@ class Document extends Component {
           <ReactMarkdown
             className="reactMarkDown"
             children={feed.content}
-            remarkPlugins={[remarkYoutubeEmbed]}
+            remarkPlugins={[remarkEmbed]}
           />
         </Row>
         <Row style={isAppend ? { display: 'block' } : { display: 'none' }}>
