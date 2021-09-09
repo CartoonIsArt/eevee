@@ -70,7 +70,8 @@ class Userpage extends Component {
       }
     else if (url !== '/members')
       return this.changeTimeline(this.props.getAccountTimeline, this.props.match.params.username, url)
-    return this.setState({ loading: false })
+    else
+      this.setState({ loading: false })
   }
 
   changeTimeline = (getTimeline, username, currentTab) => (
@@ -83,11 +84,8 @@ class Userpage extends Component {
   )
 
   changeTab = (url) => {
+    this.props.history.push(url)
     this.setTimeline(url)
-      .then(() => {
-        console.log(url)
-        this.props.history.push(url)
-      })
   }
 
   nextPage = () => this.setState({ page: this.state.page + 1 })
