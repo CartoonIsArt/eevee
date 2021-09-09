@@ -42,7 +42,7 @@ class Comment extends Component {
         content={
           <div>
             {comment.content}
-            <Divider className="line" />
+            <Divider className="line footer-line" />
           </div>
         }
         actions={[

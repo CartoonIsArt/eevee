@@ -63,7 +63,7 @@ class Document extends Component {
             isNotification={Boolean(feed.isNotification)}
           />
         </Row>
-        <Divider className="line" />
+        <Divider className="line footer-line" />
         <ContentFooter
           key={feed.id}
           content={feed}
