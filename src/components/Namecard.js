@@ -7,23 +7,19 @@ import NameTag from './NameTag'
 class Namecard extends Component {
   render() {
     const { account, size } = this.props
-    
+
     return (
       <div style={{ width: size }}>
-        <a className="ant-anchor-link-title" style={{ height: size }} href="#">
-          <img id="img-namecard" width="100%" src={account.profile.profileImage} alt={account.profile.profileImage} />
-        </a>
+        <div id="namecard-image-container">
+          <img id="img-namecard" alt="프로필 이미지" src={account.profile.profileImage} />
+        </div>
         <Row type="flex" align="middle" className="namecard-content-container">
-          <Row type="flex" align="middle" className="namecard-nametag-container">
-            <Col>
-              <NameTag account={account} />
-            </Col>
-          </Row>
-          <Row className="namecard-major-container">
-            <Col>
-              <span>{account.student.major}</span>
-            </Col>
-          </Row>
+          <Col className="namecard-nametag-col" span={24}>
+            <NameTag account={account} />
+          </Col>
+          <Col className="namecard-major-col" span={24}>
+            <span>{account.student.major}</span>
+          </Col>
         </Row>
       </div>
     )

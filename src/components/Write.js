@@ -91,7 +91,7 @@ class Write extends Component {
   getDisplay = (mode) => {
     const editModeDisplay = (
       <Dropzone
-        accept={['image/jpeg', 'image/png']}
+        accept={['image/jpeg', 'image/png', 'image/gif']}
         noClick={true}
         onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
         onDropRejected={() => this.notifyUnsupportedFile()}
@@ -195,7 +195,7 @@ class Write extends Component {
       <Card size="small" className="write-container">
         {isAppend || (
           <div className="write-profile-img-container">
-            <img width="100%" alt="글 작성자 이미지" src={account.profile.profileImage} />
+            <img className="write-profile-img" alt="글 작성자 프로필 이미지" src={account.profile.profileImage} />
           </div>
         )}
         <div className="write-content-container">
@@ -203,7 +203,7 @@ class Write extends Component {
           <Row className="write-actions-container">
             <Col span={3}>
               <Dropzone
-                accept={['image/jpeg', 'image/png']}
+                accept={['image/jpeg', 'image/png', 'image/gif']}
                 noDrag={true}
                 onDropAccepted={this.addImage}
                 onDropRejected={this.notifyUnsupportedFile}

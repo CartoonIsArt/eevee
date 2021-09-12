@@ -22,10 +22,13 @@
   }
 
   .write-profile-img-container {
-    margin-right: 4px;
-    width: 48px;
-    height: 48px;
-    overflow: hidden;
+    margin-right: 12px;
+
+    .write-profile-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+    }
   }
 
   .write-content-container {

@@ -26,7 +26,7 @@ class Comment extends Component {
         className="comment-container"
         avatar={
           <Avatar
-            alt="댓글 작성자"
+            alt="댓글 작성자 프로필 이미지"
             src={comment.author.profile.profileImage}
           />
         }

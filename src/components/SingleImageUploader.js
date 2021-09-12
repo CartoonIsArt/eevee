@@ -2,7 +2,6 @@ import { Card, Col, Icon, Modal, Row, Upload } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { baseURL } from '../fetches/axios'
-import { beforeUpload } from '../lib'
 
 
 const uploadButton = (
@@ -29,13 +28,13 @@ class SingleImageUploader extends Component {
           <Col>
             <Upload
               className="registration-profile-upload"
-              name="avatar"
+              accept=".jpg,.jpeg,.png,.gif"
               action={`${baseURL}/public/file`}
+              name="avatar"
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
               onChange={handleChange}
-              beforeUpload={beforeUpload}
             >
               {fileList.length ? null : uploadButton}
             </Upload>

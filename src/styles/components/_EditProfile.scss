@@ -1,11 +1,10 @@
-.edit-profile-card-container {
-
+.edit-profile-card {
   .ant-card-body {
     padding: 0;
     height: 276px;
   }
 
-  .edit-profile-banner-upload {
+  .edit-profile-banner {
     height: 236px;
 
     .ant-upload.ant-upload-select-picture-card {
@@ -29,18 +28,16 @@
     }
 
     .ant-upload-list-item-info {
-      text-align:center;
+      text-align: center;
     }
 
-    .ant-upload-list-picture-card .ant-upload-list-item-thumbnail, .ant-upload-list-picture-card .ant-upload-list-item-thumbnail img {
-      object-fit: none;
-      object-position: center top;
-      height: 236px !important;
+    .ant-upload-list-item-image {
+      object-position: center 30%;
     }
   }
 }
 
-  .edit-profile-upload {
+  .edit-profile {
     z-index: 1;
 
     .ant-upload.ant-upload-select-picture-card {

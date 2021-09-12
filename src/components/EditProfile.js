@@ -2,7 +2,6 @@ import { Card, Icon, Modal, Upload } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { baseURL } from '../fetches/axios'
-import { beforeUpload } from '../lib'
 
 const uploadButton = (
   <div>
@@ -29,18 +28,18 @@ class EditProfile extends Component {
     } = this.props
 
     return (
-      <Card className="edit-profile-card-container">
+      <Card className="edit-profile-card">
         <Upload
-          className="edit-profile-banner-upload"
-          name="avatar"
+          className="edit-profile-banner"
+          accept=".jpg,.jpeg,.png,.gif"
           action={`${baseURL}/public/file`}
+          name="avatar"
           listType="picture-card"
           fileList={bannerFileList}
           onPreview={handleBannerPreview}
           onChange={handleBannerChange}
-          beforeUpload={beforeUpload}
         >
-          {bannerFileList.length ? null : uploadButton}
+          {bannerFileList.length === 0 && uploadButton}
         </Upload>
         <Modal
           visible={previewBannerVisible}
@@ -48,23 +47,22 @@ class EditProfile extends Component {
           onCancel={handleCancelBannerPreview}
         >
           <img
-            alt="프로필 배너 이미지"
             style={{ width: '100%' }}
+            alt="프로필 배너 이미지"
             src={profileBannerImage}
           />
         </Modal>
         <Upload
-          className="edit-profile-upload"
-          style={{ zIndex:"1" }}
-          name="avatar"
+          className="edit-profile"
+          accept=".jpg,.jpeg,.png,.gif"
           action={`${baseURL}/public/file`}
+          name="avatar"
           listType="picture-card"
           fileList={fileList}
           onPreview={handlePreview}
           onChange={handleChange}
-          beforeUpload={beforeUpload}
         >
-          {fileList.length ? null : uploadButton}
+          {fileList.length === 0 && uploadButton}
         </Upload>
         <Modal
           visible={previewVisible}
@@ -72,8 +70,8 @@ class EditProfile extends Component {
           onCancel={handleCancelPreview}
         >
           <img
-            alt="프로필 이미지"
             style={{ width: '100%' }}
+            alt="프로필 이미지"
             src={profileImage}
           />
         </Modal>

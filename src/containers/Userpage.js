@@ -100,7 +100,7 @@ class Userpage extends Component {
       <Loading loading={loading}>
         {member
           ? (
-          <Card id="userpage-card card-no-border">
+          <Card className="userpage-card card-no-border">
             <Row className="header-row">
               <ProfileImages
                 profile={member.profile}

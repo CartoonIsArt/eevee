@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Cascader, Col, DatePicker, Input, Modal, Row } from 'antd'
+import { Alert, Button, Card, Cascader, Col, DatePicker, Input, message, Modal, Row } from 'antd'
 import moment from 'moment'
 import React, { Component } from 'react'
 import club_rules from '../common/club_rules'
@@ -34,35 +34,32 @@ const default_nTh = (() => {
 const default_birthdate = moment().subtract(19, 'years')
 
 class Registration extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      visible: false,
-      agreeLaw: false,
-      agreeTerms: false,
-      agreeAll: false,
-      username: '',
-      password: '',
-      passwordCheck: '',
-      favoriteComic: '',
-      favoriteCharacter: '',
-      profileImage: '',
-      studentNumber: '',
-      name: '',
-      nTh: default_nTh,
-      birthdate: default_birthdate,
-      major: '',
-      email: '',
-      phoneNumber: '',
-      fileList: [],
-      previewVisible: false,
-    };
-    let isKeyBackspace = false
-  }
+  state = {
+    visible: false,
+    agreeLaw: false,
+    agreeTerms: false,
+    agreeAll: false,
+    username: '',
+    password: '',
+    passwordCheck: '',
+    favoriteComic: '',
+    favoriteCharacter: '',
+    profileImage: '',
+    studentNumber: '',
+    name: '',
+    nTh: default_nTh,
+    birthdate: default_birthdate,
+    major: '',
+    email: '',
+    phoneNumber: '',
+    fileList: [],
+    previewVisible: false,
+  };
+  isKeyBackspace = false
 
   handlePreview = (file) => {
     this.setState({
-      profileImage: file.thumbUrl || file.url,
+      profileImage: file.thumbUrl,
       previewVisible: true,
     });
   }
@@ -72,9 +69,13 @@ class Registration extends Component {
   }
 
   handleChange = ({ file, fileList }) => {
+    console.log(file)
     if (file.status === 'done') {
       fileList[fileList.length - 1].thumbUrl = `/images/${file.response.avatar}`
-      this.setState({ profileImage: file.response.avatar })
+      this.setState({ profileImage: `/images/${file.response.avatar}` })
+    }
+    else if (file.status === 'fail') {
+      message.error('업로드 실패!')
     }
     this.setState({ fileList })
   }
@@ -228,8 +229,8 @@ class Registration extends Component {
           <Col xs={0} lg={12}>
             <img
               id="registration-img"
-              src="/images/registration_left_side.jpg"
               alt="회원가입 이미지"
+              src="/images/registration_left_side.jpg"
             />
           </Col>
           <Col xs={24} lg={12}>

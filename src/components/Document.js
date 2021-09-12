@@ -38,7 +38,7 @@ class Document extends Component {
             avatar={
               <Avatar
                 className="document-profile-img"
-                alt="글 작성자 이미지"
+                alt="글 작성자 프로필 이미지"
                 src={author.profile.profileImage}
               />
             }
