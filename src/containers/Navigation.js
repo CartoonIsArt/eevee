@@ -28,7 +28,7 @@ class Navigation extends Component {
                 placeholder="검색 (회원 이름, 아이디, 글, 댓글)"
               />
             </Col>
-            <Col xs={{ span: 5 }} sm={{ span: 4, offset: 1 }} lg={{ span: 3, offset: 3 }} xl={{ span: 2, offset: 4 }}>
+            <Col xs={{ span: 5 }} sm={{ span: 4 }} lg={{ span: 6 }} xl={{ span: 5 }}>
               <NavigationButton pathname={this.props.history.location.pathname} />
             </Col>
           </Row>

@@ -55,41 +55,43 @@ class Registration extends Component {
       email: '',
       phoneNumber: '',
       fileList: [],
+      previewVisible: false,
     };
     let isKeyBackspace = false
   }
 
-  handlePreview(file) {
+  handlePreview = (file) => {
     this.setState({
       profileImage: file.thumbUrl || file.url,
       previewVisible: true,
     });
   }
 
-  handleChange({ file, fileList }) {
+  handleCancelProfilePreview = () => {
+    this.setState({ previewVisible: false });
+  }
+
+  handleChange = ({ file, fileList }) => {
     if (file.status === 'done') {
+      fileList[fileList.length - 1].thumbUrl = `/images/${file.response.avatar}`
       this.setState({ profileImage: file.response.avatar })
     }
     this.setState({ fileList })
   }
 
-  onChangeInput(e) {
-    this.setState(e)
+  onNumberChange = (value) => {
+    this.setState({ nTh: value[0] })
   }
 
-  onNumberChange(value) {
-    this.onChangeInput({ nTh: value[0] })
+  onDateChange = (_, dateString) => {
+    this.setState({ birthdate: dateString })
   }
 
-  onDateChange(_, dateString) {
-    this.onChangeInput({ birthdate: dateString })
+  onMajorChange = (value) => {
+    this.setState({ major: value[1] })
   }
 
-  onMajorChange(value) {
-    this.onChangeInput({ major: value[1] })
-  }
-
-  onButtonClicked() {
+  onButtonClicked = () => {
     if (this.isEmpty()) {
       return Modal.warning({ title: '다시 확인해주세요!', content: '입력하지 않은 필수 항목이 있습니다.' });
     }
@@ -146,19 +148,19 @@ class Registration extends Component {
     })
   }
 
-  isEmpty() {
-    return !(this.state.username
-            && this.state.password
-            && this.state.studentNumber
-            && this.state.name
-            && this.state.nTh
-            && this.state.birthdate
-            && this.state.major
-            && this.state.email
-            && this.state.phoneNumber)
-  }
+  isEmpty = () => !(
+    this.state.username
+    && this.state.password
+    && this.state.studentNumber
+    && this.state.name
+    && this.state.nTh
+    && this.state.birthdate
+    && this.state.major
+    && this.state.email
+    && this.state.phoneNumber
+  )
 
-  onChangePhoneNumber(phoneNumber) {
+  onChangePhoneNumber = (phoneNumber) => {
     if (isValidPhoneNumberOnTyping(phoneNumber)) {
       return
     }
@@ -171,10 +173,10 @@ class Registration extends Component {
         phoneNumber.slice(phoneNumber.length - 1),
       ].join('-')
     }
-    this.onChangeInput({ phoneNumber })
+    this.setState({ phoneNumber })
   }
 
-  onKeyDownBackspace(e) {
+  onKeyDownBackspace = (e) => {
     this.isKeyBackspace = (e.key === 'Backspace')
   }
 
@@ -184,7 +186,7 @@ class Registration extends Component {
       username, password, passwordCheck,
       favoriteComic, favoriteCharacter, profileImage,
       studentNumber, name, email, phoneNumber, 
-      fileList,
+      fileList, previewVisible,
     } = this.state;
 
     if (!this.state.agreeAll)
@@ -210,8 +212,8 @@ class Registration extends Component {
             <Col>
               <Button
                 type="primary"
-                disabled={!this.state.agreeLaw || !this.state.agreeTerms}
-                onClick={() => this.setState({ agreeAll: this.state.agreeLaw && this.state.agreeTerms })}
+                disabled={!agreeLaw || !agreeTerms}
+                onClick={() => this.setState({ agreeAll: agreeLaw && agreeTerms })}
               >
                 동의합니다
               </Button>
@@ -240,15 +242,17 @@ class Registration extends Component {
                   className="registration-uploader"
                   fileList={fileList}
                   profileImage={profileImage}
-                  handlePreview={(e) => this.handlePreview(e)}
-                  handleChange={(e) => this.handleChange(e)}
+                  previewVisible={previewVisible}
+                  handlePreview={this.handlePreview}
+                  handleCancelProfilePreview={this.handleCancelProfilePreview}
+                  handleChange={this.handleChange}
                 />
               </Col>
               <Col span={16}>
                 <Input
                   className="registration-input"
                   addonBefore="* 이름"
-                  onChange={(e) => this.onChangeInput({ name: e.target.value })}
+                  onChange={(e) => this.setState({ name: e.target.value })}
                   value={name}
                 />
               </Col>
@@ -261,7 +265,7 @@ class Registration extends Component {
                       showSearch
                       options={nThs}
                       defaultValue={[default_nTh]}
-                      onChange={(value, option) => this.onNumberChange(value, option)}
+                      onChange={this.onNumberChange}
                     />
                   </Col>
                   <Col span={12}>
@@ -269,8 +273,8 @@ class Registration extends Component {
                       className="registration-calendar-picker"
                       placeholder="* 생일"
                       defaultValue={default_birthdate}
-                      disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
-                      onChange={(date, dateString) => this.onDateChange(date, dateString)}
+                      disabledDate={isPermittedBirthdate}
+                      onChange={this.onDateChange}
                     />
                   </Col>
                 </Row>
@@ -279,7 +283,7 @@ class Registration extends Component {
                 <Input
                   className="registration-input"
                   addonBefore="* 아이디"
-                  onChange={(e) => this.onChangeInput({ username: e.target.value })}
+                  onChange={(e) => this.setState({ username: e.target.value })}
                   value={username}
                 />
               </Col>
@@ -288,7 +292,7 @@ class Registration extends Component {
                   className="registration-input"
                   addonBefore="* 비밀번호"
                   type="password"
-                  onChange={(e) => this.onChangeInput({ password: e.target.value })}
+                  onChange={(e) => this.setState({ password: e.target.value })}
                   value={password}
                 />
               </Col>
@@ -297,7 +301,7 @@ class Registration extends Component {
                   className="registration-input"
                   addonBefore="* 비밀번호 확인"
                   type="password"
-                  onChange={(e) => this.onChangeInput({ passwordCheck: e.target.value })}
+                  onChange={(e) => this.setState({ passwordCheck: e.target.value })}
                   value={passwordCheck}
                 />
               </Col>
@@ -306,14 +310,14 @@ class Registration extends Component {
                   className="registration-cascader-picker"
                   placeholder="* 전공"
                   options={majors}
-                  onChange={(value) => this.onMajorChange(value)}
+                  onChange={this.onMajorChange}
                 />
               </Col>
               <Col span={16}>
                 <Input
                   className="registration-input"
                   addonBefore="* 학번"
-                  onChange={(e) => this.onChangeInput({ studentNumber: e.target.value })}
+                  onChange={(e) => this.setState({ studentNumber: e.target.value })}
                   placeholder="ex) 2017000000"
                   value={studentNumber}
                 />
@@ -322,7 +326,7 @@ class Registration extends Component {
                 <Input
                   className="registration-input"
                   addonBefore="* 이메일"
-                  onChange={(e) => this.onChangeInput({ email: e.target.value })}
+                  onChange={(e) => this.setState({ email: e.target.value })}
                   placeholder="ex) example@example.com"
                   value={email}
                 />
@@ -332,7 +336,7 @@ class Registration extends Component {
                   className="registration-input"
                   addonBefore="* 전화번호"
                   onChange={(e) => this.onChangePhoneNumber(e.target.value)}
-                  onKeyDown={(e) => this.onKeyDownBackspace(e)}
+                  onKeyDown={this.onKeyDownBackspace}
                   placeholder="ex) 010-1234-5678"
                   value={phoneNumber}
                 />
@@ -341,7 +345,7 @@ class Registration extends Component {
                 <Input
                   className="registration-input"
                   addonBefore="만화 제목"
-                  onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
+                  onChange={(e) => this.setState({ favoriteComic: e.target.value })}
                   placeholder="ex) 하이큐"
                   value={favoriteComic}
                 />
@@ -350,13 +354,13 @@ class Registration extends Component {
                 <Input
                   className="registration-input"
                   addonBefore="캐릭터 이름"
-                  onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
+                  onChange={(e) => this.setState({ favoriteCharacter: e.target.value })}
                   placeholder="ex) 카게야마 토비오"
                   value={favoriteCharacter}
                 />
               </Col>
               <Col span={16}>
-                <Button id="registration-button" type="primary" onClick={() => this.onButtonClicked()}>
+                <Button id="registration-button" type="primary" onClick={this.onButtonClicked}>
                   <span>환영해요!</span>
                 </Button>
               </Col>

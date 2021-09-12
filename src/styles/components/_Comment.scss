@@ -1,7 +1,7 @@
-.comment-container{
+.comment-container {
   margin: 4px 0px;
 
-  .ant-comment-content-author-time{
+  .ant-comment-content-author-time {
     color: rgba(0,0,0,0.5);
   }
 
@@ -15,10 +15,13 @@
     border-radius: 2px;
     padding: 8px;
 
-    .ant-comment-actions{
+    .ant-comment-actions {
       margin-top: 0px;
       margin-bottom: 4px;
     }
   }
 }
 
+.comment-like-button {
+  margin-right: 4px;
+}

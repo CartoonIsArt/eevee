@@ -3,19 +3,18 @@
   object-position: center top;
 }
 
-.namecard-content-container{
+.namecard-content-container {
   height: 98px;
   padding: 16px;
   line-height: 1.6rem;
   font-size: 2.4rem;
   text-align: left;
 
-  .namecard-nametag-container
-  {
+  .namecard-nametag-container {
     font-weight: bold;
   }
 
-  .namecard-major-container{
+  .namecard-major-container {
     margin-top: 1.6rem;
     font-size: 1.8rem;
   }

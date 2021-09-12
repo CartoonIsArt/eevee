@@ -99,7 +99,7 @@ export const printTime = (time) => {
   return past.locale('ko').format('MMMM DD일 a h시 mm분')
 }
 
-export function isRegularMember(account) {
+export const isRegularMember = (account) => {
   if (account.role === 'superuser')     return true
   if (account.role === 'manager')       return true
   if (account.role === 'board manager') return true
@@ -107,6 +107,6 @@ export function isRegularMember(account) {
   return false
 }
 
-export function isEmptyObject(param) {
+export const isEmptyObject = (param) => {
   return Object.keys(param).length === 0 && param.constructor === Object;
 }

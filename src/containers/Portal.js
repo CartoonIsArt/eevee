@@ -18,7 +18,7 @@ class Portal extends Component {
 
   render() {
     return (
-      <Card style={{ backgroundColor:'#f0f2f5' }}>
+      <Card className="card-no-border">
         <Row type="flex" style={{ maxWidth: '1280px' }}>
           <Col xs={{ span: 0 }} xl={{ order: 1, span: 6 }}>
             <Affix offsetTop={71}>

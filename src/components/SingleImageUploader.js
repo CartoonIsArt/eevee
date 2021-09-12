@@ -13,18 +13,16 @@ const uploadButton = (
 );
 
 class SingleImageUploader extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      previewVisible: false,
-    }
-  }
-
-  handleCancelProfile() {
-    this.setState({ previewVisible: false })
-  }
-
   render() {
+    const {
+      fileList,
+      profileImage,
+      previewVisible,
+      handlePreview,
+      handleCancelProfilePreview,
+      handleChange
+    } = this.props
+
     return (
       <Card id="single-image-uploader-card" title="프로필 이미지" size="small">
         <Row type="flex" justify="center">
@@ -34,22 +32,22 @@ class SingleImageUploader extends Component {
               name="avatar"
               action={`${baseURL}/public/file`}
               listType="picture-card"
-              fileList={this.props.fileList}
-              onPreview={this.props.handlePreview}
-              onChange={this.props.handleChange}
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
               beforeUpload={beforeUpload}
             >
-              {this.props.fileList.length ? null : uploadButton}
+              {fileList.length ? null : uploadButton}
             </Upload>
             <Modal
-              visible={this.state.previewVisible}
+              visible={previewVisible}
               footer={null}
-              onCancel={this.handleCancelProfile}
+              onCancel={handleCancelProfilePreview}
             >
               <img
                 alt="프로필 이미지"
                 style={{ width: '100%' }}
-                src={this.props.profileImage}
+                src={profileImage}
               />
             </Modal>
           </Col>
@@ -62,7 +60,9 @@ class SingleImageUploader extends Component {
 SingleImageUploader.propTypes = {
   fileList: PropTypes.array.isRequired,
   profileImage: PropTypes.string.isRequired,
+  previewVisible: PropTypes.bool.isRequired,
   handlePreview: PropTypes.func.isRequired,
+  handleCancelProfilePreview: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
 }
 

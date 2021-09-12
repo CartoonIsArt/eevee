@@ -79,20 +79,24 @@
     z-index: 2;
   }
 }
-  
-.input{
+ 
+.edit-profile-row {
+  margin-bottom: 12px;
+}
+
+.input {
   width: 100%;
   margin-top: 52px;
 }
   
-.input > *{
+.input > * {
   margin-top: 12px;
 }
 
 #edit-row-group {
   font-size: 1.6rem;
 
-  .edit-col-group{
+  .edit-col-group {
     margin-bottom: 8px;
 
     .edit-input {
@@ -105,7 +109,7 @@
         font-size: 1.6rem;
       }
     }
-}
+  }
 }
   
 .edit-cascader-picker, .ant-cascader-picker {
