@@ -134,7 +134,6 @@ class EditUserProfile extends Component {
   }
 
   handleChange = ({ file, fileList }) => {
-    console.log(file)
     if (file.status === 'done') {
       fileList[fileList.length - 1].thumbUrl =  `/images/${file.response.avatar}`
       this.setState({ profileImage: `/images/${file.response.avatar}` })
