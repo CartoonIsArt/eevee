@@ -10,7 +10,7 @@ import {
   message,
   Modal,
   Popconfirm,
-  Row
+  Row,
 } from 'antd'
 import moment from 'moment'
 import PropTypes from 'prop-types'
@@ -19,13 +19,13 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getAccount } from '../actions'
 import majors from '../common/majors'
+import EditProfile from '../components/EditProfile'
 import axios from '../fetches/axios'
 import { isPermittedBirthdate } from '../lib'
-import SingleImageUploader from '../components/SingleImageUploader'
-import ProfileImages from '../components/ProfileImages'
 
 
-function getDepartmentAndMajor(major) {
+const getDepartmentAndMajor = (major) => {
+  if (!major) return []
   const department = majors.find(department => department.children.find(m => m.value === major) !== undefined)
   return [department.label, major];
 }
@@ -51,23 +51,21 @@ class EditUserProfile extends Component {
       profileBannerImage,
       fileList: [{ uid: -1, name: profileImage, status: 'done', url: profileImage }],
       bannerFileList: [{ uid: -1, name: profileBannerImage, status: 'done', url: profileBannerImage }],
+      previewVisible: false,
+      previewBannerVisible: false,
     };
   }
 
-  onDateChange(_, dateString) {
+  onDateChange = (_, dateString) => {
     this.setState({ birthdate: dateString });
   }
 
-  onChangeInput(e) {
-    this.setState(e);
-  }
-
-  isEmpty() {
-    return !(this.state.birthdate
-            && this.state.major
-            && this.state.email
-            && this.state.phoneNumber)
-  }
+  isEmpty = () => !(
+    this.state.birthdate
+    && this.state.major
+    && this.state.email
+    && this.state.phoneNumber
+  )
 
   editProfile = () => {
     if (this.isEmpty()) {
@@ -113,25 +111,50 @@ class EditUserProfile extends Component {
     this.setState({ visible: false });
   }
 
-  handleChange({ file, fileList }) {
+  handlePreview = (file) => {
+    this.setState({
+      profileImage: file.thumbUrl || file.url,
+      previewVisible: true,
+    });
+  }
+
+  handleCancelPreview = () => {
+    this.setState({ previewVisible: false });
+  }
+
+  handleChange = ({ file, fileList }) => {
     if (file.status === 'done') {
+      fileList[fileList.length - 1].thumbUrl =  `/images/${file.response.avatar}`
       this.setState({ profileImage: file.response.avatar })
     }
     this.setState({ fileList })
   }
 
-  handleBannerChange({ file, fileList }) {
+  handleBannerPreview = (file) => {
+    this.setState({
+      profileImage: file.thumbUrl || file.url,
+      previewBannerVisible: true,
+    });
+  }
+
+  handleCancelBannerPreview = () => {
+    this.setState({ previewBannerVisible: false });
+  }
+  
+
+  handleBannerChange = ({ file, fileList }) => {
     if (file.status === 'done') {
+      fileList[fileList.length - 1].thumbUrl =  `/images/${file.response.avatar}`
       this.setState({ profileBannerImage: file.response.avatar })
     }
     this.setState({ bannerFileList: fileList })
   }
 
-  onMajorChange(value) {
+  onMajorChange = (value) => {
     this.setState({ major: value[1] })
   }
 
-  onChangePhoneNumber(phoneNumber) {
+  onChangePhoneNumber = (phoneNumber) => {
     if (/(?![0-9-]{0,13}$)/.test(phoneNumber)) {
       return
     }
@@ -149,8 +172,8 @@ class EditUserProfile extends Component {
     this.setState({ phoneNumber })
   }
 
-  onKeyDownBackspace(e) {
-    this.isKeyBackspace = (e.key === 'Backspace')
+  onKeyDownBackspace = ({ key }) => {
+    this.isKeyBackspace = (key === 'Backspace')
   }
 
   checkPassword = () => {
@@ -174,8 +197,9 @@ class EditUserProfile extends Component {
 
   render() {
     const {
+      checkPassword, hasPasswordChecked,
       email, phoneNumber, favoriteComic, favoriteCharacter, major,
-      profileImage, profileBannerImage, fileList, bannerFileList, birthdate
+      profileImage, profileBannerImage, fileList, bannerFileList, birthdate, previewVisible, previewBannerVisible
     } = this.state;
 
     return (
@@ -183,7 +207,7 @@ class EditUserProfile extends Component {
         <Modal
           title="프로필 수정"
           closable={false}
-          visible={!this.state.hasPasswordChecked}
+          visible={!hasPasswordChecked}
           onOk={this.checkPassword}
           onCancel={this.cancelEdit}
           okText="확인"
@@ -196,39 +220,27 @@ class EditUserProfile extends Component {
                 type="password"
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 placeholder="Password"
-                value={this.state.checkPassword}
+                value={checkPassword}
                 onChange={(e) => this.setState({ checkPassword: e.target.value })}
               />
             </Form.Item>
           </Form>
         </Modal>
-        <Row>
-          <Col>
-            <ProfileImages profile={this.props.account.profile} />
-            <div className="header">
-              <div className="background-image">
-                <Col span={12}>
-                  <SingleImageUploader
-                    className="user-banner"
-                    fileList={bannerFileList}
-                    profileImage={profileBannerImage}
-                    handlePreview={(e) => this.handleBannerPreview(e)}
-                    handleChange={(e) => this.handleBannerChange(e)}
-                  />
-                </Col>
-                <Col span={12}>
-                  <SingleImageUploader
-                    className="user-profile"
-                    fileList={fileList}
-                    profileImage={profileImage}
-                    handlePreview={(e) => this.handlePreview(e)}
-                    handleChange={(e) => this.handleChange(e)}
-                  />
-                </Col>
-              </div>
-              <div className="menu-bar"/>
-            </div>
-          </Col>
+        <Row className="edit-profile-row">
+          <EditProfile
+            fileList={fileList}
+            profileImage={profileImage}
+            previewVisible={previewVisible}
+            handlePreview={this.handlePreview}
+            handleCancelPreview={this.handleCancelPreview}
+            handleChange={this.handleChange}
+            bannerFileList={bannerFileList}
+            profileBannerImage={profileBannerImage}
+            previewBannerVisible={previewBannerVisible}
+            handleBannerPreview={this.handleBannerPreview}
+            handleCancelBannerPreview={this.handleCancelBannerPreview}
+            handleBannerChange={this.handleBannerChange}
+          />
         </Row>
         <Row id="edit-row-group" type="flex" justify="center" gutter={[12, 8]}>
           <Col xs={24} lg={12}>
@@ -238,7 +250,7 @@ class EditUserProfile extends Component {
                   className="edit-input"
                   addonBefore="이메일"
                   size="large"
-                  onChange={(e) => this.onChangeInput({ email: e.target.value })}
+                  onChange={(e) => this.setState({ email: e.target.value })}
                   placeholder="ex) example@example.com"
                   value={email}
                 />
@@ -248,9 +260,9 @@ class EditUserProfile extends Component {
                   className="input-calendar-picker"
                   size="large"
                   defaultValue={moment(birthdate)}
-                  onChange={(_, dateString) => this.onDateChange(_, dateString)}
+                  onChange={this.onDateChange}
                   placeholder="생일"
-                  disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
+                  disabledDate={isPermittedBirthdate}
                 />
               </Col>
               <Col span={18}>
@@ -259,7 +271,7 @@ class EditUserProfile extends Component {
                   size="large"
                   options={majors}
                   defaultValue={getDepartmentAndMajor(major)}
-                  onChange={(value) => this.onMajorChange(value)}
+                  onChange={this.onMajorChange}
                   placeholder="전공"
                 />
               </Col>
@@ -273,7 +285,7 @@ class EditUserProfile extends Component {
                   addonBefore="전화번호"
                   size="large"
                   onChange={(e) => this.onChangePhoneNumber(e.target.value)}
-                  onKeyDown={(e) => this.onKeyDownBackspace(e)}
+                  onKeyDown={this.onKeyDownBackspace}
                   placeholder="ex) 010-1234-1234"
                   value={phoneNumber}
                 />
@@ -283,7 +295,7 @@ class EditUserProfile extends Component {
                   className="edit-input"
                   addonBefore="만화 제목"
                   size="large"
-                  onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
+                  onChange={(e) => this.setState({ favoriteComic: e.target.value })}
                   placeholder="ex) 하이큐"
                   value={favoriteComic}
                 />
@@ -293,7 +305,7 @@ class EditUserProfile extends Component {
                   className="edit-input"
                   addonBefore="캐릭터 이름"
                   size="large"
-                  onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
+                  onChange={(e) => this.setState({ favoriteCharacter: e.target.value })}
                   placeholder="ex) 카게야마 토비오"
                   value={favoriteCharacter}
                 />
@@ -322,6 +334,7 @@ class EditUserProfile extends Component {
 
 EditUserProfile.propTypes = {
   history: PropTypes.object.isRequired,
+  footer: PropTypes.element,
 }
 
 const mapStateToProps = (state) => ({
