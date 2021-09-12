@@ -1,6 +1,13 @@
 import { mergeObject } from '../lib'
 
 
+const appendComment = (content, comment, rootId) => {
+  if (content.id === rootId)
+    content.comments = (content.comments || []).concat([comment])
+  else
+    (content.comments || []).forEach(_comment => appendComment(_comment, comment, rootId))
+}
+
 const timeline = (state = [], action) => {
   switch (action.type) {
     case 'SETTIMELINE':
@@ -21,17 +28,8 @@ const timeline = (state = [], action) => {
       })
     case 'APPENDCOMMENT':
       return state.map((feed) => {
-        if (feed.id === action.comment.rootDocument.id)
-          feed.comments.push(action.comment)
-        return feed
-      })
-    case 'UPDATECOMMENT':
-      return state.map((feed) => {
-        feed.comments = feed.comments.map((comment) => {
-          if (comment.id === action.comment.id)
-            return mergeObject(comment, action.comment)
-          return comment
-        })
+        const root = action.comment.rootComment || action.comment.rootDocument
+        appendComment(feed, action.comment, root.id)
         return feed
       })
     default:

@@ -18,6 +18,7 @@ class Comment extends Component {
   }
 
   render() {
+    const { postCommentLike, patchCommentLike } = this.props
     const comment = this.props.children
     comment.comments = comment.comments || []
 
@@ -50,18 +51,14 @@ class Comment extends Component {
             key={comment.id}
             content={comment}
             toggleComment={this.toggleRecomment}
-            postLike={this.props.postCommentLike}
-            cancelLike={this.props.patchCommentLike}
+            postLike={postCommentLike}
+            cancelLike={patchCommentLike}
           />
         ]}
       >
         {this.state.visibleRecomments && [
-          comment.comments.map(recomment => <Comment key={comment.id}>{recomment}</Comment>),
-          <PostComment
-            key={comment.id}
-            rootId={comment.id}
-            parentType="Comment"
-          />
+          comment.comments.map(recomment => <Comment key={recomment.id} {...this.props}>{recomment}</Comment>),
+          <PostComment key={comment.id} parentType="Comment" rootId={comment.id} />
         ]}
       </AntdComment>
     )

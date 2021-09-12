@@ -6,22 +6,19 @@ import PostComment from './PostComment'
 
 class Comments extends Component {
   render() {
-    const { feed, comments } = this.props
-    
+    const { feed } = this.props
+
     return (
       <div style={{ background: '#fff', padding: '8px', overflow: 'hidden' }}>
-        {comments.map(comment => <Comment key={comment.id}>{comment}</Comment>)}
-        <PostComment
-          rootId={feed.id}
-          parentType="Document"
-        />
+        {feed.comments.map(comment => <Comment key={comment.id}>{comment}</Comment>)}
+        <PostComment parentType="Document" rootId={feed.id} />
       </div>
     )
   }
 }
 
 Comments.propTypes = {
-  comments: PropTypes.array.isRequired,
+  feed: PropTypes.object.isRequired,
 }
 
 export default Comments

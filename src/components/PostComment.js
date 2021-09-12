@@ -74,9 +74,8 @@ class PostComment extends Component {
 }
 
 PostComment.propTypes = {
-  account: PropTypes.object.isRequired,
-  rootId: PropTypes.number.isRequired,
   parentType: PropTypes.oneOf(['Document', 'Comment']),
+  rootId: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = (state) => ({

@@ -23,12 +23,7 @@ class Feed extends Component {
           feed={feed}
           toggleComment={this.toggleComment}
         />
-        {this.state.visibleComments && (
-          <Comments
-            comments={feed.comments}
-            feed={feed}
-          />
-        )}
+        {this.state.visibleComments && <Comments feed={feed} />}
       </Card>
     )
   }
