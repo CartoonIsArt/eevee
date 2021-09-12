@@ -34,32 +34,34 @@ export const isAlmostScrolled = () => {
 }
 
 /* 중복되는 인자는 b쪽에 맞춰짐 */
-export const mergeObject = (a, b) => (
-  { ...a, ...b }
-)
+// https://stackoverflow.com/questions/27936772/how-to-deep-merge-instead-of-shallow-merge
+export function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+export const mergeObject = (target, ...sources) => {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key])
+          Object.assign(target, { [key]: {} });
+        mergeObject(target[key], source[key]);
+      }
+      else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+  return mergeObject(target, ...sources);
+}
 
 // https://stackoverflow.com/questions/5559425/isnullorwhitespace-in-javascript
 export const isSpace = (text) => (
   text.replace(/\s/g, '').length < 1
 )
-
-export const beforeUpload = (file) => {
-  const isImage = file.type === 'image/gif'
-                  || file.type === 'image/png'
-                  || file.type === 'image/jpeg'
-                  || file.type === 'image/bmp'
-                  || file.type === 'image/webp';
-  if (!isImage) {
-    message.error('이미지만 업로드 해주세요!');
-    return false;
-  }
-  const isOver10MB = (10 * 1024 * 1024) < file.size;
-  if (isOver10MB) {
-    message.error('10MB 넘으면 안 돼요!');
-    return false;
-  }
-  return true;
-}
 
 export const isPermittedBirthdate = (date) => {
   const max_birthdate = moment().subtract(120, 'years')

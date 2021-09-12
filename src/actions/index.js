@@ -5,6 +5,7 @@ const TOGGLE_SUN            = 'TOGGLESUN'
 const SET_LOGIN             = 'SETLOGIN'
 const SET_LOGOUT            = 'SETLOGOUT'
 const SET_ACCOUNT           = 'SETACCOUNT'
+const UPDATE_ACCOUNT        = 'UPDATEACCOUNT'
 const SET_MEMBERS           = 'SETMEMBERS'
 const UPDATE_MEMBERS        = 'UPDATEMEMBERS'
 const SET_TIMELINE          = 'SETTIMELINE'
@@ -24,6 +25,7 @@ const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
 const setLogin = () => ({ type: SET_LOGIN })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setAccount = (account) => ({ type: SET_ACCOUNT, account })
+const updateAccount = (account) => ({ type: UPDATE_ACCOUNT, account })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
 const updateMembers = (actives, inactives) => ({ type: UPDATE_MEMBERS, members: { actives, inactives } })
 const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
@@ -79,6 +81,10 @@ export const getMembers = () => (dispatch) =>
       const { accounts } = r.data
       dispatch(setMembers(accounts))
     })
+
+export const patchAccount = (account) => (dispatch) =>
+  axios.patch(`/account/${account.id}`, account)
+    .then(() => dispatch(updateAccount(account)))
 
 export const patchMembers = (members) => (dispatch) =>
   axios.patch('/account', members)

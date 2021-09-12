@@ -17,7 +17,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getAccount } from '../actions'
+import { getAccount, patchAccount } from '../actions'
 import majors from '../common/majors'
 import EditProfile from '../components/EditProfile'
 import axios from '../fetches/axios'
@@ -34,8 +34,19 @@ class EditUserProfile extends Component {
   constructor(props) {
     super(props)
 
-    const { email, birthdate, major, phoneNumber } = this.props.account.student
-    const { favoriteComic, favoriteCharacter, profileImage, profileBannerImage } = this.props.account.profile
+    const {
+      email,
+      birthdate,
+      major,
+      phoneNumber
+    } = this.props.account.student
+
+    const {
+      favoriteComic,
+      favoriteCharacter,
+      profileImage,
+      profileBannerImage
+    } = this.props.account.profile
     
     this.state = {
       hasPasswordChecked: false,
@@ -49,8 +60,8 @@ class EditUserProfile extends Component {
       favoriteCharacter,
       profileImage,
       profileBannerImage,
-      fileList: [{ uid: -1, name: profileImage, status: 'done', url: profileImage }],
-      bannerFileList: [{ uid: -1, name: profileBannerImage, status: 'done', url: profileBannerImage }],
+      fileList: [{ uid: -1, name: profileImage, status: 'done', thumbUrl: profileImage }],
+      bannerFileList: [{ uid: -1, name: profileBannerImage, status: 'done', thumbUrl: profileBannerImage }],
       previewVisible: false,
       previewBannerVisible: false,
     };
@@ -85,6 +96,7 @@ class EditUserProfile extends Component {
     } = this.state
 
     const formData = {
+      id: this.props.account.id,
       profile: {
         favoriteComic,
         favoriteCharacter,
@@ -99,11 +111,10 @@ class EditUserProfile extends Component {
       }
     }
 
-    axios.patch(`/account/${this.props.account.id}`, formData)
+    this.props.patchAccount(formData)
       .then(() => {
-        const username = this.props.account.username
         message.success('회원 정보가 수정되었습니다!')
-        this.props.history.push(`/members/${username}`)
+        this.props.history.goBack()
       })
       .catch((e) => {
         message.error(`회원 정보 수정에 실패했습니다: ${e.message}`)
@@ -113,7 +124,7 @@ class EditUserProfile extends Component {
 
   handlePreview = (file) => {
     this.setState({
-      profileImage: file.thumbUrl || file.url,
+      profileImage: file.thumbUrl,
       previewVisible: true,
     });
   }
@@ -123,16 +134,30 @@ class EditUserProfile extends Component {
   }
 
   handleChange = ({ file, fileList }) => {
+    console.log(file)
     if (file.status === 'done') {
       fileList[fileList.length - 1].thumbUrl =  `/images/${file.response.avatar}`
-      this.setState({ profileImage: file.response.avatar })
+      this.setState({ profileImage: `/images/${file.response.avatar}` })
+    }
+    else if (file.status === 'error') {
+      switch (file.error.status) {
+      case 400:
+        message.error(file.response)
+        break
+      case 413:
+        message.error('파일은 10MB까지에요!')
+        break
+      default:
+        message.error(`${file.error.status} 에러: 관리자에게 문의해주세요.`)
+        break
+      }
     }
     this.setState({ fileList })
   }
 
   handleBannerPreview = (file) => {
     this.setState({
-      profileImage: file.thumbUrl || file.url,
+      profileImage: file.thumbUrl,
       previewBannerVisible: true,
     });
   }
@@ -145,7 +170,7 @@ class EditUserProfile extends Component {
   handleBannerChange = ({ file, fileList }) => {
     if (file.status === 'done') {
       fileList[fileList.length - 1].thumbUrl =  `/images/${file.response.avatar}`
-      this.setState({ profileBannerImage: file.response.avatar })
+      this.setState({ profileBannerImage: `/images/${file.response.avatar}` })
     }
     this.setState({ bannerFileList: fileList })
   }
@@ -242,7 +267,7 @@ class EditUserProfile extends Component {
             handleBannerChange={this.handleBannerChange}
           />
         </Row>
-        <Row id="edit-row-group" type="flex" justify="center" gutter={[12, 8]}>
+        <Row className="edit-row-group" type="flex" justify="center" gutter={[12, 8]}>
           <Col xs={24} lg={12}>
             <Row type="flex" justify="center" gutter={[12, 8]}>
               <Col span={18}>
@@ -342,6 +367,7 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = ({
   getAccount,
+  patchAccount,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditUserProfile))
