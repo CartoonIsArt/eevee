@@ -17,14 +17,14 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getAccount } from '../actions'
+import { getAccount, patchAccount } from '../actions'
 import majors from '../common/majors'
 import EditProfile from '../components/EditProfile'
 import axios from '../fetches/axios'
 import { isPermittedBirthdate } from '../lib'
 
 
-function getDepartmentAndMajor(major) {
+const getDepartmentAndMajor = (major) => {
   if (!major) return []
   const department = majors.find(department => department.children.find(m => m.value === major) !== undefined)
   return [department.label, major];
@@ -34,8 +34,19 @@ class EditUserProfile extends Component {
   constructor(props) {
     super(props)
 
-    const { email, birthdate, major, phoneNumber } = this.props.account.student
-    const { favoriteComic, favoriteCharacter, profileImage, profileBannerImage } = this.props.account.profile
+    const {
+      email,
+      birthdate,
+      major,
+      phoneNumber
+    } = this.props.account.student
+
+    const {
+      favoriteComic,
+      favoriteCharacter,
+      profileImage,
+      profileBannerImage
+    } = this.props.account.profile
     
     this.state = {
       hasPasswordChecked: false,
@@ -49,27 +60,23 @@ class EditUserProfile extends Component {
       favoriteCharacter,
       profileImage,
       profileBannerImage,
-      fileList: [{ uid: -1, name: profileImage, status: 'done', url: profileImage }],
-      bannerFileList: [{ uid: -1, name: profileBannerImage, status: 'done', url: profileBannerImage }],
+      fileList: [{ uid: -1, name: profileImage, status: 'done', thumbUrl: profileImage }],
+      bannerFileList: [{ uid: -1, name: profileBannerImage, status: 'done', thumbUrl: profileBannerImage }],
       previewVisible: false,
       previewBannerVisible: false,
     };
   }
 
-  onDateChange(_, dateString) {
+  onDateChange = (_, dateString) => {
     this.setState({ birthdate: dateString });
   }
 
-  onChangeInput(e) {
-    this.setState(e);
-  }
-
-  isEmpty() {
-    return !(this.state.birthdate
-            && this.state.major
-            && this.state.email
-            && this.state.phoneNumber)
-  }
+  isEmpty = () => !(
+    this.state.birthdate
+    && this.state.major
+    && this.state.email
+    && this.state.phoneNumber
+  )
 
   editProfile = () => {
     if (this.isEmpty()) {
@@ -89,6 +96,7 @@ class EditUserProfile extends Component {
     } = this.state
 
     const formData = {
+      id: this.props.account.id,
       profile: {
         favoriteComic,
         favoriteCharacter,
@@ -103,11 +111,10 @@ class EditUserProfile extends Component {
       }
     }
 
-    axios.patch(`/account/${this.props.account.id}`, formData)
+    this.props.patchAccount(formData)
       .then(() => {
-        const username = this.props.account.username
         message.success('회원 정보가 수정되었습니다!')
-        this.props.history.push(`/members/${username}`)
+        this.props.history.goBack()
       })
       .catch((e) => {
         message.error(`회원 정보 수정에 실패했습니다: ${e.message}`)
@@ -117,52 +124,61 @@ class EditUserProfile extends Component {
 
   handlePreview = (file) => {
     this.setState({
-      profileImage: file.thumbUrl || file.url,
+      profileImage: file.thumbUrl,
       previewVisible: true,
     });
   }
 
   handleCancelPreview = () => {
-    this.setState({
-      previewVisible: false,
-    });
+    this.setState({ previewVisible: false });
   }
 
   handleChange = ({ file, fileList }) => {
     if (file.status === 'done') {
-      fileList[fileList.length-1].thumbUrl =  "/images/" + file.response.avatar
-      this.setState({ profileImage: file.response.avatar })
+      fileList[fileList.length - 1].thumbUrl =  `/images/${file.response.avatar}`
+      this.setState({ profileImage: `/images/${file.response.avatar}` })
+    }
+    else if (file.status === 'error') {
+      switch (file.error.status) {
+      case 400:
+        message.error(file.response)
+        break
+      case 413:
+        message.error('파일은 10MB까지에요!')
+        break
+      default:
+        message.error(`${file.error.status} 에러: 관리자에게 문의해주세요.`)
+        break
+      }
     }
     this.setState({ fileList })
   }
 
   handleBannerPreview = (file) => {
     this.setState({
-      profileImage: file.thumbUrl || file.url,
+      profileImage: file.thumbUrl,
       previewBannerVisible: true,
     });
   }
 
   handleCancelBannerPreview = () => {
-    this.setState({
-      previewBannerVisible: false,
-    });
+    this.setState({ previewBannerVisible: false });
   }
   
 
   handleBannerChange = ({ file, fileList }) => {
     if (file.status === 'done') {
-      fileList[fileList.length-1].thumbUrl =  "/images/" + file.response.avatar
-      this.setState({ profileBannerImage: file.response.avatar })
+      fileList[fileList.length - 1].thumbUrl =  `/images/${file.response.avatar}`
+      this.setState({ profileBannerImage: `/images/${file.response.avatar}` })
     }
     this.setState({ bannerFileList: fileList })
   }
 
-  onMajorChange(value) {
+  onMajorChange = (value) => {
     this.setState({ major: value[1] })
   }
 
-  onChangePhoneNumber(phoneNumber) {
+  onChangePhoneNumber = (phoneNumber) => {
     if (/(?![0-9-]{0,13}$)/.test(phoneNumber)) {
       return
     }
@@ -180,8 +196,8 @@ class EditUserProfile extends Component {
     this.setState({ phoneNumber })
   }
 
-  onKeyDownBackspace(e) {
-    this.isKeyBackspace = (e.key === 'Backspace')
+  onKeyDownBackspace = ({ key }) => {
+    this.isKeyBackspace = (key === 'Backspace')
   }
 
   checkPassword = () => {
@@ -205,6 +221,7 @@ class EditUserProfile extends Component {
 
   render() {
     const {
+      checkPassword, hasPasswordChecked,
       email, phoneNumber, favoriteComic, favoriteCharacter, major,
       profileImage, profileBannerImage, fileList, bannerFileList, birthdate, previewVisible, previewBannerVisible
     } = this.state;
@@ -214,7 +231,7 @@ class EditUserProfile extends Component {
         <Modal
           title="프로필 수정"
           closable={false}
-          visible={!this.state.hasPasswordChecked}
+          visible={!hasPasswordChecked}
           onOk={this.checkPassword}
           onCancel={this.cancelEdit}
           okText="확인"
@@ -227,7 +244,7 @@ class EditUserProfile extends Component {
                 type="password"
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 placeholder="Password"
-                value={this.state.checkPassword}
+                value={checkPassword}
                 onChange={(e) => this.setState({ checkPassword: e.target.value })}
               />
             </Form.Item>
@@ -249,7 +266,7 @@ class EditUserProfile extends Component {
             handleBannerChange={this.handleBannerChange}
           />
         </Row>
-        <Row id="edit-row-group" type="flex" justify="center" gutter={[12, 8]}>
+        <Row className="edit-row-group" type="flex" justify="center" gutter={[12, 8]}>
           <Col xs={24} lg={12}>
             <Row type="flex" justify="center" gutter={[12, 8]}>
               <Col span={18}>
@@ -257,7 +274,7 @@ class EditUserProfile extends Component {
                   className="edit-input"
                   addonBefore="이메일"
                   size="large"
-                  onChange={(e) => this.onChangeInput({ email: e.target.value })}
+                  onChange={(e) => this.setState({ email: e.target.value })}
                   placeholder="ex) example@example.com"
                   value={email}
                 />
@@ -267,9 +284,9 @@ class EditUserProfile extends Component {
                   className="input-calendar-picker"
                   size="large"
                   defaultValue={moment(birthdate)}
-                  onChange={(_, dateString) => this.onDateChange(_, dateString)}
+                  onChange={this.onDateChange}
                   placeholder="생일"
-                  disabledDate={(currentDate) => { isPermittedBirthdate(currentDate) }}
+                  disabledDate={isPermittedBirthdate}
                 />
               </Col>
               <Col span={18}>
@@ -278,7 +295,7 @@ class EditUserProfile extends Component {
                   size="large"
                   options={majors}
                   defaultValue={getDepartmentAndMajor(major)}
-                  onChange={(value) => this.onMajorChange(value)}
+                  onChange={this.onMajorChange}
                   placeholder="전공"
                 />
               </Col>
@@ -292,7 +309,7 @@ class EditUserProfile extends Component {
                   addonBefore="전화번호"
                   size="large"
                   onChange={(e) => this.onChangePhoneNumber(e.target.value)}
-                  onKeyDown={(e) => this.onKeyDownBackspace(e)}
+                  onKeyDown={this.onKeyDownBackspace}
                   placeholder="ex) 010-1234-1234"
                   value={phoneNumber}
                 />
@@ -302,7 +319,7 @@ class EditUserProfile extends Component {
                   className="edit-input"
                   addonBefore="만화 제목"
                   size="large"
-                  onChange={(e) => this.onChangeInput({ favoriteComic: e.target.value })}
+                  onChange={(e) => this.setState({ favoriteComic: e.target.value })}
                   placeholder="ex) 하이큐"
                   value={favoriteComic}
                 />
@@ -312,7 +329,7 @@ class EditUserProfile extends Component {
                   className="edit-input"
                   addonBefore="캐릭터 이름"
                   size="large"
-                  onChange={(e) => this.onChangeInput({ favoriteCharacter: e.target.value })}
+                  onChange={(e) => this.setState({ favoriteCharacter: e.target.value })}
                   placeholder="ex) 카게야마 토비오"
                   value={favoriteCharacter}
                 />
@@ -349,6 +366,7 @@ const mapStateToProps = (state) => ({
 })
 const mapDispatchToProps = ({
   getAccount,
+  patchAccount,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditUserProfile))

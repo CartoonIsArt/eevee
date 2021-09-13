@@ -6,38 +6,24 @@ import Document from './Document'
 
 
 class Feed extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      viewComments: true,
-    }
+  state = {
+    visibleComments: true,
   }
 
-  toggleCommentView() {
-    this.setState({
-      viewComments: !this.state.viewComments,
-    })
+  toggleComment = () => {
+    this.setState({ visibleComments: !this.state.visibleComments })
   }
 
   render() {
-    const { viewComments } = this.state
     const { feed } = this.props
     
     return (
       <Card size="small" className="feed-container">
         <Document
           feed={feed}
-          onClickComments={() => this.toggleCommentView()}
+          toggleComment={this.toggleComment}
         />
-        {
-          viewComments
-          && (
-          <Comments
-            comments={feed.comments}
-            feed={feed}
-          />
-          )
-        }
+        {this.state.visibleComments && <Comments feed={feed} />}
       </Card>
     )
   }

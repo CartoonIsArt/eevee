@@ -1,12 +1,21 @@
 import { Affix, Card, Col, Row } from 'antd'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Notifications from './Notifications'
+import { getTimeline } from '../actions'
 import ExternalLinks from '../components/ExternalLinks'
 import Profile from '../components/Profile'
 import Timeline from '../components/Timeline'
+import Write from '../components/Write'
 
 
 class Portal extends Component {
+  state = {
+    page: 1,
+  }
+
+  nextPage = () => this.setState({ page: this.state.page + 1 })
+
   render() {
     return (
       <Card className="card-no-border">
@@ -17,7 +26,18 @@ class Portal extends Component {
             </Affix>
           </Col>
           <Col xs={{ order: 2, span: 24 }} xl={{ order: 2, span: 12 }}>
-            <Timeline />
+            <Row>
+              <Col className="write" span={24}>
+                <Write />
+              </Col>
+              <Col className="timeline" span={24}>
+                <Timeline
+                  getTimeline={this.props.getTimeline}
+                  page={this.state.page}
+                  nextPage={this.nextPage}
+                />
+              </Col>
+            </Row>
           </Col>
           <Col xs={{ span: 0 }} xl={{ order: 3, span: 6 }}>
             <Affix offsetTop={71}>
@@ -39,4 +59,9 @@ class Portal extends Component {
   }
 }
 
-export default Portal
+const mapStateToProps = () => ({
+})
+const mapDispatchToProps = ({
+  getTimeline,
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Portal)

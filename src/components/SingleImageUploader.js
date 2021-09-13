@@ -2,7 +2,7 @@ import { Card, Col, Icon, Modal, Row, Upload } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { baseURL } from '../fetches/axios'
-import { beforeUpload } from '../lib'
+
 
 const uploadButton = (
   <div>
@@ -12,36 +12,41 @@ const uploadButton = (
 );
 
 class SingleImageUploader extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
+    const {
+      fileList,
+      profileImage,
+      previewVisible,
+      handlePreview,
+      handleCancelProfilePreview,
+      handleChange
+    } = this.props
+
     return (
       <Card id="single-image-uploader-card" title="프로필 이미지" size="small">
         <Row type="flex" justify="center">
           <Col>
             <Upload
               className="registration-profile-upload"
-              name="avatar"
+              accept=".jpg,.jpeg,.png,.gif"
               action={`${baseURL}/public/file`}
+              name="avatar"
               listType="picture-card"
-              fileList={this.props.fileList}
-              onPreview={this.props.handlePreview}
-              onChange={this.props.handleChange}
-              beforeUpload={beforeUpload}
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
             >
-              {this.props.fileList.length ? null : uploadButton}
+              {fileList.length ? null : uploadButton}
             </Upload>
             <Modal
-              visible={this.props.previewVisible}
+              visible={previewVisible}
               footer={null}
-              onCancel={this.props.handleCancelProfilePreview}
+              onCancel={handleCancelProfilePreview}
             >
               <img
                 alt="프로필 이미지"
                 style={{ width: '100%' }}
-                src={this.props.profileImage}
+                src={profileImage}
               />
             </Modal>
           </Col>
@@ -54,6 +59,7 @@ class SingleImageUploader extends Component {
 SingleImageUploader.propTypes = {
   fileList: PropTypes.array.isRequired,
   profileImage: PropTypes.string.isRequired,
+  previewVisible: PropTypes.bool.isRequired,
   handlePreview: PropTypes.func.isRequired,
   handleCancelProfilePreview: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,

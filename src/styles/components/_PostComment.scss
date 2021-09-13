@@ -1,4 +1,4 @@
-.postcomment-container {
+#post-comment-container {
   margin: 4px 0px;
 
   img {
@@ -6,8 +6,13 @@
     height: 32px; 
     border-radius: 50%;
   }
-  .postcomment-mention {
+
+  #post-comment-mention {
     width: 100%;
     height: 30px;
+  }
+
+  #post-comment-button {
+    margin-left: 4px;
   }
 }

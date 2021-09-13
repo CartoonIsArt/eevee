@@ -5,7 +5,9 @@ const TOGGLE_SUN            = 'TOGGLESUN'
 const SET_LOGIN             = 'SETLOGIN'
 const SET_LOGOUT            = 'SETLOGOUT'
 const SET_ACCOUNT           = 'SETACCOUNT'
+const UPDATE_ACCOUNT        = 'UPDATEACCOUNT'
 const SET_MEMBERS           = 'SETMEMBERS'
+const UPDATE_MEMBERS        = 'UPDATEMEMBERS'
 const SET_TIMELINE          = 'SETTIMELINE'
 const APPEND_TIMELINE       = 'APPENDTIMELINE'
 const SET_NOTIFICATIONS     = 'SETNOTIFICATIONS'
@@ -15,7 +17,6 @@ const SET_FEED              = 'SETFEED'
 const APPEND_FEED           = 'APPENDFEED'
 const UPDATE_FEED           = 'UPDATEFEED'
 const APPEND_COMMENT        = 'APPENDCOMMENT'
-const UPDATE_COMMENT        = 'UPDATECOMMENT'
 const SET_PHOTOS            = 'SETPHOTOS'
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
@@ -23,7 +24,9 @@ const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
 const setLogin = () => ({ type: SET_LOGIN })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setAccount = (account) => ({ type: SET_ACCOUNT, account })
+const updateAccount = (account) => ({ type: UPDATE_ACCOUNT, account })
 const setMembers = (members) => ({ type: SET_MEMBERS, members })
+const updateMembers = (actives, inactives) => ({ type: UPDATE_MEMBERS, members: { actives, inactives } })
 const setTimeline = (timeline) => ({ type: SET_TIMELINE, timeline })
 const appendTimeline = (timeline) => ({ type: APPEND_TIMELINE, timeline })
 const setNotifications = (notifications) => ({ type: SET_NOTIFICATIONS, notifications })
@@ -33,7 +36,6 @@ const setFeed = (feed) => ({ type: SET_FEED, feed })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
-const updateComment = (comment) => ({ type: UPDATE_COMMENT, comment })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
 
 export const sunrise = () => (dispatch) =>
@@ -64,6 +66,13 @@ export const clearAccount = () => (dispatch) =>
 
 // Account
 //
+export const getAccount = () => (dispatch) =>
+axios.get('/account/authenticated')
+  .then((r) => {
+    const { account } = r.data
+    dispatch(setAccount(account))
+  })
+
 export const getMembers = () => (dispatch) =>
   axios.get('/account')
     .then((r) => {
@@ -71,16 +80,20 @@ export const getMembers = () => (dispatch) =>
       dispatch(setMembers(accounts))
     })
 
-export const getAccount = () => (dispatch) =>
-  axios.get('/account/authenticated')
+export const patchAccount = (account) => (dispatch) =>
+  axios.patch(`/account/${account.id}`, account)
+    .then(() => dispatch(updateAccount(account)))
+
+export const patchMembers = (members) => (dispatch) =>
+  axios.patch('/account', members)
     .then((r) => {
-      const { account } = r.data
-      dispatch(setAccount(account))
+      const { actives, inactives } = r.data
+      dispatch(updateMembers(actives, inactives))
     })
 
 // Timeline
 //
-export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
+export const getTimeline = ({ page, keyword }) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
@@ -91,7 +104,7 @@ export const getTimeline = (page = 1, keyword = undefined) => (dispatch) => {
     })
 }
 
-export const getAccountTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getAccountTimeline = ({ username, page, keyword }) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
 
@@ -102,7 +115,7 @@ export const getAccountTimeline = (username, page = 1, keyword = undefined) => (
     })
 }
 
-export const getCommentedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getCommentedTimeline = ({ username, page, keyword }) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
@@ -113,7 +126,7 @@ export const getCommentedTimeline = (username, page = 1, keyword = undefined) =>
     })
 }
 
-export const getLikedTimeline = (username, page = 1, keyword = undefined) => (dispatch) => {
+export const getLikedTimeline = ({ username, page, keyword }) => (dispatch) => {
   const parameter = keyword ? { page, keyword } : { page }
   const queryString = new URLSearchParams(parameter).toString()
   
@@ -153,7 +166,7 @@ export const postDocument = (document) => (dispatch) =>
       const { document } = r.data
       dispatch(appendFeed(document))
       dispatch(setAccount(document.author))
-      console.log(document.isNotification)
+      
       if (document.isNotification)
         dispatch(insertNotifications(document))
     })

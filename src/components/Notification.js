@@ -18,22 +18,22 @@ class Notification extends Component {
 
   render() {
     const { notification } = this.props
-    const imgsrc = notification.author.profile.profileImage
 
     return (
       <Meta
         className="notification-container"
         key={notification.id}
         onClick={() => this.routeToFeed(notification.id)}
-        avatar={<Avatar className="notification-profile-contianer" src={imgsrc} alt={imgsrc}/>}
+        avatar={
+          <Avatar
+            className="notification-profile"
+            alt="공지사항 작성자 프로필 이미지"
+            src={notification.author.profile.profileImage}
+          />
+        }
         title={
           <div>
-            <Popover
-              placement="leftTop"
-              content={<Namecard account={notification.author} />}
-            >
-              <NameTag account={notification.author} minimizeIcon={true} />
-            </Popover>
+            <NameTag account={notification.author} minimizeIcon hasPopover />
             <span className="notification-author-time">{printTime(notification.createdAt)}</span>
           </div>
         }

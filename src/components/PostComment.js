@@ -1,11 +1,9 @@
-import { Button, Col, Mention, notification, Row } from 'antd'
+import { Button, Col, Mentions, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { postComment } from '../actions'
 import { isSpace } from '../lib'
-
-const { toString, toContentState } = Mention
 
 const PARENT_TYPE = {
   DOCUMENT: "Document",
@@ -13,15 +11,12 @@ const PARENT_TYPE = {
 }
 
 class PostComment extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      contentState: toContentState(''),
-    };
-  }
+  state = {
+    value: '',
+  };
 
-  onButtonClicked() {
-    const content = toString(this.state.contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
+  onButtonClicked = () => {
+    const content = this.state.value.replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
 
     if (isSpace(content)) {
       return notification.warning({
@@ -30,50 +25,48 @@ class PostComment extends Component {
         duration: 3,
       })
     }
-   
-    switch(this.props.parentType)
-    {
-      case PARENT_TYPE.DOCUMENT:
-        this.props.postComment({
-          documentId: this.props.feedId,
-          content,
-        }); break;
-      case PARENT_TYPE.COMMENT:
-        this.props.postComment({
-          commentId: this.props.feedId,
-          content,
-        }); break;
-    }
-    
-    this.setState({ contentState: toContentState('') })
+
+    const rootId = (this.props.parentType == PARENT_TYPE.DOCUMENT)
+      ? "documentId"
+      : "commentId"
+
+    this.props.postComment({
+      [rootId]: this.props.rootId,
+      content,
+    })
+    this.setState({ value: '' })
   }
 
-  onChangeInput(contentState) {
-    this.setState({ contentState })
+  onChangeInput = (value) => {
+    this.setState({ value })
   }
 
   render() {
     const { account } = this.props
 
     return (
-      <Row className="postcomment-container">
+      <Row id="post-comment-container">
         <Col span={2}>
-          <img 
-            src={account.profile.profileImage} 
-            alt={account.profile.profileImage} 
+          <img
+            alt="댓글 작성자"
+            src={account.profile.profileImage}
           />
         </Col>
         <Col span={20}>
-          <Mention
-            className="postcomment-mention"
-            onChange={(contentState) => this.onChangeInput(contentState)}
-            placeholder="Write Comment"
-            value={this.state.contentState}
-            multiLines
+          <Mentions
+            id="post-comment-mention"
+            placeholder="예쁜 댓글을 작성해보세요!"
+            onChange={this.onChangeInput}
+            value={this.state.value}
           />
         </Col>
         <Col span={2}>
-          <Button icon="enter" shape="circle" onClick={() => this.onButtonClicked()} />
+          <Button
+            id="post-comment-button"
+            icon="enter"
+            shape="circle"
+            onClick={this.onButtonClicked}
+          />
         </Col>
       </Row>
     )
@@ -81,7 +74,8 @@ class PostComment extends Component {
 }
 
 PostComment.propTypes = {
-  account: PropTypes.object.isRequired,
+  parentType: PropTypes.oneOf(['Document', 'Comment']),
+  rootId: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = (state) => ({

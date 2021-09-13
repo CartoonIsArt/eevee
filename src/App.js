@@ -6,15 +6,12 @@ import { matchPath, withRouter } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { clearAccount, getAccount } from './actions'
 import Navigation from './containers/Navigation'
+import { isEmptyObject } from './lib'
 import { routes } from './Route'
 import './App.scss'
 
 
-const { Footer, Content } = Layout
-
-function isEmptyObject(param) {
-  return Object.keys(param).length === 0 && param.constructor === Object;
-}
+const { Content } = Layout
 
 const isNavEnabled = (history) => {
   return Boolean(routes

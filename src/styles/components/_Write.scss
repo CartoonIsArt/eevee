@@ -1,3 +1,10 @@
+.write {
+  width: 100%;
+  max-width: 100vw;
+  padding: 0 0.5em;
+  font-size: 1.6rem;
+}
+
 .write-button-container {
   display: flex;
   float: right;
@@ -15,13 +22,17 @@
   }
 
   .write-profile-img-container {
-    margin-right: 4px;
-    width: 48px;
-    height: 48px;
-    overflow: hidden;
+    margin-right: 12px;
+
+    .write-profile-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+    }
   }
 
   .write-content-container {
+    width: 100%;
     flex-grow: 1;
 
     .write-actions-container {
