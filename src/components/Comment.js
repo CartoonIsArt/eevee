@@ -65,7 +65,8 @@ class Comment extends Component {
   }
 }
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
+  timeline: state.timeline
 })
 const mapDispatchToProps = ({
   postCommentLike,
