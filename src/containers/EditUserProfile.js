@@ -21,7 +21,7 @@ import { getAccount, patchAccount } from '../actions'
 import majors from '../common/majors'
 import EditProfile from '../components/EditProfile'
 import axios from '../fetches/axios'
-import { isPermittedBirthdate } from '../lib'
+import { isValidBirthdate } from '../lib'
 
 
 const getDepartmentAndMajor = (major) => {
@@ -286,7 +286,7 @@ class EditUserProfile extends Component {
                   defaultValue={moment(birthdate)}
                   onChange={this.onDateChange}
                   placeholder="생일"
-                  disabledDate={isPermittedBirthdate}
+                  disabledDate={isValidBirthdate}
                 />
               </Col>
               <Col span={18}>

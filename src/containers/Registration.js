@@ -10,7 +10,7 @@ import axios from '../fetches/axios'
 import {
   isHyphenPosition,
   isKoreanOnly,
-  isPermittedBirthdate,
+  isValidBirthdate,
   isValidEmail,
   isValidPhoneNumber,
   isValidPhoneNumberOnTyping,
@@ -273,7 +273,7 @@ class Registration extends Component {
                       className="registration-calendar-picker"
                       placeholder="* 생일"
                       defaultValue={default_birthdate}
-                      disabledDate={isPermittedBirthdate}
+                      disabledDate={isValidBirthdate}
                       onChange={this.onDateChange}
                     />
                   </Col>
