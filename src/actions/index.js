@@ -18,6 +18,8 @@ const APPEND_FEED           = 'APPENDFEED'
 const UPDATE_FEED           = 'UPDATEFEED'
 const APPEND_COMMENT        = 'APPENDCOMMENT'
 const SET_PHOTOS            = 'SETPHOTOS'
+const SET_ENROLLMENTS       = 'SETENROLLMENTS'
+const APPEND_ENROLLMENTS    = 'APPENDENROLLMENTS'
 
 const setSun = (sun) => ({ type: SET_SUN, sun })
 const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
@@ -37,6 +39,8 @@ const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
+const setEnrollments = (enrollments) => ({ type: SET_ENROLLMENTS, enrollments })
+const appendEnrollments = (enrollment) => ({ type: APPEND_ENROLLMENTS, enrollment })
 
 export const sunrise = () => (dispatch) =>
   dispatch(setSun(true))
@@ -243,3 +247,18 @@ export const postPhotos = (photos) => (dispatch) => {
         throw new UnsafeImageError(warning, unsafes)
     })
 }
+
+// Enrollment
+export const getEnrollments = () => (dispatch) =>
+  axios.get('/enrollment')
+  .then((r) => {
+    const { enrollments } = r.data
+    dispatch(setEnrollments(enrollments))
+  })
+
+export const postEnrollment = (enrollment) => (dispatch) =>
+  axios.post('/enrollment', enrollment)
+  .then((r) => {
+    const { enrollment } = r.data
+    dispatch(appendEnrollments(enrollment))
+  })

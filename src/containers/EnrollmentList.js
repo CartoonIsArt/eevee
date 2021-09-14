@@ -1,40 +1,101 @@
-import { Avatar, Button, Card, Checkbox, Col, List, message, Popconfirm, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Empty, message, Popconfirm, Row } from 'antd'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import EnrollmentListBoard from '../components/EnrollmentListBoard'
+import EnrollmentListTitle from '../components/EnrollmentListTitle'
 import Loading from '../components/Loading'
-import NameTag from '../components/NameTag'
-import { getMembers, patchMembers } from '../actions'
+import { patchMembers, getEnrollments, postEnrollment } from '../actions'
+import { mergeObject, canEditEnrollment } from '../lib'
 
 
 class EnrollmentList extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false,
-      disable: true,
-      indeterminate: true,
-      checkAll: false,
-      actives: [],
-      disables: [],
-    }
-    this.props.getMembers()
+  state = {
+    loading: false,
+    disable: true,
+    canEdit: true,
+    indeterminate: true,
+    checkAll: false,
+    enrollments: [],
+    currentEnrollment: null,
+    actives: [],
+    disables: [],
+    rangeDate: null,
+  }
+
+  componentDidMount() {
+    this.props.getEnrollments()
       .then(() => {
-        const actives = this.props.members
-          .filter(member => member.isActive)
-          .map(active => active.id)
+        let nextState = {
+          loading: true,
+          enrollments: this.props.enrollments,
+        }
+
+        if (nextState.enrollments.length > 0) {
+          const canEdit = canEditEnrollment(nextState.enrollments[0])
+          const actives = nextState.enrollments[0].enrollees
+            .filter(enrollee => enrollee.isActive)
+            .map(active => active.id)
+
+          nextState = mergeObject(nextState, {
+            canEdit,
+            disable: !canEdit,
+            currentEnrollment: nextState.enrollments[0],
+            actives,
+            disables: actives,
+          })
+        }
+        this.setState(nextState)
+      })
+  }
+
+  makeNewEnrollment = (title) => {
+    const formData = {
+      title,
+      startDate: this.state.rangeDate[0],
+      endDate: this.state.rangeDate[1],
+    }
+    this.props.postEnrollment(formData)
+      .then(() => {
+        const currentEnrollment = this.props.enrollments[0]
+        const canEdit = canEditEnrollment(currentEnrollment)
 
         this.setState({
-          loading: true,
-          actives,
-          disables: actives,
+          canEdit,
+          disable: !canEdit,
+          enrollments: this.props.enrollments,
+          currentEnrollment,
+          actives: [],
+          disables: [],
         })
       })
   }
 
+  onChangeDate = (_, rangeDate) => {
+    this.setState({ rangeDate })
+  }
+
+  onChangeEnrollment = (value) => {
+    if (value.length <= 0) return
+    const currentEnrollment = this.state.enrollments.find(x => x.title === value[0])
+    const canEdit = canEditEnrollment(currentEnrollment)
+    const actives = currentEnrollment.enrollees
+      .filter(enrollee => enrollee.isActive)
+      .map(active => active.id)
+
+    this.setState({
+      canEdit,
+      disable: !canEdit || this.state.disable,
+      currentEnrollment,
+      actives,
+      disables: actives,
+    })
+  }
+
   checkActive = (actives) => {
     this.setState({
-      indeterminate: !!actives.length && actives.length < this.props.members.length,
-      checkAll: actives.length === this.props.members.length,
+      indeterminate: !!actives.length
+        && actives.length < this.state.currentEnrollment.enrollees.length,
+      checkAll: actives.length === this.state.currentEnrollment.enrollees.length,
       actives,
     })
   }
@@ -44,15 +105,19 @@ class EnrollmentList extends Component {
       indeterminate: false,
       checkAll: e.target.checked,
       actives: e.target.checked
-        ? this.props.members.map(active => active.id)
+        ? this.state.currentEnrollment.enrollees.map(active => active.id)
         : this.state.disables.filter(() => this.state.disable),
     })
   }
 
   toggleDisable = () => {
+    const canEdit = canEditEnrollment(this.state.currentEnrollment)
+    const disable = !canEdit || !this.state.disable
+
     this.setState({
-      disable: !this.state.disable,
-      actives: !this.state.disable
+      canEdit,
+      disable,
+      actives: disable
         ? Array.from(new Set([...this.state.disables, ...this.state.actives]))
         : this.state.actives,
     })
@@ -61,77 +126,102 @@ class EnrollmentList extends Component {
   activate = () => {
     const formData = {
       actives: this.state.actives,
-      inactives: this.props.members
-        .filter(member => !this.state.actives.includes(member.id))
+      inactives: this.state.currentEnrollment.enrollees
+        .filter(enrollee => !this.state.actives.includes(enrollee.id))
         .map(inactive => inactive.id),
     }
 
     this.props.patchMembers(formData)
-      .then(() => {
-        const actives = this.props.members
-          .filter(member => member.isActive)
-          .map(active => active.id)
-
-        this.setState({
-          actives,
-          disables: actives,
+      .then(() => this.props.getEnrollments()
+        .then(() => {
+          let nextState = {
+            enrollments: this.props.enrollments,
+          }
+  
+          if (nextState.enrollments.length > 0) {
+            const actives = nextState.enrollments[0].enrollees
+              .filter(enrollee => enrollee.isActive)
+              .map(active => active.id)
+  
+            nextState = mergeObject(nextState, {
+              currentEnrollment: nextState.enrollments[0],
+              actives,
+              disables: actives,
+            })
+          }
+          this.setState(nextState)
+          message.success('활동인구가 수정되었습니다!')
         })
-        message.success('활동인구가 수정되었습니다!')
-      })
-      .catch((e) => {
-        message.error(`활동인구 수정에 실패했습니다: ${e.message}`)
-      })
+        .catch((e) => {
+          message.error(`활동인구 수정에 실패했습니다: ${e.message}`)
+        })
+      )
   }
 
   render() {
-    const { loading, disable, indeterminate, checkAll, actives, disables } = this.state
+    const {
+      loading,
+      disable,
+      canEdit,
+      indeterminate,
+      checkAll,
+      enrollments,
+      currentEnrollment,
+      actives,
+      disables,
+    } = this.state
 
     return (
-      <Card className="page-card" title="활동인구 수정">
+      <Card
+        className="page-card"
+        title={
+          <EnrollmentListTitle
+            enrollments={enrollments}
+            enrollmentTitle={currentEnrollment && currentEnrollment.title}
+            onClick={this.makeNewEnrollment}
+            onChangeDate={this.onChangeDate}
+            onChangeEnrollment={this.onChangeEnrollment}
+          />
+        }
+      >
         <Loading loading={loading}>
-          <Row type="flex" justify="center">
-            <Checkbox.Group value={actives} onChange={this.checkActive}>
-              <List
-                itemLayout="horizontal"
-                dataSource={this.props.members}
-                renderItem={member => (
-                  <List.Item actions={[
-                    <Checkbox value={member.id} disabled={disable && disables.includes(member.id)}>
-                      <span>활동인구</span>
+          {currentEnrollment
+            ? (
+              <Row>
+                <EnrollmentListBoard
+                  disable={disable}
+                  enrollees={currentEnrollment.enrollees}
+                  candidates={currentEnrollment.candidates}
+                  actives={actives}
+                  disables={disables}
+                  checkActive={this.checkActive}
+                />
+                <Row id="enrollment-list-footer" type="flex" align="middle" justify="center" gutter={[20, 0]}>
+                  <Col>
+                    <Checkbox disabled={!canEdit} checked={!disable} onChange={this.toggleDisable}>
+                      <span>기존 멤버 수정</span>
                     </Checkbox>
-                  ]}>
-                    <List.Item.Meta
-                      avatar={<Avatar src={member.profile.profileImage} />}
-                      title={<NameTag nameOnly account={member} />}
-                    />
-                  </List.Item>
-                )}
-              >
-              </List>
-            </Checkbox.Group>
-          </Row>
-          <Row type="flex" align="middle" justify="center" gutter={[20, 0]}>
-            <Col>
-              <Checkbox checked={!disable} onChange={this.toggleDisable}>
-                <span>기존 멤버 수정</span>
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox indeterminate={indeterminate} checked={checkAll} onChange={this.checkAllActive}>
-                <span>모두 선택</span>
-              </Checkbox>
-            </Col>
-            <Col>
-              <Popconfirm
-                title="활동인구를 수정합니다."
-                onConfirm={this.activate}
-                okText="확인"
-                cancelText="취소"
-              >
-                <Button icon="edit">수정하기</Button>
-              </Popconfirm>
-            </Col>
-          </Row>
+                  </Col>
+                  <Col>
+                    <Checkbox indeterminate={indeterminate} checked={checkAll} onChange={this.checkAllActive}>
+                      <span>모두 선택</span>
+                    </Checkbox>
+                  </Col>
+                  <Col>
+                    <Popconfirm
+                      title="활동인구를 수정합니다."
+                      onConfirm={this.activate}
+                      okText="확인"
+                      cancelText="취소"
+                    >
+                      <Button icon="edit" disabled={!canEdit}>수정하기</Button>
+                    </Popconfirm>
+                  </Col>
+                </Row>
+              </Row>
+            )
+            : <Empty />
+          }
         </Loading>
       </Card>
     )
@@ -140,11 +230,12 @@ class EnrollmentList extends Component {
 
 const mapStateToProps = (state) => ({
   account: state.account,
-  members: state.members,
+  enrollments: state.enrollments,
 })
 const mapDispatchToProps = ({
-  getMembers,
   patchMembers,
+  getEnrollments,
+  postEnrollment,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnrollmentList)

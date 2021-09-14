@@ -8,6 +8,7 @@ import notifications from './notifications'
 import photos from './photos'
 import sun from './sun'
 import timeline from './timeline'
+import enrollments from './enrollments'
 
 
 const createRootReducer = (history) => combineReducers({
@@ -20,6 +21,7 @@ const createRootReducer = (history) => combineReducers({
   auth,
   photos,
   feed,
+  enrollments,
 })
 
 export default createRootReducer
