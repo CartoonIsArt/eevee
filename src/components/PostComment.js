@@ -15,7 +15,7 @@ class PostComment extends Component {
     value: '',
   };
 
-  onButtonClicked = () => {
+  onButtonClick = () => {
     const content = this.state.value.replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
 
     if (isSpace(content)) {
@@ -65,7 +65,7 @@ class PostComment extends Component {
             id="post-comment-button"
             icon="enter"
             shape="circle"
-            onClick={this.onButtonClicked}
+            onClick={this.onButtonClick}
           />
         </Col>
       </Row>
