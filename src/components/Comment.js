@@ -1,4 +1,5 @@
 import { Avatar, Comment as AntdComment, Divider } from 'antd'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ContentFooter from './ContentFooter'
@@ -18,9 +19,8 @@ class Comment extends Component {
   }
 
   render() {
-    const { postCommentLike, patchCommentLike } = this.props
+    const { postCommentLike, patchCommentLike, canPostComment } = this.props
     const comment = this.props.children
-    comment.comments = comment.comments || []
 
     return (
       <AntdComment
@@ -42,7 +42,7 @@ class Comment extends Component {
         datetime={printTime(comment.createdAt)}
         content={
           <div>
-            {comment.content}
+            <p>{comment.content}</p>
             <Divider className="line footer-line" />
           </div>
         }
@@ -50,6 +50,7 @@ class Comment extends Component {
           <ContentFooter
             key={comment.id}
             content={comment}
+            visibleComment={canPostComment}
             toggleComment={this.toggleRecomment}
             postLike={postCommentLike}
             cancelLike={patchCommentLike}
@@ -57,12 +58,22 @@ class Comment extends Component {
         ]}
       >
         {this.state.visibleRecomments && [
-          comment.comments.map(recomment => <Comment key={recomment.id} {...this.props}>{recomment}</Comment>),
-          <PostComment key={comment.id} parentType="Comment" rootId={comment.id} />
+          comment.comments.map(recomment => (
+            <Comment key={recomment.id} {...this.props} canPostComment={false}>{recomment}</Comment>
+          )),
+          canPostComment && <PostComment key={comment.id} parentType="Comment" rootId={comment.id} />,
         ]}
       </AntdComment>
     )
   }
+}
+
+Comment.propTypes = {
+  canPostComment: PropTypes.bool.isRequired,
+}
+
+Comment.defaultProps = {
+  canPostComment: true,
 }
 
 const mapStateToProps = (state) => ({

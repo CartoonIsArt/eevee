@@ -38,7 +38,7 @@ class ContentFooter extends Component {
   }
 
   render() {
-    const { content, toggleComment, visibleAppend, toggleAppend } = this.props
+    const { content, visibleComment, toggleComment, visibleAppend, toggleAppend } = this.props
 
     return (
       <Row>
@@ -49,11 +49,13 @@ class ContentFooter extends Component {
             onClick={this.onClickLikeIt}
           />
         </Popover>
-        <FooterButton
-          icon="edit"
-          text={`댓글 ${content.comments.length}`}
-          onClick={toggleComment}
-        />
+        {visibleComment && (
+          <FooterButton
+            icon="edit"
+            text={`댓글 ${content.comments.length}`}
+            onClick={toggleComment}
+          />
+        )}
         {visibleAppend && (
           <FooterButton
             icon="plus"
@@ -68,6 +70,7 @@ class ContentFooter extends Component {
 
 ContentFooter.propTypes = {
   content: PropTypes.object.isRequired,
+  visibleComment: PropTypes.bool,
   toggleComment: PropTypes.func.isRequired,
   visibleAppend: PropTypes.bool,
   toggleAppend: PropTypes.func,
@@ -76,6 +79,7 @@ ContentFooter.propTypes = {
 }
 
 ContentFooter.defaultProps = {
+  visibleComment: true,
   visibleAppend: false,
 }
 
