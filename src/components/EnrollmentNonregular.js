@@ -1,43 +1,56 @@
-import { Button, Card, Divider, Icon, Modal, Result, Row } from 'antd'
+import { Button, Card, Divider, Icon, message, Result, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from '../fetches/axios'
 
 
-const isEnrollmentPeriod = false  // 나중에 날짜비교하기
-
 class EnrollmentNonregular extends Component {
-  enroll() {
-    if (!isEnrollmentPeriod)
-      return Modal.warning({ title: '활동인구 등록기간이 아닙니다.' })
+  state = {
+    enrollment: {}
+  }
 
-    const formData = this.props.account
+  componentDidMount() {
+    axios.get('/enrollment/current')
+      .then((r) => {
+        const { enrollment } = r.data
+        this.setState({ enrollment })
+      })
+      .catch(() => message.error('활동인구 정보를 가져오는 데 실패했습니다.'))
+  }
 
-    // 활동인구 patch를 추가하든가 해야될듯, 기존 patchOne은 passward필요
-    axios.patch(`/account/${this.props.account.id}`, formData)
-      .catch(() => Modal.warning({ title: '활동인구 등록에 실패했습니다.' }))
-      // .catch((e) => Modal.warning({ title: e.message }))
+  enroll = () => {
+    const { enrollment } = this.state
+
+    if (!enrollment)
+      return message.warning('활동인구 신청 기간이 아닙니다.')
+
+    if (enrollment.enrollees.filter(enrollee => enrollee.id == this.props.account.id).length > 0)
+      return message.warning('이미 신청했습니다.')
+
+    axios.patch(`/enrollment/${enrollment.id}`)
+      .then(() => message.success('활동인구 신청에 성공했습니다.'))
+      .catch(() => message.error('활동인구 신청에 실패했습니다.'))
   }
 
   render() {
     return (
       <Card className="page-card">
         <Result
-          title={<span className="enrollment-title">지금 활동인구에 등록해 보세요!</span>}
+          title={<span className="enrollment-title">지금 활동인구를 신청해 보세요!</span>}
           extra={[
-            <Button size="large">
+            <Button key="law" size="large">
               <Link to="/law"><span className="button-law">회칙 보러가기</span></Link>
             </Button>,
             <Button
+              key="enroll"
               className="button-enroll"
-              onClick={() => this.enroll()}
+              onClick={this.enroll}
               size="large"
             >
-              활동인구 등록
+              활동인구 신청
             </Button>
-          ]
-          }
+          ]}
         >
           <Row className="row-advantage" type="flex" justify="center">
             <span>활동인구 혜택</span>
