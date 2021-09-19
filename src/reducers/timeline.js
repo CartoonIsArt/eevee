@@ -27,8 +27,8 @@ const timeline = (state = [], action) => {
         return feed
       })
     case 'APPENDCOMMENT':
+      const root = action.comment.rootComment || action.comment.rootDocument
       return state.map((feed) => {
-        const root = action.comment.rootComment || action.comment.rootDocument
         appendComment(feed, action.comment, root.id)
         return feed
       })
