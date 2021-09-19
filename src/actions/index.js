@@ -1,7 +1,5 @@
 import axios from '../fetches/axios'
 
-const SET_SUN               = 'SETSUN'
-const TOGGLE_SUN            = 'TOGGLESUN'
 const SET_LOGIN             = 'SETLOGIN'
 const SET_LOGOUT            = 'SETLOGOUT'
 const SET_ACCOUNT           = 'SETACCOUNT'
@@ -20,9 +18,11 @@ const APPEND_COMMENT        = 'APPENDCOMMENT'
 const SET_PHOTOS            = 'SETPHOTOS'
 const SET_ENROLLMENTS       = 'SETENROLLMENTS'
 const APPEND_ENROLLMENTS    = 'APPENDENROLLMENTS'
+const SET_VOTE              = 'SETVOTE'
+const SET_VOTES             = 'SETVOTES'
+const APPEND_VOTE           = 'APPENDVOTE'
+const UPDATE_POLL           = 'UPDATEPOLL'
 
-const setSun = (sun) => ({ type: SET_SUN, sun })
-const toggleSun = () => ({ type: TOGGLE_SUN, sun: false })
 const setLogin = () => ({ type: SET_LOGIN })
 const setLogout = () => ({ type: SET_LOGOUT })
 const setAccount = (account) => ({ type: SET_ACCOUNT, account })
@@ -41,15 +41,10 @@ const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
 const setEnrollments = (enrollments) => ({ type: SET_ENROLLMENTS, enrollments })
 const appendEnrollments = (enrollment) => ({ type: APPEND_ENROLLMENTS, enrollment })
-
-export const sunrise = () => (dispatch) =>
-  dispatch(setSun(true))
-
-export const sundown = () => (dispatch) =>
-  dispatch(setSun(false))
-  
-export const suntoggle = () => (dispatch) =>
-  dispatch(toggleSun())
+const setVote = (vote) => ({ type: SET_VOTE, vote })
+const setVotes = (votes) => ({ type: SET_VOTES, votes })
+const appendVote = (vote) => ({ type: APPEND_VOTE, vote })
+const updatePoll = (poll) => ({ type: UPDATE_POLL, poll })
 
 // Auth
 //
@@ -251,14 +246,44 @@ export const postPhotos = (photos) => (dispatch) => {
 // Enrollment
 export const getEnrollments = () => (dispatch) =>
   axios.get('/enrollment')
-  .then((r) => {
-    const { enrollments } = r.data
-    dispatch(setEnrollments(enrollments))
-  })
+    .then((r) => {
+      const { enrollments } = r.data
+      dispatch(setEnrollments(enrollments))
+    })
 
 export const postEnrollment = (enrollment) => (dispatch) =>
   axios.post('/enrollment', enrollment)
-  .then((r) => {
-    const { enrollment } = r.data
-    dispatch(appendEnrollments(enrollment))
-  })
+    .then((r) => {
+      const { enrollment } = r.data
+      dispatch(appendEnrollments(enrollment))
+    })
+
+// Vote
+export const getVote = (id) => (dispatch) =>
+  axios.get(`/vote/${id}`)
+    .then((r) => {
+      const { vote } = r.data
+      dispatch(setVote(vote))
+    })
+
+export const getVotes = () => (dispatch) =>
+  axios.get('/vote')
+    .then((r) => {
+      const { votes } = r.data
+      dispatch(setVotes(votes))
+    })
+
+export const postVote = (vote) => (dispatch) =>
+  axios.post('/vote', vote)
+    .then((r) => {
+      const { vote } = r.data
+      dispatch(setVote(vote))
+      dispatch(appendVote(vote))
+    })
+
+export const castVote = (id, poll) => (dispatch) =>
+  axios.post(`/vote/${id}`, poll)
+    .then((r) => {
+      const { poll } = r.data
+      dispatch(updatePoll(poll))
+    })
