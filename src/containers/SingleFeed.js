@@ -40,7 +40,7 @@ class SingleFeed extends Component {
         {feed && !isEmptyObject(feed)
           ? (
           <Card className="card-no-border">
-            <Row type="flex" style={{ width: '1280px', marginTop: '8px' }}>
+            <Row type="flex" style={{ maxWidth: '1280px', marginTop: '8px' }}>
               <Col xs={{ span: 0 }} xl={{ order: 1, span: 6 }}>
                 <Affix offsetTop={56}>
                   <Profile />

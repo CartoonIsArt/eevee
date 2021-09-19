@@ -25,7 +25,8 @@ const openNotificationWithIcon = () => {
         <Descriptions.Item label="이탤릭"><span>*이탤릭*</span></Descriptions.Item>
         <Descriptions.Item label="볼드"><span>**볼드**</span></Descriptions.Item>
         <Descriptions.Item label="줄바꿈"><span>엔터 2번</span></Descriptions.Item>
-        <Descriptions.Item label="유튜브 영상"><span>!(유튜브 링크)</span></Descriptions.Item>
+        <Descriptions.Item label="YouTube 영상"><span>!(YouTube 링크)</span></Descriptions.Item>
+        <Descriptions.Item label="PPT"><span>!(SlideShare 링크)</span></Descriptions.Item>
       </Descriptions>
     ),
   })

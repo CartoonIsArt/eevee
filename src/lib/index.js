@@ -63,7 +63,7 @@ export const isSpace = (text) => (
   text.replace(/\s/g, '').length < 1
 )
 
-export const isPermittedBirthdate = (date) => {
+export const isValidBirthdate = (date) => {
   const max_birthdate = moment().subtract(120, 'years')
   const min_birthdate = moment()
 
@@ -112,3 +112,6 @@ export const isRegularMember = (account) => {
 export const isEmptyObject = (param) => {
   return Object.keys(param).length === 0 && param.constructor === Object;
 }
+
+export const canEditEnrollment = (enrollment) =>
+  enrollment && enrollment.endDate && moment().isBefore(moment(enrollment.endDate))

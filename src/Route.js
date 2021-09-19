@@ -18,6 +18,7 @@ import Sider from './containers/Sider'
 import SingleFeed from './containers/SingleFeed'
 import Userpage from './containers/Userpage'
 import EnrollmentList from './containers/EnrollmentList'
+import Vote from './components/Vote'
 
 
 // eslint-disable-next-line
@@ -125,6 +126,12 @@ export const routes = [
     has_navigation: true,
     sidebar: <Sider />,
     main: <Law />,
+  },
+  {
+    path: '/embed/vote',
+    has_navigation: false,
+    sidebar: <div />,
+    main: <Vote />,
   },
   {
     path: '*',
