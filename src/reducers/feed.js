@@ -15,13 +15,8 @@ const feed = (state = {}, action) => {
     case 'UPDATEFEED':
       return mergeObject(state, action.feed)
     case 'APPENDCOMMENT':
-      if (state.comments) {
-        state.comments = state.comments.map((comment) => {
-          const root = action.comment.rootComment || action.comment.rootDocument
-          appendComment(comment, action.comment, root.id)
-          return comment
-        })
-      }
+      const root = action.comment.rootComment || action.comment.rootDocument
+      appendComment(state, action.comment, root.id)
       return mergeObject({}, state)
     default:
       return state
