@@ -10,16 +10,22 @@ import { isVoteExpired } from '../lib'
 const { TabPane } = Tabs
 const { Search } = Input
 
-const searchResult = (votes) => (
-  votes.map((vote) => (
-    <Col className="votes-col" key={vote.id} flex={1}>
-      <Vote
-        type={isVoteExpired(vote) ? 'result' : 'vote'}
-        data={vote}
-        style={{ width: "24rem" }}
-      />
-    </Col>
-  ))
+const voted = (vote) => Array.isArray(vote.selections)
+  ? vote.selections.length > 0
+  : vote.selections >= 0
+
+const searchResult = (votes, filter) => (
+  votes
+    .filter((vote) => vote.title.includes(filter))
+    .map((vote) => (
+      <Col className="votes-col" key={vote.id} flex={1}>
+        <Vote
+          type={isVoteExpired(vote) || voted(vote)  ? 'result' : 'vote'}
+          data={vote}
+          style={{ width: "24rem" }}
+        />
+      </Col>
+    ))
 )
 
 class Votes extends Component {
@@ -38,7 +44,7 @@ class Votes extends Component {
   }
 
   render() {
-    const { loading } = this.state
+    const { loading, filter } = this.state
 
     return (
       <Card id="votes" className="page-card" title="투표">
@@ -49,12 +55,12 @@ class Votes extends Component {
           >
             <TabPane tab="진행중인 투표" key="vote">
               <Row className="votes-row" type="flex" justify="center">
-                {searchResult(this.props.votes.filter((vote) => !isVoteExpired(vote)))}
+                {searchResult(this.props.votes.filter((vote) => !isVoteExpired(vote)), filter)}
               </Row>
             </TabPane>
             <TabPane tab="종료된 투표" key="result">
               <Row className="votes-row" type="flex" justify="center">
-                {searchResult(this.props.votes.filter((vote) => isVoteExpired(vote)))}
+                {searchResult(this.props.votes.filter((vote) => isVoteExpired(vote)), filter)}
               </Row>
             </TabPane>
             <TabPane tab="투표 만들기" key="edit">

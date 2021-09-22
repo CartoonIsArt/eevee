@@ -9,7 +9,7 @@ import {
   message,
   Progress,
   Radio,
-  Row
+  Row,
 } from 'antd'
 import os from 'os'
 import PropTypes from 'prop-types'
@@ -41,14 +41,14 @@ const TitleEdit = ({ title, onChange }) => {
   )
 }
 
-const TitleVote = ({ title, id }) => {
+const TitleVote = ({ title, id, height }) => {
   return (
     <Row type="flex" justify="space-between">
     <Col>
       <span>{title}</span>
     </Col>
     <Col>
-      <CopyToClipboard text={`${os.hostname()}/embed/vote/${id}`}>
+      <CopyToClipboard text={`${os.hostname()}/embed/vote/${id}?height=${height}`}>
         <Button
           type="link"
           icon="share-alt"
@@ -64,8 +64,8 @@ const TitleVote = ({ title, id }) => {
 }
 const TitleResult = TitleVote
 
-const HeaderEdit = ({ onChange }) => <DatePicker placeholder="종료시간" onChange={onChange} />
-const HeaderVote = ({ endTime }) => <span>종료시간: {printTime(endTime)}</span>
+const HeaderEdit = ({ onChange }) => <DatePicker placeholder="투표 종료" onChange={onChange} />
+const HeaderVote = ({ endTime }) => <span>투표 종료: {printTime(endTime)}</span>
 const HeaderResult = HeaderVote
 
 const BodyEdit = ({ items, addItem }) => {
@@ -102,7 +102,10 @@ const BodyVote = ({ hasMultiple, items, selections, onChange }) => {
         dataSource={items}
         renderItem={(item, idx) => (
           <List.Item>
-            <Selector value={idx}>{item}</Selector>
+            <List.Item.Meta
+              title={<Selector value={idx}>{item}</Selector>}
+              description={<Progress showInfo={false} />}
+            />
           </List.Item>
         )}
       />
@@ -115,17 +118,17 @@ const BodyResult = ({ result }) => (
     dataSource={result}
     renderItem={(item) => (
       <List.Item>
-        <Row style={{ width: "100%" }}>
-          <Col span={24}>
-            <span>{item.item} </span>
-          </Col>
-          <Col span={20}>
-            <Progress
-              percent={item.percent}
-              format={(percent) => `${percent.toFixed(0)}% (${item.count})`}
-            />
-          </Col>
-        </Row>
+        <List.Item.Meta
+          title={item.item}
+          description={
+            <Col span={20}>
+              <Progress
+                percent={item.percent}
+                format={(percent) => `${percent.toFixed(0)}% (${item.count})`}
+              />
+            </Col>
+          }
+        />
       </List.Item>
     )}
   />
@@ -138,15 +141,15 @@ const FooterEdit = ({ hasMultiple, onChange, onClickCreate }) => (
   </Row>
 )
 
-const FooterVote = ({ onClickVote }) => (
+const FooterVote = ({ onClickVote, canVote }) => (
   <Row type="flex" justify="end">
-    <Button icon="inbox" onClick={onClickVote}>투표하기</Button>
+    <Button icon="inbox" onClick={onClickVote} disabled={!canVote}>투표하기</Button>
   </Row>
 )
 
-const FooterResult = ({ onClickEdit, disabled }) => (
+const FooterResult = ({ onClickEdit, canFix }) => (
   <Row type="flex" justify="end">
-    <Button icon="edit" onClick={onClickEdit} disabled={disabled}>수정하기</Button>
+    <Button icon="edit" onClick={onClickEdit} disabled={!canFix}>수정하기</Button>
   </Row>
 )
 
@@ -166,81 +169,34 @@ class Vote extends Component {
     if (this.props.match.params.id) {
       this.props.getVote(this.props.match.params.id)
         .then(() => {
-          const { account, vote } = this.props
-          const myPoll = vote.polls
-            .find((poll) => poll.account.id === account.id)
-
-          const result = [
-            vote.polls.filter(x => x.selection & 1).length,
-            vote.polls.filter(x => x.selection & 2).length,
-            vote.polls.filter(x => x.selection & 4).length,
-            vote.polls.filter(x => x.selection & 8).length,
-          ]
-          const total = result[0] + result[1] + result[2] + result[3]
+          const { vote } = this.props
+          const voted = Array.isArray(vote.selections)
+            ? vote.selections.length > 0
+            : vote.selections >= 0
 
           this.setState({
-            type: isVoteExpired(vote.endTime) ? 'result' : 'vote',
+            type: isVoteExpired(vote.endTime) || voted ? 'result' : 'vote',
             id: vote.id,
             title: vote.title,
             endTime: vote.endTime,
             hasMultiple: vote.hasMultiple,
-            items: [
-              vote.item1,
-              vote.item2,
-              vote.item3,
-              vote.item4,
-            ].filter((item) => item),
-            selections: myPoll && [
-              (myPoll.selection & 1) && 1,
-              (myPoll.selection & 2) && 2,
-              (myPoll.selection & 4) && 3,
-              (myPoll.selection & 8) && 4,
-            ],
-            result: result.map((x, idx) => ({
-              item: vote[`item${idx + 1}`],
-              count: x,
-              percent: (total > 0) ? (x / total * 100) : 0,
-            }))
-            .sort((lhs, rhs) => rhs.count - lhs.count),
+            items: vote.items,
+            selections: vote.selections,
+            result: vote.result,
           })
         })
     }
     else if (this.props.data) {
-      const { account, data } = this.props
-      const myPoll = data.polls
-        .find((poll) => poll.account.id === account.id)
-
-      const result = [
-        data.polls.filter(x => x.selection & 1).length,
-        data.polls.filter(x => x.selection & 2).length,
-        data.polls.filter(x => x.selection & 4).length,
-        data.polls.filter(x => x.selection & 8).length,
-      ]
-      const total = result[0] + result[1] + result[2] + result[3]
+      const { data } = this.props
         
       this.setState({
         id: data.id,
         title: data.title,
         endTime: data.endTime,
         hasMultiple: data.hasMultiple,
-        items: [
-          data.item1,
-          data.item2,
-          data.item3,
-          data.item4,
-        ].filter((item) => item),
-        selections: myPoll && [
-          (myPoll.selection & 1) && 1,
-          (myPoll.selection & 2) && 2,
-          (myPoll.selection & 4) && 3,
-          (myPoll.selection & 8) && 4,
-        ],
-        result: result.map((x, idx) => ({
-          item: data[`item${idx + 1}`],
-          count: x,
-          percent: (total > 0) ? (x / total * 100) : 0,
-        }))
-        .sort((lhs, rhs) => rhs.count - lhs.count),
+        items: data.items,
+        selections: data.selections,
+        result: data.result,
       })
     }
   }
@@ -270,35 +226,18 @@ class Vote extends Component {
   }
 
   onClickVote = () => {
-    const reducer = (prev, cur) => prev + cur
     const sel = this.state.selections
     const formData = {
       selection: Array.isArray(sel)
-        ? sel.map(x => 1 << x).reduce(reducer)
-        : sel,
+        ? sel.map(x => 1 << x).reduce((prev, cur) => prev + cur)
+        : 1 << sel,
     }
 
     this.props.castVote(this.state.id, formData)
-      .then(() => {
-        const { vote } = this.props
-        const result = [
-          vote.polls.filter(x => x.selection & 1).length,
-          vote.polls.filter(x => x.selection & 2).length,
-          vote.polls.filter(x => x.selection & 4).length,
-          vote.polls.filter(x => x.selection & 8).length,
-        ]
-        const total = result[0] + result[1] + result[2] + result[3]
-        
-        this.setState({
-          type: 'result',
-          result: result.map((x, idx) => ({
-            item: vote[`item${idx + 1}`],
-            count: x,
-            percent: (total > 0) ? (x / total * 100) : 0,
-          }))
-          .sort((lhs, rhs) => rhs.count - lhs.count)
-        })
-      })
+      .then((result) => this.setState({
+        type: 'result',
+        result: result,
+      }))
   }
 
   onClickEdit = () => this.setState({ type: 'vote' })
@@ -306,9 +245,16 @@ class Vote extends Component {
   render() {
     const { id, title, type, endTime, hasMultiple, items, selections, result } = this.state
     const [Title, Header, Body, Footer] = getContents(type)
+    let height = 410
+    if (items.length === 2) height = 264
+    if (items.length === 3) height = 337
 
     return (
-      <Card id="vote-card" size="small" title={<Title id={id} title={title} onChange={this.onChangeTitle} />}>
+      <Card
+        id="vote-card"
+        size="small"
+        title={<Title id={id} title={title} height={height} onChange={this.onChangeTitle} />}
+      >
         <Row>
           <Col>
             <Header endTime={endTime} onChange={this.onChangeDateTime} />
@@ -330,7 +276,8 @@ class Vote extends Component {
               onClickCreate={this.onClickCreate}
               onClickVote={this.onClickVote}
               onClickEdit={this.onClickEdit}
-              disabled={isVoteExpired({ endTime })}
+              canVote={Array.isArray(selections) ? selections.length > 0 : selections >= 0}
+              canFix={!isVoteExpired({ endTime })}
             />
           </Col>
         </Row>
@@ -340,7 +287,7 @@ class Vote extends Component {
 }
 
 Vote.propTypes = {
-  type: PropTypes.oneOf('edit', 'vote', 'result'),
+  type: PropTypes.oneOf(['edit', 'vote', 'result']),
   data: PropTypes.object,
 }
 
