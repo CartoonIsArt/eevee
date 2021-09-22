@@ -1,9 +1,8 @@
-import { Avatar, Card, Popover } from 'antd'
+import { Avatar, Card } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import Namecard from './Namecard'
 import NameTag from './NameTag'
 import { getFeed } from '../actions'
 import { printTime } from '../lib'
@@ -21,7 +20,7 @@ class Notification extends Component {
 
     return (
       <Meta
-        className="notification-container"
+        className="notification-item"
         key={notification.id}
         onClick={() => this.routeToFeed(notification.id)}
         avatar={
@@ -37,7 +36,7 @@ class Notification extends Component {
             <span className="notification-author-time">{printTime(notification.createdAt)}</span>
           </div>
         }
-        description={ notification.content }
+        description={notification.content}
       />
     )
   }
