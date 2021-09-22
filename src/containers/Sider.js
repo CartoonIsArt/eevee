@@ -78,6 +78,10 @@ class Sider extends Component {
                 <Menu.Item key="/cleaning">청소조</Menu.Item>
               </SubMenu>
               */}
+              <Menu.Item key="/votes">
+                <Icon type="inbox" />
+                <span>투표</span>
+              </Menu.Item>
               <Menu.Item key="/members">
                 <Icon type="team" />
                 <span>회원들</span>

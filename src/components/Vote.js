@@ -1,8 +1,24 @@
-import { Button, Card, Checkbox, Col, DatePicker, Input, List, Progress, Radio, Row } from 'antd'
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  DatePicker,
+  Input,
+  List,
+  message,
+  Progress,
+  Radio,
+  Row
+} from 'antd'
+import os from 'os'
 import PropTypes from 'prop-types'
 import React, { Component, useState } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { getVote, postVote, castVote } from '../actions'
+import { isVoteExpired, printTime } from '../lib'
 
 
 const getContents = (type) => {
@@ -24,11 +40,32 @@ const TitleEdit = ({ title, onChange }) => {
     />
   )
 }
-const TitleVote = ({ title }) => <span>{title}</span>
+
+const TitleVote = ({ title, id }) => {
+  return (
+    <Row type="flex" justify="space-between">
+    <Col>
+      <span>{title}</span>
+    </Col>
+    <Col>
+      <CopyToClipboard text={`${os.hostname()}/embed/vote/${id}`}>
+        <Button
+          type="link"
+          icon="share-alt"
+          size="small"
+          onClick={() => message.success('공유 링크를 복사했습니다.')}
+        >
+          <span>공유</span>
+        </Button>
+      </CopyToClipboard>
+    </Col>
+  </Row>
+  )
+}
 const TitleResult = TitleVote
 
 const HeaderEdit = ({ onChange }) => <DatePicker placeholder="종료시간" onChange={onChange} />
-const HeaderVote = ({ endTime }) => <span>종료시간: {endTime}</span>
+const HeaderVote = ({ endTime }) => <span>종료시간: {printTime(endTime)}</span>
 const HeaderResult = HeaderVote
 
 const BodyEdit = ({ items, addItem }) => {
@@ -78,11 +115,17 @@ const BodyResult = ({ result }) => (
     dataSource={result}
     renderItem={(item) => (
       <List.Item>
-        <span>{item.item} </span>
-        <Progress
-          percent={item.percent}
-          format={(percent) => `${(percent).toFixed(2)}% (${item.count})`}
-        />
+        <Row style={{ width: "100%" }}>
+          <Col span={24}>
+            <span>{item.item} </span>
+          </Col>
+          <Col span={20}>
+            <Progress
+              percent={item.percent}
+              format={(percent) => `${percent.toFixed(0)}% (${item.count})`}
+            />
+          </Col>
+        </Row>
       </List.Item>
     )}
   />
@@ -101,22 +144,105 @@ const FooterVote = ({ onClickVote }) => (
   </Row>
 )
 
-const FooterResult = ({ onClickEdit }) => (
+const FooterResult = ({ onClickEdit, disabled }) => (
   <Row type="flex" justify="end">
-    <Button icon="edit" onClick={onClickEdit}>수정하기</Button>
+    <Button icon="edit" onClick={onClickEdit} disabled={disabled}>수정하기</Button>
   </Row>
 )
 
 class Vote extends Component {
   state = {
     type: this.props.type,
-    id: 1,
+    id: -1,
     title: '',
     endTime: '',
     hasMultiple: false,
     items: [],
     selections: [],
     result: [],
+  }
+
+  componentDidMount() {
+    if (this.props.match.params.id) {
+      this.props.getVote(this.props.match.params.id)
+        .then(() => {
+          const { account, vote } = this.props
+          const myPoll = vote.polls
+            .find((poll) => poll.account.id === account.id)
+
+          const result = [
+            vote.polls.filter(x => x.selection & 1).length,
+            vote.polls.filter(x => x.selection & 2).length,
+            vote.polls.filter(x => x.selection & 4).length,
+            vote.polls.filter(x => x.selection & 8).length,
+          ]
+          const total = result[0] + result[1] + result[2] + result[3]
+
+          this.setState({
+            type: isVoteExpired(vote.endTime) ? 'result' : 'vote',
+            id: vote.id,
+            title: vote.title,
+            endTime: vote.endTime,
+            hasMultiple: vote.hasMultiple,
+            items: [
+              vote.item1,
+              vote.item2,
+              vote.item3,
+              vote.item4,
+            ].filter((item) => item),
+            selections: myPoll && [
+              (myPoll.selection & 1) && 1,
+              (myPoll.selection & 2) && 2,
+              (myPoll.selection & 4) && 3,
+              (myPoll.selection & 8) && 4,
+            ],
+            result: result.map((x, idx) => ({
+              item: vote[`item${idx + 1}`],
+              count: x,
+              percent: (total > 0) ? (x / total * 100) : 0,
+            }))
+            .sort((lhs, rhs) => rhs.count - lhs.count),
+          })
+        })
+    }
+    else if (this.props.data) {
+      const { account, data } = this.props
+      const myPoll = data.polls
+        .find((poll) => poll.account.id === account.id)
+
+      const result = [
+        data.polls.filter(x => x.selection & 1).length,
+        data.polls.filter(x => x.selection & 2).length,
+        data.polls.filter(x => x.selection & 4).length,
+        data.polls.filter(x => x.selection & 8).length,
+      ]
+      const total = result[0] + result[1] + result[2] + result[3]
+        
+      this.setState({
+        id: data.id,
+        title: data.title,
+        endTime: data.endTime,
+        hasMultiple: data.hasMultiple,
+        items: [
+          data.item1,
+          data.item2,
+          data.item3,
+          data.item4,
+        ].filter((item) => item),
+        selections: myPoll && [
+          (myPoll.selection & 1) && 1,
+          (myPoll.selection & 2) && 2,
+          (myPoll.selection & 4) && 3,
+          (myPoll.selection & 8) && 4,
+        ],
+        result: result.map((x, idx) => ({
+          item: data[`item${idx + 1}`],
+          count: x,
+          percent: (total > 0) ? (x / total * 100) : 0,
+        }))
+        .sort((lhs, rhs) => rhs.count - lhs.count),
+      })
+    }
   }
 
   onChangeTitle = (e) => this.setState({ title: e.target.value })
@@ -152,10 +278,9 @@ class Vote extends Component {
         : sel,
     }
 
-    const { vote } = this.props
-
     this.props.castVote(this.state.id, formData)
       .then(() => {
+        const { vote } = this.props
         const result = [
           vote.polls.filter(x => x.selection & 1).length,
           vote.polls.filter(x => x.selection & 2).length,
@@ -169,7 +294,7 @@ class Vote extends Component {
           result: result.map((x, idx) => ({
             item: vote[`item${idx + 1}`],
             count: x,
-            percent: x / total * 100,
+            percent: (total > 0) ? (x / total * 100) : 0,
           }))
           .sort((lhs, rhs) => rhs.count - lhs.count)
         })
@@ -179,11 +304,11 @@ class Vote extends Component {
   onClickEdit = () => this.setState({ type: 'vote' })
 
   render() {
-    const { title, type, endTime, hasMultiple, items, selections, result } = this.state
+    const { id, title, type, endTime, hasMultiple, items, selections, result } = this.state
     const [Title, Header, Body, Footer] = getContents(type)
-    
+
     return (
-      <Card size="small" title={<Title title={title} onChange={this.onChangeTitle} />}>
+      <Card id="vote-card" size="small" title={<Title id={id} title={title} onChange={this.onChangeTitle} />}>
         <Row>
           <Col>
             <Header endTime={endTime} onChange={this.onChangeDateTime} />
@@ -205,6 +330,7 @@ class Vote extends Component {
               onClickCreate={this.onClickCreate}
               onClickVote={this.onClickVote}
               onClickEdit={this.onClickEdit}
+              disabled={isVoteExpired({ endTime })}
             />
           </Col>
         </Row>
@@ -215,14 +341,15 @@ class Vote extends Component {
 
 Vote.propTypes = {
   type: PropTypes.oneOf('edit', 'vote', 'result'),
+  data: PropTypes.object,
 }
 
 Vote.defaultProps = {
-  // type: 'vote',
   type: 'edit',
 }
 
 const mapStateToProps = (state) => ({
+  account: state.account,
   vote: state.vote,
 })
 const mapDispatchToProps = ({
@@ -231,4 +358,4 @@ const mapDispatchToProps = ({
   castVote,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Vote)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Vote))

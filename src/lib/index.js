@@ -115,3 +115,5 @@ export const isEmptyObject = (param) => {
 
 export const canEditEnrollment = (enrollment) =>
   enrollment && enrollment.endDate && moment().isBefore(moment(enrollment.endDate))
+
+export const isVoteExpired = (vote) => moment().isAfter(moment(vote.endTime))

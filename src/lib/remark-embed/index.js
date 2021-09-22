@@ -1,4 +1,5 @@
 import { visit } from 'unist-util-visit';
+import os from 'os';
 
 const regexps = [
   {
@@ -10,6 +11,11 @@ const regexps = [
     regex: /\!\(((?:https?:)?\/\/)?((?:www)\.)?((?:slideshare\.net))(\/(?:[\w\-]+\/embed_code\/key\/)?)([\w\-]+(\S+)?)\)/,
     embedUrl: "https://www.slideshare.net/slideshow/embed_code/key/",
     idIndex: 5,
+  },
+  {
+    regex: new RegExp(`\\!\\(((?:https:)?\/\/)?(${os.hostname().replaceAll(/\./g, '\\.')})?(\/embed\/vote\/)?(\\d+)\\)`),
+    embedUrl: "/embed/vote/",
+    idIndex: 4,
   },
 ];
 

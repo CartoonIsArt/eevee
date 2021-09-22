@@ -11,6 +11,7 @@
     "moment": "^2.29.1",
     "prop-types": "^15.5.10",
     "react": "16.10",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "16.10",
     "react-dropzone": "^11.3.2",
     "react-markdown": "^7.0.1",
