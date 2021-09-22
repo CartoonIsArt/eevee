@@ -1,14 +1,11 @@
-import { Button, Card, Checkbox, Col, Mention, notification, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Mentions, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
-import { postPhotos, postDocument, patchDocument } from '../actions'
+import { getMembers, postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
-
-
-const { toContentState, toString } = Mention
 
 const getColor = (props) => {
   if (props.isDragAccept) return '#00e676'
@@ -35,7 +32,7 @@ class Write extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: toContentState(''),
+      value: '',
       isNotification: this.props.isNotification || false,
       fileList: [],
       mode: 'edit',
@@ -45,16 +42,20 @@ class Write extends Component {
     })
   }
 
+  componentDidMount() {
+    this.props.getMembers()
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.photos !== prevProps.photos) {
       const fileNames = this.props.photos.map(fileName => `![${fileName}](/images/${fileName})`)
-      let content = toString(this.state.value)
+      let content = this.state.value
   
       fileNames.forEach(fileName => {
         content += `  \n${fileName}  \n`
       })
       this.setState({
-        value: toContentState(content),
+        value: content,
         fileList: [...this.state.fileList, ...this.props.photos]
       })
     }
@@ -86,6 +87,9 @@ class Write extends Component {
   }
 
   getDisplay(mode) {
+    const MENTION_DATA = [];
+    (this.props.members).map(member => (MENTION_DATA.push(`${member.student.nTh}기_${member.student.name}`)))
+    
     const editModeDisplay = (
       <Dropzone
         accept={['image/jpeg', 'image/png']}
@@ -96,19 +100,26 @@ class Write extends Component {
         {({ getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject }) => (
           <div {...getRootProps()}>
             <input {...getInputProps()} />
-            <Mention
+            <Mentions
               style={{ width: '100%', height: '100px', borderColor: getColor({ isDragActive, isDragAccept, isDragReject }) }}
               multiLines
+              rows={4}
               placeholder='글을 작성하거나 드래그&드랍으로 이미지를 올릴 수 있습니다.'
               value={this.state.value}
               onChange={(e) => this.updateValue(e)}
-            />
+            >
+              {(this.props.members).map(member => (
+                <Option key={member.id} value={`${member.student.nTh}기_${member.student.name}`}>
+                  {`${member.student.nTh}기_${member.student.name}`}
+                </Option>
+              ))}
+            </Mentions>
           </div>
         )}
       </Dropzone>
     )
     const previewModeDisplay = () => (
-      <ReactMarkdown className="reactMarkDown" children={toString(this.state.value)} />
+      <ReactMarkdown className="reactMarkDown" children={this.state.value} />
     )
     if (mode === 'edit') return editModeDisplay
     if (mode === 'preview') return previewModeDisplay(this.state.value)
@@ -146,7 +157,7 @@ class Write extends Component {
   }
 
   uploadDocument() {
-    const content = toString(this.state.value)
+    const content = this.state.value
     if (isSpace(content) && (this.props.isNotification === this.state.isNotification)) {
       return notification.warning({
         message: '글을 확인해주세요!',
@@ -168,7 +179,7 @@ class Write extends Component {
       this.props.postDocument(formData)
     }
     this.setState({
-      value: toContentState(''),
+      value: '',
       fileList: [],
       mode: 'edit',
     })
@@ -186,7 +197,7 @@ class Write extends Component {
 
     const display = this.getDisplay(mode, value)
     const button = this.getButton(mode)
-
+    
     return (
       <Card size="small" className="write-container">
         {
@@ -246,10 +257,12 @@ Write.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  photos: state.photos,
   account: state.account,
+  photos: state.photos,
+  members: state.members,
 })
 const mapDispatchToProps = ({
+  getMembers,
   postPhotos,
   postDocument,
   patchDocument,

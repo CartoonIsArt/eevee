@@ -1,11 +1,9 @@
-import { Button, Col, Mention, notification, Row } from 'antd'
+import { Button, Col, Mentions, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { postComment } from '../actions'
+import { getMembers, postComment } from '../actions'
 import { isSpace } from '../lib'
-
-const { toString, toContentState } = Mention
 
 const PARENT_TYPE = {
   DOCUMENT: "Document",
@@ -16,12 +14,16 @@ class PostComment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      contentState: toContentState(''),
+      contentState: '',
     };
   }
 
+  componentWillMount() {
+    this.props.getMembers()
+  }
+
   onButtonClicked() {
-    const content = toString(this.state.contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
+    const content = (this.state.contentState).replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
 
     if (isSpace(content)) {
       return notification.warning({
@@ -45,7 +47,7 @@ class PostComment extends Component {
         }); break;
     }
     
-    this.setState({ contentState: toContentState('') })
+    this.setState({ contentState: '' })
   }
 
   onChangeInput(contentState) {
@@ -64,13 +66,20 @@ class PostComment extends Component {
           />
         </Col>
         <Col span={20}>
-          <Mention
+          <Mentions
             className="postcomment-mention"
             onChange={(contentState) => this.onChangeInput(contentState)}
             placeholder="Write Comment"
             value={this.state.contentState}
             multiLines
-          />
+            rows={1}
+          >
+            {(this.props.members).map(member => (
+              <Option key={member.id} value={`${member.student.nTh}기_${member.student.name}`}>
+                {`${member.student.nTh}기_${member.student.name}`}
+              </Option>
+            ))}
+          </Mentions>
         </Col>
         <Col span={2}>
           <Button icon="enter" shape="circle" onClick={() => this.onButtonClicked()} />
@@ -82,12 +91,15 @@ class PostComment extends Component {
 
 PostComment.propTypes = {
   account: PropTypes.object.isRequired,
+  members: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  members: state.members,
 })
 const mapDispatchToProps = ({
+  getMembers,
   postComment,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostComment)
