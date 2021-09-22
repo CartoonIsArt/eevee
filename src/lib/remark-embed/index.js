@@ -59,6 +59,7 @@ function makeIframe(embedUrl, videoid, height) {
         height,
         allowfullscreen: true,
         frameborder: "0",
+        scrolling: "no",
       },
     },
   };

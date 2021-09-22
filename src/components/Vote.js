@@ -266,40 +266,42 @@ class Vote extends Component {
     if (items.length === 3) height = 337
 
     return (
-      <Loading loading={loading}>
-        <Card
-          id="vote-card"
-          size="small"
-          title={<Title id={id} title={title} height={height} onChange={this.onChangeTitle} />}
-        >
-          <Row>
-            <Col>
-              <Header endTime={endTime} onChange={this.onChangeDateTime} />
-            </Col>
-            <Col>
-              <Body
-                hasMultiple={hasMultiple}
-                items={items}
-                selections={selections}
-                result={result}
-                addItem={this.addItem}
-                onChange={this.onChangeSelect}
-              />
-            </Col>
-            <Col>
-              <Footer
-                hasMultiple={hasMultiple}
-                onChange={this.toggleMultiple}
-                onClickCreate={this.onClickCreate}
-                onClickVote={this.onClickVote}
-                onClickEdit={this.onClickEdit}
-                canVote={Array.isArray(selections) ? selections.length > 0 : selections >= 0}
-                canFix={!isVoteExpired({ endTime })}
-              />
-            </Col>
-          </Row>
-        </Card>
-      </Loading>
+      <Row id="vote-embed">
+        <Loading loading={loading}>
+          <Card
+            id="vote-card"
+            size="small"
+            title={<Title id={id} title={title} height={height} onChange={this.onChangeTitle} />}
+          >
+            <Row>
+              <Col>
+                <Header endTime={endTime} onChange={this.onChangeDateTime} />
+              </Col>
+              <Col>
+                <Body
+                  hasMultiple={hasMultiple}
+                  items={items}
+                  selections={selections}
+                  result={result}
+                  addItem={this.addItem}
+                  onChange={this.onChangeSelect}
+                />
+              </Col>
+              <Col>
+                <Footer
+                  hasMultiple={hasMultiple}
+                  onChange={this.toggleMultiple}
+                  onClickCreate={this.onClickCreate}
+                  onClickVote={this.onClickVote}
+                  onClickEdit={this.onClickEdit}
+                  canVote={Array.isArray(selections) ? selections.length > 0 : selections >= 0}
+                  canFix={!isVoteExpired({ endTime })}
+                />
+              </Col>
+            </Row>
+          </Card>
+        </Loading>
+      </Row>
     )
   }
 }

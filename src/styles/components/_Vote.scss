@@ -1,7 +1,11 @@
-#vote-card {
-  width: 100%;
+#vote-embed {
+  width: calc(min(100vw, 100%));
 
-  .ant-radio-group, .ant-checkbox-group {
+  #vote-card {
     width: 100%;
+  
+    .ant-radio-group, .ant-checkbox-group {
+      width: 100%;
+    }
   }
 }
