@@ -1,78 +1,65 @@
+import { Col, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import Ads from './Ads'  Ads를 어떻게 쓸 지 더 고민해야합니다
-import { getAccount, getTimeline } from '../actions'
+import { getAccount } from '../actions'
 import Feed from './Feed'
-import Write from './Write'
+import Loading from './Loading'
 import { isAlmostScrolled } from '../lib'
 
 
 class Timeline extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      response: '',
-      page: 1,
-      doclen: 0,
-    }
-    this.mutex = true
+  state = {
+    loading: false,
   }
+  mutex = true
 
   componentWillMount() {
-    this.props.getTimeline()
-    this.setState({ doclen: this.props.timeline.length })
+    const { username, page } = this.props
+
+    this.props.getTimeline({ username, page })
+      .then(() => this.setState({ loading: true }))
+      .catch(() => this.setState({ loading: true }))
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', (e) => this.loadMore(e))
+    window.addEventListener('scroll', this.loadMore)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', (e) => this.loadMore(e))
+    window.removeEventListener('scroll', this.loadMore)
   }
 
-  loadMore(e) {
-    const { page } = this.state
-    const timelinelen = this.props.timeline.length
+  loadMore = (e) => {
+    const { username, page, nextPage } = this.props
+
     e.preventDefault()
-    if (this.mutex && isAlmostScrolled()
-      && (this.state.doclen !== timelinelen)) {
+
+    if (this.mutex && isAlmostScrolled()) {
       this.mutex = false
-      this.props.getTimeline(page + 1)
-      this.setState({
-        page: page + 1,
-        doclen: timelinelen,
-      }, () => { this.mutex = true })
+
+      this.props.getTimeline({ username, page: page + 1 })
+        .then(() => {
+          nextPage()
+          this.mutex = true
+        })
     }
   }
 
   render() {
-    const { timeline } = this.props
     return (
-      <section className="timeline">
-        <Write
-          documentId={-1}
-        />
-        {timeline.map((feed) => (
-          <Feed
-            key={feed.id}
-            feed={feed}
-          />
-        ))}
-        {/* <Ads /> */}
-      </section>
+      <Loading loading={this.state.loading}>
+        {this.props.timeline.map(feed => <Feed key={feed.id} feed={feed} />)}
+      </Loading>
     )
   }
 }
 
 Timeline.propTypes = {
-  timeline: PropTypes.array,
   getTimeline: PropTypes.func.isRequired,
-}
-
-Timeline.defaultProps = {
-  timeline: [],
+  username: PropTypes.string,
+  page: PropTypes.number.isRequired,
+  nextPage: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -80,7 +67,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 })
 const mapDispatchToProps = ({
-  getTimeline,
   getAccount,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Timeline)

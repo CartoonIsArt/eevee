@@ -1,6 +1,18 @@
-#img-namecard {
-  object-fit: cover;
-  object-position: center top;
+#namecard-image-container {
+  position: relative;
+  
+  #img-namecard {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }  
+}
+#namecard-image-container:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
 }
 
 .namecard-content-container {
@@ -10,11 +22,11 @@
   font-size: 2.4rem;
   text-align: left;
 
-  .namecard-nametag-container {
+  .namecard-nametag-col {
     font-weight: bold;
   }
 
-  .namecard-major-container {
+  .namecard-major-col {
     margin-top: 1.6rem;
     font-size: 1.8rem;
   }

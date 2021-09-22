@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, Mentions, notification, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Descriptions, Mentions, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
@@ -6,6 +6,8 @@ import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
 import { getMembers, postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
+import remarkEmbed from '../lib/remark-embed'
+
 
 const getColor = (props) => {
   if (props.isDragAccept) return '#00e676'
@@ -16,8 +18,17 @@ const getColor = (props) => {
 
 const openNotificationWithIcon = () => {
   notification.info({
-    message: '마크다운 간단문법',
-    description: "### 제목 ''굵은글씨'' '''기울임''' Enter2번 줄바꿈",
+    message: '마크다운 간단 문법',
+    description: (
+      <Descriptions column={1} bordered size="small" layout="horizontal">
+        <Descriptions.Item label="제목"><span>## 제목</span></Descriptions.Item>
+        <Descriptions.Item label="이탤릭"><span>*이탤릭*</span></Descriptions.Item>
+        <Descriptions.Item label="볼드"><span>**볼드**</span></Descriptions.Item>
+        <Descriptions.Item label="줄바꿈"><span>엔터 2번</span></Descriptions.Item>
+        <Descriptions.Item label="YouTube 영상"><span>!(YouTube 링크)</span></Descriptions.Item>
+        <Descriptions.Item label="PPT"><span>!(SlideShare 링크)</span></Descriptions.Item>
+      </Descriptions>
+    ),
   })
 }
 
@@ -33,7 +44,7 @@ class Write extends Component {
     super(props)
     this.state = {
       value: '',
-      isNotification: this.props.isNotification || false,
+      isNotification: this.props.isNotification,
       fileList: [],
       mode: 'edit',
     }
@@ -48,20 +59,18 @@ class Write extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.photos !== prevProps.photos) {
-      const fileNames = this.props.photos.map(fileName => `![${fileName}](/images/${fileName})`)
-      let content = this.state.value
-  
-      fileNames.forEach(fileName => {
-        content += `  \n${fileName}  \n`
-      })
+      this.props.photos
+        .map(fileName => `![${fileName}](/images/${fileName})`)
+        .forEach(fileName => (this.state.value += `  \n${fileName}  \n`))
+
       this.setState({
-        value: content,
+        value: this.state.value,
         fileList: [...this.state.fileList, ...this.props.photos]
       })
     }
   }
 
-  notifyUnsupportedFile() {
+  notifyUnsupportedFile = () => {
     notification.warning({
       message: '지원되지 않는 파일입니다!',
       description: '파일 확장자가 jpg/jpeg/png인 경우에만 업로드 가능합니다',
@@ -69,13 +78,11 @@ class Write extends Component {
     })
   }
 
-  updateValue(contentState) {
-    this.setState({
-      value: contentState
-    })
+  updateValue = (value) => {
+    this.setState({ value })
   }
 
-  addImage(acceptedFiles) {
+  addImage = (acceptedFiles) => {
     this.props.postPhotos(acceptedFiles)
       .catch((e) => {
         notification.warning({
@@ -86,13 +93,10 @@ class Write extends Component {
       })
   }
 
-  getDisplay(mode) {
-    const MENTION_DATA = [];
-    (this.props.members).map(member => (MENTION_DATA.push(`${member.student.nTh}기_${member.student.name}`)))
-    
+  getDisplay = (mode) => {
     const editModeDisplay = (
       <Dropzone
-        accept={['image/jpeg', 'image/png']}
+        accept={['image/jpeg', 'image/png', 'image/gif']}
         noClick={true}
         onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
         onDropRejected={() => this.notifyUnsupportedFile()}
@@ -101,12 +105,11 @@ class Write extends Component {
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             <Mentions
-              style={{ width: '100%', height: '100px', borderColor: getColor({ isDragActive, isDragAccept, isDragReject }) }}
-              multiLines
-              rows={4}
+              style={{ height: '100px', borderColor: getColor({ isDragActive, isDragAccept, isDragReject }) }}
               placeholder='글을 작성하거나 드래그&드랍으로 이미지를 올릴 수 있습니다.'
+              rows={4}
               value={this.state.value}
-              onChange={(e) => this.updateValue(e)}
+              onChange={this.updateValue}
             >
               {(this.props.members).map(member => (
                 <Option key={member.id} value={`${member.student.nTh}기_${member.student.name}`}>
@@ -118,19 +121,23 @@ class Write extends Component {
         )}
       </Dropzone>
     )
-    const previewModeDisplay = () => (
-      <ReactMarkdown className="reactMarkDown" children={this.state.value} />
+    const previewModeDisplay = (value) => (
+      <ReactMarkdown
+        className="reactMarkDown"
+        children={value}
+        remarkPlugins={[remarkEmbed]}
+      />
     )
     if (mode === 'edit') return editModeDisplay
     if (mode === 'preview') return previewModeDisplay(this.state.value)
     return <div />
   }
 
-  changeMode(mode) {
+  changeMode = (mode) => {
     this.setState({ mode })
   }
 
-  getButton(mode) {
+  getButton = (mode) => {
     const editModeButton = (
       <div className="write-button-container">
         <Button icon="question-circle" onClick={() => openNotificationWithIcon()}>
@@ -156,9 +163,8 @@ class Write extends Component {
     return <div />
   }
 
-  uploadDocument() {
-    const content = this.state.value
-    if (isSpace(content) && (this.props.isNotification === this.state.isNotification)) {
+  uploadDocument = () => {
+    if (isSpace(this.state.value) && (this.props.isNotification === this.state.isNotification)) {
       return notification.warning({
         message: '글을 확인해주세요!',
         description: '업로드하고자 하는 글 내용이 없습니다',
@@ -168,7 +174,7 @@ class Write extends Component {
 
     const formData = {
       id: this.props.documentId,
-      content,
+      content: this.state.value,
       isNotification: this.state.isNotification,
     }
 
@@ -185,10 +191,8 @@ class Write extends Component {
     })
   }
 
-  toggleSetNotification(e) {
-    this.setState({
-      isNotification: e.target.checked
-    })
+  toggleSetNotification = (e) => {
+    this.setState({ isNotification: e.target.checked })
   }
 
   render() {
@@ -200,23 +204,20 @@ class Write extends Component {
     
     return (
       <Card size="small" className="write-container">
-        {
-          isAppend
-          || (
-            <div className="write-profile-img-container">
-              <img src={account.profile.profileImage} alt={account.profile.profileImage} width="100%" />
-            </div>
-          )
-        }
+        {isAppend || (
+          <div className="write-profile-img-container">
+            <img className="write-profile-img" alt="글 작성자 프로필 이미지" src={account.profile.profileImage} />
+          </div>
+        )}
         <div className="write-content-container">
-          { display }
+          {display}
           <Row className="write-actions-container">
             <Col span={3}>
               <Dropzone
-                accept={['image/jpeg', 'image/png']}
+                accept={['image/jpeg', 'image/png', 'image/gif']}
                 noDrag={true}
-                onDropAccepted={(acceptedFiles) => this.addImage(acceptedFiles)}
-                onDropRejected={() => this.notifyUnsupportedFile()}
+                onDropAccepted={this.addImage}
+                onDropRejected={this.notifyUnsupportedFile}
               >
                 {({ getRootProps, getInputProps }) => (
                   <div {...getRootProps()}>
@@ -227,23 +228,27 @@ class Write extends Component {
               </Dropzone>
             </Col>
             <Col xs={12} sm={0}>
-            { isManager(account)
-              && (<Checkbox
-                    checked={this.state.isNotification}
-                    onChange={(e) => this.toggleSetNotification(e)}>
-                      공지
-                  </Checkbox>) }
+            {isManager(account) && (
+              <Checkbox
+                checked={this.state.isNotification}
+                onChange={this.toggleSetNotification}
+              >
+                <span>공지</span>
+              </Checkbox>
+            )}
             </Col>
             <Col xs={0} sm={13}>
-            { isManager(account)
-              && (<Checkbox
-                    checked={this.state.isNotification}
-                    onChange={(e) => this.toggleSetNotification(e)}>
-                      공지사항으로 설정
-                  </Checkbox>) }
+            {isManager(account) && (
+              <Checkbox
+                checked={this.state.isNotification}
+                onChange={this.toggleSetNotification}
+              >
+                <span>공지사항으로 설정</span>
+              </Checkbox>
+            )}
             </Col>
             <Col xs={9} sm={8}>
-            { button }
+              {button}
             </Col>
           </Row>
         </div>
@@ -253,7 +258,13 @@ class Write extends Component {
 }
 
 Write.propTypes = {
-  account: PropTypes.object.isRequired,
+  documentId: PropTypes.number,
+  isNotification: PropTypes.bool,
+}
+
+Write.defaultProps = {
+  documentId: -1,
+  isNotification: false,
 }
 
 const mapStateToProps = (state) => ({

@@ -3,6 +3,7 @@
 @import "components/Document";
 @import "components/EditProfile";
 @import "components/Enrollment";
+@import "components/EnrollmentListBoard";
 @import "components/Feed";
 @import "components/Namecard";
 @import "components/NameTag";
@@ -17,6 +18,7 @@
 @import "components/Write";
 
 @import "containers/EditUserProfile";
+@import "containers/EnrollmentList";
 @import "containers/Law";
 @import "containers/Login";
 @import "containers/Members";
@@ -53,4 +55,11 @@
     width: 240px;
     background: white;
   }
+}
+
+.line {
+  margin: 0;
+}
+.footer-line {
+  margin-bottom: 8px;
 }

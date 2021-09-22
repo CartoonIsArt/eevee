@@ -1,9 +1,11 @@
+import { mergeObject } from "../lib"
+
 const account = (state = {}, action) => {
   switch (action.type) {
     case 'SETACCOUNT':
-      return Object.assign({}, action.account)
+      return mergeObject({}, action.account)
     case 'UPDATEACCOUNT':
-      return action.account
+      return mergeObject(state, action.account)
     default:
       return state
   }

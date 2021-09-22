@@ -1,9 +1,8 @@
-import { Card, Icon, List } from 'antd'
+import { Card, Divider, Icon, List } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getNotifications } from '../actions'
-import Line from '../components/Line'
 import Notification from '../components/Notification'
 import { getDate2WeeksAgo } from '../lib'
 
@@ -35,14 +34,14 @@ class Notifications extends Component {
             avatar={<Icon type="notification" />}
             title="공지사항"
           />
-          <Line />
+          <Divider className="line" />
           <List
             className="notifications-list"
             size="small"
             dataSource={notifications}
             renderItem={(noti) => (<List.Item><Notification notification={noti} key={noti.id} /></List.Item>)}
           />
-          <Line />
+          <Divider className="line" />
         </Card>
       </section>
     )

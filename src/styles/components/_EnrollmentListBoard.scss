@@ -1,0 +1,11 @@
+.board-card {
+  min-width: 30rem;
+
+  .ant-card-body {
+    height: 36.5rem;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

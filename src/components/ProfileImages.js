@@ -15,7 +15,7 @@ class ProfileImages extends Component {
             style={{ backgroundImage: `url(${profile.profileBannerImage})` }}
           >
             <div className="profile-image-wrapper">
-              <img className="profile-image" src={profile.profileImage} alt="프로필 이미지" />
+              <img className="profile-image" alt="댓글 작성자 프로필 이미지" src={profile.profileImage} />
             </div>
           </div>
         </Row>

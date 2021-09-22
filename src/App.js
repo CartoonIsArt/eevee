@@ -7,16 +7,13 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import { clearAccount, getAccount } from './actions'
 import Navigation from './containers/Navigation'
 import axios from './fetches/axios'
+import { isEmptyObject } from './lib'
 import { routes } from './Route'
 import './App.scss'
 import ActionButton from 'antd/lib/modal/ActionButton'
 
 
-const { Footer, Content } = Layout
-
-function isEmptyObject(param) {
-  return Object.keys(param).length === 0 && param.constructor === Object;
-}
+const { Content } = Layout
 
 const isNavEnabled = (history) => {
   return Boolean(routes

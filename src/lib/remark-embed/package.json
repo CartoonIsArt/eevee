@@ -1,0 +1,40 @@
+{
+  "name": "remark-youtube-embed",
+  "version": "1.0.0",
+  "description": "Remark plugin to support youtube iframe embedding",
+  "main": "index.js",
+  "keywords": [
+    "remark",
+    "remark-plugin",
+    "youtube",
+    "embed"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kawaPC/remark-youtube-embed.git"
+  },
+  "author": "kawamt <kawamoto.hp0@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kawaPC/remark-youtube-embed/issues"
+  },
+  "homepage": "https://github.com/kawaPC/remark-youtube-embed#readme",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "dependencies": {
+    "unified": "^9.2.0",
+    "unist-util-visit": "^4.0.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6",
+    "rehype-stringify": "^8.0.0",
+    "remark-parse": "^9.0.0",
+    "remark-rehype": "^8.0.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}

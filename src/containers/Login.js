@@ -60,11 +60,7 @@ class Login extends Component {
             <Card id="login-inner-card">
               <Row type="flex" align="middle" justify="center">
                 <Col span={24}>
-                  <img
-                    src="/images/logo.png"
-                    alt="CIA 로고"
-                    style={{ width: '240px' }}
-                  />
+                  <img style={{ width: '240px' }} alt="CIA 로고" src="/images/logo.png" />
                 </Col>
                 <Col span={24}>
                   <span style={{ fontSize: '1.6rem', fontWeight: 'bold' }}>
