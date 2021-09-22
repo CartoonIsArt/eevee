@@ -131,21 +131,21 @@ class Write extends Component {
   getButton = (mode) => {
     const editModeButton = (
       <div className="write-button-container">
-        <Button icon="question-circle" onClick={() => openNotificationWithIcon()}>
-          문법
+        <Button icon="question-circle" onClick={openNotificationWithIcon}>
+          <span>문법</span>
         </Button>
         <Button icon="edit" onClick={() => this.changeMode('preview')}>
-          글쓸거임?
+          <span>작성</span>
         </Button>
       </div>
     )
     const previewModeButton = (
       <div className="write-button-container">
         <Button icon="reload" onClick={() => this.changeMode('edit')}>
-          수정
+          <span>수정</span>
         </Button>
-        <Button icon="cloud-upload" type="primary" onClick={() => this.uploadDocument()}>
-          완료
+        <Button icon="cloud-upload" type="primary" onClick={this.uploadDocument}>
+          <span>완료</span>
         </Button>
       </div>
     )
