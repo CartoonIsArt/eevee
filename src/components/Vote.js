@@ -17,6 +17,7 @@ import React, { Component, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import Loading from './Loading'
 import { getVote, postVote, castVote } from '../actions'
 import { isVoteExpired, printTime } from '../lib'
 
@@ -155,6 +156,7 @@ const FooterResult = ({ onClickEdit, canFix }) => (
 
 class Vote extends Component {
   state = {
+    loading: false,
     type: this.props.type,
     id: -1,
     title: '',
@@ -175,6 +177,7 @@ class Vote extends Component {
             : vote.selections >= 0
 
           this.setState({
+            loading: true,
             type: isVoteExpired(vote.endTime) || voted ? 'result' : 'vote',
             id: vote.id,
             title: vote.title,
@@ -190,6 +193,7 @@ class Vote extends Component {
       const { data } = this.props
         
       this.setState({
+        loading: true,
         id: data.id,
         title: data.title,
         endTime: data.endTime,
@@ -199,6 +203,8 @@ class Vote extends Component {
         result: data.result,
       })
     }
+    else
+      this.setState({ loading: true })
   }
 
   onChangeTitle = (e) => this.setState({ title: e.target.value })
@@ -243,45 +249,57 @@ class Vote extends Component {
   onClickEdit = () => this.setState({ type: 'vote' })
 
   render() {
-    const { id, title, type, endTime, hasMultiple, items, selections, result } = this.state
+    const {
+      loading,
+      id,
+      title,
+      type,
+      endTime,
+      hasMultiple,
+      items,
+      selections,
+      result
+    } = this.state
     const [Title, Header, Body, Footer] = getContents(type)
     let height = 410
     if (items.length === 2) height = 264
     if (items.length === 3) height = 337
 
     return (
-      <Card
-        id="vote-card"
-        size="small"
-        title={<Title id={id} title={title} height={height} onChange={this.onChangeTitle} />}
-      >
-        <Row>
-          <Col>
-            <Header endTime={endTime} onChange={this.onChangeDateTime} />
-          </Col>
-          <Col>
-            <Body
-              hasMultiple={hasMultiple}
-              items={items}
-              selections={selections}
-              result={result}
-              addItem={this.addItem}
-              onChange={this.onChangeSelect}
-            />
-          </Col>
-          <Col>
-            <Footer
-              hasMultiple={hasMultiple}
-              onChange={this.toggleMultiple}
-              onClickCreate={this.onClickCreate}
-              onClickVote={this.onClickVote}
-              onClickEdit={this.onClickEdit}
-              canVote={Array.isArray(selections) ? selections.length > 0 : selections >= 0}
-              canFix={!isVoteExpired({ endTime })}
-            />
-          </Col>
-        </Row>
-      </Card>
+      <Loading loading={loading}>
+        <Card
+          id="vote-card"
+          size="small"
+          title={<Title id={id} title={title} height={height} onChange={this.onChangeTitle} />}
+        >
+          <Row>
+            <Col>
+              <Header endTime={endTime} onChange={this.onChangeDateTime} />
+            </Col>
+            <Col>
+              <Body
+                hasMultiple={hasMultiple}
+                items={items}
+                selections={selections}
+                result={result}
+                addItem={this.addItem}
+                onChange={this.onChangeSelect}
+              />
+            </Col>
+            <Col>
+              <Footer
+                hasMultiple={hasMultiple}
+                onChange={this.toggleMultiple}
+                onClickCreate={this.onClickCreate}
+                onClickVote={this.onClickVote}
+                onClickEdit={this.onClickEdit}
+                canVote={Array.isArray(selections) ? selections.length > 0 : selections >= 0}
+                canFix={!isVoteExpired({ endTime })}
+              />
+            </Col>
+          </Row>
+        </Card>
+      </Loading>
     )
   }
 }
