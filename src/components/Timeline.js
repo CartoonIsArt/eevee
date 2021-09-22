@@ -17,13 +17,11 @@ class Timeline extends Component {
   componentDidMount() {
     const { username, page } = this.props
 
+    window.addEventListener('scroll', this.loadMore)
+
     this.props.getTimeline({ username, page })
       .then(() => this.setState({ loading: true }))
       .catch(() => this.setState({ loading: true }))
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.loadMore)
   }
 
   componentWillUnmount() {
