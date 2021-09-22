@@ -2,6 +2,7 @@ import { Card, Col, Input, Row, Tabs } from 'antd'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getMembers } from '../actions'
+import Loading from '../components/Loading'
 import Namecard from '../components/Namecard'
 
 
@@ -22,14 +23,14 @@ class Members extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      onLoad: false,
+      loading: false,
       filter: '',
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getMembers()
-      .then(() => this.setState({ onLoad: true }))
+      .then(() => this.setState({ loading: true }))
   }
 
   setFilter(e) {
@@ -37,11 +38,11 @@ class Members extends Component {
   }
 
   render() {
-    const { filter, onLoad } = this.state
+    const { filter, loading } = this.state
 
     return (
       <Card id="members" className="page-card" title="회원목록">
-        {onLoad && (
+        <Loading loading={loading}>
           <Tabs
             destroyInactiveTabPane={true}
             tabBarExtraContent={<Search onChange={(e) => this.setFilter(e)} />}
@@ -57,7 +58,7 @@ class Members extends Component {
               </Row>
             </TabPane>
           </Tabs>
-        )}
+        </Loading>
       </Card>
     )
   }

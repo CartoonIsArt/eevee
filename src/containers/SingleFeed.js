@@ -14,14 +14,11 @@ import Loading from '../components/Loading'
 
 
 class SingleFeed extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false,
-    }
+  state = {
+    loading: false,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     /*
     if (this.props.auth === false) {
       this.props.getAccount()

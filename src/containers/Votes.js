@@ -34,7 +34,7 @@ class Votes extends Component {
     filter: '',
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getVotes()
       .then(() => this.setState({ loading: true }))
   }

@@ -14,7 +14,7 @@ class Timeline extends Component {
   }
   mutex = true
 
-  componentWillMount() {
+  componentDidMount() {
     const { username, page } = this.props
 
     this.props.getTimeline({ username, page })

@@ -10,13 +10,11 @@ const { Meta } = Card
 
 
 class Notifications extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isModalOn: false,
-    }
+  state = {
+    isModalOn: false,
   }
-  componentWillMount() {
+
+  componentDidMount() {
     this.props.getNotifications(getDate2WeeksAgo())
   }
 
