@@ -45,22 +45,22 @@ const TitleEdit = ({ title, onChange }) => {
 const TitleVote = ({ title, id, height }) => {
   return (
     <Row type="flex" justify="space-between">
-    <Col>
-      <span>{title}</span>
-    </Col>
-    <Col>
-      <CopyToClipboard text={`${os.hostname()}/embed/vote/${id}?height=${height}`}>
-        <Button
-          type="link"
-          icon="share-alt"
-          size="small"
-          onClick={() => message.success('공유 링크를 복사했습니다.')}
-        >
-          <span>공유</span>
-        </Button>
-      </CopyToClipboard>
-    </Col>
-  </Row>
+      <Col className="vote-title">
+        <span>{title}</span>
+      </Col>
+      <Col>
+        <CopyToClipboard text={`${os.hostname()}/embed/vote/${id}?height=${height}`}>
+          <Button
+            type="link"
+            icon="share-alt"
+            size="small"
+            onClick={() => message.success('공유 링크를 복사했습니다.')}
+          >
+            <span>공유</span>
+          </Button>
+        </CopyToClipboard>
+      </Col>
+    </Row>
   )
 }
 const TitleResult = TitleVote
