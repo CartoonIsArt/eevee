@@ -85,8 +85,6 @@ class PostComment extends Component {
 }
 
 PostComment.propTypes = {
-  account: PropTypes.object.isRequired,
-  members: PropTypes.object.isRequired,
   parentType: PropTypes.oneOf(['Document', 'Comment']),
   rootId: PropTypes.number.isRequired,
 }
