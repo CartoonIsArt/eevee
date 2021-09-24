@@ -1,4 +1,4 @@
-import { Card, Divider, Icon, List } from 'antd'
+import { Card, Divider, Icon, List, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -10,13 +10,11 @@ const { Meta } = Card
 
 
 class Notifications extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isModalOn: false,
-    }
+  state = {
+    isModalOn: false,
   }
-  componentWillMount() {
+
+  componentDidMount() {
     this.props.getNotifications(getDate2WeeksAgo())
   }
 
@@ -28,7 +26,7 @@ class Notifications extends Component {
     const { notifications } = this.props
 
     return (
-      <section className="notifications">
+      <Row id="notifications-wrapper">
         <Card className="notifications-card" size="small">
           <Meta
             avatar={<Icon type="notification" />}
@@ -43,7 +41,7 @@ class Notifications extends Component {
           />
           <Divider className="line" />
         </Card>
-      </section>
+      </Row>
     )
   }
 }

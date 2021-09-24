@@ -284,6 +284,7 @@ export const postVote = (vote) => (dispatch) =>
 export const castVote = (id, poll) => (dispatch) =>
   axios.post(`/vote/${id}`, poll)
     .then((r) => {
-      const { poll } = r.data
+      const { poll, result } = r.data
       dispatch(updatePoll(poll))
+      return result
     })

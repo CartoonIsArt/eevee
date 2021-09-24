@@ -1,21 +1,27 @@
-.notification-container:hover {
+.notification-item:hover {
   background: #42A5F5 !important;
 }
 
-.notification-container {
+.notification-item {
   height: 56px;
   width: 100%;
   display: flex;
   align-items: stretch;
 
-  .ant-card-meta-title {
-    margin-bottom: 0px !important;
-  }
+  .ant-card-meta-detail {
+    width: auto;
 
-  .ant-card-meta-description {
-    font-size: 9pt;
-    width: 100%;
-    overflow: hidden;
+    .ant-card-meta-title {
+      margin-bottom: 0px !important;
+    }
+  
+    .ant-card-meta-description {
+      font-size: 9pt;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   .notification-author-time {

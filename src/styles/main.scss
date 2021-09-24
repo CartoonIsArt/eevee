@@ -15,6 +15,7 @@
 @import "components/SingleImageUploader";
 @import "components/TermAgreement";
 @import "components/Timeline";
+@import "components/Vote";
 @import "components/Write";
 
 @import "containers/EditUserProfile";
@@ -26,6 +27,7 @@
 @import "containers/PageCard";
 @import "containers/Registration";
 @import "containers/Userpage";
+@import "containers/Votes";
 
 #Navigation-wrapper {
   background: #fff;

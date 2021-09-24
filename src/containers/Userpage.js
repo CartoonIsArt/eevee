@@ -34,7 +34,7 @@ class Userpage extends Component {
   }
   mutex = true
 
-  componentWillMount() {
+  componentDidMount() {
     if (isEmptyObject(this.props.account))
       this.props.getAccount()
 

@@ -1,0 +1,17 @@
+#vote-embed {
+  width: calc(min(100vw, 100%));
+
+  #vote-card {
+    width: 100%;
+  
+    .vote-title {
+      width: calc(100% - 6.5rem);
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .ant-radio-group, .ant-checkbox-group {
+      width: 100%;
+    }
+  }
+}

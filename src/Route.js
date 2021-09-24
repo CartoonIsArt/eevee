@@ -18,6 +18,7 @@ import Sider from './containers/Sider'
 import SingleFeed from './containers/SingleFeed'
 import Userpage from './containers/Userpage'
 import EnrollmentList from './containers/EnrollmentList'
+import Votes from './containers/Votes'
 import Vote from './components/Vote'
 
 
@@ -128,7 +129,13 @@ export const routes = [
     main: <Law />,
   },
   {
-    path: '/embed/vote',
+    path: '/votes',
+    has_navigation: true,
+    sidebar: <Sider />,
+    main: <Votes />,
+  },
+  {
+    path: '/embed/vote/:id',
     has_navigation: false,
     sidebar: <div />,
     main: <Vote />,
