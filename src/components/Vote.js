@@ -188,6 +188,7 @@ class Vote extends Component {
             result: vote.result,
           })
         })
+        .catch((e) => message.error(`투표 정보를 불러오는데 실패했습니다: ${e.message}`))
     }
     else if (this.props.data) {
       const { data } = this.props

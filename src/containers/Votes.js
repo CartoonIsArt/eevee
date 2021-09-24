@@ -37,7 +37,8 @@ class Votes extends Component {
   componentDidMount() {
     this.props.getVotes()
       .then(() => this.setState({ loading: true }))
-  }
+      .catch((e) => message.error(`투표 정보들을 불러오는데 실패했습니다: ${e.message}`))
+    }
 
   setFilter(e) {
     this.setState({ filter: e.target.value })
