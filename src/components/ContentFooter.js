@@ -87,6 +87,7 @@ ContentFooter.defaultProps = {
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  feed: state.feed,   // feed를 state로 지정하지 않으면 댓글 & 대댓글 좋아요 누를 때 업데이트가 안됨
 })
 const mapDispatchToProps = ({
 })

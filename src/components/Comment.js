@@ -77,7 +77,7 @@ Comment.defaultProps = {
 }
 
 const mapStateToProps = (state) => ({
-  timeline: state.timeline
+  timeline: state.timeline,   // timeline을 state로 지정하지 않으면 댓글 작성시 업데이트가 안됨
 })
 const mapDispatchToProps = ({
   postCommentLike,
