@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Icon, Input, Modal, Row } from 'antd'
+import { Button, Card, Col, Form, Icon, Input, message, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
@@ -33,12 +33,7 @@ class Login extends Component {
       password: this.state.password,
     }
     this.props.login(formData)
-      .catch((e) => {
-        Modal.warning({
-          title: '로그인에 실패했습니다.',
-          content: e.response.data
-        })
-      })
+      .catch((e) => { message.error(`활동인구 정보들을 불러오는데 실패했습니다: ${e.message}`) })
   }
 
   render() {

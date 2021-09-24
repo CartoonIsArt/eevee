@@ -1,4 +1,4 @@
-import { Layout, notification } from 'antd'
+import { Layout, notification, message } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -76,6 +76,7 @@ class App extends Component {
             const { accounts } = r.data
             loginNotification(nextProps.account, accounts)
           })
+          .catch((e) => message.error(`생일자 정보를 불러오는데 실패했습니다: ${e.message}`))
       }
       return false
     }

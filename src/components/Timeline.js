@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd'
+import { message } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -19,7 +19,10 @@ class Timeline extends Component {
 
     this.props.getTimeline({ username, page })
       .then(() => this.setState({ loading: true }))
-      .catch(() => this.setState({ loading: true }))
+      .catch((e) => {
+        message.error(`타임라인을 불러오는데 실패했습니다: ${e.message}`)
+        this.setState({ loading: true })
+      })
   }
 
   componentDidMount() {

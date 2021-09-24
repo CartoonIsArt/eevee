@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, Descriptions, Mentions, notification, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Descriptions, Mentions, message, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
@@ -55,6 +55,7 @@ class Write extends Component {
 
   componentDidMount() {
     this.props.getMembers()
+      .catch((e) => message.error(`유저들의 정보를 불러오는데 실패했습니다: ${e.message}`))
   }
 
   componentDidUpdate(prevProps) {
@@ -180,9 +181,11 @@ class Write extends Component {
 
     if (this.props.documentId > 0) {
       this.props.patchDocument(formData)
+      .catch((e) => message.error(`글 이어쓰기에 실패했습니다: ${e.message}`))
     }
     else {
       this.props.postDocument(formData)
+      .catch((e) => message.error(`글 작성에 실패했습니다: ${e.message}`))
     }
     this.setState({
       value: '',

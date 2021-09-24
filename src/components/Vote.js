@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, DatePicker, Input, List, Progress, Radio, Row } from 'antd'
+import { Button, Card, Checkbox, Col, DatePicker, Input, List, message, Progress, Radio, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
@@ -141,6 +141,7 @@ class Vote extends Component {
         type: 'vote',
         id: this.props.vote.id,
       }))
+      .catch((e) => message.error(`투표를 생성하는데 실패했습니다: ${e.message}`))
   }
 
   onClickVote = () => {
@@ -174,6 +175,7 @@ class Vote extends Component {
           .sort((lhs, rhs) => rhs.count - lhs.count)
         })
       })
+      .catch((e) => message.error(`투표하는데 실패했습니다: ${e.message}`))
   }
 
   onClickEdit = () => this.setState({ type: 'vote' })

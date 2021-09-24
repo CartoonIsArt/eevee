@@ -1,4 +1,4 @@
-import { Button, Col, Mentions, notification, Row } from 'antd'
+import { Button, Col, Mentions, message, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -15,8 +15,9 @@ class PostComment extends Component {
     value: '',
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getMembers()
+      .catch((e) => message.error(`유저들의 정보를 불러오는데 실패했습니다: ${e.message}`))
   }
 
   onButtonClick = () => {
@@ -38,6 +39,7 @@ class PostComment extends Component {
       [rootId]: this.props.rootId,
       content,
     })
+      .catch((e) => message.error(`댓글을 작성하는데 실패했습니다: ${e.message}`))
     this.setState({ value: '' })
   }
 

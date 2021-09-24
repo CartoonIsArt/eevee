@@ -1,4 +1,4 @@
-import { Avatar, Card, Divider, Row } from 'antd'
+import { Avatar, Card, Divider, message, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -20,6 +20,7 @@ class Document extends Component {
       isAppend: false,
     }
     this.props.getAccount()
+      .catch((e) => message.error(`계정 정보를 가져오는데 실패했습니다: ${e.message}`))
   }
 
   toggleAppend = () => {

@@ -1,4 +1,4 @@
-import { Card, Divider, Icon, List } from 'antd'
+import { Card, Divider, Icon, List, message } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -18,6 +18,7 @@ class Notifications extends Component {
   }
   componentWillMount() {
     this.props.getNotifications(getDate2WeeksAgo())
+      .catch((e) => { message.error(`공지사항들을 불러오는데 실패했습니다: ${e.message}`) })
   }
 
   hideModal() {

@@ -1,4 +1,4 @@
-import { Affix, Card, Col, Row } from 'antd'
+import { Affix, Card, Col, message, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -29,7 +29,10 @@ class SingleFeed extends Component {
     */
     this.props.getFeed(this.props.match.params.id)
       .then(() => this.setState({ loading: true }))
-      .catch(() => this.setState({ loading: true }))
+      .catch((e) => { 
+        message.error(`피드 정보를 불러오는데 실패했습니다: ${e.message}`)
+        this.setState({ loading: true })
+      })
   }
 
   render() {

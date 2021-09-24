@@ -16,7 +16,7 @@ class EnrollmentNonregular extends Component {
         const { enrollment } = r.data
         this.setState({ enrollment })
       })
-      .catch(() => message.error('활동인구 정보를 가져오는 데 실패했습니다.'))
+      .catch((e) => message.error(`활동인구 정보를 가져오는 데 실패했습니다: ${e.message}`))
   }
 
   enroll = () => {
@@ -30,7 +30,7 @@ class EnrollmentNonregular extends Component {
 
     axios.patch(`/enrollment/${enrollment.id}`)
       .then(() => message.success('활동인구 신청에 성공했습니다.'))
-      .catch(() => message.error('활동인구 신청에 실패했습니다.'))
+      .catch((e) => message.error(`활동인구 신청에 실패했습니다: ${e.message}`))
   }
 
   render() {

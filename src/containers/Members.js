@@ -1,4 +1,4 @@
-import { Card, Col, Input, Row, Tabs } from 'antd'
+import { Card, Col, Input, message, Row, Tabs } from 'antd'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getMembers } from '../actions'
@@ -30,6 +30,7 @@ class Members extends Component {
   componentWillMount() {
     this.props.getMembers()
       .then(() => this.setState({ onLoad: true }))
+      .catch((e) => { message.error(`유저들의 정보를 불러오는데 실패했습니다: ${e.message}`) })
   }
 
   setFilter(e) {
