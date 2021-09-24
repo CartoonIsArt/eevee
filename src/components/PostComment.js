@@ -1,8 +1,8 @@
-import { Button, Col, Mentions, notification, Row } from 'antd'
+import { Button, Col, Mentions, message, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { postComment } from '../actions'
+import { getMembers, postComment } from '../actions'
 import { isSpace } from '../lib'
 
 const PARENT_TYPE = {
@@ -14,6 +14,11 @@ class PostComment extends Component {
   state = {
     value: '',
   };
+
+  componentDidMount() {
+    this.props.getMembers()
+      .catch((e) => message.error(`유저들의 정보를 불러오는데 실패했습니다: ${e.message}`))
+  }
 
   onButtonClick = () => {
     const content = this.state.value.replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
@@ -34,6 +39,7 @@ class PostComment extends Component {
       [rootId]: this.props.rootId,
       content,
     })
+      .catch((e) => message.error(`댓글을 작성하는데 실패했습니다: ${e.message}`))
     this.setState({ value: '' })
   }
 
@@ -58,7 +64,14 @@ class PostComment extends Component {
             placeholder="예쁜 댓글을 작성해보세요!"
             onChange={this.onChangeInput}
             value={this.state.value}
-          />
+            rows={1}
+          >
+            {(this.props.members).map(member => (
+              <Option key={member.id} value={`${member.student.nTh}기_${member.student.name}`}>
+                {`${member.student.nTh}기_${member.student.name}`}
+              </Option>
+            ))}
+          </Mentions>
         </Col>
         <Col span={2}>
           <Button
@@ -80,8 +93,10 @@ PostComment.propTypes = {
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  members: state.members,
 })
 const mapDispatchToProps = ({
+  getMembers,
   postComment,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostComment)

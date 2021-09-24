@@ -1,4 +1,4 @@
-import { Avatar, Card } from 'antd'
+import { Avatar, Card, message } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -12,6 +12,7 @@ const { Meta } = Card
 class Notification extends Component {
   routeToFeed(feedId) {
     this.props.getFeed(feedId)
+      .catch((e) => message.error(`해당 글을 불러오는데 실패했습니다: ${e.message}`))
     this.props.history.push(`/feed/${feedId}`)
   }
 

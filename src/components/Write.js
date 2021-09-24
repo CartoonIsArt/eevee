@@ -1,10 +1,10 @@
-import { Button, Card, Checkbox, Col, Descriptions, Mentions, notification, Row } from 'antd'
+import { Button, Card, Checkbox, Col, Descriptions, Mentions, message, notification, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import ReactMarkdown from 'react-markdown'
 import { connect } from 'react-redux'
-import { postPhotos, postDocument, patchDocument } from '../actions'
+import { getMembers, postPhotos, postDocument, patchDocument } from '../actions'
 import { isSpace } from '../lib'
 import remarkEmbed from '../lib/remark-embed'
 
@@ -52,6 +52,11 @@ class Write extends Component {
     notification.config({
       duration: 0,
     })
+  }
+
+  componentDidMount() {
+    this.props.getMembers()
+      .catch((e) => message.error(`유저들의 정보를 불러오는데 실패했습니다: ${e.message}`))
   }
 
   componentDidUpdate(prevProps) {
@@ -107,7 +112,13 @@ class Write extends Component {
               rows={4}
               value={this.state.value}
               onChange={this.updateValue}
-            />
+            >
+              {(this.props.members).map(member => (
+                <Option key={member.id} value={`${member.student.nTh}기_${member.student.name}`}>
+                  {`${member.student.nTh}기_${member.student.name}`}
+                </Option>
+              ))}
+            </Mentions>
           </div>
         )}
       </Dropzone>
@@ -171,9 +182,11 @@ class Write extends Component {
 
     if (this.props.documentId > 0) {
       this.props.patchDocument(formData)
+      .catch((e) => message.error(`글 이어쓰기에 실패했습니다: ${e.message}`))
     }
     else {
       this.props.postDocument(formData)
+      .catch((e) => message.error(`글 작성에 실패했습니다: ${e.message}`))
     }
     this.setState({
       value: '',
@@ -192,7 +205,7 @@ class Write extends Component {
 
     const display = this.getDisplay(mode, value)
     const button = this.getButton(mode)
-
+    
     return (
       <Card size="small" className="write-container">
         {isAppend || (
@@ -261,8 +274,10 @@ Write.defaultProps = {
 const mapStateToProps = (state) => ({
   account: state.account,
   photos: state.photos,
+  members: state.members,
 })
 const mapDispatchToProps = ({
+  getMembers,
   postPhotos,
   postDocument,
   patchDocument,

@@ -1,8 +1,9 @@
-import { Card, Divider, Icon, List, Row } from 'antd'
+import { Card, Divider, Icon, List, message, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getNotifications } from '../actions'
+import Loading from '../components/Loading'
 import Notification from '../components/Notification'
 import { getDate2WeeksAgo } from '../lib'
 
@@ -12,10 +13,16 @@ const { Meta } = Card
 class Notifications extends Component {
   state = {
     isModalOn: false,
+    loading: false,
   }
 
   componentDidMount() {
     this.props.getNotifications(getDate2WeeksAgo())
+      .then(() => this.setState({ loading: true }))
+      .catch((e) => { 
+        message.error(`공지사항들을 불러오는데 실패했습니다: ${e.message}`)
+        this.setState({ loading: true })
+      })
   }
 
   hideModal() {
@@ -24,6 +31,7 @@ class Notifications extends Component {
 
   render() {
     const { notifications } = this.props
+    const { loading } = this.state
 
     return (
       <Row id="notifications-wrapper">
@@ -33,12 +41,14 @@ class Notifications extends Component {
             title="공지사항"
           />
           <Divider className="line" />
-          <List
-            className="notifications-list"
-            size="small"
-            dataSource={notifications}
-            renderItem={(noti) => (<List.Item><Notification notification={noti} key={noti.id} /></List.Item>)}
-          />
+          <Loading loading={loading}>
+            <List
+              className="notifications-list"
+              size="small"
+              dataSource={notifications}
+              renderItem={(noti) => (<List.Item><Notification notification={noti} key={noti.id} /></List.Item>)}
+            />
+          </Loading>
           <Divider className="line" />
         </Card>
       </Row>

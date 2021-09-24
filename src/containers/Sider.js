@@ -1,9 +1,8 @@
-import { Affix, Col, Icon, Menu, Row } from 'antd'
+import { Affix, Col, Icon, Menu, message, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getAccount } from '../actions'
 import { isRegularMember } from '../lib'
 
 
@@ -18,12 +17,8 @@ class Sider extends Component {
     return map[key] || [];
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      openKeys: [],
-    }
-    this.props.getAccount()
+  state = {
+    openKeys: [],
   }
 
   onOpenChange(openKeys) {
@@ -143,7 +138,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 })
 const mapDispatchToProps = ({
-  getAccount,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sider))

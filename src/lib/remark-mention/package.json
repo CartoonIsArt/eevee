@@ -1,0 +1,19 @@
+{
+  "name": "remark-mention",
+  "version": "1.0.0",
+  "description": "Remark plugin to support @(mention)",
+  "main": "index.js",
+  "repository": "https://github.com/sGom/remark-mention",
+  "author": "sGom",
+  "license": "MIT",
+  "private": false,
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "dependencies": {
+    "unified": "^10.1.0",
+    "unist-util-visit": "^4.0.0"
+  }
+}

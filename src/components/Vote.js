@@ -188,6 +188,7 @@ class Vote extends Component {
             result: vote.result,
           })
         })
+        .catch((e) => message.error(`투표 정보를 불러오는데 실패했습니다: ${e.message}`))
     }
     else if (this.props.data) {
       const { data } = this.props
@@ -229,6 +230,7 @@ class Vote extends Component {
         type: 'vote',
         id: this.props.vote.id,
       }))
+      .catch((e) => message.error(`투표를 생성하는데 실패했습니다: ${e.message}`))
   }
 
   onClickVote = () => {
@@ -244,6 +246,7 @@ class Vote extends Component {
         type: 'result',
         result: result,
       }))
+      .catch((e) => message.error(`투표하는데 실패했습니다: ${e.message}`))
   }
 
   onClickEdit = () => this.setState({ type: 'vote' })

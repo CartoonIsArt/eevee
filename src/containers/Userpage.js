@@ -1,4 +1,4 @@
-import { Affix, Card, Col, Row, Tabs } from 'antd'
+import { Affix, Card, Col, message, Row, Tabs } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -37,12 +37,18 @@ class Userpage extends Component {
   componentDidMount() {
     if (isEmptyObject(this.props.account))
       this.props.getAccount()
+        .catch((e) => { message.error(`계정의 정보를 불러오는데 실패했습니다: ${e.message}`) })
 
     if (this.props.members.length === 0)
       this.props.getMembers()
+        .catch((e) => { message.error(`유저들의 정보를 불러오는데 실패했습니다: ${e.message}`) })
 
     this.setTimeline(this.props.location.pathname)
       .then(() => this.setState({ loading: true }))
+      .catch((e) => { 
+        message.error(`타임라인 정보를 불러오는데 실패했습니다: ${e.message}`) 
+        this.setState({ loading: true })
+      })
   }
 
   shouldComponentUpdate(nextProps) {
@@ -85,7 +91,8 @@ class Userpage extends Component {
 
   changeTab = (url) => {
     this.props.history.push(url)
-    this.setTimeline(url)
+    const promise = this.setTimeline(url)
+    promise && promise.catch((e) => { message.error(`타임라인 정보를 불러오는데 실패했습니다: ${e.message}`) })
   }
 
   nextPage = () => this.setState({ page: this.state.page + 1 })

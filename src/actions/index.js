@@ -15,6 +15,7 @@ const SET_FEED              = 'SETFEED'
 const APPEND_FEED           = 'APPENDFEED'
 const UPDATE_FEED           = 'UPDATEFEED'
 const APPEND_COMMENT        = 'APPENDCOMMENT'
+const UPDATE_COMMENT        = 'UPDATECOMMENT'
 const SET_PHOTOS            = 'SETPHOTOS'
 const SET_ENROLLMENTS       = 'SETENROLLMENTS'
 const APPEND_ENROLLMENTS    = 'APPENDENROLLMENTS'
@@ -38,6 +39,7 @@ const setFeed = (feed) => ({ type: SET_FEED, feed })
 const appendFeed = (feed) => ({ type: APPEND_FEED, feed })
 const updateFeed = (feed) => ({ type: UPDATE_FEED, feed })
 const appendComment = (comment) => ({ type: APPEND_COMMENT, comment })
+const updateComment = (comment) => ({ type: UPDATE_COMMENT, comment })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
 const setEnrollments = (enrollments) => ({ type: SET_ENROLLMENTS, enrollments })
 const appendEnrollments = (enrollment) => ({ type: APPEND_ENROLLMENTS, enrollment })

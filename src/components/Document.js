@@ -1,4 +1,4 @@
-import { Avatar, Card, Divider, Row } from 'antd'
+import { Avatar, Card, Divider, message, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import ContentFooter from './ContentFooter'
 import NameTag from './NameTag'
 import Write from './Write'
-import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
+import { postDocumentLike, patchDocumentLike } from '../actions'
 import { printTime } from '../lib'
 import remarkEmbed from '../lib/remark-embed'
 
@@ -14,14 +14,10 @@ import remarkEmbed from '../lib/remark-embed'
 const { Meta } = Card
 
 class Document extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isAppend: false,
-    }
-    this.props.getAccount()
+  state = {
+    isAppend: false,
   }
-
+  
   toggleAppend = () => {
     this.setState({ isAppend: !this.state.isAppend })
   }
@@ -86,7 +82,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 })
 const mapDispatchToProps = ({
-  getAccount,
   postDocumentLike,
   patchDocumentLike,
 })

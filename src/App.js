@@ -1,4 +1,4 @@
-import { Layout } from 'antd'
+import { Layout, notification, message } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -6,9 +6,11 @@ import { matchPath, withRouter } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { clearAccount, getAccount } from './actions'
 import Navigation from './containers/Navigation'
+import axios from './fetches/axios'
 import { isEmptyObject } from './lib'
 import { routes } from './Route'
 import './App.scss'
+import ActionButton from 'antd/lib/modal/ActionButton'
 
 
 const { Content } = Layout
@@ -31,6 +33,25 @@ const isPublicOnly = (route, auth) => {
   return (route.is_public && auth)
 }
 
+const loginNotification = (account, birthdayMembers) => {
+  if (!account.isActive) {
+    notification.warning({
+      message: '활동인구 신청',
+      description: (<span>현재 비활동인구 상태입니다.<br/>활동인구 신청하세요!</span>),
+    })
+  }
+
+  if (birthdayMembers.length !== 0)
+  {
+    birthdayMembers.forEach(birthdayMember => {
+      notification.info({
+        message: '축하합니다!',
+        description: `오늘은 ${birthdayMember.student.nTh}기 ${birthdayMember.student.name}님의 생일이에요!`,
+      })
+    });
+  }
+}
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -48,6 +69,15 @@ class App extends Component {
     }
     if (isEmptyObject(nextProps.account) !== isEmptyObject(this.props.account)) {
       this.setState({ auth: this.props.auth })
+
+      if (isEmptyObject(this.props.account)) { // login 할 때만
+        axios.get('/account/birthdayMembers')
+          .then((r) => {
+            const { accounts } = r.data
+            loginNotification(nextProps.account, accounts)
+          })
+          .catch((e) => message.error(`생일자 정보를 불러오는데 실패했습니다: ${e.message}`))
+      }
       return false
     }
     return true

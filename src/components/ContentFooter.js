@@ -1,4 +1,4 @@
-import { Button, Popover, Row } from 'antd'
+import { Button, Popover, message, Row } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -33,8 +33,10 @@ class ContentFooter extends Component {
 
     if (content.likedAccounts.findIndex((lover) => lover.id === account.id) === -1)
       this.props.postLike(content.id)
+        .catch((e) => message.error(`좋아요 요청에 실패했습니다: ${e.message}`))
     else
       this.props.cancelLike(content.id)
+        .catch((e) => message.error(`좋아요 취소에 실패했습니다: ${e.message}`))
   }
 
   render() {
@@ -85,6 +87,7 @@ ContentFooter.defaultProps = {
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  feed: state.feed,   // feed를 state로 지정하지 않으면 댓글 & 대댓글 좋아요 누를 때 업데이트가 안됨
 })
 const mapDispatchToProps = ({
 })
