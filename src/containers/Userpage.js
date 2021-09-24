@@ -45,6 +45,10 @@ class Userpage extends Component {
 
     this.setTimeline(this.props.location.pathname)
       .then(() => this.setState({ loading: true }))
+      .catch((e) => { 
+        message.error(`타임라인 정보를 불러오는데 실패했습니다: ${e.message}`) 
+        this.setState({ loading: true })
+      })
   }
 
   shouldComponentUpdate(nextProps) {
@@ -83,12 +87,12 @@ class Userpage extends Component {
         currentTab,
         page: 1,
       }))
-      .catch((e) => { message.error(`타임라인 정보를 불러오는데 실패했습니다: ${e.message}`) })
   )
 
   changeTab = (url) => {
     this.props.history.push(url)
-    this.setTimeline(url)
+    const promise = this.setTimeline(url)
+    promise && promise.catch((e) => { message.error(`타임라인 정보를 불러오는데 실패했습니다: ${e.message}`) })
   }
 
   nextPage = () => this.setState({ page: this.state.page + 1 })

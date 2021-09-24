@@ -33,7 +33,7 @@ const isPublicOnly = (route, auth) => {
   return (route.is_public && auth)
 }
 
-const loginNotification = (account, members) => {
+const loginNotification = (account, birthdayMembers) => {
   if (!account.isActive) {
     notification.warning({
       message: '활동인구 신청',
@@ -41,12 +41,12 @@ const loginNotification = (account, members) => {
     })
   }
 
-  if (members.length !== 0)
+  if (birthdayMembers.length !== 0)
   {
-    members.forEach(member => {
+    birthdayMembers.forEach(birthdayMember => {
       notification.info({
         message: '축하합니다!',
-        description: `오늘은 ${member.student.nTh}기 ${member.student.name}님의 생일이에요!`,
+        description: `오늘은 ${birthdayMember.student.nTh}기 ${birthdayMember.student.name}님의 생일이에요!`,
       })
     });
   }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getAccount } from '../actions'
 import { isRegularMember } from '../lib'
 
 
@@ -18,13 +17,8 @@ class Sider extends Component {
     return map[key] || [];
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      openKeys: [],
-    }
-    this.props.getAccount()
-      .catch((e) => { message.error(`계정 정보를 불러오는데 실패했습니다: ${e.message}`) })
+  state = {
+    openKeys: [],
   }
 
   onOpenChange(openKeys) {
@@ -144,7 +138,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 })
 const mapDispatchToProps = ({
-  getAccount,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sider))

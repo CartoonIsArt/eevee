@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import ContentFooter from './ContentFooter'
 import NameTag from './NameTag'
 import Write from './Write'
-import { getAccount, postDocumentLike, patchDocumentLike } from '../actions'
+import { postDocumentLike, patchDocumentLike } from '../actions'
 import { printTime } from '../lib'
 import remarkEmbed from '../lib/remark-embed'
 
@@ -14,15 +14,10 @@ import remarkEmbed from '../lib/remark-embed'
 const { Meta } = Card
 
 class Document extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isAppend: false,
-    }
-    this.props.getAccount()
-      .catch((e) => message.error(`계정 정보를 가져오는데 실패했습니다: ${e.message}`))
+  state = {
+    isAppend: false,
   }
-
+  
   toggleAppend = () => {
     this.setState({ isAppend: !this.state.isAppend })
   }
@@ -87,7 +82,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 })
 const mapDispatchToProps = ({
-  getAccount,
   postDocumentLike,
   patchDocumentLike,
 })

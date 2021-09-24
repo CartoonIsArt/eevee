@@ -33,7 +33,7 @@ class Login extends Component {
       password: this.state.password,
     }
     this.props.login(formData)
-      .catch((e) => { message.error(`활동인구 정보들을 불러오는데 실패했습니다: ${e.message}`) })
+      .catch((e) => { message.error(`로그인에 실패했습니다: ${e.message}`) })
   }
 
   render() {

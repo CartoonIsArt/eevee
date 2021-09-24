@@ -16,7 +16,7 @@ class EnrollmentNonregular extends Component {
         const { enrollment } = r.data
         this.setState({ enrollment })
       })
-      .catch((e) => message.error(`활동인구 정보를 가져오는 데 실패했습니다: ${e.message}`))
+      .catch((e) => message.error(`활동인구 신청 상태를 가져오는 데 실패했습니다: ${e.message}`))
   }
 
   enroll = () => {

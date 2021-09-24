@@ -29,7 +29,6 @@ class EnrollmentList extends Component {
           loading: true,
           enrollments: this.props.enrollments,
         }
-      .catch((e) => message.error(`활동인구 정보들을 불러오는데 실패했습니다: ${e.message}`))
 
         if (nextState.enrollments.length > 0) {
           const canEdit = canEditEnrollment(nextState.enrollments[0])
@@ -46,6 +45,10 @@ class EnrollmentList extends Component {
           })
         }
         this.setState(nextState)
+      })
+      .catch((e) => {
+        message.error(`활동인구 정보들을 불러오는데 실패했습니다: ${e.message}`)
+        this.setState({ loading: true })
       })
   }
 
