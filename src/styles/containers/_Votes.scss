@@ -1,0 +1,18 @@
+#votes {
+  font-size: 1.6rem;
+  padding: 0 1.2em;
+  background: white;
+
+  @media (max-width: 576px) {
+    .ant-tabs-extra-content {
+      width: 15rem;
+    }
+  }
+
+  .votes-row {
+    .votes-col {
+      width: 25.6rem;
+      margin: 0.5em;
+    }
+  }
+}

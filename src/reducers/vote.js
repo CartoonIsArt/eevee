@@ -1,14 +1,16 @@
-import { mergeObject } from "../lib"
+import { isEmptyObject, mergeObject } from "../lib"
 
 export const vote = (state = {}, action) => {
   switch (action.type) {
     case 'SETVOTE':
       return action.vote
     case 'UPDATEPOLL':
-      return {
-        ...state,
-        polls: state.polls.concat([action.poll]),
-      }
+      return isEmptyObject(state)
+        ? action.poll.vote
+        : {
+          ...state,
+          polls: state.polls.concat([action.poll]),
+        }
     default:
       return state
   }

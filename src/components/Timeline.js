@@ -14,8 +14,10 @@ class Timeline extends Component {
   }
   mutex = true
 
-  componentWillMount() {
+  componentDidMount() {
     const { username, page } = this.props
+
+    window.addEventListener('scroll', this.loadMore)
 
     this.props.getTimeline({ username, page })
       .then(() => this.setState({ loading: true }))
@@ -23,10 +25,6 @@ class Timeline extends Component {
         message.error(`타임라인을 불러오는데 실패했습니다: ${e.message}`)
         this.setState({ loading: true })
       })
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.loadMore)
   }
 
   componentWillUnmount() {

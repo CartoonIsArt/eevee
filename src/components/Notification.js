@@ -21,7 +21,7 @@ class Notification extends Component {
 
     return (
       <Meta
-        className="notification-container"
+        className="notification-item"
         key={notification.id}
         onClick={() => this.routeToFeed(notification.id)}
         avatar={
@@ -37,7 +37,7 @@ class Notification extends Component {
             <span className="notification-author-time">{printTime(notification.createdAt)}</span>
           </div>
         }
-        description={ notification.content }
+        description={notification.content}
       />
     )
   }

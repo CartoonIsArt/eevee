@@ -34,7 +34,7 @@ class Userpage extends Component {
   }
   mutex = true
 
-  componentWillMount() {
+  componentDidMount() {
     if (isEmptyObject(this.props.account))
       this.props.getAccount()
         .catch((e) => { message.error(`계정의 정보를 불러오는데 실패했습니다: ${e.message}`) })
