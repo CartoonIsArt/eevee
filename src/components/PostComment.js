@@ -21,7 +21,7 @@ class PostComment extends Component {
   }
 
   onButtonClick = () => {
-    const content = this.state.value.replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
+    const content = this.state.value//.replace(/(?=.*(?<!  \n)$)(?=\n$)/, '  \n')
 
     if (isSpace(content)) {
       return notification.warning({
