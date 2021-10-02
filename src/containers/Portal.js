@@ -1,4 +1,4 @@
-import { Affix, Card, Col, Row } from 'antd'
+import { Affix, BackTop, Card, Col, Row } from 'antd'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Notifications from './Notifications'
@@ -54,6 +54,7 @@ class Portal extends Component {
             <Notifications />
           </Col>
         </Row>
+        <BackTop/>
       </Card>
     )
   }
