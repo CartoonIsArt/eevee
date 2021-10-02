@@ -80,6 +80,7 @@ Document.propTypes = {
 }
 const mapStateToProps = (state) => ({
   account: state.account,
+  timeline: state.timeline,     // timeline을 state로 지정하지 않으면 timeline과 single feed에서 글 이어쓰기시 업데이트가 안됨
 })
 const mapDispatchToProps = ({
   postDocumentLike,
