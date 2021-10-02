@@ -1,4 +1,4 @@
-import { Affix, Card, Col, message, Row, Tabs } from 'antd'
+import { Affix, BackTop, Card, Col, message, Row, Tabs } from 'antd'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -155,6 +155,7 @@ class Userpage extends Component {
                 />
               </Col>
             </Row>
+            <BackTop/>
           </Card>
           )
           : <Page404 />
