@@ -28,6 +28,7 @@ const openNotificationWithIcon = () => {
         <Descriptions.Item label="YouTube 영상"><span>!(YouTube 링크)</span></Descriptions.Item>
         <Descriptions.Item label="PPT"><span>!(SlideShare 링크)</span></Descriptions.Item>
         <Descriptions.Item label="투표"><span>!(투표 공유 링크)</span></Descriptions.Item>
+        <Descriptions.Item label="하이퍼링크"><span>[하이퍼텍스트](링크)</span></Descriptions.Item>
       </Descriptions>
     ),
   })
