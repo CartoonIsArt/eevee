@@ -62,6 +62,9 @@ export const logout = () => (dispatch) =>
       dispatch(setLogout())
     })
 
+export const clearAuth = () => (dispatch) =>
+  dispatch(setLogout())
+
 export const clearAccount = () => (dispatch) =>
   dispatch(setAccount({}))
 

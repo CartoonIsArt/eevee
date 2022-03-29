@@ -1,5 +1,5 @@
 import { Plugin } from "unified";
 
-declare const remarkYoutubeEmbed: Plugin<[]>;
+declare const remarkEmbed: Plugin<[]>;
 
-export = remarkYoutubeEmbed;
+export = remarkEmbed;
