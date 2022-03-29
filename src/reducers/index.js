@@ -7,6 +7,7 @@ import feed from './feed'
 import members from './members'
 import notifications from './notifications'
 import photos from './photos'
+import registrations from './registrations'
 import timeline from './timeline'
 import { vote, votes } from './vote'
 
@@ -20,6 +21,7 @@ const createRootReducer = (history) => combineReducers({
   members,
   notifications,
   photos,
+  registrations,
   timeline,
   vote,
   votes,

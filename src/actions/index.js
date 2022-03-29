@@ -19,6 +19,7 @@ const UPDATE_COMMENT        = 'UPDATECOMMENT'
 const SET_PHOTOS            = 'SETPHOTOS'
 const SET_ENROLLMENTS       = 'SETENROLLMENTS'
 const APPEND_ENROLLMENTS    = 'APPENDENROLLMENTS'
+const SET_REGISTRATIONS     = 'SETREGISTRATIONS'
 const SET_VOTE              = 'SETVOTE'
 const SET_VOTES             = 'SETVOTES'
 const APPEND_VOTE           = 'APPENDVOTE'
@@ -43,6 +44,7 @@ const updateComment = (comment) => ({ type: UPDATE_COMMENT, comment })
 const setPhotos = (photos) => ({ type: SET_PHOTOS, photos })
 const setEnrollments = (enrollments) => ({ type: SET_ENROLLMENTS, enrollments })
 const appendEnrollments = (enrollment) => ({ type: APPEND_ENROLLMENTS, enrollment })
+const setRegistrations = (registrations, unregistrations) => ({ type: SET_REGISTRATIONS, members: { registrations, unregistrations } })
 const setVote = (vote) => ({ type: SET_VOTE, vote })
 const setVotes = (votes) => ({ type: SET_VOTES, votes })
 const appendVote = (vote) => ({ type: APPEND_VOTE, vote })
@@ -244,6 +246,14 @@ export const postPhotos = (photos) => (dispatch) => {
         throw new UnsafeImageError(warning, unsafes)
     })
 }
+
+// Enrollment
+export const getRegistrations = () => (dispatch) =>
+  axios.get('/registration')
+    .then((r) => {
+      const { registrations, unregistrations } = r.data
+      dispatch(setRegistrations(registrations, unregistrations))
+    })
 
 // Enrollment
 export const getEnrollments = () => (dispatch) =>
