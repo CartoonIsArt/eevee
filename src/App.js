@@ -4,13 +4,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { matchPath, withRouter } from 'react-router'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { clearAccount, getAccount } from './actions'
+import { clearAccount, clearAuth, getAccount } from './actions'
+import Loading from './components/Loading'
 import Navigation from './containers/Navigation'
 import axios from './fetches/axios'
 import { isEmptyObject } from './lib'
 import { routes } from './Route'
 import './App.scss'
-import ActionButton from 'antd/lib/modal/ActionButton'
 
 
 const { Content } = Layout
@@ -53,11 +53,9 @@ const loginNotification = (account, birthdayMembers) => {
 }
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      auth: this.props.auth
-    }
+  state = {
+    auth: this.props.auth,
+    loading: false,
   }
 
   shouldComponentUpdate(nextProps) {
@@ -83,6 +81,15 @@ class App extends Component {
     return true
   }
   
+  componentDidMount() {
+    this.props.getAccount()
+      .then(() => this.setState({ loading: true }))
+      .catch(() => {
+        this.props.clearAuth()
+        this.setState({ loading: true })
+      })
+  }
+
   render() {
     return (
       <Layout id="app">
@@ -100,10 +107,12 @@ class App extends Component {
                     ? <Redirect to='/' />
                     : (
                       <Layout>
-                        <Content id="container">
-                          {route.sidebar}
-                          {route.main}
-                        </Content>
+                        <Loading loading={this.state.loading}>
+                          <Content id="container">
+                            {route.sidebar}
+                            {route.main}
+                          </Content>
+                        </Loading>
                       </Layout>
                     )
                   : <Redirect to='/login' />
@@ -122,6 +131,7 @@ App.propTypes = {
   account: PropTypes.object.isRequired,
   getAccount: PropTypes.func.isRequired,
   clearAccount: PropTypes.func.isRequired,
+  clearAuth: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 }
 
@@ -132,6 +142,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = ({
   getAccount,
   clearAccount,
+  clearAuth,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
