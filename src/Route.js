@@ -20,6 +20,7 @@ import Userpage from './containers/Userpage'
 import EnrollmentList from './containers/EnrollmentList'
 import Votes from './containers/Votes'
 import Vote from './components/Vote'
+import RegistrationApproval from './containers/RegistrationApproval'
 
 
 // eslint-disable-next-line
@@ -42,6 +43,12 @@ export const routes = [
     is_public: true,
     sidebar: <div />,
     main: <Registration />,
+  },
+  {
+    path: '/registration-approval',
+    has_navigation: true,
+    sidebar: <Sider />,
+    main: <RegistrationApproval />,
   },
   {
     path: '/feed/:id',

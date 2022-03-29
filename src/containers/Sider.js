@@ -112,6 +112,7 @@ class Sider extends Component {
                     </span>
                   )}
                 >
+                  <Menu.Item key="/registration-approval">가입신청 승인</Menu.Item>
                   <Menu.Item key="/enrollment-list">활동인구 수정</Menu.Item>
                   <Menu.Item key="/reset-active-members">활동인구 초기화</Menu.Item>
                 </SubMenu>
